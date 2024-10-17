@@ -169,7 +169,7 @@ class GrailsResourceUtilsSpec extends Specification {
         "alpha/beta/gamma" == GrailsResourceUtils.appendPiecesForUri("alpha", "beta", "gamma")
     }
 
-    @Ignore{ os.windows })
+    @IgnoreIf ({ os.windows })
     void testGetPathFromBaseDir() {
         expect:
         "views/demo/index.gsp" == GrailsResourceUtils.getPathFromBaseDir("${BuildSettings.BASE_DIR.absolutePath}/grails-app/views/demo/index.gsp")
