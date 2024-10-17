@@ -25,7 +25,7 @@ import spock.lang.Specification
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class SetupTeardownInvokeTests extends Specification implements ControllerUnitTest<SetupTeardownController> {
-    static int counter=1
+    static int counter = 1
 
     void setup() {
         controller.value = 'World!'

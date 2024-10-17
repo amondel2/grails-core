@@ -37,11 +37,11 @@ import org.grails.web.servlet.mvc.GrailsWebRequest
 class MimeTypesApiSupport {
 
     def <T> T withFormat(HttpServletRequest request, Closure<T> callable) {
-        return (T)withFormatInternal(request, getDefinedFormats(callable))
+        return (T) withFormatInternal(request, getDefinedFormats(callable))
     }
 
     def <T> T withFormat(HttpServletResponse response, Closure<T> callable) {
-        return (T)withFormatInternal(response, getDefinedFormats(callable))
+        return (T) withFormatInternal(response, getDefinedFormats(callable))
     }
 
     protected Object withFormatInternal(formatProvider, LinkedHashMap<String, Object> formats) {
@@ -50,8 +50,7 @@ class MimeTypesApiSupport {
         if (formats) {
             if (format == 'all') {
                 result = resolveAllFormat(formatProvider, formats)
-            }
-            else {
+            } else {
                 // if the format has been specified then use that
                 if (formats.containsKey(format)) {
                     result = getResponseForFormat(formats[format], format, formatProvider)
@@ -64,8 +63,7 @@ class MimeTypesApiSupport {
                             matchFound = true
                             result = getResponseForFormat(formats[mime.extension], mime.extension, formatProvider)
                             break
-                        }
-                        else {
+                        } else {
                             if (mime.extension == 'all') {
                                 matchFound = true
                                 result = resolveAllFormat(formatProvider, formats)
@@ -84,7 +82,7 @@ class MimeTypesApiSupport {
 
     /**
      * implementation for resolving "all" format
-     * 
+     *
      * @param formatProvider
      * @param formats
      * @return
@@ -92,7 +90,7 @@ class MimeTypesApiSupport {
     protected Object resolveAllFormat(formatProvider, LinkedHashMap<String, Object> formats) {
         def formatKey
         def format
-        if(formats.containsKey('*')) {
+        if (formats.containsKey('*')) {
             formatKey = '*'
             format = 'all'
         } else {
@@ -133,15 +131,13 @@ class MimeTypesApiSupport {
     private Object getResponseForFormat(formatResponse, format, formatProvider) {
         if (formatProvider instanceof ServletRequest) {
             formatProvider.setAttribute(GrailsApplicationAttributes.CONTENT_FORMAT, format)
-        }
-        else {
+        } else {
             GrailsWebRequest.lookup().currentRequest.setAttribute(GrailsApplicationAttributes.RESPONSE_FORMAT, format)
         }
 
         if (formatResponse instanceof Closure) {
             return formatResponse?.call()
-        }
-        else {
+        } else {
             return formatResponse
         }
 

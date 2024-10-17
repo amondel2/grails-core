@@ -23,7 +23,7 @@ class GrailsParameterMapTests {
         mockRequest.addParameter("address.town", "Swindon")
         theMap = new GrailsParameterMap(mockRequest)
 
-        assert theMap['name', 'dob'] == [name:"Dierk Koenig", dob:"01/01/1970"]
+        assert theMap['name', 'dob'] == [name: "Dierk Koenig", dob: "01/01/1970"]
     }
 
     @Test
@@ -40,7 +40,7 @@ class GrailsParameterMapTests {
             def params = new GrailsParameterMap(request)
             params['myDate'] = '710716'
             def val = params.date('myDate')
-            def cal = new GregorianCalendar(1971,6,16)
+            def cal = new GregorianCalendar(1971, 6, 16)
             assert val == cal.time
         } finally {
             RequestContextHolder.resetRequestAttributes()
@@ -55,7 +55,7 @@ class GrailsParameterMapTests {
 
         def val = params.date('myDate', ['yyyy-MM-dd', 'yyyyMMdd', 'yyMMdd'])
 
-        def cal = new GregorianCalendar(1971,6,16)
+        def cal = new GregorianCalendar(1971, 6, 16)
 
         assert val == cal.time
     }
@@ -68,7 +68,7 @@ class GrailsParameterMapTests {
 
         def val = params.date('myDate', 'dd-MM-yyyy')
 
-        def cal = new GregorianCalendar(1971,6,16)
+        def cal = new GregorianCalendar(1971, 6, 16)
 
         assert val == cal.time
     }
@@ -188,14 +188,14 @@ class GrailsParameterMapTests {
         map.bad = "foo"
         map.decimals = "1.4"
         map.bool = "true"
-        map.aList = [1,2]
-        map.array = ["one", "two" ] as String[]
+        map.aList = [1, 2]
+        map.array = ["one", "two"] as String[]
         map.longNumber = 1234567890
         map.z = 'z'
 
         assertEquals(["1"], map.list("one"))
-        assertEquals([1,2], map.list("aList"))
-        assertEquals(["one","two"], map.list("array"))
+        assertEquals([1, 2], map.list("aList"))
+        assertEquals(["one", "two"], map.list("array"))
         assertEquals([], map.list("nonexistant"))
 
         assertEquals 1, map.byte('one')
@@ -223,12 +223,12 @@ class GrailsParameterMapTests {
         assertEquals '0' as char, map.char('zero', 'A' as Character)
         assertEquals 'A' as char, map.char('bad', 'A' as Character)
         assertEquals 'A' as char, map.char('nonexistent', 'A' as Character)
-        assertEquals '1' as char, map.char('one', (char)'A')
-        assertEquals '0' as char, map.char('zero', (char)'A')
-        assertEquals 'A' as char, map.char('bad', (char)'A')
-        assertEquals 'A' as char, map.char('nonexistent', (char)'A')
+        assertEquals '1' as char, map.char('one', (char) 'A')
+        assertEquals '0' as char, map.char('zero', (char) 'A')
+        assertEquals 'A' as char, map.char('bad', (char) 'A')
+        assertEquals 'A' as char, map.char('nonexistent', (char) 'A')
         assertEquals 'z' as char, map.char('z')
-        assertEquals 'z' as char, map.char('z', (char)'A')
+        assertEquals 'z' as char, map.char('z', (char) 'A')
         assertEquals 'z' as char, map.char('z', 'A' as Character)
 
         assertEquals 1, map.int('one')
@@ -315,7 +315,7 @@ class GrailsParameterMapTests {
         mockRequest.addParameter("foo_month", "")
 
         theMap = new GrailsParameterMap(mockRequest)
-        assert theMap['foo'] == "date.struct" : "should not be modified"
+        assert theMap['foo'] == "date.struct": "should not be modified"
     }
 
     @Test
@@ -326,7 +326,7 @@ class GrailsParameterMapTests {
         mockRequest.addParameter("foo_month", "07")
 
         theMap = new GrailsParameterMap(mockRequest)
-        assert theMap['foo'] == "date.struct" : "should not be modified"
+        assert theMap['foo'] == "date.struct": "should not be modified"
     }
 
     @Test

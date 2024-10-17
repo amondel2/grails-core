@@ -26,12 +26,12 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class FormatInterceptor {
     LinkedHashMap<String, Object> formatOptions = new LinkedHashMap<String, Object>()
+
     Object invokeMethod(String name, args) {
-        Object[] argsArray = args instanceof Object[] ? ((Object[])args) : [args] as Object[]
+        Object[] argsArray = args instanceof Object[] ? ((Object[]) args) : [args] as Object[]
         if (argsArray.size() > 0 && (argsArray[0] instanceof Closure || argsArray[0] instanceof Map)) {
             formatOptions[name] = argsArray[0]
-        }
-        else {
+        } else {
             formatOptions[name] = null
         }
     }

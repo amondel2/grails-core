@@ -11,10 +11,10 @@ class SimpleDataBinderEnumBindingSpec extends Specification {
         given:
         def binder = new SimpleDataBinder()
         def holder = new HatSizeHolder()
-        
+
         when:
         binder.bind holder, ['sizes[0]': 'LARGE', 'sizes[1]': 'SMALL'] as SimpleMapDataBindingSource
-        
+
         then:
         holder.sizes?.size() == 2
         holder.sizes[0] == HatSize.LARGE

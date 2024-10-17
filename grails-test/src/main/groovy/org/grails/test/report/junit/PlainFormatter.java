@@ -45,8 +45,7 @@ public class PlainFormatter extends PlainJUnitResultFormatter {
         this.file = file;
         try {
             super.setOutput(new BufferedOutputStream(new FileOutputStream(file)));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
@@ -94,13 +93,13 @@ public class PlainFormatter extends PlainJUnitResultFormatter {
             writer = new FileWriter(f);
             writer.write(text);
             writer.close();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
-        }
-        finally {
+        } finally {
             if (writer != null) {
-                try { writer.close(); } catch (IOException ex) { /*ignored*/ }
+                try {
+                    writer.close();
+                } catch (IOException ex) { /*ignored*/ }
             }
         }
     }

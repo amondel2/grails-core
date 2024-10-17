@@ -18,32 +18,32 @@ class ControllerActionTransformerCompilationErrorsSpec extends Specification {
             @Override
             boolean shouldInject(URL url) { true }
         }
-        gcl.classInjectors = [transformer]as ClassInjector[]
+        gcl.classInjectors = [transformer] as ClassInjector[]
     }
 
     void 'Test overloaded method actions'() {
         when: 'A controller overloads a method action'
-            gcl.parseClass('''
+        gcl.parseClass('''
             class TestController {
                 def methodAction(String s){}
                 def methodAction(Integer i){}
             }
 ''')
         then:
-            MultipleCompilationErrorsException e = thrown()
-            e.message.contains 'Controller actions may not be overloaded.  The [methodAction] action has been overloaded in [TestController].'
+        MultipleCompilationErrorsException e = thrown()
+        e.message.contains 'Controller actions may not be overloaded.  The [methodAction] action has been overloaded in [TestController].'
     }
 
     void "Test default parameter values"() {
         when: 'A method action has default parameter values'
-            gcl.parseClass('''
+        gcl.parseClass('''
             class TestController {
                 def methodAction(int i = 42){}
             }
             ''')
 
-            then:
-            MultipleCompilationErrorsException e = thrown()
-            e.message.contains 'Parameter [i] to method [methodAction] has default value [42].  Default parameter values are not allowed in controller action methods.'
+        then:
+        MultipleCompilationErrorsException e = thrown()
+        e.message.contains 'Parameter [i] to method [methodAction] has default value [42].  Default parameter values are not allowed in controller action methods.'
     }
 }

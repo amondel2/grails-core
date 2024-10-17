@@ -12,10 +12,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Implementation of a {@link AbstractDirectoryWatcher} that uses polling.
  * This implementation is used where {@link java.nio.WatchService} isn't available (pre Java 7).
+ *
  * @author Craig Andrews
- * @since 2.4
  * @see WatchServiceDirectoryWatcher
  * @see DirectoryWatcher
+ * @since 2.4
  */
 class PollingDirectoryWatcher extends AbstractDirectoryWatcher {
 
@@ -25,8 +26,8 @@ class PollingDirectoryWatcher extends AbstractDirectoryWatcher {
     private Map<File, Collection<String>> directoryToExtensionsMap = new ConcurrentHashMap<File, Collection<String>>();
     private Map<File, Long> directoryWatch = new ConcurrentHashMap<File, Long>();
 
-	@Override
-	public void run() {
+    @Override
+    public void run() {
         int count = 0;
         while (active) {
             Set<File> files = lastModifiedMap.keySet();
@@ -49,28 +50,27 @@ class PollingDirectoryWatcher extends AbstractDirectoryWatcher {
                 // ignore
             }
         }
-	}
+    }
 
-	@Override
-	public void addWatchFile(File fileToWatch) {
+    @Override
+    public void addWatchFile(File fileToWatch) {
         lastModifiedMap.put(fileToWatch, fileToWatch.lastModified());
-	}
+    }
 
-	@Override
-	public void addWatchDirectory(File dir, List<String> fileExtensions) {
-		if(!isValidDirectoryToMonitor(dir)){
-			return;
-		}
+    @Override
+    public void addWatchDirectory(File dir, List<String> fileExtensions) {
+        if (!isValidDirectoryToMonitor(dir)) {
+            return;
+        }
         trackDirectoryExtensions(dir, fileExtensions);
         cacheFilesForDirectory(dir, fileExtensions, false);
-	}
+    }
 
     private void trackDirectoryExtensions(File dir, List<String> fileExtensions) {
         Collection<String> existingExtensions = directoryToExtensionsMap.get(dir);
-        if(existingExtensions == null) {
+        if (existingExtensions == null) {
             directoryToExtensionsMap.put(dir, new ArrayList<String>(fileExtensions));
-        }
-        else {
+        } else {
             existingExtensions.addAll(fileExtensions);
         }
     }
@@ -81,7 +81,7 @@ class PollingDirectoryWatcher extends AbstractDirectoryWatcher {
 
             if (currentTimestamp < directory.lastModified()) {
                 Collection<String> extensions = directoryToExtensionsMap.get(directory);
-                if(extensions == null) {
+                if (extensions == null) {
                     extensions = this.extensions;
                 }
                 cacheFilesForDirectory(directory, extensions, true);
@@ -99,10 +99,9 @@ class PollingDirectoryWatcher extends AbstractDirectoryWatcher {
         }
 
         for (File file : files) {
-        	if(isValidDirectoryToMonitor(file)) {
+            if (isValidDirectoryToMonitor(file)) {
                 cacheFilesForDirectory(file, fileExtensions, fireEvent);
-        	}
-            else if (isValidFileToMonitor(file, fileExtensions)) {
+            } else if (isValidFileToMonitor(file, fileExtensions)) {
                 if (!lastModifiedMap.containsKey(file) && fireEvent) {
                     fireOnNew(file);
                 }

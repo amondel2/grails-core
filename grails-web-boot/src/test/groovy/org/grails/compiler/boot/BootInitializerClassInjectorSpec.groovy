@@ -10,7 +10,7 @@ import spock.lang.Specification
 class BootInitializerClassInjectorSpec extends Specification {
 
     void "test compile application class"() {
-        when:"An application class is compiled"
+        when: "An application class is compiled"
         def gcl = new GrailsAwareClassLoader()
         Class applicationClass = gcl.parseClass('''
 import grails.boot.GrailsApp
@@ -23,7 +23,7 @@ class Application extends grails.boot.config.GrailsAutoConfiguration {
 
         applicationClass.main()
 
-        then:""
+        then: ""
         Boolean.getBoolean(Environment.STANDALONE)
         Environment.isStandalone()
         !Environment.isStandaloneDeployed()

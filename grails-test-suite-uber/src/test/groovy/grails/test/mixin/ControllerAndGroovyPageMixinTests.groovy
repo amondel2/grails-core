@@ -17,7 +17,7 @@ class ControllerAndGroovyPageMixinTests extends Specification implements Control
         when:
         views['/foo/_bar.gsp'] = 'Id: ${params.id}'
         params.id = 10
-        def content = render(template:"/foo/bar")
+        def content = render(template: "/foo/bar")
 
         then:
         content == 'Id: 10'

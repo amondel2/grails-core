@@ -11,27 +11,28 @@ import spock.lang.Specification
 
 class JSONBindingToNullTests extends Specification implements ControllerUnitTest<UserController>, DomainUnitTest<User> {
 
-    Closure doWithConfig() {{ config ->
-        config['grails.mime.types'] = [ html: ['text/html','application/xhtml+xml'],
-                                     xml: ['text/xml', 'application/xml'],
-                                     text: 'text/plain',
-                                     js: 'text/javascript',
-                                     rss: 'application/rss+xml',
-                                     atom: 'application/atom+xml',
-                                     css: 'text/css',
-                                     csv: 'text/csv',
-                                     all: '*/*',
-                                     json: ['application/json','text/json'],
-                                     form: 'application/x-www-form-urlencoded',
-                                     multipartForm: 'multipart/form-data'
-        ]
+    Closure doWithConfig() {
+        { config ->
+            config['grails.mime.types'] = [html         : ['text/html', 'application/xhtml+xml'],
+                                           xml          : ['text/xml', 'application/xml'],
+                                           text         : 'text/plain',
+                                           js           : 'text/javascript',
+                                           rss          : 'application/rss+xml',
+                                           atom         : 'application/atom+xml',
+                                           css          : 'text/css',
+                                           csv          : 'text/csv',
+                                           all          : '*/*',
+                                           json         : ['application/json', 'text/json'],
+                                           form         : 'application/x-www-form-urlencoded',
+                                           multipartForm: 'multipart/form-data'
+            ]
 
         }
     }
 
     void testJsonBindingToNull() {
         when:
-        def pebbles = new User(username:"pebbles", password:"letmein", firstName:"Pebbles", lastName:"Flintstone", middleName:"T", phone:"555-555-5555", email:'pebbles@flintstone.com', activationDate:new Date(), logonFailureCount:0, deactivationDate:null).save(flush:true)
+        def pebbles = new User(username: "pebbles", password: "letmein", firstName: "Pebbles", lastName: "Flintstone", middleName: "T", phone: "555-555-5555", email: 'pebbles@flintstone.com', activationDate: new Date(), logonFailureCount: 0, deactivationDate: null).save(flush: true)
 
         def builder = new JSONBuilder()
         request.method = 'PUT'
@@ -48,7 +49,7 @@ class JSONBindingToNullTests extends Specification implements ControllerUnitTest
 
     void testXmlBindingToNull() {
         when:
-        def pebbles = new User(username:"pebbles", password:"letmein", firstName:"Pebbles", lastName:"Flintstone", middleName:"T", phone:"555-555-5555", email:'pebbles@flintstone.com', activationDate:new Date(), logonFailureCount:0, deactivationDate:null).save(flush:true)
+        def pebbles = new User(username: "pebbles", password: "letmein", firstName: "Pebbles", lastName: "Flintstone", middleName: "T", phone: "555-555-5555", email: 'pebbles@flintstone.com', activationDate: new Date(), logonFailureCount: 0, deactivationDate: null).save(flush: true)
 
         request.method = 'PUT'
         request.xml = pebbles
@@ -115,15 +116,15 @@ class User {
     Date lastAccessDate
 
     static constraints = {
-        middleName(nullable:true)
-        phone(nullable:true)
-        email(nullable:true, email:true)
-        activeDirectoryUsername(nullable:true)
-        createdBy(nullable:true)
-        lastUpdatedBy(nullable:true)
-        logonFailureCount(nullable:false)
-        deactivationDate(nullable:true)
-        lastUpdatedDate(nullable:true)
-        lastAccessDate(nullable:true)
+        middleName(nullable: true)
+        phone(nullable: true)
+        email(nullable: true, email: true)
+        activeDirectoryUsername(nullable: true)
+        createdBy(nullable: true)
+        lastUpdatedBy(nullable: true)
+        logonFailureCount(nullable: false)
+        deactivationDate(nullable: true)
+        lastUpdatedDate(nullable: true)
+        lastAccessDate(nullable: true)
     }
 }

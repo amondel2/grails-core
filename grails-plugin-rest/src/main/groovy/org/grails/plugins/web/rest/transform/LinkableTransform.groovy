@@ -49,7 +49,7 @@ import static org.grails.compiler.injection.GrailsASTUtils.*
  */
 @CompileStatic
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-class LinkableTransform implements ASTTransformation{
+class LinkableTransform implements ASTTransformation {
 
     private static final ClassNode MY_TYPE = new ClassNode(Linkable);
     public static final String LINK_METHOD = "link"

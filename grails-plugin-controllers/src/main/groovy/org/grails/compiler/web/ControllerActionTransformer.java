@@ -209,7 +209,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
 
     public void performInjection(SourceUnit source, GeneratorContext context, ClassNode classNode) {
         // don't inject if already an @Artefact annotation is applied
-        if(!classNode.getAnnotations(new ClassNode(Artefact.class)).isEmpty()) return;
+        if (!classNode.getAnnotations(new ClassNode(Artefact.class)).isEmpty()) return;
 
         performInjectionOnAnnotatedClass(source, context, classNode);
 
@@ -226,14 +226,14 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
 
     @Override
     public void performInjectionOnAnnotatedClass(SourceUnit source, ClassNode classNode) {
-        performInjectionOnAnnotatedClass(source,null, classNode);
+        performInjectionOnAnnotatedClass(source, null, classNode);
     }
 
     private boolean isExceptionHandlingMethod(MethodNode methodNode) {
         boolean isExceptionHandler = false;
-        if(!methodNode.isPrivate() && methodNode.getName().indexOf("$") == -1) {
+        if (!methodNode.isPrivate() && methodNode.getName().indexOf("$") == -1) {
             Parameter[] parameters = methodNode.getParameters();
-            if(parameters.length == 1) {
+            if (parameters.length == 1) {
                 ClassNode parameterTypeClassNode = parameters[0].getType();
                 isExceptionHandler = parameterTypeClassNode.isDerivedFrom(new ClassNode(Exception.class));
             }
@@ -242,16 +242,15 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
 
-
     private void processMethods(ClassNode classNode, SourceUnit source,
-            GeneratorContext context) {
+                                GeneratorContext context) {
 
         List<MethodNode> deferredNewMethods = new ArrayList<MethodNode>();
         for (MethodNode method : classNode.getMethods()) {
             if (methodShouldBeConfiguredAsControllerAction(method)) {
                 final List<MethodNode> declaredMethodsWithThisName = classNode.getDeclaredMethods(method.getName());
-                if(declaredMethodsWithThisName != null) {
-                    final int numberOfNonExceptionHandlerMethodsWithThisName = DefaultGroovyMethods.count((Iterable)declaredMethodsWithThisName, new Closure(this) {
+                if (declaredMethodsWithThisName != null) {
+                    final int numberOfNonExceptionHandlerMethodsWithThisName = DefaultGroovyMethods.count((Iterable) declaredMethodsWithThisName, new Closure(this) {
                         @Override
                         public Object call(Object object) {
                             return !isExceptionHandlingMethod((MethodNode) object);
@@ -275,9 +274,9 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
         Collection<MethodNode> exceptionHandlerMethods = getExceptionHandlerMethods(classNode, source);
 
         final FieldNode exceptionHandlerMetaDataField = classNode.getField(EXCEPTION_HANDLER_META_DATA_FIELD_NAME);
-        if(exceptionHandlerMetaDataField == null || !exceptionHandlerMetaDataField.getDeclaringClass().equals(classNode)) {
+        if (exceptionHandlerMetaDataField == null || !exceptionHandlerMetaDataField.getDeclaringClass().equals(classNode)) {
             final ListExpression listOfExceptionHandlerMetaData = new ListExpression();
-            for(final MethodNode exceptionHandlerMethod : exceptionHandlerMethods) {
+            for (final MethodNode exceptionHandlerMethod : exceptionHandlerMethods) {
                 final Parameter[] parameters = exceptionHandlerMethod.getParameters();
                 final Parameter firstParameter = parameters[0];
                 final ClassNode firstParameterTypeClassNode = firstParameter.getType();
@@ -299,7 +298,6 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     /**
-     * 
      * @param method a potential controller action method
      * @return true if the method should be configured as a controller action, false otherwise
      */
@@ -310,8 +308,8 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
             //Trait methods have a line number of -1
             --minLineNumber;
         }
-        return !method.isStatic() && 
-                method.isPublic() && 
+        return !method.isStatic() &&
+                method.isPublic() &&
                 !method.isAbstract() &&
                 method.getAnnotations(ACTION_ANNOTATION_NODE.getClassNode()).isEmpty() &&
                 method.getAnnotations(new ClassNode(ControllerMethod.class)).isEmpty() &&
@@ -324,11 +322,11 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     protected Collection<MethodNode> getExceptionHandlerMethods(final ClassNode classNode, SourceUnit sourceUnit) {
         final Map<ClassNode, MethodNode> exceptionTypeToHandlerMethodMap = new HashMap<ClassNode, MethodNode>();
         final List<MethodNode> methods = classNode.getMethods();
-        for(MethodNode methodNode : methods) {
-            if(isExceptionHandlingMethod(methodNode)) {
+        for (MethodNode methodNode : methods) {
+            if (isExceptionHandlingMethod(methodNode)) {
                 final Parameter exceptionParameter = methodNode.getParameters()[0];
                 final ClassNode exceptionType = exceptionParameter.getType();
-                if(!exceptionTypeToHandlerMethodMap.containsKey(exceptionType)) {
+                if (!exceptionTypeToHandlerMethodMap.containsKey(exceptionType)) {
                     exceptionTypeToHandlerMethodMap.put(exceptionType, methodNode);
                 } else {
                     final MethodNode otherHandlerMethod = exceptionTypeToHandlerMethodMap.get(exceptionType);
@@ -339,14 +337,14 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
             }
         }
         final ClassNode superClass = classNode.getSuperClass();
-        if(!superClass.equals(OBJECT_CLASS)) {
+        if (!superClass.equals(OBJECT_CLASS)) {
             final Collection<MethodNode> superClassMethods = getExceptionHandlerMethods(superClass, sourceUnit);
-            for(MethodNode superClassMethod : superClassMethods) {
+            for (MethodNode superClassMethod : superClassMethods) {
                 final Parameter exceptionParameter = superClassMethod.getParameters()[0];
                 final ClassNode exceptionType = exceptionParameter.getType();
                 // only add this super class handler if we don't already have
                 // a handler for this exception type in this class
-                if(!exceptionTypeToHandlerMethodMap.containsKey(exceptionType)) {
+                if (!exceptionTypeToHandlerMethodMap.containsKey(exceptionType)) {
                     exceptionTypeToHandlerMethodMap.put(exceptionType, superClassMethod);
                 }
             }
@@ -358,12 +356,12 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
      * Converts a method into a controller action.  If the method accepts parameters,
      * a no-arg counterpart is created which delegates to the original.
      *
-     * @param classNode The controller class
-     * @param methodNode   The method to be converted
+     * @param classNode  The controller class
+     * @param methodNode The method to be converted
      * @return The no-arg wrapper method, or null if none was created.
      */
     private MethodNode convertToMethodAction(ClassNode classNode, MethodNode methodNode,
-            SourceUnit source, GeneratorContext context) {
+                                             SourceUnit source, GeneratorContext context) {
 
         final ClassNode returnType = methodNode.getReturnType();
         Parameter[] parameters = methodNode.getParameters();
@@ -385,22 +383,22 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
         MethodNode method = null;
         if (methodNode.getParameters().length > 0) {
             final BlockStatement methodCode = new BlockStatement();
-            
+
             final BlockStatement codeToHandleAllowedMethods = getCodeToHandleAllowedMethods(classNode, methodNode.getName());
             final Statement codeToCallOriginalMethod = addOriginalMethodCall(methodNode, initializeActionParameters(
                     classNode, methodNode, methodNode.getName(), parameters, source, context));
-            
+
             methodCode.addStatement(codeToHandleAllowedMethods);
             methodCode.addStatement(codeToCallOriginalMethod);
 
-            
+
             method = new MethodNode(
                     methodNode.getName(),
                     Modifier.PUBLIC, returnType,
                     ZERO_PARAMETERS,
                     EMPTY_CLASS_ARRAY,
                     methodCode);
-            
+
             GrailsASTUtils.copyAnnotations(methodNode, method);
 
             methodNode.addAnnotation(DELEGATING_METHOD_ANNOATION);
@@ -409,7 +407,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
         } else {
             annotateActionMethod(classNode, parameters, methodNode);
         }
-        
+
         wrapMethodBodyWithExceptionHandling(classNode, methodNode);
 
         return method;
@@ -464,7 +462,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected void addMethodToInvokeClosure(ClassNode controllerClassNode,
-            PropertyNode closureProperty, SourceUnit source, GeneratorContext context) {
+                                            PropertyNode closureProperty, SourceUnit source, GeneratorContext context) {
 
         MethodNode method = controllerClassNode.getMethod(closureProperty.getName(), ZERO_PARAMETERS);
         if (method == null || !method.getDeclaringClass().equals(controllerClassNode)) {
@@ -512,31 +510,31 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     protected BlockStatement getCodeToHandleAllowedMethods(ClassNode controllerClass, String methodName) {
         GrailsASTUtils.addEnhancedAnnotation(controllerClass, DefaultGrailsControllerClass.ALLOWED_HTTP_METHODS_PROPERTY);
         final BlockStatement checkAllowedMethodsBlock = new BlockStatement();
-        
+
         final PropertyExpression requestPropertyExpression = new PropertyExpression(new VariableExpression("this"), "request");
-        
+
         final FieldNode allowedMethodsField = controllerClass.getField(DefaultGrailsControllerClass.ALLOWED_HTTP_METHODS_PROPERTY);
-        
-        if(allowedMethodsField != null) {
+
+        if (allowedMethodsField != null) {
             final Expression initialAllowedMethodsExpression = allowedMethodsField.getInitialExpression();
-            if(initialAllowedMethodsExpression instanceof MapExpression) {
+            if (initialAllowedMethodsExpression instanceof MapExpression) {
                 boolean actionIsRestricted = false;
                 final MapExpression allowedMethodsMapExpression = (MapExpression) initialAllowedMethodsExpression;
                 final List<MapEntryExpression> allowedMethodsMapEntryExpressions = allowedMethodsMapExpression.getMapEntryExpressions();
-                for(MapEntryExpression allowedMethodsMapEntryExpression : allowedMethodsMapEntryExpressions) {
+                for (MapEntryExpression allowedMethodsMapEntryExpression : allowedMethodsMapEntryExpressions) {
                     final Expression allowedMethodsMapEntryKeyExpression = allowedMethodsMapEntryExpression.getKeyExpression();
-                    if(allowedMethodsMapEntryKeyExpression instanceof ConstantExpression) {
+                    if (allowedMethodsMapEntryKeyExpression instanceof ConstantExpression) {
                         final ConstantExpression allowedMethodsMapKeyConstantExpression = (ConstantExpression) allowedMethodsMapEntryKeyExpression;
                         final Object allowedMethodsMapKeyValue = allowedMethodsMapKeyConstantExpression.getValue();
-                        if(methodName.equals(allowedMethodsMapKeyValue)) {
+                        if (methodName.equals(allowedMethodsMapKeyValue)) {
                             actionIsRestricted = true;
                             break;
                         }
                     }
                 }
-                if(actionIsRestricted) {
+                if (actionIsRestricted) {
                     final PropertyExpression responsePropertyExpression = new PropertyExpression(new VariableExpression("this"), "response");
-                    
+
                     final ArgumentListExpression isAllowedArgumentList = new ArgumentListExpression();
                     isAllowedArgumentList.addExpression(new ConstantExpression(methodName));
                     isAllowedArgumentList.addExpression(new PropertyExpression(new VariableExpression("this"), "request"));
@@ -549,30 +547,31 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
                     blockToSendError.addStatement(new ExpressionStatement(sendErrorMethodCall));
                     blockToSendError.addStatement(returnStatement);
                     final IfStatement ifIsValidRequestMethodStatement = new IfStatement(isValidRequestMethod, new ExpressionStatement(new EmptyExpression()), blockToSendError);
-                  
+
                     checkAllowedMethodsBlock.addStatement(ifIsValidRequestMethodStatement);
                 }
             }
         }
-        
+
         final ArgumentListExpression argumentListExpression = new ArgumentListExpression();
         argumentListExpression.addExpression(new ConstantExpression(ALLOWED_METHODS_HANDLED_ATTRIBUTE_NAME));
         argumentListExpression.addExpression(new ConstantExpression(methodName));
-        
+
         final Expression setAttributeMethodCall = new MethodCallExpression(requestPropertyExpression, "setAttribute", argumentListExpression);
-        
+
         final BlockStatement codeToExecuteIfAttributeIsNotSet = new BlockStatement();
         codeToExecuteIfAttributeIsNotSet.addStatement(new ExpressionStatement(setAttributeMethodCall));
         codeToExecuteIfAttributeIsNotSet.addStatement(checkAllowedMethodsBlock);
 
         final BooleanExpression attributeIsSetBooleanExpression = new BooleanExpression(new MethodCallExpression(requestPropertyExpression, "getAttribute", new ArgumentListExpression(new ConstantExpression(ALLOWED_METHODS_HANDLED_ATTRIBUTE_NAME))));
         final Statement ifAttributeIsAlreadySetStatement = new IfStatement(attributeIsSetBooleanExpression, new EmptyStatement(), codeToExecuteIfAttributeIsNotSet);
-        
+
         final BlockStatement code = new BlockStatement();
         code.addStatement(ifAttributeIsAlreadySetStatement);
 
         return code;
     }
+
     /**
      * This will wrap the method body in a try catch block which does something
      * like this:
@@ -581,13 +580,14 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
      *     // original method body here
      * } catch (Exception $caughtException) {
      *     Method $method = getExceptionHandlerMethod($caughtException.getClass())
-     *     if($method) {
+     *     if ($method) {
      *         return $method.invoke(this, $caughtException)
      *     } else {
      *         throw $caughtException
      *     }
      * }
      * </pre>
+     *
      * @param methodNode the method to add the try catch block to
      */
     protected void wrapMethodBodyWithExceptionHandling(final ClassNode controllerClassNode, final MethodNode methodNode) {
@@ -609,7 +609,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
         invokeArguments.addExpression(caughtExceptionVariableExpression);
         final MethodCallExpression invokeExceptionHandlerMethodExpression = new MethodCallExpression(new VariableExpression(exceptionHandlerMethodVariableName), "invoke", invokeArguments);
         applyDefaultMethodTarget(invokeExceptionHandlerMethodExpression, reflectMethodClassNode);
-        
+
         final Statement returnStatement = new ReturnStatement(invokeExceptionHandlerMethodExpression);
         final Statement throwCaughtExceptionStatement = new ThrowStatement(caughtExceptionVariableExpression);
         final Statement ifExceptionHandlerMethodExistsStatement = new IfStatement(new BooleanExpression(exceptionHandlerMethodExpression), returnStatement, throwCaughtExceptionStatement);
@@ -629,25 +629,25 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
 
         final ArgumentListExpression argumentListExpression = new ArgumentListExpression();
         argumentListExpression.addExpression(new ConstantExpression(ALLOWED_METHODS_HANDLED_ATTRIBUTE_NAME));
-        
+
         final PropertyExpression requestPropertyExpression = new PropertyExpression(new VariableExpression("this"), "request");
         final Expression removeAttributeMethodCall = new MethodCallExpression(requestPropertyExpression, "removeAttribute", argumentListExpression);
-        
+
         final Expression getAttributeMethodCall = new MethodCallExpression(requestPropertyExpression, "getAttribute", new ArgumentListExpression(new ConstantExpression(ALLOWED_METHODS_HANDLED_ATTRIBUTE_NAME)));
         final VariableExpression attributeValueExpression = new VariableExpression("$allowed_methods_attribute_value", ClassHelper.make(Object.class));
         final Expression initializeAttributeValue = new DeclarationExpression(
                 attributeValueExpression, Token.newSymbol(Types.EQUALS, 0, 0), getAttributeMethodCall);
-        final Expression attributeValueMatchesMethodNameExpression = new BinaryExpression(new ConstantExpression(methodNode.getName()), 
-                                                  Token.newSymbol(Types.COMPARE_EQUAL, 0, 0), 
-                                                  attributeValueExpression);
-        final Statement ifAttributeValueMatchesMethodName = 
-                new IfStatement(new BooleanExpression(attributeValueMatchesMethodNameExpression), 
-                                new ExpressionStatement(removeAttributeMethodCall), new EmptyStatement());
+        final Expression attributeValueMatchesMethodNameExpression = new BinaryExpression(new ConstantExpression(methodNode.getName()),
+                Token.newSymbol(Types.COMPARE_EQUAL, 0, 0),
+                attributeValueExpression);
+        final Statement ifAttributeValueMatchesMethodName =
+                new IfStatement(new BooleanExpression(attributeValueMatchesMethodNameExpression),
+                        new ExpressionStatement(removeAttributeMethodCall), new EmptyStatement());
 
         final BlockStatement blockToRemoveAttribute = new BlockStatement();
         blockToRemoveAttribute.addStatement(new ExpressionStatement(initializeAttributeValue));
         blockToRemoveAttribute.addStatement(ifAttributeValueMatchesMethodName);
-        
+
         final TryCatchStatement tryCatchToRemoveAttribute = new TryCatchStatement(blockToRemoveAttribute, new EmptyStatement());
         tryCatchToRemoveAttribute.addCatch(new CatchStatement(new Parameter(ClassHelper.make(Exception.class), "$exceptionRemovingAttribute"), new EmptyStatement()));
 
@@ -657,7 +657,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected void transformClosureToMethod(ClassNode classNode, ClosureExpression closureAction,
-            PropertyNode property, SourceUnit source, GeneratorContext context) {
+                                            PropertyNode property, SourceUnit source, GeneratorContext context) {
 
         final MethodNode actionMethod = new MethodNode(property.getName(),
                 Modifier.PUBLIC, property.getType(), closureAction.getParameters(),
@@ -673,8 +673,8 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected BlockStatement initializeActionParameters(ClassNode classNode, ASTNode actionNode,
-            String actionName, Parameter[] actionParameters, SourceUnit source,
-            GeneratorContext context) {
+                                                        String actionName, Parameter[] actionParameters, SourceUnit source,
+                                                        GeneratorContext context) {
 
         BlockStatement wrapper = new BlockStatement();
 
@@ -699,8 +699,8 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected void initializeMethodParameter(final ClassNode classNode, final BlockStatement wrapper,
-            final ASTNode actionNode, final String actionName, final Parameter param,
-            final SourceUnit source, final GeneratorContext context) {
+                                             final ASTNode actionNode, final String actionName, final Parameter param,
+                                             final SourceUnit source, final GeneratorContext context) {
 
         final ClassNode paramTypeClassNode = param.getType();
         final String paramName = param.getName();
@@ -750,13 +750,13 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected void initializeAndValidateCommandObjectParameter(final BlockStatement wrapper,
-            final ClassNode controllerNode, final ClassNode commandObjectNode,
-            final ASTNode actionNode, final String actionName, final String paramName,
-            final SourceUnit source, final GeneratorContext context) {
+                                                               final ClassNode controllerNode, final ClassNode commandObjectNode,
+                                                               final ASTNode actionNode, final String actionName, final String paramName,
+                                                               final SourceUnit source, final GeneratorContext context) {
         final DeclarationExpression declareCoExpression = declX(localVarX(paramName, commandObjectNode), new EmptyExpression());
         wrapper.addStatement(stmt(declareCoExpression));
 
-        if(commandObjectNode.isInterface() || Modifier.isAbstract(commandObjectNode.getModifiers())) {
+        if (commandObjectNode.isInterface() || Modifier.isAbstract(commandObjectNode.getModifiers())) {
             final String warningMessage = "The [" + actionName + "] action in [" +
                     controllerNode.getName() + "] accepts a parameter of type [" +
                     commandObjectNode.getName() +
@@ -783,7 +783,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
 
                         List<ConstructorNode> declaredConstructors = commandObjectNode.getDeclaredConstructors();
                         List<Statement> objectInitializerStatements = commandObjectNode.getObjectInitializerStatements();
-                        if(declaredConstructors.isEmpty() && !objectInitializerStatements.isEmpty()) {
+                        if (declaredConstructors.isEmpty() && !objectInitializerStatements.isEmpty()) {
                             BlockStatement constructorLogic = new BlockStatement();
                             ConstructorNode constructorNode = new ConstructorNode(Modifier.PUBLIC, constructorLogic);
                             ClassNodeUtils.addGeneratedConstructor(commandObjectNode, constructorNode);
@@ -796,7 +796,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
                     }
                 }
             }
-            
+
             if (argumentIsValidateable) {
                 final MethodCallExpression validateMethodCallExpression =
                         new MethodCallExpression(new VariableExpression(paramName), "validate", EMPTY_TUPLE);
@@ -811,7 +811,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
                 // try to dynamically invoke the .validate() method if it is available at runtime...
                 final Expression respondsToValidateMethodCallExpression = new MethodCallExpression(
                         new VariableExpression(paramName), "respondsTo", new ArgumentListExpression(
-                                new ConstantExpression("validate")));
+                        new ConstantExpression("validate")));
                 final Expression validateMethodCallExpression = new MethodCallExpression(
                         new VariableExpression(paramName), "validate", new ArgumentListExpression());
                 final Statement ifRespondsToValidateThenValidateStatement = new IfStatement(
@@ -820,28 +820,27 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
                         new ExpressionStatement(new EmptyExpression()));
                 final Statement ifCommandObjectIsNotNullThenValidate = new IfStatement(new BooleanExpression(new VariableExpression(paramName)), ifRespondsToValidateThenValidateStatement, new ExpressionStatement(new EmptyExpression()));
                 wrapper.addStatement(ifCommandObjectIsNotNullThenValidate);
-                
+
                 final String warningMessage = "The [" + actionName + "] action accepts a parameter of type [" +
                         commandObjectNode.getName() +
                         "] which does not implement grails.validation.Validateable.  Data binding will still be applied " +
                         "to this command object but the instance will not be validateable.";
                 GrailsASTUtils.warning(source, actionNode, warningMessage);
             }
-            if(GrailsASTUtils.isInnerClassNode(commandObjectNode)) {
+            if (GrailsASTUtils.isInnerClassNode(commandObjectNode)) {
                 final String warningMessage = "The [" + actionName + "] action accepts a parameter of type [" +
                         commandObjectNode.getName() +
                         "] which is an inner class. Command object classes should not be inner classes.";
                 GrailsASTUtils.warning(source, actionNode, warningMessage);
-                
-            }
-            else {
+
+            } else {
                 new DefaultASTDatabindingHelper().injectDatabindingCode(source, context, commandObjectNode);
             }
         }
     }
 
     protected void initializeCommandObjectParameter(final BlockStatement wrapper,
-            final ClassNode commandObjectNode, final String paramName, SourceUnit source) {
+                                                    final ClassNode commandObjectNode, final String paramName, SourceUnit source) {
         final ArgumentListExpression initializeCommandObjectArguments = args(classX(commandObjectNode), constX(paramName));
         final MethodCallExpression initializeCommandObjectMethodCall = callThisX("initializeCommandObject", initializeCommandObjectArguments);
         applyDefaultMethodTarget(initializeCommandObjectMethodCall, commandObjectNode);
@@ -853,7 +852,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
      * Checks to see if a Module is defined at a path which includes the specified substring
      *
      * @param moduleNode a ModuleNode
-     * @param substring The substring to search for
+     * @param substring  The substring to search for
      * @return true if moduleNode is defined at a path which includes the specified substring
      */
     private boolean doesModulePathIncludeSubstring(ModuleNode moduleNode, final String substring) {
@@ -871,7 +870,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
     }
 
     protected void initializeStringParameter(final ClassNode classNode, final BlockStatement wrapper, final Parameter param,
-            final String requestParameterName) {
+                                             final String requestParameterName) {
 
         final ClassNode paramTypeClassNode = param.getType();
         final String methodParamName = param.getName();
@@ -884,12 +883,12 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
                 new DeclarationExpression(new VariableExpression(
                         methodParamName, paramTypeClassNode),
                         Token.newSymbol(Types.EQUALS, 0, 0),
-                        new TernaryExpression(containsKeyExpression, buildGetMapExpression(getParamsExpression, requestParameterName) , new ConstantExpression(null))));
+                        new TernaryExpression(containsKeyExpression, buildGetMapExpression(getParamsExpression, requestParameterName), new ConstantExpression(null))));
         wrapper.addStatement(initializeParameterStatement);
     }
 
     protected void initializePrimitiveOrTypeWrapperParameter(final ClassNode classNode, final BlockStatement wrapper,
-            final Parameter param, final String requestParameterName) {
+                                                             final Parameter param, final String requestParameterName) {
 
         final ClassNode paramTypeClassNode = param.getType();
         final String methodParamName = param.getName();
@@ -915,7 +914,7 @@ public class ControllerActionTransformer implements GrailsArtefactClassInjector,
         final MethodCallExpression retrieveConvertedValueExpression = new MethodCallExpression(
                 getParamsExpression, conversionMethodName, paramsTypeConversionMethodArguments);
         Class<?> defaultValueClass = null; // choose any
-        if("char".equals(conversionMethodName)) {
+        if ("char".equals(conversionMethodName)) {
             // TypeConvertingMap.'char' method has 2 different signatures, choose the one with "Character 'char'(String name, Integer defaultValue)" signature
             defaultValueClass = Integer.class;
         }

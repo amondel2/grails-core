@@ -32,7 +32,7 @@ class GrailsASTUtilsSpec extends Specification {
         File controllersDir = new File(grailsAppDir, 'controllers')
         File controllerPackageDir = new File(controllersDir, packagePath)
         File controllerClassFile = new File(controllerPackageDir,
-                                            'SomethingController.groovy')
+                'SomethingController.groovy')
 
         SourceUnit controllerSourceUnit = Mock()
         controllerSourceUnit.getName() >> controllerClassFile.absolutePath
@@ -46,4 +46,5 @@ class GrailsASTUtilsSpec extends Specification {
 }
 
 class Something {}
+
 class SomethingElse {}

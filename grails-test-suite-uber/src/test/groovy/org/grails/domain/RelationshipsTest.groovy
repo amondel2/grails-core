@@ -2,9 +2,9 @@ package org.grails.domain
 
 class RelationshipsTest {
 
-    def hasMany = [ones: OneToManyTest2,
-                   manys: ManyToManyTest,
-                        uniones: UniOneToManyTest]
+    def hasMany = [ones   : OneToManyTest2,
+                   manys  : ManyToManyTest,
+                   uniones: UniOneToManyTest]
 
     Long id
     Long version

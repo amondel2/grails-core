@@ -81,7 +81,7 @@ class MultiplyingBindingHelper implements BindingHelper<Integer> {
     Integer getPropertyValue(Object obj, String propertyName, DataBindingSource source) {
         def value = source[propertyName]
         def convertedValue = value
-        switch(propertyName) {
+        switch (propertyName) {
             case 'doubleIt':
                 convertedValue = value * 2
                 break

@@ -43,7 +43,7 @@ class GrailsApplicationContextCommandRunner extends DevelopmentGrailsApplication
     @Override
     ConfigurableApplicationContext run(String... args) {
         def command = ApplicationContextCommandRegistry.findCommand(commandName)
-        if(command) {
+        if (command) {
 
             Object skipBootstrap = command.hasProperty("skipBootstrap")?.getProperty(command)
             if (skipBootstrap instanceof Boolean && !System.getProperty(Settings.SETTING_SKIP_BOOTSTRAP)) {
@@ -75,8 +75,7 @@ class GrailsApplicationContextCommandRunner extends DevelopmentGrailsApplication
                     // ignore
                 }
             }
-        }
-        else {
+        } else {
             System.err.println("Command not found for name: $commandName")
             System.exit(1)
         }
@@ -89,7 +88,7 @@ class GrailsApplicationContextCommandRunner extends DevelopmentGrailsApplication
      * @param args The first argument is the Command name, the last argument is the Application class name
      */
     public static void main(String[] args) {
-        if(args.size() > 1) {
+        if (args.size() > 1) {
             Class applicationClass
             try {
                 applicationClass = Thread.currentThread().contextClassLoader.loadClass(args.last())
@@ -100,8 +99,7 @@ class GrailsApplicationContextCommandRunner extends DevelopmentGrailsApplication
 
             def runner = new GrailsApplicationContextCommandRunner(args[0], applicationClass)
             runner.run(args.init() as String[])
-        }
-        else {
+        } else {
             System.err.println("Missing application class name and script name arguments")
             System.exit(1)
         }

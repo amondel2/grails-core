@@ -25,9 +25,9 @@ class CosineSimilarity {
 
     /**
      * Sort the candidates by their similarity to the specified input.
-     * @param pattern  the input string
-     * @param candidates  the possible matches
-     * @return  the ordered candidates
+     * @param pattern the input string
+     * @param candidates the possible matches
+     * @return the ordered candidates
      */
     static List<String> mostSimilar(String pattern, candidates, double threshold = 0) {
         SortedMap<Double, String> sorted = new TreeMap<Double, String>()

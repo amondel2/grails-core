@@ -44,8 +44,8 @@ class ThreeGrailsPlugin {
         def three = gcl.loadClass("ThreeGrailsPlugin")
         def four = gcl.loadClass("FourGrailsPlugin")
         def five = gcl.loadClass("FiveGrailsPlugin")
-        def pluginManager = new DefaultGrailsPluginManager([one,two,three, four,five] as Class[],
-            new DefaultGrailsApplication())
+        def pluginManager = new DefaultGrailsPluginManager([one, two, three, four, five] as Class[],
+                new DefaultGrailsApplication())
 
         pluginManager.loadCorePlugins = false
         pluginManager.loadPlugins()

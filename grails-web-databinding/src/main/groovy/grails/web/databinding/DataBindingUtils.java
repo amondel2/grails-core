@@ -67,8 +67,8 @@ public class DataBindingUtils {
     /**
      * Associations both sides of any bidirectional relationships found in the object and source map to bind
      *
-     * @param object The object
-     * @param source The source map
+     * @param object           The object
+     * @param source           The source map
      * @param persistentEntity The PersistentEntity for the object
      */
     public static void assignBidirectionalAssociations(Object object, Map source, PersistentEntity persistentEntity) {
@@ -90,8 +90,7 @@ public class DataBindingUtils {
                     MetaClass mc = GroovySystem.getMetaClassRegistry().getMetaClass(val.getClass());
                     try {
                         mc.setProperty(val, otherSide.getName(), object);
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         // ignore
                     }
                 }
@@ -121,10 +120,10 @@ public class DataBindingUtils {
                 final Field whiteListField = objectClass.getDeclaredField(DefaultASTDatabindingHelper.DEFAULT_DATABINDING_WHITELIST);
                 if (whiteListField != null) {
                     if ((whiteListField.getModifiers() & Modifier.STATIC) != 0) {
-                         final Object whiteListValue = whiteListField.get(objectClass);
-                         if (whiteListValue instanceof List) {
-                             includeList = (List)whiteListValue;
-                         }
+                        final Object whiteListValue = whiteListField.get(objectClass);
+                        if (whiteListValue instanceof List) {
+                            includeList = (List) whiteListValue;
+                        }
                     }
                 }
                 if (!Environment.getCurrent().isReloadEnabled()) {
@@ -142,10 +141,8 @@ public class DataBindingUtils {
      * @param entity The PersistentEntity instance
      * @param object The object to bind to
      * @param source The source object
-     *
-     * @see org.grails.datastore.mapping.model.PersistentEntity
-     *
      * @return A BindingResult if there were errors or null if it was successful
+     * @see org.grails.datastore.mapping.model.PersistentEntity
      */
     public static BindingResult bindObjectToDomainInstance(PersistentEntity entity, Object object, Object source) {
         return bindObjectToDomainInstance(entity, object, source, getBindingIncludeList(object), Collections.emptyList(), null);
@@ -156,8 +153,8 @@ public class DataBindingUtils {
      * data binding is imposed on that instance with the DataBindingSource and the instance is added to the end of
      * collectionToPopulate
      *
-     * @param targetType The type of objects to create, must be a concrete class
-     * @param collectionToPopulate A collection to populate with new instances of targetType
+     * @param targetType              The type of objects to create, must be a concrete class
+     * @param collectionToPopulate    A collection to populate with new instances of targetType
      * @param collectionBindingSource A CollectionDataBindingSource
      * @since 2.3
      */
@@ -172,7 +169,7 @@ public class DataBindingUtils {
             }
         }
         final List<DataBindingSource> dataBindingSources = collectionBindingSource.getDataBindingSources();
-        for(final DataBindingSource dataBindingSource : dataBindingSources) {
+        for (final DataBindingSource dataBindingSource : dataBindingSources) {
             final T newObject = targetType.newInstance();
             bindObjectToDomainInstance(entity, newObject, dataBindingSource, getBindingIncludeList(newObject), Collections.emptyList(), null);
             collectionToPopulate.add(newObject);
@@ -188,12 +185,11 @@ public class DataBindingUtils {
     /**
      * Binds the given source object to the given target object performing type conversion if necessary
      *
-     * @param object The object to bind to
-     * @param source The source object
+     * @param object  The object to bind to
+     * @param source  The source object
      * @param include The list of properties to include
      * @param exclude The list of properties to exclude
-     * @param filter The prefix to filter by
-     *
+     * @param filter  The prefix to filter by
      * @return A BindingResult if there were errors or null if it was successful
      */
     public static BindingResult bindObjectToInstance(Object object, Object source, List include, List exclude, String filter) {
@@ -215,16 +211,14 @@ public class DataBindingUtils {
     /**
      * Binds the given source object to the given target object performing type conversion if necessary
      *
-     * @param entity The PersistentEntity instance
-     * @param object The object to bind to
-     * @param source The source object
+     * @param entity  The PersistentEntity instance
+     * @param object  The object to bind to
+     * @param source  The source object
      * @param include The list of properties to include
      * @param exclude The list of properties to exclude
-     * @param filter The prefix to filter by
-     *
-     * @see org.grails.datastore.mapping.model.PersistentEntity
-     *
+     * @param filter  The prefix to filter by
      * @return A BindingResult if there were errors or null if it was successful
+     * @see org.grails.datastore.mapping.model.PersistentEntity
      */
     @SuppressWarnings("unchecked")
     public static BindingResult bindObjectToDomainInstance(PersistentEntity entity, Object object,
@@ -252,56 +246,53 @@ public class DataBindingUtils {
             BindingResult newResult = new ValidationErrors(object);
             for (Object error : bindingResult.getAllErrors()) {
                 if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError)error;
+                    FieldError fieldError = (FieldError) error;
                     final boolean isBlank = BLANK.equals(fieldError.getRejectedValue());
                     if (!isBlank) {
                         newResult.addError(fieldError);
-                    }
-                    else {
+                    } else {
                         PersistentProperty property = entity.getPropertyByName(fieldError.getField());
                         if (property != null) {
                             final boolean isOptional = property.isNullable();
                             if (!isOptional) {
                                 newResult.addError(fieldError);
                             }
-                        }
-                        else {
+                        } else {
                             newResult.addError(fieldError);
                         }
                     }
-                }
-                else {
-                    newResult.addError((ObjectError)error);
+                } else {
+                    newResult.addError((ObjectError) error);
                 }
             }
             bindingResult = newResult;
         }
         MetaClass mc = GroovySystem.getMetaClassRegistry().getMetaClass(object.getClass());
-        if (mc.hasProperty(object, "errors")!=null && bindingResult!=null) {
+        if (mc.hasProperty(object, "errors") != null && bindingResult != null) {
             ValidationErrors errors = new ValidationErrors(object);
             errors.addAllErrors(bindingResult);
-            mc.setProperty(object,"errors", errors);
+            mc.setProperty(object, "errors", errors);
         }
         return bindingResult;
     }
 
     protected static String[] getMessageCodes(String messageCode,
-            Class objectType) {
+                                              Class objectType) {
         String[] codes = {objectType.getName() + "." + messageCode, messageCode};
         return codes;
     }
 
     public static DataBindingSourceRegistry getDataBindingSourceRegistry(GrailsApplication grailsApplication) {
         DataBindingSourceRegistry registry = null;
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
             ApplicationContext context = grailsApplication.getMainContext();
-            if(context != null) {
-                if(context.containsBean(DataBindingSourceRegistry.BEAN_NAME)) {
+            if (context != null) {
+                if (context.containsBean(DataBindingSourceRegistry.BEAN_NAME)) {
                     registry = context.getBean(DataBindingSourceRegistry.BEAN_NAME, DataBindingSourceRegistry.class);
                 }
             }
         }
-        if(registry == null) {
+        if (registry == null) {
             registry = new DefaultDataBindingSourceRegistry();
         }
 
@@ -321,7 +312,7 @@ public class DataBindingUtils {
     }
 
     public static MimeType getMimeType(GrailsApplication grailsApplication,
-            Object bindingSource) {
+                                       Object bindingSource) {
         final MimeTypeResolver mimeTypeResolver = getMimeTypeResolver(grailsApplication);
         return resolveMimeType(bindingSource, mimeTypeResolver);
     }
@@ -329,10 +320,10 @@ public class DataBindingUtils {
     public static MimeTypeResolver getMimeTypeResolver(
             GrailsApplication grailsApplication) {
         MimeTypeResolver mimeTypeResolver = null;
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
             ApplicationContext context = grailsApplication.getMainContext();
-            if(context != null) {
-                if(context.containsBean(MimeTypeResolver.BEAN_NAME)) {
+            if (context != null) {
+                if (context.containsBean(MimeTypeResolver.BEAN_NAME)) {
                     mimeTypeResolver = context.getBean(MimeTypeResolver.BEAN_NAME, MimeTypeResolver.class);
                 }
             }

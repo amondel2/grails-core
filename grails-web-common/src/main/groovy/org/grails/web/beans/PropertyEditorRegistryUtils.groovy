@@ -57,7 +57,7 @@ class PropertyEditorRegistryUtils {
 
         def dateFormat = new SimpleDateFormat(DataBinder.DEFAULT_DATE_FORMAT, locale)
 
-        registry.registerCustomEditor(Date, new CustomDateEditor(dateFormat,true));
+        registry.registerCustomEditor(Date, new CustomDateEditor(dateFormat, true));
         registry.registerCustomEditor(BigDecimal, new CustomNumberEditor(BigDecimal.class, floatFormat, true));
         registry.registerCustomEditor(BigInteger, new CustomNumberEditor(BigInteger.class, floatFormat, true));
         registry.registerCustomEditor(Double, new CustomNumberEditor(Double.class, floatFormat, true));
@@ -70,8 +70,8 @@ class PropertyEditorRegistryUtils {
         registry.registerCustomEditor(int.class, new CustomNumberEditor(Integer.class, integerFormat, true));
         registry.registerCustomEditor(Short, new CustomNumberEditor(Short.class, integerFormat, true));
         registry.registerCustomEditor(short.class, new CustomNumberEditor(Short.class, integerFormat, true));
-        registry.registerCustomEditor(Date, new CompositeEditor(new StructuredDateEditor(dateFormat,true), new CustomDateEditor(new SimpleDateFormat(JSON_DATE_FORMAT), true)));
-        registry.registerCustomEditor(Calendar, new StructuredDateEditor(dateFormat,true));
+        registry.registerCustomEditor(Date, new CompositeEditor(new StructuredDateEditor(dateFormat, true), new CustomDateEditor(new SimpleDateFormat(JSON_DATE_FORMAT), true)));
+        registry.registerCustomEditor(Calendar, new StructuredDateEditor(dateFormat, true));
 
         ServletContext servletContext = grailsWebRequest != null ? grailsWebRequest.getServletContext() : null;
         registerCustomEditorsFromContext(servletContext, registry);
@@ -94,7 +94,7 @@ class PropertyEditorRegistryUtils {
             return;
         }
 
-        Map<String, PropertyEditorRegistrar> editors = (Map<String, PropertyEditorRegistrar>)servletContext.getAttribute(PROPERTY_EDITOR_REGISTRARS);
+        Map<String, PropertyEditorRegistrar> editors = (Map<String, PropertyEditorRegistrar>) servletContext.getAttribute(PROPERTY_EDITOR_REGISTRARS);
         if (editors == null) {
             editors = context.getBeansOfType(PropertyEditorRegistrar.class);
             if (!Environment.isDevelopmentMode()) {

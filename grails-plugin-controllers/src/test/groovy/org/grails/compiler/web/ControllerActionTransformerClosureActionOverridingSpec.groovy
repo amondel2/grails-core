@@ -44,14 +44,14 @@ class ControllerActionTransformerClosureActionOverridingSpec extends Specificati
 
     void 'Test overriding closure actions in subclass'() {
         given:
-            GrailsWebMockUtil.bindMockWebRequest()
-            def subclassController = subclassControllerClass.newInstance()
+        GrailsWebMockUtil.bindMockWebRequest()
+        def subclassController = subclassControllerClass.newInstance()
 
         when:
-            def model = subclassController.index()
+        def model = subclassController.index()
 
         then:
-            'Subclass Controller' == model.name
+        'Subclass Controller' == model.name
     }
 
     def cleanupSpec() {

@@ -47,18 +47,21 @@ class EnvironmentBlockEvaluator extends GroovyObjectSupport {
             c.call();
         }
     }
+
     @SuppressWarnings("unused")
     void production(Closure<?> c) {
         if (current == Environment.PRODUCTION) {
             callable = c;
         }
     }
+
     @SuppressWarnings("unused")
     void development(Closure<?> c) {
         if (current == Environment.DEVELOPMENT) {
             callable = c;
         }
     }
+
     @SuppressWarnings("unused")
     void test(Closure<?> c) {
         if (current == Environment.TEST) {
@@ -67,7 +70,7 @@ class EnvironmentBlockEvaluator extends GroovyObjectSupport {
     }
 
     Object methodMissing(String name, Object args) {
-        Object[] argsArray = (Object[])args;
+        Object[] argsArray = (Object[]) args;
         if (args != null && argsArray.length > 0 && (argsArray[0] instanceof Closure)) {
             if (current == Environment.CUSTOM && current.getName().equals(name)) {
                 callable = (Closure<?>) argsArray[0];

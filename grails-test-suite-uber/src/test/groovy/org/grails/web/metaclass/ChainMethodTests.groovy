@@ -25,7 +25,7 @@ class ChainMethodTests extends Specification implements ControllerUnitTest<TestC
 
         then:
         flash.chainModel.book
-        flash.chainModel[GrailsFlashScope.ERRORS_PREFIX+id]
+        flash.chainModel[GrailsFlashScope.ERRORS_PREFIX + id]
         response.redirectedUrl == '/testChain/create'
     }
 
@@ -45,10 +45,9 @@ class TestChainController {
         def book = new TestChainBook(params)
         if (!book.hasErrors() && book.save()) {
             flash.message = "Book ${book.id} created"
-            redirect(action:"show",id:book.id)
-        }
-        else {
-            chain(action:'create',model:[book:book])
+            redirect(action: "show", id: book.id)
+        } else {
+            chain(action: 'create', model: [book: book])
         }
     }
 

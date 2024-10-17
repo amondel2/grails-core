@@ -43,15 +43,15 @@ class UrlMappingUtilsSpec extends Specification {
 
     void "test includeForUrlMappingInfo when linkGenerator is passed in"() {
         given:
-            final String retUrl = '/testAction'
-            final UrlMappingInfo info = new ForwardUrlMappingInfo(controllerName: 'testController', actionName: 'testAction')
-            final Map model = [:]
+        final String retUrl = '/testAction'
+        final UrlMappingInfo info = new ForwardUrlMappingInfo(controllerName: 'testController', actionName: 'testAction')
+        final Map model = [:]
 
         when:
-            final IncludedContent includedContent = UrlMappingUtils.includeForUrlMappingInfo(request, response, info, model, linkGenerator)
+        final IncludedContent includedContent = UrlMappingUtils.includeForUrlMappingInfo(request, response, info, model, linkGenerator)
         then:
-            1 * linkGenerator.link(_ as Map) >> { Map m -> return retUrl }
+        1 * linkGenerator.link(_ as Map) >> { Map m -> return retUrl }
         and:
-            includedContent
+        includedContent
     }
 }

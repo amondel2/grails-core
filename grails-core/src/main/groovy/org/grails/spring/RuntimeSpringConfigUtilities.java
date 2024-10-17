@@ -29,8 +29,8 @@ import org.springframework.util.ClassUtils;
 import org.grails.spring.RuntimeSpringConfiguration;
 
 /**
- * @since 2.4
  * @author Graeme Rocher
+ * @since 2.4
  */
 public class RuntimeSpringConfigUtilities {
 
@@ -64,6 +64,7 @@ public class RuntimeSpringConfigUtilities {
 
     /**
      * Loads any external Spring configuration into the given RuntimeSpringConfiguration object.
+     *
      * @param config The config instance
      */
     public static void loadExternalSpringConfig(RuntimeSpringConfiguration config, final GrailsApplication application) {
@@ -72,20 +73,17 @@ public class RuntimeSpringConfigUtilities {
                 Class<?> groovySpringResourcesClass = null;
                 try {
                     groovySpringResourcesClass = ClassUtils.forName(SPRING_RESOURCES_CLASS,
-                        application.getClassLoader());
-                }
-                catch (ClassNotFoundException e) {
+                            application.getClassLoader());
+                } catch (ClassNotFoundException e) {
                     // ignore
                 }
                 if (groovySpringResourcesClass != null) {
                     reloadSpringResourcesConfig(config, application, groovySpringResourcesClass);
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LOG.error("[RuntimeConfiguration] Unable to load beans from resources.groovy", ex);
             }
-        }
-        else {
+        } else {
             if (!springGroovyResourcesBeanBuilder.getSpringConfig().equals(config)) {
                 springGroovyResourcesBeanBuilder.registerBeans(config);
             }
@@ -93,14 +91,14 @@ public class RuntimeSpringConfigUtilities {
     }
 
     public static BeanBuilder reloadSpringResourcesConfig(RuntimeSpringConfiguration config, GrailsApplication application, Class<?> groovySpringResourcesClass) throws InstantiationException, IllegalAccessException {
-        springGroovyResourcesBeanBuilder = new BeanBuilder(null, config,Thread.currentThread().getContextClassLoader());
+        springGroovyResourcesBeanBuilder = new BeanBuilder(null, config, Thread.currentThread().getContextClassLoader());
         springGroovyResourcesBeanBuilder.setBinding(new Binding(CollectionUtils.newMap(
-            "application", application,
-            "grailsApplication", application))); // GRAILS-7550
+                "application", application,
+                "grailsApplication", application))); // GRAILS-7550
         Script script = (Script) groovySpringResourcesClass.newInstance();
         script.run();
         Object beans = script.getProperty("beans");
-        springGroovyResourcesBeanBuilder.beans((Closure<?>)beans);
+        springGroovyResourcesBeanBuilder.beans((Closure<?>) beans);
         return springGroovyResourcesBeanBuilder;
     }
 

@@ -18,100 +18,100 @@ class CodecSpec extends Specification implements GrailsWebUnitTest {
 
     void "safe codec should allow applying unsafe codecs"() {
         expect:
-            '"<script>"'.encodeAsJavaScript() == '\\u0022\\u003cscript\\u003e\\u0022'
-            '"<script>"'.encodeAsJavaScript().encodeAsURL() == '%5Cu0022%5Cu003cscript%5Cu003e%5Cu0022'
+        '"<script>"'.encodeAsJavaScript() == '\\u0022\\u003cscript\\u003e\\u0022'
+        '"<script>"'.encodeAsJavaScript().encodeAsURL() == '%5Cu0022%5Cu003cscript%5Cu003e%5Cu0022'
     }
 
     void "javascript codec should escape any safe codec"() {
         expect:
-            '"<script>"'.encodeAsHTML() == '&quot;&lt;script&gt;&quot;'
-            '"<script>"'.encodeAsHTML().encodeAsJavaScript() == '\\u0026quot\\u003b\\u0026lt\\u003bscript\\u0026gt\\u003b\\u0026quot\\u003b'
+        '"<script>"'.encodeAsHTML() == '&quot;&lt;script&gt;&quot;'
+        '"<script>"'.encodeAsHTML().encodeAsJavaScript() == '\\u0026quot\\u003b\\u0026lt\\u003bscript\\u0026gt\\u003b\\u0026quot\\u003b'
     }
 
     void "html codec should not escape a safe codec"() {
         expect:
-            '"<script>"'.encodeAsJavaScript() == '\\u0022\\u003cscript\\u003e\\u0022'
-            '"<script>"'.encodeAsJavaScript().encodeAsHTML() == '"<script>"'.encodeAsJavaScript()
+        '"<script>"'.encodeAsJavaScript() == '\\u0022\\u003cscript\\u003e\\u0022'
+        '"<script>"'.encodeAsJavaScript().encodeAsHTML() == '"<script>"'.encodeAsJavaScript()
     }
-    
+
     @Issue("GRAILS-10980")
     void "JSON codec behaviour like in Grails versions pre 2.3.x"() {
         given:
-            mockCodec(JSONCodec)
+        mockCodec(JSONCodec)
         when:
-            String x=null
+        String x = null
         then:
-            [a: 1, b: 2, c: 3].encodeAsJSON().toString() == '{"a":1,"b":2,"c":3}'
-            x.encodeAsJSON() == null
-            1.encodeAsJSON() == '1' // convert primitives to string
-            true.encodeAsJSON() == 'true'
+        [a: 1, b: 2, c: 3].encodeAsJSON().toString() == '{"a":1,"b":2,"c":3}'
+        x.encodeAsJSON() == null
+        1.encodeAsJSON() == '1' // convert primitives to string
+        true.encodeAsJSON() == 'true'
     }
 
     @Issue("GRAILS-10980")
     void "XML codec behaviour like in Grails versions pre 2.3.x"() {
         given:
-            mockCodec(XMLCodec)
+        mockCodec(XMLCodec)
         when:
-            String x=null
+        String x = null
         then:
-            [a: 1, b: 2, c: 3].encodeAsXML().toString() == '<?xml version="1.0" encoding="UTF-8"?><map><entry key="a">1</entry><entry key="b">2</entry><entry key="c">3</entry></map>'
-            x.encodeAsXML() == null
-            1.encodeAsXML() == '1' // convert primitives to string
-            true.encodeAsXML() == 'true'
+        [a: 1, b: 2, c: 3].encodeAsXML().toString() == '<?xml version="1.0" encoding="UTF-8"?><map><entry key="a">1</entry><entry key="b">2</entry><entry key="c">3</entry></map>'
+        x.encodeAsXML() == null
+        1.encodeAsXML() == '1' // convert primitives to string
+        true.encodeAsXML() == 'true'
     }
-    
+
     @Issue("GRAILS-11493")
     void "should XML object support encodeAsXML method and return itself"() {
         given:
-            def xml = [a: 1, b: 2, c: 3].encodeAsXML()
+        def xml = [a: 1, b: 2, c: 3].encodeAsXML()
         expect:
-            xml instanceof XML
+        xml instanceof XML
         when:
-            def result = xml.encodeAsXML()
+        def result = xml.encodeAsXML()
         then:
-            result == xml
-    }  
+        result == xml
+    }
 
     void "Test that the raw method works in GSP"() {
-        when:"The raw method is called for a GSP expression"
-            def content = applyTemplate('${foo}${raw(bar)}', [foo:'"<script>"', bar:'<script>'])
-        then:"The content it output is raw form"
-            content == '&quot;&lt;script&gt;&quot;<script>'
+        when: "The raw method is called for a GSP expression"
+        def content = applyTemplate('${foo}${raw(bar)}', [foo: '"<script>"', bar: '<script>'])
+        then: "The content it output is raw form"
+        content == '&quot;&lt;script&gt;&quot;<script>'
     }
-    
+
     @Issue("GRAILS-11078")
     void "encodeAsHTML should not call the equals method of the object"() {
         given:
-            def sample=new MySample()
+        def sample = new MySample()
         when:
-            def result=sample.encodeAsHTML()
+        def result = sample.encodeAsHTML()
         then:
-            result == 'Hello'
+        result == 'Hello'
     }
-    
+
     private static class MySample {
         @Override
         public String toString() {
             return 'Hello';
         }
-        
+
         @Override
         public boolean equals(Object obj) {
             throw new RuntimeException("equals shouldn't be called")
         }
-        }
-    
+    }
+
     @Issue("GRAILS-11361")
     void "JSON converter should not use encoding state"() {
         given:
-            def buffer=new StreamCharBuffer()
-            buffer.writer.write('"Hello world"')
-            def content=buffer.encodeAsRaw()
+        def buffer = new StreamCharBuffer()
+        buffer.writer.write('"Hello world"')
+        def content = buffer.encodeAsRaw()
         when:
-            def json = [content: content] as JSON
+        def json = [content: content] as JSON
         then:
-            json.toString() == '{"content":"\\"Hello world\\""}'
-    } 
+        json.toString() == '{"content":"\\"Hello world\\""}'
+    }
 
 //    void "output should be safe at the end"() {
 //    }

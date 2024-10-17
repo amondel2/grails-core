@@ -26,39 +26,39 @@ class GrailsArrayUtilsSpec extends Specification {
 
     void 'Test contains(Object[], Object) method'() {
         expect:
-            GrailsArrayUtils.contains(['one', 'two'] as String[], "one")
-            GrailsArrayUtils.contains(['one', 'two'] as String[], "two")
-            !GrailsArrayUtils.contains(['one', 'two'] as String[], "three")
-            !GrailsArrayUtils.contains(null, "one")
-            !GrailsArrayUtils.contains([] as String[], "one")
+        GrailsArrayUtils.contains(['one', 'two'] as String[], "one")
+        GrailsArrayUtils.contains(['one', 'two'] as String[], "two")
+        !GrailsArrayUtils.contains(['one', 'two'] as String[], "three")
+        !GrailsArrayUtils.contains(null, "one")
+        !GrailsArrayUtils.contains([] as String[], "one")
     }
-    
+
     void "Test toString() method"() {
         expect:
-            GrailsArrayUtils.toString([1,2,3] as int[]) == '{1, 2, 3}'
+        GrailsArrayUtils.toString([1, 2, 3] as int[]) == '{1, 2, 3}'
     }
 
     void "Test add*() methods"() {
         given:
-            int[] a = [1,2,3]
+        int[] a = [1, 2, 3]
         expect:
-            GrailsArrayUtils.add(a, 1, 4) == [1,4,2,3] as int[]
-            GrailsArrayUtils.add(a, 0, 4) == [4,1,2,3] as int[]
-            GrailsArrayUtils.add(a, 3, 4) == [1,2,3,4] as int[]
-            GrailsArrayUtils.addToEnd(a, 4) == [1,2,3,4] as int[]
-            GrailsArrayUtils.addToStart(a, 4) == [4,1,2,3] as int[]
-            GrailsArrayUtils.addAll(a, [4,5] as int[]) == [1,2,3,4,5] as int[]
+        GrailsArrayUtils.add(a, 1, 4) == [1, 4, 2, 3] as int[]
+        GrailsArrayUtils.add(a, 0, 4) == [4, 1, 2, 3] as int[]
+        GrailsArrayUtils.add(a, 3, 4) == [1, 2, 3, 4] as int[]
+        GrailsArrayUtils.addToEnd(a, 4) == [1, 2, 3, 4] as int[]
+        GrailsArrayUtils.addToStart(a, 4) == [4, 1, 2, 3] as int[]
+        GrailsArrayUtils.addAll(a, [4, 5] as int[]) == [1, 2, 3, 4, 5] as int[]
     }
 
     void "Test subarray method"() {
         given:
-            int[] a = [1,2,3,4,5,6]
+        int[] a = [1, 2, 3, 4, 5, 6]
         expect:
-            GrailsArrayUtils.subarray(a, -1,4) == [1,2,3,4] as int[]
-            GrailsArrayUtils.subarray(a, 2,4) == [3,4] as int[]
-            GrailsArrayUtils.subarray(a, 0,3) == [1,2,3] as int[]
-            GrailsArrayUtils.subarray(a, 3,5) == [4,5] as int[]
-            GrailsArrayUtils.subarray(a, 3,10) == [4,5,6] as int[]
+        GrailsArrayUtils.subarray(a, -1, 4) == [1, 2, 3, 4] as int[]
+        GrailsArrayUtils.subarray(a, 2, 4) == [3, 4] as int[]
+        GrailsArrayUtils.subarray(a, 0, 3) == [1, 2, 3] as int[]
+        GrailsArrayUtils.subarray(a, 3, 5) == [4, 5] as int[]
+        GrailsArrayUtils.subarray(a, 3, 10) == [4, 5, 6] as int[]
     }
 }
 

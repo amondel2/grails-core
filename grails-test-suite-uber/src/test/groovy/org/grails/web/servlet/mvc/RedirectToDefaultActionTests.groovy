@@ -39,7 +39,7 @@ class PortalController {
 
     static defaultAction = 'content'
 
-    def content = { redirect(controller:'repository') }
+    def content = { redirect(controller: 'repository') }
 }
 
 @Artefact('Controller')

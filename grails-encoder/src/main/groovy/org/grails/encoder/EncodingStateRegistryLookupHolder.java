@@ -30,7 +30,7 @@ public class EncodingStateRegistryLookupHolder {
     public static EncodingStateRegistryLookup getEncodingStateRegistryLookup() {
         return holder.get();
     }
-    
+
     public static void clear() {
         holder.set(null);
     }

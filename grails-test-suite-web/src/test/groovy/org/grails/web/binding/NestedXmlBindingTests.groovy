@@ -101,7 +101,7 @@ class NestedXmlBindingTests extends Specification implements ControllerUnitTest<
 <bar id="1" />
 </foo>
 '''
-        new Bar().save(flush:true)
+        new Bar().save(flush: true)
         def result = controller.bindToOne()
 
         then:
@@ -145,7 +145,7 @@ class NestedXmlController {
     def bindToOne() {
         def fooInstance = new Foo()
         fooInstance.properties = request
-        return  fooInstance
+        return fooInstance
     }
 }
 
@@ -154,7 +154,7 @@ class Person {
     String name
     Location location
     List<Location> locations = []
-    static hasMany = [locations:Location]
+    static hasMany = [locations: Location]
 }
 
 @Entity

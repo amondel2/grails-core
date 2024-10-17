@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import jline.console.completer.Completer
 
 
-
 /**
  * @author Graeme Rocher
  * @since 3.0
@@ -34,7 +33,7 @@ class ClosureCompleter implements Completer {
     }
 
     Completer getCompleter() {
-        if(completer == null) {
+        if (completer == null) {
             completer = new jline.console.completer.StringsCompleter(closure.call())
         }
         completer

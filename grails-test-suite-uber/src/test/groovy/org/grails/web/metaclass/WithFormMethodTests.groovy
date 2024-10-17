@@ -60,7 +60,7 @@ class WithFormMethodTests {
     @Test
     void testTokenHolderEmpty() {
 
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,new SynchronizerTokensHolder())
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, new SynchronizerTokensHolder())
 
         assertThrows(GrailsRuntimeException) {
             withForm.withForm(request) {
@@ -75,10 +75,10 @@ class WithFormMethodTests {
     void testTokenInvalidWithEmptyTokenHolder() {
         def url = "http://grails.org/submit"
 
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,new SynchronizerTokensHolder())
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, new SynchronizerTokensHolder())
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,UUID.randomUUID().toString())
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, UUID.randomUUID().toString())
 
         assertThrows(GrailsRuntimeException) {
             withForm.withForm(request) {
@@ -95,10 +95,10 @@ class WithFormMethodTests {
 
         SynchronizerTokensHolder tokensHolder = new SynchronizerTokensHolder()
         tokensHolder.generateToken(url)
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,UUID.randomUUID().toString())
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, UUID.randomUUID().toString())
 
         assertThrows(GrailsRuntimeException) {
             withForm.withForm(request) {
@@ -115,13 +115,13 @@ class WithFormMethodTests {
 
         SynchronizerTokensHolder tokensHolder = new SynchronizerTokensHolder()
         def token = tokensHolder.generateToken(url)
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token)
 
         def result = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -138,13 +138,13 @@ class WithFormMethodTests {
         def token1 = tokensHolder.generateToken(url1)
         def token2 = tokensHolder.generateToken(url2)
 
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url1)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token1)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url1)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token1)
 
         def result = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -160,13 +160,13 @@ class WithFormMethodTests {
 
         SynchronizerTokensHolder tokensHolder = new SynchronizerTokensHolder()
         def token = tokensHolder.generateToken(url)
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token)
 
         def result = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -180,13 +180,13 @@ class WithFormMethodTests {
 
         SynchronizerTokensHolder tokensHolder = new SynchronizerTokensHolder()
         def token = tokensHolder.generateToken(url)
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
 
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token)
 
         def result = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -211,12 +211,12 @@ class WithFormMethodTests {
         def token1 = tokensHolder.generateToken(url1)
         def token2 = tokensHolder.generateToken(url2)
 
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url1)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token1)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url1)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token1)
 
         def result1 = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -224,12 +224,12 @@ class WithFormMethodTests {
         assertEquals "bar", result1.foo
 
         def request2 = GrailsWebMockUtil.bindMockWebRequest()
-        request2.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
-        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url2)
-        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token2)
+        request2.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
+        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url2)
+        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token2)
 
         def result2 = withForm.withForm(request2) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -246,12 +246,12 @@ class WithFormMethodTests {
         def token1 = tokensHolder.generateToken(url1)
         def token2 = tokensHolder.generateToken(url2)
 
-        request.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url1)
-        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token1)
+        request.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url1)
+        request.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token1)
 
         def result1 = withForm.withForm(request) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -259,12 +259,12 @@ class WithFormMethodTests {
         assertEquals "bar", result1.foo
 
         def request2 = GrailsWebMockUtil.bindMockWebRequest()
-        request2.session.setAttribute(SynchronizerTokensHolder.HOLDER,tokensHolder)
-        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI,url2)
-        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY,token2)
+        request2.session.setAttribute(SynchronizerTokensHolder.HOLDER, tokensHolder)
+        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_URI, url2)
+        request2.currentRequest.addParameter(SynchronizerTokensHolder.TOKEN_KEY, token2)
 
         def result2 = withForm.withForm(request2) {
-            return [foo:"bar"]
+            return [foo: "bar"]
         }.invalidToken {
             throw new GrailsRuntimeException("invalid token")
         }
@@ -273,7 +273,7 @@ class WithFormMethodTests {
 
         assertThrows(GrailsRuntimeException) {
             withForm.withForm(request2) {
-                return [foo:"bar"]
+                return [foo: "bar"]
             }.invalidToken {
                 throw new GrailsRuntimeException("invalid token")
             }

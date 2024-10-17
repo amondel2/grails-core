@@ -15,8 +15,8 @@ class MD5CodecTests {
         def primitiveResult = [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33].encodeAsMD5()
         def toStringResult = 'Hello World!'.encodeAsMD5()
 
-        assertEquals(expectedResult,primitiveResult)
-        assertEquals(expectedResult,toStringResult)
+        assertEquals(expectedResult, primitiveResult)
+        assertEquals(expectedResult, toStringResult)
 
         //make sure encoding null returns null
         assertNull null.encodeAsMD5()
@@ -25,7 +25,7 @@ class MD5CodecTests {
     @Test
     void testDecode() {
         assertThrows(UnsupportedOperationException, {
-            [1,2,3,4,5].decodeMD5()
+            [1, 2, 3, 4, 5].decodeMD5()
         })
     }
 }

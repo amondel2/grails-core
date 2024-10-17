@@ -18,10 +18,10 @@ package org.grails.web.servlet
 import jakarta.servlet.http.HttpServletResponse
 
 /**
- * 
+ *
  * @author Jeff Brown
  * @since 3.0
- * 
+ *
  */
 class HttpServletResponseExtension {
     static leftShift(HttpServletResponse response, arg) {

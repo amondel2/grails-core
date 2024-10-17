@@ -49,7 +49,7 @@ class ResponseCodeUrlMappingTests extends Specification implements UrlMappingsUn
         then:
         info
         "errors" == info.getControllerName()
-        "error500" ==  info.getActionName()
+        "error500" == info.getActionName()
     }
 
     void testMissingForwardMapping() {
@@ -69,13 +69,13 @@ class ResponseCodeUrlMappingTests extends Specification implements UrlMappingsUn
 
     static class UrlMappings {
         static mappings = {
-            "404"{
+            "404" {
                 controller = "errors"
                 action = "error404"
             }
 
-            "500"(controller:"errors", action:"custom", exception:IllegalArgumentException)
-            "500"(controller:"errors", action:"error500")
+            "500"(controller: "errors", action: "custom", exception: IllegalArgumentException)
+            "500"(controller: "errors", action: "error500")
         }
     }
 }

@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-
 /**
  * @author Graeme Rocher
  */
@@ -36,7 +35,7 @@ class GradleAsyncInvoker {
         Runtime.addShutdownHook {
             try {
                 Thread.start {
-                    if(!POOL.isTerminated()) {
+                    if (!POOL.isTerminated()) {
                         POOL.shutdownNow()
                     }
                 }.join(1000)

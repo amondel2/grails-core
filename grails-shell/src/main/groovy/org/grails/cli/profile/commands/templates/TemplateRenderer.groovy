@@ -20,7 +20,6 @@ import groovy.transform.CompileDynamic
 import org.grails.io.support.Resource
 
 
-
 /**
  * API for locating and rendering templates in the code generation layer
  *
@@ -52,7 +51,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(CharSequence template, File destination )
+    void render(CharSequence template, File destination)
 
     /**
      * Render the given template to the given destination
@@ -61,7 +60,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(CharSequence template, File destination, Map model )
+    void render(CharSequence template, File destination, Map model)
     /**
      * Render the given template to the given destination
      *
@@ -96,7 +95,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(File template, File destination, Map model )
+    void render(File template, File destination, Map model)
 
     /**
      * Render the given template to the given destination
@@ -105,7 +104,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(File template, File destination, Map model , boolean overwrite)
+    void render(File template, File destination, Map model, boolean overwrite)
 
     /**
      * Render the given template to the give destination for the given model

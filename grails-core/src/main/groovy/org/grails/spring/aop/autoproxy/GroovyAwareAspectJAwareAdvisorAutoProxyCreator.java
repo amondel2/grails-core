@@ -31,7 +31,6 @@ import java.util.List;
 public class GroovyAwareAspectJAwareAdvisorAutoProxyCreator extends AnnotationAwareAspectJAutoProxyCreator {
 
 
-
     private static final long serialVersionUID = 1;
 
     @Override

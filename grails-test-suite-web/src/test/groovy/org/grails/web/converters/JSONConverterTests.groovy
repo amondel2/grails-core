@@ -58,8 +58,8 @@ class JSONConverterTests extends Specification implements ControllerUnitTest<JSO
         obj.title = "The Stand"
         obj.author = "Stephen King"
 
-        def hibernateInitializer = [getImplementation:{obj}] as LazyInitializer
-        def proxy = [getHibernateLazyInitializer:{hibernateInitializer}] as HibernateProxy
+        def hibernateInitializer = [getImplementation: { obj }] as LazyInitializer
+        def proxy = [getHibernateLazyInitializer: { hibernateInitializer }] as HibernateProxy
 
         when:
         params.b = proxy
@@ -125,7 +125,7 @@ class JSONConverterTests extends Specification implements ControllerUnitTest<JSO
     void testJsonMultilineSerialization() {
         when:
         String multiLine = "first line \n second line"
-        def object = [ line: multiLine ]
+        def object = [line: multiLine]
         def result = object as JSON
 
         then:
@@ -136,7 +136,7 @@ class JSONConverterTests extends Specification implements ControllerUnitTest<JSO
     void testMoreStringsWithQuotes() {
         when:
         def str = 'Hi, this is my "test"'
-        def json = new grails.converters.JSON([a:str])
+        def json = new grails.converters.JSON([a: str])
 
         then:
         json.toString() == '{"a":"Hi, this is my \\"test\\""}'
@@ -155,17 +155,19 @@ class JSONConverterTests extends Specification implements ControllerUnitTest<JSO
     }
 }
 
-enum Role { HEAD, DISPATCHER, ADMIN }
+enum Role {
+    HEAD, DISPATCHER, ADMIN
+}
 
 @Artefact("Controller")
 class JSONConverterController {
     def test = {
-       def b = new Book(title:'The Stand', author:'Stephen King')
-       render b as JSON
+        def b = new Book(title: 'The Stand', author: 'Stephen King')
+        render b as JSON
     }
 
     def testProxy = {
-       render params.b as JSON
+        render params.b as JSON
     }
 
     def testErrors = {
@@ -174,23 +176,23 @@ class JSONConverterController {
         render b.errors as JSON
     }
 
-   def testEnum = {
-       render params.e as JSON
-   }
+    def testEnum = {
+        render params.e as JSON
+    }
 
     def testNullValues = {
         def descriptors = [:]
-        descriptors.put(null,null)
+        descriptors.put(null, null)
         render descriptors as JSON
     }
 }
 
 @Entity
 class Book {
-   Long id
-   Long version
-   String title
-   String author
+    Long id
+    Long version
+    String title
+    String author
 }
 
 class CustomCharSequence implements CharSequence {

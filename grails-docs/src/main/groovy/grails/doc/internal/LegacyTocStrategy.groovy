@@ -5,11 +5,11 @@ class LegacyTocStrategy {
         // Compares two gdoc filenames based on the section number in the
         // form x.y.z...
         def sectionNumberComparator = [
-                compare: {o1, o2 ->
+                compare: { o1, o2 ->
                     def idx1 = o1.name[0..o1.name.indexOf(' ') - 1]
                     def idx2 = o2.name[0..o2.name.indexOf(' ') - 1]
-                    def nums1 = idx1.split(/\./).findAll { it.trim() != ''}*.toInteger()
-                    def nums2 = idx2.split(/\./).findAll { it.trim() != ''}*.toInteger()
+                    def nums1 = idx1.split(/\./).findAll { it.trim() != '' }*.toInteger()
+                    def nums2 = idx2.split(/\./).findAll { it.trim() != '' }*.toInteger()
                     // pad out with zeros to ensure accurate comparison
                     while (nums1.size() < nums2.size()) {
                         nums1 << 0
@@ -24,11 +24,11 @@ class LegacyTocStrategy {
                     }
                     result
                 },
-                equals: { false }] as Comparator
+                equals : { false }] as Comparator
 
         // Search the given directory for all gdoc files and order them based
         // on their section numbers.
-        if(files) {
+        if (files) {
             Collections.sort files, sectionNumberComparator
         } else {
             files = []

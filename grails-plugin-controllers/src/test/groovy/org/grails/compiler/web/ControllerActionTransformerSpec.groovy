@@ -43,7 +43,7 @@ class ControllerActionTransformerSpec extends Specification {
     void "Test that a closure action has changed to method"() {
 
         when:
-            def cls = gcl.parseClass('''
+        def cls = gcl.parseClass('''
             @grails.artefact.Artefact('Controller')
             class TestTransformedToController {
 
@@ -52,14 +52,14 @@ class ControllerActionTransformerSpec extends Specification {
 
                 }
             ''')
-            def controller = cls.newInstance()
+        def controller = cls.newInstance()
 
         then:
-          controller
-          controller.getClass().getMethod("action", [] as Class[]) != null
+        controller
+        controller.getClass().getMethod("action", [] as Class[]) != null
 
         and: 'its not marked as Generated'
-            controller.getClass().getMethod("action", [] as Class[]).isAnnotationPresent(Generated)
+        controller.getClass().getMethod("action", [] as Class[]).isAnnotationPresent(Generated)
     }
 
     void 'Test that user applied annotations are applied to generated action methods'() {
@@ -95,7 +95,7 @@ class ControllerActionTransformerSpec extends Specification {
         action2NoArgMethod.getAnnotation(Action)
         action2NoArgMethod.getAnnotation(Deprecated)
     }
-    
+
     void 'Test that a controller may have an abstract method - GRAILS-10509'() {
         given:
         def controllerClass = gcl.parseClass('''
@@ -107,20 +107,20 @@ class ControllerActionTransformerSpec extends Specification {
 ''')
         when:
         def method = controllerClass.getMethod('someAbstractMethod')
-        
+
         then:
         Modifier.isAbstract(method.modifiers)
-        
+
         when:
         method = controllerClass.getMethod('someAction')
-        
+
         then:
         !Modifier.isAbstract(method.modifiers)
     }
 
     void 'Test action overiding'() {
         given:
-            def superControllerClass = gcl.parseClass('''
+        def superControllerClass = gcl.parseClass('''
             @grails.artefact.Artefact('Controller')
             class SuperController {
                 def methodAction() {
@@ -131,8 +131,8 @@ class ControllerActionTransformerSpec extends Specification {
                 }
             }
 ''')
-            def superController = superControllerClass.newInstance()
-            def subControllerClass = gcl.parseClass('''
+        def superController = superControllerClass.newInstance()
+        def subControllerClass = gcl.parseClass('''
             class SubController extends SuperController {
                 def methodAction() {
                     [ actionInvoked: 'SubController.methodAction' ]
@@ -142,40 +142,40 @@ class ControllerActionTransformerSpec extends Specification {
                 }
             }
 ''')
-            def subController = subControllerClass.newInstance()
+        def subController = subControllerClass.newInstance()
 
         when:
-            def model = superController.methodAction()
+        def model = superController.methodAction()
 
         then:
-            'SuperController.methodAction' == model.actionInvoked
+        'SuperController.methodAction' == model.actionInvoked
 
         when:
-            superController.params.s = 'Super Controller Param'
-            model = superController.methodActionWithParam()
+        superController.params.s = 'Super Controller Param'
+        model = superController.methodActionWithParam()
 
         then:
-            'Super Controller Param' == model.paramValue
+        'Super Controller Param' == model.paramValue
 
         when:
-            model = subController.methodAction()
+        model = subController.methodAction()
 
         then:
-            'SubController.methodAction' == model.actionInvoked
+        'SubController.methodAction' == model.actionInvoked
 
         when:
-            subController.params.s = 'Super Controller Param'
-            model = subController.methodActionWithParam()
+        subController.params.s = 'Super Controller Param'
+        model = subController.methodActionWithParam()
 
         then:
-            null == model.paramValue
+        null == model.paramValue
 
         when:
-            subController.params.i = 42
-            model = subController.methodActionWithParam()
+        subController.params.i = 42
+        model = subController.methodActionWithParam()
 
         then:
-            42 == model.paramValue
+        42 == model.paramValue
     }
 
 

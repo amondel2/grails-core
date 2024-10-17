@@ -8,11 +8,12 @@ import java.util.List;
 
 /**
  * Backend for {@link DirectoryWatcher}
+ *
  * @author Craig Andrews
- * @since 2.4
  * @see WatchServiceDirectoryWatcher
  * @see PollingDirectoryWatcher
  * @see DirectoryWatcher
+ * @since 2.4
  */
 abstract class AbstractDirectoryWatcher implements Runnable {
     private List<DirectoryWatcher.FileChangeListener> listeners = new ArrayList<DirectoryWatcher.FileChangeListener>();
@@ -25,7 +26,7 @@ abstract class AbstractDirectoryWatcher implements Runnable {
      * @param active False if you want to stop watching
      */
     public void setActive(boolean active) {
-    	this.active = active;
+        this.active = active;
     }
 
     /**
@@ -66,7 +67,7 @@ abstract class AbstractDirectoryWatcher implements Runnable {
      * Adds a directory to watch for the given file and extensions.
      * No String in the fileExtensions list can start with a dot (DirectoryWatcher guarantees that)
      *
-     * @param dir The directory
+     * @param dir            The directory
      * @param fileExtensions The extensions
      */
     public abstract void addWatchDirectory(File dir, List<String> fileExtensions);
@@ -83,8 +84,8 @@ abstract class AbstractDirectoryWatcher implements Runnable {
         }
     }
 
-    protected boolean isValidDirectoryToMonitor(File file){
-    	return file.isDirectory() && ! file.isHidden() && !file.getName().startsWith(".");
+    protected boolean isValidDirectoryToMonitor(File file) {
+        return file.isDirectory() && !file.isHidden() && !file.getName().startsWith(".");
     }
 
     protected boolean isValidFileToMonitor(File file, Collection<String> fileExtensions) {
@@ -92,7 +93,7 @@ abstract class AbstractDirectoryWatcher implements Runnable {
         String path = file.getAbsolutePath();
         boolean isSvnFile = path.indexOf(File.separator + DirectoryWatcher.SVN_DIR_NAME + File.separator) > 0;
         return !isSvnFile &&
-        		!file.isDirectory() &&
+                !file.isDirectory() &&
                 !file.isHidden() &&
                 !file.getName().startsWith(".") &&
                 (fileExtensions.contains("*") || fileExtensions.contains(getFilenameExtension(name)));
@@ -101,6 +102,7 @@ abstract class AbstractDirectoryWatcher implements Runnable {
     /**
      * Extract the filename extension from the given path,
      * e.g. "mypath/myfile.txt" -> "txt".
+     *
      * @param path the file path (may be {@code null})
      * @return the extracted filename extension, or {@code null} if none
      */

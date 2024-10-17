@@ -34,50 +34,51 @@ class JsonRendererSpec extends Specification {
     }
 
     void "Test including properties with JsonRenderer via RenderContext"() {
-        given:"A new JsonRenderer instance is created that excludes properties"
-            def renderer = new JsonRenderer(Album)
-            renderer.registerCustomConverter()
+        given: "A new JsonRenderer instance is created that excludes properties"
+        def renderer = new JsonRenderer(Album)
+        renderer.registerCustomConverter()
 
-        when:"The renderer renders an object"
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest, [includes:['title']]))
+        when: "The renderer renders an object"
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest, [includes: ['title']]))
 
-        then:"Only included properties are rendered"
-            webRequest.response.contentAsString == '{"title":"Undertow"}'
+        then: "Only included properties are rendered"
+        webRequest.response.contentAsString == '{"title":"Undertow"}'
 
     }
+
     void "Test including properties with JsonRenderer"() {
-        given:"A new JsonRenderer instance is created that excludes properties"
-            def renderer = new JsonRenderer(Album)
-            renderer.registerCustomConverter()
-            renderer.includes =  ['title']
+        given: "A new JsonRenderer instance is created that excludes properties"
+        def renderer = new JsonRenderer(Album)
+        renderer.registerCustomConverter()
+        renderer.includes = ['title']
 
-        when:"The renderer renders an object"
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest))
+        when: "The renderer renders an object"
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest))
 
-        then:"Only included properties are rendered"
-            webRequest.response.contentAsString == '{"title":"Undertow"}'
+        then: "Only included properties are rendered"
+        webRequest.response.contentAsString == '{"title":"Undertow"}'
 
     }
 
     void "Test excluding properties with JsonRenderer"() {
-        given:"A new JsonRenderer instance is created that excludes properties"
-            def renderer = new JsonRenderer(Album)
-            renderer.registerCustomConverter()
-            renderer.excludes =  ['isbn']
+        given: "A new JsonRenderer instance is created that excludes properties"
+        def renderer = new JsonRenderer(Album)
+        renderer.registerCustomConverter()
+        renderer.excludes = ['isbn']
 
-        when:"The renderer renders an object"
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest))
+        when: "The renderer renders an object"
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        renderer.render(new Album(title: "Undertow", isbn: "38047301"), new ServletRenderContext(webRequest))
 
-        then:"Only included properties are rendered"
-            webRequest.response.contentAsString == '{"title":"Undertow"}'
+        then: "Only included properties are rendered"
+        webRequest.response.contentAsString == '{"title":"Undertow"}'
 
     }
 
     void "Test render domain class with JsonRenderer"() {
-        given:"A new JsonRenderer instance is created with the defaults"
+        given: "A new JsonRenderer instance is created with the defaults"
         def renderer = new JsonRenderer(Song)
         def app = new DefaultGrailsApplication(Song)
         app.setConfig(new PropertySourcesConfig())
@@ -94,17 +95,17 @@ class JsonRendererSpec extends Specification {
         renderer.grailsApplication = app
         renderer.registerCustomConverter()
 
-        when:"The renderer renders an object"
+        when: "The renderer renders an object"
         final webRequest = GrailsWebMockUtil.bindMockWebRequest()
         renderer.render(new Song(title: "Undertow"), new ServletRenderContext(webRequest))
 
-        then:"Only included properties are rendered"
+        then: "Only included properties are rendered"
         webRequest.response.contentAsString == '{"title":"Undertow"}'
 
     }
 
     void "Test render domain class with JsonRenderer and including version and class"() {
-        given:"A new JsonRenderer instance is created with the defaults"
+        given: "A new JsonRenderer instance is created with the defaults"
         def renderer = new JsonRenderer(Song)
         renderer.includes = ['version', 'class', 'title']
         def app = new DefaultGrailsApplication(Song)
@@ -122,11 +123,11 @@ class JsonRendererSpec extends Specification {
         renderer.grailsApplication = app
         renderer.registerCustomConverter()
 
-        when:"The renderer renders an object"
+        when: "The renderer renders an object"
         final webRequest = GrailsWebMockUtil.bindMockWebRequest()
         renderer.render(new Song(title: "Undertow"), new ServletRenderContext(webRequest))
 
-        then:"Only included properties are rendered"
+        then: "Only included properties are rendered"
         webRequest.response.contentAsString == '{"class":"org.grails.plugins.web.rest.render.json.Song","title":"Undertow"}'
 
     }

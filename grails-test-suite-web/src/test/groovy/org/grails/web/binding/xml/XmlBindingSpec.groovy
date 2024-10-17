@@ -32,7 +32,7 @@ class XmlBindingSpec extends Specification implements ControllerUnitTest<Binding
 '''
         def model = controller.createPerson()
 
-    then:
+        then:
         model.person instanceof Person
         model.person.name == 'Douglas'
         model.person.age == 42
@@ -60,26 +60,26 @@ class XmlBindingSpec extends Specification implements ControllerUnitTest<Binding
         'invalidRequestBody' in person.errors.allErrors[0].codes
         'org.grails.web.binding.xml.Person.invalidRequestBody' in person.errors.allErrors[0].codes
     }
-    
+
     @Issue('GRAILS-11576')
     void 'Test binding malformed XML to a command object'() {
         given:
         request.contentType = XML_CONTENT_TYPE
         request.method = 'POST'
         request.xml = '''<person><someInvalid<this is invalid XML'''
-        
+
         when:
         def model = controller.createPersonCommandObject()
         def person = model.person
-        
+
         then:
         model.person.hasErrors()
-        
+
         when:
         def personError = model.person.errors.allErrors.find {
             it.objectName == 'person'
         }
-        
+
         then:
         personError?.defaultMessage?.contains 'Error occurred initializing command object [person]. org.xml.sax.SAXParseException'
     }
@@ -93,6 +93,7 @@ class BindingController {
         person.properties = request
         [person: person]
     }
+
     def createPersonCommandObject(Person person) {
         [person: person]
     }

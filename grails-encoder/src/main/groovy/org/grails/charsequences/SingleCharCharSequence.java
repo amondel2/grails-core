@@ -17,19 +17,17 @@ package org.grails.charsequences;
 
 /**
  * Wraps a single char and implements CharSequence interface
- * 
- * 
+ *
  * @author Lari Hotari
  * @since 2.3.10
- *
  */
 class SingleCharCharSequence implements CharSequence, CharArrayAccessible {
     private final char ch;
 
     SingleCharCharSequence(int c) {
-        this((char)c);
+        this((char) c);
     }
-    
+
     SingleCharCharSequence(char ch) {
         this.ch = ch;
     }

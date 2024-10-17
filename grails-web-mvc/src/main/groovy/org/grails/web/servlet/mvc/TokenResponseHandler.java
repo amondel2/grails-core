@@ -38,12 +38,14 @@ public interface TokenResponseHandler {
 
     /**
      * Return whether the response handle was invoked.
+     *
      * @return true if it was
      */
     boolean wasInvoked();
 
     /**
      * Return whether the token was invalid
+     *
      * @return true if it was
      */
     boolean wasInvalidToken();

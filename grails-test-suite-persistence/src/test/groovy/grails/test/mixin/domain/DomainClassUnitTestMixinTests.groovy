@@ -26,7 +26,7 @@ class DomainClassUnitTestMixinTests extends Specification implements DataTest {
 
         when:
         def w = new Writer(name: "Stephen King")
-        w.save(flush:true)
+        w.save(flush: true)
 
         Writer.withTransaction {
             bodyInvoked = true

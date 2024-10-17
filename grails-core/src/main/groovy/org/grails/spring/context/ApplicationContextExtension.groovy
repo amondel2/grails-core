@@ -19,7 +19,6 @@ import groovy.transform.CompileStatic
 import org.springframework.context.ApplicationContext
 
 
-
 /**
  * A Groovy extension module that adds additional methods to the Spring {@link org.springframework.context.ApplicationContext} interface
  *
@@ -36,11 +35,10 @@ class ApplicationContextExtension {
      * @param name The bean name
      * @return
      */
-    public static Object propertyMissing(ApplicationContext applicationContext, String name ) {
-        if(applicationContext.containsBean(name)) {
+    public static Object propertyMissing(ApplicationContext applicationContext, String name) {
+        if (applicationContext.containsBean(name)) {
             return applicationContext.getBean(name);
-        }
-        else {
+        } else {
             return null;
         }
     }

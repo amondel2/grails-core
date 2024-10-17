@@ -7,8 +7,8 @@ import spock.lang.Specification
 class JSONRequestToResponseRenderingSpec extends Specification implements ControllerUnitTest<ArrayController> {
 
     def "Test that JSON arrays are correctly converted in controllers"() {
-        given:"A JSON request containing arrays"
-            request.json = '''
+        given: "A JSON request containing arrays"
+        request.json = '''
             {
 	"track": {
 		"start_time": 1316975696560,
@@ -33,10 +33,10 @@ class JSONRequestToResponseRenderingSpec extends Specification implements Contro
 	}
 }
 '''
-        when:"The params are rendered as JSON"
-            controller.list()
-        then:"Check that the JSON is convereted back correctly"
-            response.json.track.segments != null
+        when: "The params are rendered as JSON"
+        controller.list()
+        then: "Check that the JSON is convereted back correctly"
+        response.json.track.segments != null
     }
 }
 

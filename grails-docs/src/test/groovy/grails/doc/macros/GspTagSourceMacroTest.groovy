@@ -35,12 +35,12 @@ class GspTagSourceMacroTest extends Specification {
         closureSource.split('\n').size() == linesOfSource
 
         where:
-        tagName               | linesOfSource
-        'textField'           | 5
-        'field'               | 4
-        'checkBox'            | 60
-        'uploadForm'          | 3
-        'tagWithTypedAttrs'   | 3
+        tagName             | linesOfSource
+        'textField'         | 5
+        'field'             | 4
+        'checkBox'          | 60
+        'uploadForm'        | 3
+        'tagWithTypedAttrs' | 3
     }
 
     void 'returns empty string if tag does not exist'() {

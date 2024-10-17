@@ -33,6 +33,7 @@ class AutowireServiceViaDefineBeansTests extends Specification implements Contro
 class SpringController implements ApplicationContextAware {
     ApplicationContext applicationContext
     SpringService springService
+
     def index() {
         applicationContext.getBean("springService") instanceof SpringService
         assert springService

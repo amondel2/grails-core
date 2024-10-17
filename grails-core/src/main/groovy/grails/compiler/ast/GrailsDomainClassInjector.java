@@ -21,7 +21,6 @@ import org.codehaus.groovy.ast.ClassNode;
  * Mainly just a marker interface for implementations that perform injection on domain classes.
  *
  * @author Graeme Rocher
- *
  * @since 0.2
  */
 public interface GrailsDomainClassInjector extends ClassInjector {

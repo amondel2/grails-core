@@ -7,7 +7,6 @@ import junit.framework.TestCase;
  * PluginSystemTests in src/groovy
  *
  * @author graemerocher
- *
  */
 public class PluginTests {
 

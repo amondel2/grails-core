@@ -9,8 +9,8 @@ import spock.lang.Specification
 class ConfigPropertiesSpec extends Specification {
 
     void "Test config properties"() {
-        when:"a config object"
-        def config = new PropertySourcesConfig('foo.bar':'foo', 'foo.two': 2)
+        when: "a config object"
+        def config = new PropertySourcesConfig('foo.bar': 'foo', 'foo.two': 2)
         def props = new ConfigProperties(config)
         then:
         props.getProperty('foo.bar') == 'foo'
@@ -20,6 +20,6 @@ class ConfigPropertiesSpec extends Specification {
         props.get('foo') == null
         props.getProperty('foo') == null
         props.propertyNames().hasMoreElements()
-        props.propertyNames().toList() == ['foo.bar','foo','foo.two']
+        props.propertyNames().toList() == ['foo.bar', 'foo', 'foo.two']
     }
 }

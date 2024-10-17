@@ -40,8 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired
  * @author Jeff Brown
  * @author Graeme Rocher
  *
- * @see DataBindingSource
- * @see org.grails.databinding.bindingsource.DataBindingSourceCreator
+ * @see DataBindingSource* @see org.grails.databinding.bindingsource.DataBindingSourceCreator
  */
 @CompileStatic
 class JsonDataBindingSourceCreator extends AbstractRequestBodyDataBindingSourceCreator {
@@ -58,13 +57,11 @@ class JsonDataBindingSourceCreator extends AbstractRequestBodyDataBindingSourceC
 
     @Override
     DataBindingSource createDataBindingSource(MimeType mimeType, Class bindingTargetType, Object bindingSource) {
-        if(bindingSource instanceof Map) {
+        if (bindingSource instanceof Map) {
             return new SimpleMapDataBindingSource(createJsonMap(bindingSource))
-        }
-        else if(bindingSource instanceof JSONObject) {
-            return new SimpleMapDataBindingSource((JSONObject)bindingSource)
-        }
-        else {
+        } else if (bindingSource instanceof JSONObject) {
+            return new SimpleMapDataBindingSource((JSONObject) bindingSource)
+        } else {
             return super.createDataBindingSource(mimeType, bindingTargetType, bindingSource)
         }
     }
@@ -74,16 +71,15 @@ class JsonDataBindingSourceCreator extends AbstractRequestBodyDataBindingSourceC
 
         Object jsonElement = jsonSlurper.parse(reader)
         def dataBindingSources = jsonElement.collect { element ->
-            if(element instanceof Map) {
+            if (element instanceof Map) {
                 new SimpleMapDataBindingSource(createJsonMap(element))
-            }
-            else {
+            } else {
                 new SimpleMapDataBindingSource(Collections.emptyMap())
             }
         }
         return new CollectionDataBindingSource() {
             List<DataBindingSource> getDataBindingSources() {
-                (List<DataBindingSource>)dataBindingSources
+                (List<DataBindingSource>) dataBindingSources
             }
         }
     }
@@ -92,10 +88,9 @@ class JsonDataBindingSourceCreator extends AbstractRequestBodyDataBindingSourceC
     protected DataBindingSource createBindingSource(Reader reader) {
         final jsonElement = jsonSlurper.parse(reader)
 
-        if(jsonElement instanceof Map) {
+        if (jsonElement instanceof Map) {
             return new SimpleMapDataBindingSource(createJsonMap(jsonElement))
-        }
-        else {
+        } else {
             return new SimpleMapDataBindingSource(Collections.emptyMap())
         }
 
@@ -109,7 +104,7 @@ class JsonDataBindingSourceCreator extends AbstractRequestBodyDataBindingSourceC
 
     @Override
     protected DataBindingSourceCreationException createBindingSourceCreationException(Exception e) {
-        if(e instanceof JsonException) {
+        if (e instanceof JsonException) {
             return new InvalidRequestBodyException(e)
         }
         return super.createBindingSourceCreationException(e)

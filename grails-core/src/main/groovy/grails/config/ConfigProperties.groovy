@@ -42,8 +42,8 @@ class ConfigProperties extends Properties {
     Enumeration<?> propertyNames() {
         def i = config.keySet().iterator()
         return ([
-            hasMoreElements: {-> i.hasNext() },
-            nextElement: {-> i.next() }
+                hasMoreElements: { -> i.hasNext() },
+                nextElement    : { -> i.next() }
         ]) as Enumeration
     }
 
@@ -64,12 +64,12 @@ class ConfigProperties extends Properties {
 
     @Override
     Enumeration<Object> keys() {
-        return (Enumeration<Object>)propertyNames()
+        return (Enumeration<Object>) propertyNames()
     }
 
     @Override
     Set<Object> keySet() {
-        return (Set<Object>)stringPropertyNames()
+        return (Set<Object>) stringPropertyNames()
     }
 
     @Override

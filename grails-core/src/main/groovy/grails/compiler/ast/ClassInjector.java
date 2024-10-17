@@ -27,7 +27,6 @@ import org.codehaus.groovy.control.SourceUnit;
  * classes at compile time (ie when they are loaded by the GroovyClassLoader).
  *
  * @author Graeme Rocher
- *
  * @since 0.2
  */
 public interface ClassInjector {
@@ -37,8 +36,8 @@ public interface ClassInjector {
     /**
      * Handles injection of properties, methods etc. into a class.
      *
-     * @param source The source unit
-     * @param context The generator context
+     * @param source    The source unit
+     * @param context   The generator context
      * @param classNode The ClassNode instance
      */
     void performInjection(SourceUnit source, GeneratorContext context, ClassNode classNode);
@@ -46,7 +45,7 @@ public interface ClassInjector {
     /**
      * Handles injection of properties, methods etc. into a class.
      *
-     * @param source The source unit
+     * @param source    The source unit
      * @param classNode The ClassNode instance
      */
     void performInjection(SourceUnit source, ClassNode classNode);
@@ -55,7 +54,7 @@ public interface ClassInjector {
     /**
      * Handles injection of properties, methods etc. into a class.
      *
-     * @param source The source unit
+     * @param source    The source unit
      * @param classNode The ClassNode instance
      */
     void performInjectionOnAnnotatedClass(SourceUnit source, ClassNode classNode);

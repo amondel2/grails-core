@@ -22,7 +22,6 @@ import org.grails.cli.profile.Command
 import org.grails.cli.profile.Profile
 
 
-
 /**
  * Automatically populates ApplicationContext command instances and adapts the interface to the shell
  *
@@ -32,7 +31,7 @@ import org.grails.cli.profile.Profile
 class ApplicationContextCommandFactory implements CommandFactory {
     @Override
     Collection<Command> findCommands(Profile profile, boolean inherited) {
-        if(inherited) return Collections.emptyList()
+        if (inherited) return Collections.emptyList()
 
         try {
             def classLoader = Thread.currentThread().contextClassLoader

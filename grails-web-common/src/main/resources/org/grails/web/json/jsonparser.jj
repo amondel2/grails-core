@@ -192,7 +192,7 @@ private String JsonInt() :
 {
   ["-" { negative = true; } ] digits=Digits()
   {
-    if(negative)
+    negative)
       return "-" + digits;
     return digits;
   }

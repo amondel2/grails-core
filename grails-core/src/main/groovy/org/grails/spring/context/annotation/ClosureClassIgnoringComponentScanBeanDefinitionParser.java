@@ -92,8 +92,8 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
      * @author Lari Hotari
      */
     private static final class ParentOnlyGetResourcesClassLoader extends ClassLoader {
-        private final Method findResourcesMethod=ReflectionUtils.findMethod(ClassLoader.class, "findResources", String.class);
-        private final Method findResourceMethod=ReflectionUtils.findMethod(ClassLoader.class, "findResource", String.class);
+        private final Method findResourcesMethod = ReflectionUtils.findMethod(ClassLoader.class, "findResources", String.class);
+        private final Method findResourceMethod = ReflectionUtils.findMethod(ClassLoader.class, "findResource", String.class);
 
         private ClassLoader rootLoader;
 
@@ -106,10 +106,9 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
 
         @Override
         public Enumeration<URL> getResources(String name) throws IOException {
-            if(Environment.isFork()) {
+            if (Environment.isFork()) {
                 return super.getResources(name);
-            }
-            else {
+            } else {
                 if (rootLoader != null) {
                     // search all parents up to rootLoader
                     Collection<URL> urls = new LinkedHashSet<URL>();
@@ -133,15 +132,14 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
 
         @SuppressWarnings("unchecked")
         private Enumeration<URL> invokeFindResources(ClassLoader parent, String name) {
-            return (Enumeration<URL>)ReflectionUtils.invokeMethod(findResourcesMethod, parent, name);
+            return (Enumeration<URL>) ReflectionUtils.invokeMethod(findResourcesMethod, parent, name);
         }
 
         @Override
         public URL getResource(String name) {
-            if(Environment.isFork()) {
+            if (Environment.isFork()) {
                 return super.getResource(name);
-            }
-            else {
+            } else {
                 if (rootLoader != null) {
                     return findResourceRecursive(getParent(), name);
                 }
@@ -164,7 +162,7 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
         }
 
         private URL invokeFindResource(ClassLoader parent, String name) {
-            return (URL)ReflectionUtils.invokeMethod(findResourceMethod, parent, name);
+            return (URL) ReflectionUtils.invokeMethod(findResourceMethod, parent, name);
         }
     }
 
@@ -190,8 +188,7 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
                     return parentOnlyGetResourcesClassLoader;
                 }
             };
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             // restrictive classloading environment, use the original
             parentOnlyResourceLoader = originalResourceLoader;
         }
@@ -201,7 +198,7 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
             protected Resource[] findAllClassPathResources(String location) throws IOException {
                 Set<Resource> result = new LinkedHashSet<Resource>(16);
 
-                if(BuildSettings.CLASSES_DIR != null) {
+                if (BuildSettings.CLASSES_DIR != null) {
                     @SuppressWarnings("unused")
                     URL classesDir = BuildSettings.CLASSES_DIR.toURI().toURL();
 

@@ -39,7 +39,7 @@ class GroovyPageViewTests {
         view.templateEngine = gpte
         view.afterPropertiesSet()
 
-        def model = [foo:"bar"]
+        def model = [foo: "bar"]
         view.render(model, webRequest.currentRequest, webRequest.currentResponse)
 
         assertEquals "successbar", webRequest.currentResponse.contentAsString
@@ -47,6 +47,6 @@ class GroovyPageViewTests {
 
     @AfterEach
     void tearDown() {
-         RequestContextHolder.resetRequestAttributes()
+        RequestContextHolder.resetRequestAttributes()
     }
 }

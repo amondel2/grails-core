@@ -49,11 +49,11 @@ class SystemOutAndErrSwapper {
         return swapped
     }
 /**
-     * Replaces System.out and System.err with PrintStream's wrapping outStream and errStream
-     *
-     * @return [outStream, errStream]
-     * @throws IllegalStateException if a swap is already on
-     */
+ * Replaces System.out and System.err with PrintStream's wrapping outStream and errStream
+ *
+ * @return [outStream, errStream]
+ * @throws IllegalStateException if a swap is already on
+ */
     List<OutputStream> swapIn() {
         swapIn(new ByteArrayOutputStream(), new ByteArrayOutputStream())
     }

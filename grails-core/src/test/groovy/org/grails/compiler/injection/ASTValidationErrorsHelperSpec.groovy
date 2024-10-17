@@ -34,6 +34,7 @@ class ASTValidationErrorsHelperSpec extends Specification {
             void performInjection(SourceUnit source, GeneratorContext context, ClassNode classNode) {
                 new ASTValidationErrorsHelper().injectErrorsCode(classNode)
             }
+
             @Override
             boolean shouldInject(URL url) { true }
         }
@@ -42,38 +43,38 @@ class ASTValidationErrorsHelperSpec extends Specification {
 
     void 'Test injected errors property'() {
         given:
-            def widgetClass = gcl.parseClass('class MyWidget{}')
+        def widgetClass = gcl.parseClass('class MyWidget{}')
 
         when:
-            def widget = widgetClass.newInstance()
+        def widget = widgetClass.newInstance()
 
         then:
-            !widget.hasErrors()
+        !widget.hasErrors()
 
         when:
-            widget.setErrors([hasErrors: { false }] as Errors)
+        widget.setErrors([hasErrors: { false }] as Errors)
 
         then:
-            !widget.hasErrors()
+        !widget.hasErrors()
 
         when:
-            widget.setErrors([hasErrors: { true }] as Errors)
+        widget.setErrors([hasErrors: { true }] as Errors)
 
         then:
-            widget.hasErrors()
+        widget.hasErrors()
 
         when:
-            widget.clearErrors()
+        widget.clearErrors()
 
         then:
-            !widget.hasErrors()
+        !widget.hasErrors()
 
         when:
-            def localErrors = [:] as Errors
-            widget.setErrors(localErrors)
+        def localErrors = [:] as Errors
+        widget.setErrors(localErrors)
 
         then:
-            localErrors.is(widget.getErrors())
+        localErrors.is(widget.getErrors())
     }
 
     void 'Test injected errors property methods are marked with Generated annotation'() {
@@ -82,11 +83,11 @@ class ASTValidationErrorsHelperSpec extends Specification {
 
         and: 'injected method names to it'
         List<String> injectedMethodNames = [
-            "setErrors",
-            "getErrors",
-            "hasErrors",
-            "clearErrors",
-            "initErrors"
+                "setErrors",
+                "getErrors",
+                "hasErrors",
+                "clearErrors",
+                "initErrors"
         ]
 
         expect: 'injected methods marked as Generated'

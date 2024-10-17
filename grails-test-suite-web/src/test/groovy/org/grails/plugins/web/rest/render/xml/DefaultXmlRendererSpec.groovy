@@ -41,58 +41,58 @@ class DefaultXmlRendererSpec extends Specification implements DomainUnitTest<Xml
     @PendingFeature(reason = 'java.lang.IllegalAccessException: class org.grails.web.converters.marshaller.xml.GenericJavaBeanMarshaller cannot access a member of class org.grails.datastore.mapping.model.MappingFactory$1 with modifiers "public"')
     void 'Test that XML renderer writes XML to the response for a domain instance'() {
         when: 'A domain instance is rendered'
-            def renderer = new DefaultXmlRenderer(XmlBook)
-            def response = new MockHttpServletResponse()
-            def webRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
-            webRequest.actionName = 'test'
-            def renderContext = new ServletRenderContext(webRequest) {
-                @Override
-                MimeType getAcceptMimeType() {
-                    MimeType.TEXT_XML
-                }
+        def renderer = new DefaultXmlRenderer(XmlBook)
+        def response = new MockHttpServletResponse()
+        def webRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
+        webRequest.actionName = 'test'
+        def renderContext = new ServletRenderContext(webRequest) {
+            @Override
+            MimeType getAcceptMimeType() {
+                MimeType.TEXT_XML
             }
-            def book = new XmlBook(title: 'The Stand')
-            renderer.render(book, renderContext)
+        }
+        def book = new XmlBook(title: 'The Stand')
+        renderer.render(book, renderContext)
 
         then: 'The model and view are populated correctly'
-            response.contentType == GrailsWebUtil.getContentType('text/xml', GrailsWebUtil.DEFAULT_ENCODING)
-            response.status == 200
+        response.contentType == GrailsWebUtil.getContentType('text/xml', GrailsWebUtil.DEFAULT_ENCODING)
+        response.status == 200
 
         when: 'The XML is parsed'
-            def xml = new XmlSlurper().parseText(response.contentAsString)
+        def xml = new XmlSlurper().parseText(response.contentAsString)
 
         then: 'It is correct'
         (xml['title'] as GPathResult).text() == 'The Stand'
-     }
+    }
 
     void 'Test that XML renderer sets a model and view correctly for an Error instance'() {
         when: 'A domain instance is rendered'
-            def renderer = new DefaultXmlRenderer(XmlBook)
-            def response = new MockHttpServletResponse()
-            def webRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
-            webRequest.actionName = 'test'
-            def renderContext = new ServletRenderContext(webRequest) {
-                @Override
-                MimeType getAcceptMimeType() {
-                    MimeType.TEXT_XML
-                }
+        def renderer = new DefaultXmlRenderer(XmlBook)
+        def response = new MockHttpServletResponse()
+        def webRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
+        webRequest.actionName = 'test'
+        def renderContext = new ServletRenderContext(webRequest) {
+            @Override
+            MimeType getAcceptMimeType() {
+                MimeType.TEXT_XML
             }
-            def book = new XmlBook(title: '')
-            def errors = new ValidationErrors(book)
-            book.errors = errors
-            errors.rejectValue('title', 'title.blank.error')
-            renderer.render(book.errors,renderContext)
+        }
+        def book = new XmlBook(title: '')
+        def errors = new ValidationErrors(book)
+        book.errors = errors
+        errors.rejectValue('title', 'title.blank.error')
+        renderer.render(book.errors, renderContext)
 
         then: 'The model and view are populated correctly'
-            response.contentType == GrailsWebUtil.getContentType('text/xml', GrailsWebUtil.DEFAULT_ENCODING)
-            response.status == 422
+        response.contentType == GrailsWebUtil.getContentType('text/xml', GrailsWebUtil.DEFAULT_ENCODING)
+        response.status == 422
 
         when: 'The XML is parsed'
-            def text = response.contentAsString
-            def xml = new XmlSlurper().parseText(text)
+        def text = response.contentAsString
+        def xml = new XmlSlurper().parseText(text)
 
         then: 'It is correct'
-            (xml['error']['@field'] as GPathResult).text() == 'title'
+        (xml['error']['@field'] as GPathResult).text() == 'title'
     }
 }
 

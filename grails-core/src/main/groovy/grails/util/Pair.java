@@ -34,18 +34,16 @@ public class Pair<A, B> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Pair other = (Pair)obj;
+        Pair other = (Pair) obj;
         if (aValue == null) {
             if (other.aValue != null)
                 return false;
-        }
-        else if (!aValue.equals(other.aValue))
+        } else if (!aValue.equals(other.aValue))
             return false;
         if (bValue == null) {
             if (other.bValue != null)
                 return false;
-        }
-        else if (!bValue.equals(other.bValue))
+        } else if (!bValue.equals(other.bValue))
             return false;
         return true;
     }

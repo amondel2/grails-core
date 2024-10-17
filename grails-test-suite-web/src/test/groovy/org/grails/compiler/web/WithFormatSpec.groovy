@@ -13,11 +13,11 @@ class WithFormatSpec extends Specification implements ControllerUnitTest<MimeTyp
 
         then:
         format == "html"
-        
+
         when:
         response.format = 'xml'
         format = controller.index()
-        
+
         then:
         format == 'xml'
     }

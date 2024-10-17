@@ -19,19 +19,19 @@ import spock.lang.Issue
 class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
 
     void "Test that when a request coming from a 404 forward is matched the correct action is executed"() {
-        given:"A URL mapping definition that has a 404 mapping"
+        given: "A URL mapping definition that has a 404 mapping"
         def grailsApplication = new DefaultGrailsApplication(FooController)
         grailsApplication.initialise()
         def holder = getUrlMappingsHolder {
-            "/foo/bar"(controller:"foo", action:"bar")
-            "/foo/error"(controller:"foo", action:"error")
-            "404"(controller: "foo", action:"notFound")
+            "/foo/bar"(controller: "foo", action: "bar")
+            "/foo/error"(controller: "foo", action: "error")
+            "404"(controller: "foo", action: "notFound")
         }
 
         holder = new GrailsControllerUrlMappings(grailsApplication, holder)
         def handler = new UrlMappingsHandlerMapping(holder)
 
-        when:"A request that contains a 404 error status code is handled"
+        when: "A request that contains a 404 error status code is handled"
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
         webRequest.renderView = true
         def request = webRequest.request
@@ -39,32 +39,32 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         request.setAttribute(WebUtils.ERROR_STATUS_CODE_ATTRIBUTE, "404")
         def handlerChain = handler.getHandler(request)
 
-        then:"The handler chain is not null"
+        then: "The handler chain is not null"
         handlerChain != null
 
-        when:"A HandlerAdapter is used"
+        when: "A HandlerAdapter is used"
         def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
         def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The controller action that is mapped to the 404 handler is executed"
+        then: "The controller action that is mapped to the 404 handler is executed"
         webRequest.response.contentAsString == 'Not Found'
     }
 
     @Issue('https://github.com/grails/grails-core/issues/10149')
     void "Test that when an include request from within a 404 forward is matched"() {
-        given:"A URL mapping definition that has a 404 mapping"
+        given: "A URL mapping definition that has a 404 mapping"
         def grailsApplication = new DefaultGrailsApplication(FooController)
         grailsApplication.initialise()
         def holder = getUrlMappingsHolder {
-            "/foo/bar"(controller:"foo", action:"bar")
-            "/foo/error"(controller:"foo", action:"error")
-            "404"(controller: "foo", action:"notFound")
+            "/foo/bar"(controller: "foo", action: "bar")
+            "/foo/error"(controller: "foo", action: "error")
+            "404"(controller: "foo", action: "notFound")
         }
 
         holder = new GrailsControllerUrlMappings(grailsApplication, holder)
         def handler = new UrlMappingsHandlerMapping(holder)
 
-        when:"A request arrives that is an include within a 404 forward request"
+        when: "A request arrives that is an include within a 404 forward request"
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
         webRequest.renderView = true
         def request = webRequest.request
@@ -73,58 +73,58 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         request.setAttribute(WebUtils.INCLUDE_REQUEST_URI_ATTRIBUTE, "/foo/bar")
         def handlerChain = handler.getHandler(request)
 
-        then:"The handler chain is not null"
+        then: "The handler chain is not null"
         handlerChain != null
 
-        when:"A HandlerAdapter is used"
+        when: "A HandlerAdapter is used"
         def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
         def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The correct action was executed to handle the include"
+        then: "The correct action was executed to handle the include"
         result.viewName == 'bar'
-        result.model == [foo:'bar']
+        result.model == [foo: 'bar']
 
     }
 
     void "Test that a matched URL returns a URLMappingInfo"() {
 
         given:
-            def grailsApplication = new DefaultGrailsApplication(FooController)
-            grailsApplication.initialise()
-            def holder = getUrlMappingsHolder {
-                "/foo/bar"(controller:"foo", action:"bar")
-                "/foo/error"(controller:"foo", action:"error")
-            }
+        def grailsApplication = new DefaultGrailsApplication(FooController)
+        grailsApplication.initialise()
+        def holder = getUrlMappingsHolder {
+            "/foo/bar"(controller: "foo", action: "bar")
+            "/foo/error"(controller: "foo", action: "error")
+        }
 
-            holder = new GrailsControllerUrlMappings(grailsApplication, holder)
-            def handler = new UrlMappingsHandlerMapping(holder)
+        holder = new GrailsControllerUrlMappings(grailsApplication, holder)
+        def handler = new UrlMappingsHandlerMapping(holder)
 
-        when:"A URI is matched"
+        when: "A URI is matched"
 
-            def webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            webRequest.renderView = true
-            def request = webRequest.request
-            request.setRequestURI("/foo/bar")
-            def handlerChain = handler.getHandler(request)
+        def webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        webRequest.renderView = true
+        def request = webRequest.request
+        request.setRequestURI("/foo/bar")
+        def handlerChain = handler.getHandler(request)
 
-        then:"A handlerChain is created"
-            handlerChain != null
+        then: "A handlerChain is created"
+        handlerChain != null
 
-        when:"A HandlerAdapter is used"
-            def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
-            def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
+        when: "A HandlerAdapter is used"
+        def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
+        def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The model and view is correct"
-            result.viewName == 'bar'
-            result.model == [foo:'bar']
+        then: "The model and view is correct"
+        result.viewName == 'bar'
+        result.model == [foo: 'bar']
 
-        when:"A status is set on the response"
+        when: "A status is set on the response"
         request.setRequestURI("/foo/error")
         request.removeAttribute(UrlMappingsHandlerMapping.MATCHED_REQUEST)
         handlerChain = handler.getHandler(request)
         result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The result is null"
+        then: "The result is null"
         result == null
 
     }
@@ -135,14 +135,14 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         def grailsApplication = new DefaultGrailsApplication(FooController)
         grailsApplication.initialise()
         def holder = getUrlMappingsHolder {
-            "/foo/foo-bar"(controller:"foo", action:"foo-bar")
-            "/foo/error"(controller:"foo", action:"error")
+            "/foo/foo-bar"(controller: "foo", action: "foo-bar")
+            "/foo/error"(controller: "foo", action: "error")
         }
         def urlConverter = new HyphenatedUrlConverter()
         holder = new GrailsControllerUrlMappings(grailsApplication, holder, urlConverter)
         def handler = new UrlMappingsHandlerMapping(holder)
 
-        when:"A URI is matched"
+        when: "A URI is matched"
 
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
         webRequest.renderView = true
@@ -150,14 +150,14 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         request.setRequestURI("/foo/foo-bar")
         def handlerChain = handler.getHandler(request)
 
-        then:"A handlerChain is created"
+        then: "A handlerChain is created"
         handlerChain != null
 
-        when:"A HandlerAdapter is used with a hyphenated url converter"
+        when: "A HandlerAdapter is used with a hyphenated url converter"
         def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
         def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The model and view is correct"
+        then: "The model and view is correct"
         result.viewName == 'fooBar'
         !result.model
     }
@@ -168,13 +168,13 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         def grailsApplication = new DefaultGrailsApplication(FooController)
         grailsApplication.initialise()
         def holder = getUrlMappingsHolder {
-            "/foo"(controller:"foo")
+            "/foo"(controller: "foo")
         }
         def urlConverter = new HyphenatedUrlConverter()
         holder = new GrailsControllerUrlMappings(grailsApplication, holder, urlConverter)
         def handler = new UrlMappingsHandlerMapping(holder)
 
-        when:"A URI is matched"
+        when: "A URI is matched"
 
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
         webRequest.renderView = true
@@ -182,14 +182,14 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
         request.setRequestURI("/foo")
         def handlerChain = handler.getHandler(request)
 
-        then:"A handlerChain is created"
+        then: "A handlerChain is created"
         handlerChain != null
 
-        when:"A HandlerAdapter is used with a hyphenated url converter"
+        when: "A HandlerAdapter is used with a hyphenated url converter"
         def handlerAdapter = new UrlMappingsInfoHandlerAdapter()
         def result = handlerAdapter.handle(request, webRequest.response, handlerChain.handler)
 
-        then:"The model and view is correct"
+        then: "The model and view is correct"
         result.viewName == 'fooBar'
         !result.model
     }
@@ -217,13 +217,13 @@ class UrlMappingsHandlerMappingSpec extends AbstractUrlMappingsSpec {
 }
 
 @Artefact('Controller')
-class FooController  {
+class FooController {
 
     static defaultAction = 'fooBar'
 
     @Action
     def bar() {
-        [foo:"bar"]
+        [foo: "bar"]
     }
 
     @Action

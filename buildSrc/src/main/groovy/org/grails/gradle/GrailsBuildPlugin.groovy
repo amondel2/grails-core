@@ -31,7 +31,7 @@ class GrailsBuildPlugin implements Plugin<Project> {
         }
 
         def addChildren
-        addChildren = { Collection deps, Set allDeps = new LinkedHashSet() ->
+        addChildren = { Collection deps, Set allDeps = new LinkedHashSet () ->
             deps.each { ResolvedDependency resolvedDependency ->
                 def notSeenBefore = allDeps.add(resolvedDependency)
                 if (notSeenBefore) { // defend against circular dependencies
@@ -52,10 +52,9 @@ class GrailsBuildPlugin implements Plugin<Project> {
             dependency.artifact { artifact ->
                 artifact.name = dependency.name
                 artifact.type = targetClassifier
-                if('pom' == targetClassifier) {
+                if ('pom' == targetClassifier) {
                     artifact.extension = 'pom'
-                }
-                else {
+                } else {
                     artifact.extension = 'jar'
                     artifact.classifier = targetClassifier
                 }

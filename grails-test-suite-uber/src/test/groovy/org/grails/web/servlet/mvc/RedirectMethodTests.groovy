@@ -22,7 +22,7 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
         webRequest.controllerName = 'namespaced'
         primary.redirectToSelf()
         then:
-        '/noNamespace/demo' ==  response.redirectedUrl
+        '/noNamespace/demo' == response.redirectedUrl
 
         when:
 
@@ -84,7 +84,7 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
         c.redirectToDefaultAction()
 
         then:
-        "/redirect" ==  response.redirectedUrl
+        "/redirect" == response.redirectedUrl
     }
 
     void testRedirectEventListeners() {
@@ -98,7 +98,7 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
 
         c.toAction()
 
-        then:"redirect event should have been fired"
+        then: "redirect event should have been fired"
         fired
     }
 
@@ -113,7 +113,7 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
         then:
         def e = thrown(CannotRedirectException)
         e.message ==
-        "Cannot issue a redirect(..) here. A previous call to redirect(..) has already redirected the response."
+                "Cannot issue a redirect(..) here. A previous call to redirect(..) has already redirected the response."
 
     }
 
@@ -125,7 +125,7 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
 
         c.responseCommitted()
 
-        then:"incorrect error message for response redirect when already written to"
+        then: "incorrect error message for response redirect when already written to"
         def e = thrown(CannotRedirectException)
         e.message ==
                 "Cannot issue a redirect(..) here. The response has already been committed either by another redirect or by directly writing to the response."
@@ -249,17 +249,17 @@ class RedirectMethodTests extends Specification implements UrlMappingsUnitTest<U
         webRequest.controllerName = 'newsSignup'
         c.testNoController()
         then:
-        "/little-brown-bottle/thankyou" ==  response.redirectedUrl
+        "/little-brown-bottle/thankyou" == response.redirectedUrl
     }
 
     static class UrlMappings {
         static mappings = {
-            "/"(controller:'default')
+            "/"(controller: 'default')
             "/little-brown-bottle/$action?" {
                 controller = "newsSignup"
             }
 
-            "/$controller/$action?/$id?"{
+            "/$controller/$action?/$id?" {
                 constraints {
                     // apply constraints here
                 }
@@ -312,7 +312,7 @@ class NewsSignupController {
     }
 
     def redirectToDefaultAction = {
-        redirect(controller:"redirect")
+        redirect(controller: "redirect")
     }
 
     def thankyou = {

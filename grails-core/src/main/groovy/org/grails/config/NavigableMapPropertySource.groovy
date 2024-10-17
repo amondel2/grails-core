@@ -40,7 +40,7 @@ class NavigableMapPropertySource extends MapPropertySource {
         this.propertyNames = source.keySet().findAll() { key ->
             !(source.get(key) instanceof NavigableMap)
         } as String[]
-        navigablePropertyNames =  StringUtils.toStringArray(source.keySet());
+        navigablePropertyNames = StringUtils.toStringArray(source.keySet());
     }
 
     @Override
@@ -52,8 +52,8 @@ class NavigableMapPropertySource extends MapPropertySource {
     Object getProperty(String name) {
         def value = super.getProperty(name)
         if (value instanceof OriginTrackedValue) {
-            return ((OriginTrackedValue)value).value
-        } else if(value instanceof NavigableMap) {
+            return ((OriginTrackedValue) value).value
+        } else if (value instanceof NavigableMap) {
             return null
         }
         return value

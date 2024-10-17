@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  * Command line parser that parses arguments to the command line. Written as a
  * replacement for Commons CLI because it doesn't support unknown arguments and
  * requires all arguments to be declared up front.
- *
+ * <p>
  * It also doesn't support command options with hyphens. This class gets around those problems.
  *
  * @author Graeme Rocher
@@ -48,7 +48,7 @@ public class CommandLineParser {
         DEFAULT_ENVS.put("test-app", Environment.TEST.getName());
     }
 
-    private Map<String, Option> declaredOptions = new HashMap<String, Option> ();
+    private Map<String, Option> declaredOptions = new HashMap<String, Option>();
     private int longestOptionNameLength = 0;
     private String usageMessage;
 
@@ -59,12 +59,12 @@ public class CommandLineParser {
     /**
      * Adds a declared option
      *
-     * @param name The name of the option
+     * @param name        The name of the option
      * @param description The description
      */
     public void addOption(String name, String description) {
         int length = name.length();
-        if (length >longestOptionNameLength) {
+        if (length > longestOptionNameLength) {
             longestOptionNameLength = length;
         }
         declaredOptions.put(name, new Option(name, description));
@@ -84,6 +84,7 @@ public class CommandLineParser {
 
     /**
      * Crack a command line.
+     *
      * @param toProcess the command line to process.
      * @return the command line broken into strings.
      * An empty or null toProcess parameter results in a zero sized array.
@@ -149,11 +150,11 @@ public class CommandLineParser {
         return result.toArray(new String[result.size()]);
     }
 
-   /**
+    /**
      * Parses a string of all the command line options converting them into an array of arguments to pass to #parse(String..args)
      *
-    *  @param commandName The command name
-     * @param args The string
+     * @param commandName The command name
+     * @param args        The string
      * @return The command line
      */
     public CommandLine parseString(String commandName, String args) {
@@ -165,6 +166,7 @@ public class CommandLineParser {
         parseInternal(cl, argArray, false);
         return cl;
     }
+
     /**
      * Parses the given list of command line arguments. Arguments starting with -D become system properties,
      * arguments starting with -- or - become either declared or undeclared options. All other arguments are
@@ -189,30 +191,27 @@ public class CommandLineParser {
         for (String arg : args) {
             if (arg == null) continue;
             String trimmed = arg.trim();
-            if (trimmed != null && trimmed.length()>0) {
+            if (trimmed != null && trimmed.length() > 0) {
                 if (trimmed.charAt(0) == '"' && trimmed.charAt(trimmed.length() - 1) == '"') {
                     trimmed = trimmed.substring(1, trimmed.length() - 1);
                 }
                 if (trimmed.charAt(0) == '-') {
                     lastWasOption = processOption(cl, trimmed);
-                }
-                else {
-                    if(lastWasOption != null) {
+                } else {
+                    if (lastWasOption != null) {
                         cl.addUndeclaredOption(lastWasOption, trimmed);
                         lastWasOption = null;
                         continue;
                     }
                     if (firstArgumentIsCommand && ENV_ARGS.containsKey(trimmed)) {
                         cl.setEnvironment(ENV_ARGS.get(trimmed));
-                    }
-                    else {
-                       if (firstArgumentIsCommand) {
-                           cl.setCommandName(trimmed);
-                           firstArgumentIsCommand = false;
-                       }
-                       else {
-                           cl.addRemainingArg(trimmed);
-                       }
+                    } else {
+                        if (firstArgumentIsCommand) {
+                            cl.setCommandName(trimmed);
+                            firstArgumentIsCommand = false;
+                        } else {
+                            cl.addRemainingArg(trimmed);
+                        }
                     }
                 }
             }
@@ -262,8 +261,7 @@ public class CommandLineParser {
             String value = split[1].trim();
             if (declaredOptions.containsKey(name)) {
                 cl.addDeclaredOption(name, declaredOptions.get(name), value);
-            }
-            else {
+            } else {
                 cl.addUndeclaredOption(name, value);
             }
             return null;
@@ -272,8 +270,7 @@ public class CommandLineParser {
         validateOptionName(arg);
         if (declaredOptions.containsKey(arg)) {
             cl.addDeclaredOption(arg, declaredOptions.get(arg));
-        }
-        else {
+        } else {
             cl.addUndeclaredOption(arg);
         }
         return arg;
@@ -286,7 +283,7 @@ public class CommandLineParser {
     protected void processSystemArg(DefaultCommandLine cl, String arg) {
         int i = arg.indexOf("=");
         String name = arg.substring(2, i);
-        String value = arg.substring(i+1,arg.length());
+        String value = arg.substring(i + 1, arg.length());
         cl.addSystemProperty(name, value);
     }
 }

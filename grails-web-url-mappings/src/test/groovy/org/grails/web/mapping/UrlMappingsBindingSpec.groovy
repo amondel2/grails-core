@@ -12,21 +12,21 @@ import grails.core.DefaultGrailsApplication
 /**
  * Tests that focus on ensuring the applicationContext, grailsApplication and servletContext objects are available to UrlMappings
  */
-class UrlMappingsBindingSpec extends Specification{
+class UrlMappingsBindingSpec extends Specification {
 
     void "Test that common applications variables are available in UrlMappings"() {
-        when:"Mappings that use application variables"
-            def evaluator = getEvaluator()
-            def urlMappings = new DefaultUrlMappingsHolder(evaluator.evaluateMappings(mappings))
+        when: "Mappings that use application variables"
+        def evaluator = getEvaluator()
+        def urlMappings = new DefaultUrlMappingsHolder(evaluator.evaluateMappings(mappings))
 
-        then:"The url mappings are valid"
-            urlMappings != null
+        then: "The url mappings are valid"
+        urlMappings != null
     }
 
     protected DefaultUrlMappingEvaluator getEvaluator() {
         final servletContext = new MockServletContext()
         final ctx = new GenericWebApplicationContext(servletContext)
-        ctx.defaultListableBeanFactory.registerSingleton(GrailsApplication.APPLICATION_ID,new DefaultGrailsApplication())
+        ctx.defaultListableBeanFactory.registerSingleton(GrailsApplication.APPLICATION_ID, new DefaultGrailsApplication())
         ctx.refresh()
         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, ctx)
         return new DefaultUrlMappingEvaluator(ctx)

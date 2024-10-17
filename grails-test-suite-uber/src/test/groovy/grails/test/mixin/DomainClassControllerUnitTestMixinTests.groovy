@@ -43,7 +43,7 @@ class DomainClassControllerUnitTestMixinTests extends Specification implements C
 
     void testBinding() {
         given:
-        def book = new Book(title:"The Stand", pages: 200)
+        def book = new Book(title: "The Stand", pages: 200)
 
         expect:
         book.pages == 200
@@ -58,7 +58,7 @@ class DomainClassControllerUnitTestMixinTests extends Specification implements C
     void testList() {
         when:
         def model = controller.list()
-        def book = new Book(title:"")
+        def book = new Book(title: "")
 
         then:
         model.bookInstanceList.size() == 0
@@ -122,7 +122,7 @@ class DomainClassControllerUnitTestMixinTests extends Specification implements C
         response.redirectedUrl == '/book/list'
 
         when:
-        def book = new Book(title:"")
+        def book = new Book(title: "")
         book.title = "The Stand"
         book.pages = 1000
 
@@ -147,7 +147,7 @@ class DomainClassControllerUnitTestMixinTests extends Specification implements C
         response.redirectedUrl == '/book/list'
 
         when:
-        def book = new Book(title:"")
+        def book = new Book(title: "")
 
         book.title = "The Stand"
         book.pages = 1000
@@ -241,7 +241,7 @@ class DomainClassControllerUnitTestMixinTests extends Specification implements C
 
     void testCriteriaQuery() {
         given:
-        mockDomain(Book, [[title:"The Stand", pages: 1000], [title:"The Shining", pages:400], [title:"Along Came a Spider", pages:300]])
+        mockDomain(Book, [[title: "The Stand", pages: 1000], [title: "The Shining", pages: 400], [title: "Along Came a Spider", pages: 300]])
 
         expect:
         Book.count() == 3
@@ -262,13 +262,13 @@ class Book {
     Date releaseDate = new Date()
     int pages
 
-    static belongsTo = [author:Author]
+    static belongsTo = [author: Author]
     static constraints = {
-        title blank:false, nullable:false
+        title blank: false, nullable: false
         author nullable: true
     }
     static mapping = {
-        title index:true
+        title index: true
     }
 }
 
@@ -289,7 +289,7 @@ class BookController {
     }
 
     def renderXml = {
-        render new Book(title:"The Stand") as XML
+        render new Book(title: "The Stand") as XML
     }
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -307,8 +307,7 @@ class BookController {
         if (bookInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'book.label', default: 'Book'), bookInstance.id])}"
             redirect(action: "show", id: bookInstance.id)
-        }
-        else {
+        } else {
             render(view: "create", model: [bookInstance: bookInstance])
         }
     }
@@ -318,8 +317,7 @@ class BookController {
         if (!bookInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'book.label', default: 'Book'), params.id])}"
             redirect(action: "list")
-        }
-        else {
+        } else {
             [bookInstance: bookInstance]
         }
     }
@@ -329,8 +327,7 @@ class BookController {
         if (!bookInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'book.label', default: 'Book'), params.id])}"
             redirect(action: "list")
-        }
-        else {
+        } else {
             return [bookInstance: bookInstance]
         }
     }
@@ -351,12 +348,10 @@ class BookController {
             if (!bookInstance.hasErrors() && bookInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'book.label', default: 'Book'), bookInstance.id])}"
                 redirect(action: "show", id: bookInstance.id)
-            }
-            else {
+            } else {
                 render(view: "edit", model: [bookInstance: bookInstance])
             }
-        }
-        else {
+        } else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'book.label', default: 'Book'), params.id])}"
             redirect(action: "list")
         }
@@ -374,8 +369,7 @@ class BookController {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'book.label', default: 'Book'), params.id])}"
                 redirect(action: "show", id: params.id)
             }
-        }
-        else {
+        } else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'book.label', default: 'Book'), params.id])}"
             redirect(action: "list")
         }

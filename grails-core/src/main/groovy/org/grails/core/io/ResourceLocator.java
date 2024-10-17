@@ -37,12 +37,14 @@ public interface ResourceLocator {
 
     /**
      * Multiple locations to search. See #setSearchLocation
+     *
      * @param searchLocations The locations to search
      */
     void setSearchLocations(Collection<String> searchLocations);
 
     /**
      * Finds a resource for the given URI
+     *
      * @param uri The URI
      * @return The resource or null if it doesn't exist
      */
@@ -50,7 +52,7 @@ public interface ResourceLocator {
 
     /**
      * Finds the .groovy file or .java file for a given class from a Grails project.
-     *
+     * <p>
      * Note that this method will return null in production since sources are not packaged unless an
      * appropriate search location is specified to locate the resource
      *

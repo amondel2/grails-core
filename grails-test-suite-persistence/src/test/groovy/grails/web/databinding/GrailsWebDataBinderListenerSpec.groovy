@@ -27,11 +27,11 @@ class GrailsWebDataBinderListenerSpec extends Specification {
         def personListener = new PersonDataBindingListener()
         def binder = new GrailsWebDataBinder()
         binder.setDataBindingListeners([personListener] as DataBindingListener[])
-        
+
         when:
         def country = new Country()
         binder.bind country, [name: 'Canada'] as SimpleMapDataBindingSource
-        
+
         then:
         country.name == 'Canada'
         personListener.bindingObjects == []
@@ -40,7 +40,7 @@ class GrailsWebDataBinderListenerSpec extends Specification {
         when:
         def person = new Person()
         binder.bind person, [firstName: 'Ian', lastName: 'Kilmister'] as SimpleMapDataBindingSource
-        
+
         then:
         person.firstName == 'Ian'
         person.lastName == 'Kilmister'
@@ -60,15 +60,15 @@ class Country {
 }
 
 class PersonDataBindingListener extends DataBindingListenerAdapter {
-    
+
     List<?> bindingObjects = []
     List<Map<String, Object>> beforeBindingData = []
-    
+
     @Override
     boolean supports(Class<?> c) {
         Person.isAssignableFrom c
     }
-    
+
     @Override
     Boolean beforeBinding(Object object, Object errors) {
         bindingObjects << object
@@ -76,7 +76,7 @@ class PersonDataBindingListener extends DataBindingListenerAdapter {
 
     @Override
     Boolean beforeBinding(Object object, String propertyName, Object propertyValue, Object errors) {
-        beforeBindingData << [(propertyName): propertyValue]    
+        beforeBindingData << [(propertyName): propertyValue]
         true
     }
 }

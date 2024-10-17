@@ -29,8 +29,7 @@ import grails.web.mime.MimeType
  * @author Jeff Brown
  * @author Graeme Rocher
  *
- * @see DataBindingSource
- * @see DataBindingSourceCreator
+ * @see DataBindingSource* @see DataBindingSourceCreator
  */
 @CompileStatic
 class HalJsonDataBindingSourceCreator extends JsonDataBindingSourceCreator {
@@ -44,19 +43,18 @@ class HalJsonDataBindingSourceCreator extends JsonDataBindingSourceCreator {
 
     @Override
     protected Map createJsonMap(Object jsonElement) {
-        if(jsonElement instanceof Map) {
+        if (jsonElement instanceof Map) {
 
             def jsonMap = (Map) jsonElement
-            if(jsonMap.containsKey(HAL_EMBEDDED_ELEMENT)) {
+            if (jsonMap.containsKey(HAL_EMBEDDED_ELEMENT)) {
                 jsonMap = new LinkedHashMap(jsonMap)
                 def embedded = jsonMap.get(HAL_EMBEDDED_ELEMENT)
-                if(embedded instanceof Map) {
-                    jsonMap.putAll((Map)embedded)
+                if (embedded instanceof Map) {
+                    jsonMap.putAll((Map) embedded)
                 }
             }
             return jsonMap
-        }
-        else {
+        } else {
             return super.createJsonMap(jsonElement)
         }
     }

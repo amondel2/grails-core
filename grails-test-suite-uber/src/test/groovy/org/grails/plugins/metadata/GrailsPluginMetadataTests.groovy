@@ -32,8 +32,10 @@ class GrailsPluginMetadataTests {
     }
 }
 
-@GrailsPlugin(name='controllers', version='1.0')
+@GrailsPlugin(name = 'controllers', version = '1.0')
 class Test1 {}
-@GrailsPlugin(name='dataBinding', version='1.2')
+
+@GrailsPlugin(name = 'dataBinding', version = '1.2')
 class Test2 {}
+
 class Test3 {}

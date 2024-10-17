@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2014 original authors
  *
@@ -32,7 +31,7 @@ import org.grails.cli.profile.ProjectContext
 class ReadGradleTasks extends ListReadingCachedGradleOperation<String> {
 
     private static final Closure<String> taskNameFormatter = { String projectPath, String taskName ->
-        if(projectPath == ':') {
+        if (projectPath == ':') {
             ":$taskName".toString()
         } else {
             "$projectPath:$taskName".toString()
@@ -49,8 +48,8 @@ class ReadGradleTasks extends ListReadingCachedGradleOperation<String> {
     @Override
     List<String> readFromGradle(ProjectConnection connection) {
         SystemOutErrCapturer.withNullOutput {
-            FetchAllTaskSelectorsBuildAction.AllTasksModel allTasksModel = (FetchAllTaskSelectorsBuildAction.AllTasksModel)connection.action(new FetchAllTaskSelectorsBuildAction(projectContext.getBaseDir())).run()
-            Collection<String> allTaskSelectors=[]
+            FetchAllTaskSelectorsBuildAction.AllTasksModel allTasksModel = (FetchAllTaskSelectorsBuildAction.AllTasksModel) connection.action(new FetchAllTaskSelectorsBuildAction(projectContext.getBaseDir())).run()
+            Collection<String> allTaskSelectors = []
 
             if (allTasksModel.currentProject) {
                 allTaskSelectors.addAll(allTasksModel.allTaskSelectors.get(allTasksModel.currentProject))

@@ -30,8 +30,7 @@ public interface EncodingStateRegistry {
     /**
      * Gets the current encoding state for a CharSequence.
      *
-     * @param string
-     *            a CharSequence
+     * @param string a CharSequence
      * @return the encoding state for the CharSequence
      */
     EncodingState getEncodingStateFor(CharSequence string);
@@ -39,10 +38,8 @@ public interface EncodingStateRegistry {
     /**
      * Checks if a encoder should be applied to a CharSequence
      *
-     * @param encoderToApply
-     *            the encoder to apply
-     * @param string
-     *            a CharSequence
+     * @param encoderToApply the encoder to apply
+     * @param string         a CharSequence
      * @return true, if it should be applied
      */
     boolean shouldEncodeWith(Encoder encoderToApply, CharSequence string);
@@ -50,10 +47,8 @@ public interface EncodingStateRegistry {
     /**
      * Checks if the CharSequence is encoded with encoder.
      *
-     * @param encoder
-     *            the encoder
-     * @param string
-     *            a CharSequence
+     * @param encoder the encoder
+     * @param string  a CharSequence
      * @return true, if it is encoded with encoder
      */
     boolean isEncodedWith(Encoder encoder, CharSequence string);
@@ -61,10 +56,8 @@ public interface EncodingStateRegistry {
     /**
      * Registers that the CharSequence has been encoded with encoder
      *
-     * @param encoder
-     *            the encoder
-     * @param escaped
-     *            the CharSequence
+     * @param encoder the encoder
+     * @param escaped the CharSequence
      */
     void registerEncodedWith(Encoder encoder, CharSequence escaped);
 }

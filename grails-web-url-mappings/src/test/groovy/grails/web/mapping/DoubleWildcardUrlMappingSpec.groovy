@@ -17,29 +17,29 @@
 package grails.web.mapping
 /**
  */
-class DoubleWildcardUrlMappingSpec extends AbstractUrlMappingsSpec{
+class DoubleWildcardUrlMappingSpec extends AbstractUrlMappingsSpec {
 
     void testDoubleWildcardInParam() {
 
         given:
-            def urlMappingsHolder = getUrlMappingsHolder {
-                "/components/image/$path**?" {
-                    controller = "components"
-                    action = "image"
-                }
-                "/stuff/image/$path**" {
-                    controller = "components"
-                    action = "image"
-                }
-
-                "/cow/$controller/$action?/$id?/$path**?"()
+        def urlMappingsHolder = getUrlMappingsHolder {
+            "/components/image/$path**?" {
+                controller = "components"
+                action = "image"
+            }
+            "/stuff/image/$path**" {
+                controller = "components"
+                action = "image"
             }
 
+            "/cow/$controller/$action?/$id?/$path**?"()
+        }
+
         when:
-            def infos = urlMappingsHolder.matchAll("/cow/wiki/show/2/doc/?d=1")
+        def infos = urlMappingsHolder.matchAll("/cow/wiki/show/2/doc/?d=1")
 
         then:
-            infos
-            infos[0].parameters
+        infos
+        infos[0].parameters
     }
 }

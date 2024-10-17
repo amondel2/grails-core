@@ -31,10 +31,11 @@ import java.util.ServiceLoader;
 @FunctionalInterface
 public interface CommandFactory {
 
-	/**
-	 * Returns the CLI {@link org.springframework.boot.cli.command.Command}s.
-	 * @return the commands
-	 */
-	Collection<Command> getCommands();
+    /**
+     * Returns the CLI {@link org.springframework.boot.cli.command.Command}s.
+     *
+     * @return the commands
+     */
+    Collection<Command> getCommands();
 
 }

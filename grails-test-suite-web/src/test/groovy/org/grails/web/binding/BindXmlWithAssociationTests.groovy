@@ -14,7 +14,7 @@ class BindXmlWithAssociationTests extends Specification implements ControllerUni
 
     void testBindXmlWithAssociatedId() {
         when:
-        Book b = new Book(title: "The Stand", pages: 1000).save(flush:true)
+        Book b = new Book(title: "The Stand", pages: 1000).save(flush: true)
         request.method = 'POST'
         request.xml = """
 <person><name>xyz</name><book id='${b.id}'></book></person>
@@ -56,7 +56,7 @@ class PersonController {
 
         // uncomment next line to avoid error
         //person.merge()
-        person.save(failOnError:true)
+        person.save(failOnError: true)
 
         request.person = person
         render 'saved'

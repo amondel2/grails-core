@@ -69,6 +69,7 @@ public abstract class AbstractFileResolvingResource implements Resource {
      * Set the {@link URLConnection#setUseCaches "useCaches"} flag on the
      * given connection, preferring <code>false</code> but leaving the
      * flag at <code>true</code> for JNLP based resources.
+     *
      * @param con the URLConnection to set the flag on
      */
     private static void useCachesIfNecessary(URLConnection con) {
@@ -111,8 +112,7 @@ public abstract class AbstractFileResolvingResource implements Resource {
             InputStream is = getInputStream();
             is.close();
             return true;
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             return false;
         }
     }
@@ -126,8 +126,7 @@ public abstract class AbstractFileResolvingResource implements Resource {
                 return (file.canRead() && !file.isDirectory());
             }
             return true;
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             return false;
         }
     }

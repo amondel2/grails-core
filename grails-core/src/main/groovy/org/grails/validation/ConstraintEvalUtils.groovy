@@ -49,8 +49,7 @@ class ConstraintEvalUtils {
             def constraints = config.getProperty(Settings.GORM_DEFAULT_CONSTRAINTS, Closure)
             if (constraints) {
                 defaultConstraintsMap = new ClosureToMapPopulator().populate((Closure<?>) constraints)
-            }
-            else {
+            } else {
                 defaultConstraintsMap = Collections.emptyMap()
             }
         }
@@ -58,7 +57,7 @@ class ConstraintEvalUtils {
     }
 
     static void clearDefaultConstraints() {
-        defaultConstraintsMap =  null
+        defaultConstraintsMap = null
         configId = null
     }
 }

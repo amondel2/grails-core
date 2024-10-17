@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [17]
+        java: [ 17 ]
     steps:
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
   invoke-third-party-workflows:
     if: github.event_name == 'push'
-    needs: [build, publish]
+    needs: [ build, publish ]
     permissions:
       contents: read # limit to read access
     runs-on: ubuntu-latest

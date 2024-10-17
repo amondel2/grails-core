@@ -9,7 +9,7 @@ import org.grails.web.databinding.converters.AbstractStructuredBindingEditor
 import spock.lang.Specification
 
 class GrailsWebDataBindingStructuredEditorSpec extends Specification {
-    
+
     void 'Test structured editor'() {
         given: 'A binder with a structured editor registered'
         def binder = new GrailsWebDataBinder()
@@ -19,16 +19,16 @@ class GrailsWebDataBindingStructuredEditorSpec extends Specification {
         binder.setStructuredBindingEditors(new StucturedEmployeeEditor())
 
         def company = new Company()
-        
+
         when: 'binding happens'
-        binder.bind company, [president: 'struct', president_firstName: 'Tim', president_lastName: 'Cook',
+        binder.bind company, [president    : 'struct', president_firstName: 'Tim', president_lastName: 'Cook',
                               vicePresident: 'struct', vicePresident_firstName: 'Eddy', vicePresident_lastName: 'Cue'] as SimpleMapDataBindingSource
-                          
+
         then: 'the expected values were bound'
         'Tim' == company.president.firstName
         'Cook' == company.president.lastName
         'Eddy' == company.vicePresident.firstName
-        'Cue' == company.vicePresident.lastName                    
+        'Cue' == company.vicePresident.lastName
     }
 }
 

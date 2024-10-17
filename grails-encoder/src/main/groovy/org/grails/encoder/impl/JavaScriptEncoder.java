@@ -32,7 +32,9 @@ public class JavaScriptEncoder extends AbstractCharReplacementEncoder {
             "JavaScript", "Js") {
         public boolean isEquivalent(CodecIdentifier other) {
             return super.isEquivalent(other) || BasicJSONEncoder.JSON_CODEC_IDENTIFIER.getCodecName().equals(other.getCodecName());
-        };
+        }
+
+        ;
     };
 
     public JavaScriptEncoder() {
@@ -50,7 +52,7 @@ public class JavaScriptEncoder extends AbstractCharReplacementEncoder {
             case '\'':
                 return "\\u0027";
             case '`': // backtick
-                return "\\u0060";                
+                return "\\u0060";
             case '\\':
                 return "\\u005c";
             case '/':
@@ -100,7 +102,7 @@ public class JavaScriptEncoder extends AbstractCharReplacementEncoder {
             case '\u2029':
                 return "\\u2029"; // Paragraph separator
         }
-        if(ch < ' ') {
+        if (ch < ' ') {
             // remove all other control characters
             return "";
         }

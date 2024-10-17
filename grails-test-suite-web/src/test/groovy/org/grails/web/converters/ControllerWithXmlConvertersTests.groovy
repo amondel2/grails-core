@@ -27,7 +27,7 @@ class ControllerWithXmlConvertersTests extends Specification implements Controll
 @Artefact("Controller")
 class XmlController {
 
-     def convertArray() {
+    def convertArray() {
         def ar = []
 
         ar[0] = "tst0"

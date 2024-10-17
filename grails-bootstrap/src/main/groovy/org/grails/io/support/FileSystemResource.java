@@ -29,9 +29,8 @@ import java.net.URL;
  *
  * @author Juergen Hoeller
  * @author Graeme Rocher
- *
- * @since 28.12.2003
  * @see java.io.File
+ * @since 28.12.2003
  */
 public class FileSystemResource implements Resource {
 
@@ -69,6 +68,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation returns whether the underlying file exists.
+     *
      * @see java.io.File#exists()
      */
     public boolean exists() {
@@ -78,6 +78,7 @@ public class FileSystemResource implements Resource {
     /**
      * This implementation checks whether the underlying file is marked as readable
      * (and corresponds to an actual file with content, not to a directory).
+     *
      * @see java.io.File#canRead()
      * @see java.io.File#isDirectory()
      */
@@ -87,6 +88,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation opens a FileInputStream for the underlying file.
+     *
      * @see java.io.FileInputStream
      */
     public InputStream getInputStream() throws IOException {
@@ -95,6 +97,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation returns a URL for the underlying file.
+     *
      * @see java.io.File#toURI()
      */
     public URL getURL() throws IOException {
@@ -103,6 +106,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation returns a URI for the underlying file.
+     *
      * @see java.io.File#toURI()
      */
     public URI getURI() throws IOException {
@@ -129,6 +133,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation returns the name of the file.
+     *
      * @see java.io.File#getName()
      */
     public String getFilename() {
@@ -138,6 +143,7 @@ public class FileSystemResource implements Resource {
     /**
      * This implementation returns a description that includes the absolute
      * path of the file.
+     *
      * @see java.io.File#getAbsolutePath()
      */
     public String getDescription() {
@@ -158,6 +164,7 @@ public class FileSystemResource implements Resource {
     /**
      * This implementation checks whether the underlying file is marked as writable
      * (and corresponds to an actual file with content, not to a directory).
+     *
      * @see java.io.File#canWrite()
      * @see java.io.File#isDirectory()
      */
@@ -167,6 +174,7 @@ public class FileSystemResource implements Resource {
 
     /**
      * This implementation opens a FileOutputStream for the underlying file.
+     *
      * @see java.io.FileOutputStream
      */
     public OutputStream getOutputStream() throws IOException {

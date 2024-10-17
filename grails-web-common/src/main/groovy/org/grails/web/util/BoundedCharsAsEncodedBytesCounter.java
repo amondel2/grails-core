@@ -29,10 +29,10 @@ import java.nio.charset.CodingErrorAction;
 
 /**
  * Counts chars encoded as bytes up to a certain limit (capacity of byte buffer).
- *
+ * <p>
  * size() returns the number of bytes, it will return -1 if the capacity was
  * reached or an error occurred.
- *
+ * <p>
  * this class is useful for calculating the content length of a
  * HttpServletResponse before the response has been committed
  *
@@ -82,11 +82,9 @@ public class BoundedCharsAsEncodedBytesCounter {
                     terminateCalculation();
                     return;
                 }
-            }
-            catch (BufferOverflowException e) {
+            } catch (BufferOverflowException e) {
                 terminateCalculation();
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 terminateCalculation();
             }
         }
@@ -151,19 +149,16 @@ public class BoundedCharsAsEncodedBytesCounter {
                 char cbuf[];
                 if (len <= writeBuffer.length) {
                     cbuf = writeBuffer;
-                }
-                else {
+                } else {
                     cbuf = new char[len];
                 }
                 if (csq instanceof StringBuilder) {
                     ((StringBuilder) csq).getChars(start, end, cbuf, 0);
-                }
-                else {
+                } else {
                     ((StringBuffer) csq).getChars(start, end, cbuf, 0);
                 }
                 write(cbuf, 0, len);
-            }
-            else {
+            } else {
                 write(csq.subSequence(start, end).toString());
             }
             return this;
@@ -175,8 +170,7 @@ public class BoundedCharsAsEncodedBytesCounter {
 
             if (csq == null) {
                 write("null");
-            }
-            else {
+            } else {
                 append(csq, 0, csq.length());
             }
             return this;

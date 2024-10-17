@@ -25,6 +25,7 @@ class UrlMappingParameterTests extends Specification implements UrlMappingsUnitT
         info.actionName == 'list'
 
     }
+
     void testUseDispatchAction() {
         when:
         webRequest.params.controller = 'foo'
@@ -43,14 +44,14 @@ class UrlMappingParameterTests extends Specification implements UrlMappingsUnitT
         webRequest.params.controller = 'foo'
         def info = urlMappingsHolder.match('/showSomething/bad')
 
-        then:'url should not have matched'
+        then: 'url should not have matched'
         info.controllerName == 'foo'
 
         when:
         info = urlMappingsHolder.match('/showSomething/good')
 
-        then:'url should have matched'
-         info.controllerName == 'blog'
+        then: 'url should have matched'
+        info.controllerName == 'blog'
 
         when:
         info.configure webRequest
@@ -83,13 +84,13 @@ class UrlMappingParameterTests extends Specification implements UrlMappingsUnitT
         assertEquals "latest", info.actionName
         assertEquals "sport", info.parameters.category
 
-        def urlCreator = holder.getReverseMapping("blog", "latest", [category:"sport"])
-        assertEquals "/news/latest/sport",urlCreator.createURL("blog", "latest", [category:"sport"], "utf-8")
+        def urlCreator = holder.getReverseMapping("blog", "latest", [category: "sport"])
+        assertEquals "/news/latest/sport", urlCreator.createURL("blog", "latest", [category: "sport"], "utf-8")
     }
 
     static class UrlMappings {
         static mappings = {
-            "/$controller/$action?/$id?"{
+            "/$controller/$action?/$id?" {
                 lang = "de"
                 constraints {
                     // apply constraints here
@@ -98,7 +99,7 @@ class UrlMappingParameterTests extends Specification implements UrlMappingsUnitT
             "/news/$action?/$category" {
                 controller = "blog"
                 constraints {
-                    action(inList:['archive', 'latest'])
+                    action(inList: ['archive', 'latest'])
                 }
             }
             "/showSomething/$key" {

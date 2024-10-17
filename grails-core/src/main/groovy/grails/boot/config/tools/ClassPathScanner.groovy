@@ -52,7 +52,7 @@ class ClassPathScanner {
      * @return A set of classes
      */
     Set<Class> scan(Class applicationClass) {
-        return scan(applicationClass,[applicationClass.package.name])
+        return scan(applicationClass, [applicationClass.package.name])
     }
 
     /**
@@ -64,7 +64,7 @@ class ClassPathScanner {
      * @return A set of classes
      */
     Set<Class> scan(Class applicationClass, Class<? extends Annotation> annotationFilter) {
-        return scan(applicationClass,[applicationClass.package.name], annotationFilter)
+        return scan(applicationClass, [applicationClass.package.name], annotationFilter)
     }
 
     /**
@@ -75,8 +75,8 @@ class ClassPathScanner {
      *
      * @return A set of classes
      */
-    Set<Class> scan(Class applicationClass, Closure<Boolean> annotationFilter ) {
-        return scan(applicationClass,[applicationClass.package.name], annotationFilter)
+    Set<Class> scan(Class applicationClass, Closure<Boolean> annotationFilter) {
+        return scan(applicationClass, [applicationClass.package.name], annotationFilter)
     }
     /**
      * Scans for classes relative to the given class
@@ -104,7 +104,7 @@ class ClassPathScanner {
      */
     Set<Class> scan(Class applicationClass, Collection<String> packageNames, Closure<Boolean> annotationFilter = { String annotation -> annotation.startsWith('grails.') }) {
         ResourcePatternResolver resourcePatternResolver = new GrailsClasspathIgnoringResourceResolver(applicationClass)
-        return scan(applicationClass.getClassLoader(), resourcePatternResolver,packageNames, annotationFilter)
+        return scan(applicationClass.getClassLoader(), resourcePatternResolver, packageNames, annotationFilter)
     }
 
     /**
@@ -136,13 +136,12 @@ class ClassPathScanner {
                 continue
             }
 
-            if(pkg == "") {
+            if (pkg == "") {
                 // try the default package in case of a script without recursing into subpackages
                 log.warn("The application defines a Groovy source using the default package. Please move all Groovy sources into a package.")
-                String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +  "*.class"
+                String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + "*.class"
                 scanUsingPattern(resourcePatternResolver, pattern, classLoader, annotationFilter, classes)
-            }
-            else {
+            } else {
                 String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
                         ClassUtils.convertClassNameToResourcePath(pkg) + Settings.CLASS_RESOURCE_PATTERN;
 
@@ -203,7 +202,7 @@ class ClassPathScanner {
 
                 URL url = resourceUrls.nextElement()
                 // if the path is from a JAR file ignore, plugins inside JAR files will have their own mechanism for loading
-                if(!url.path.contains('jar!/grails/')) {
+                if (!url.path.contains('jar!/grails/')) {
                     result.add(convertClassLoaderURL(url))
                 }
 
@@ -247,10 +246,9 @@ class ClassPathScanner {
 
         @Override
         Enumeration<URL> getResources(String name) throws IOException {
-            if(jarDeployed && name == '') {
+            if (jarDeployed && name == '') {
                 return applicationClass.getClassLoader().getResources(name)
-            }
-            else {
+            } else {
                 return super.findResources(name)
             }
         }

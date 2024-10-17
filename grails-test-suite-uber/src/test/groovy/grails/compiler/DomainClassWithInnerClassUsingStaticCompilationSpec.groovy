@@ -11,25 +11,25 @@ class DomainClassWithInnerClassUsingStaticCompilationSpec extends Specification 
     @Issue('https://github.com/grails/grails-core/issues/12461')
     void 'a domain class marked with @GrailsCompileStatic containing an inner class and a "constraints" block'() {
         expect: 'the configuration from the "constraints" closure is available'
-            SomeClass.constraints instanceof Closure
-            SomeClass.constraintsClosureCalled
+        SomeClass.constraints instanceof Closure
+        SomeClass.constraintsClosureCalled
     }
 
     @Issue('https://github.com/grails/grails-core/issues/12461')
     void 'a domain class marked with @GrailsCompileStatic containing an inner class and a "mapping" block'() {
         expect: 'the configuration from the "mapping" closure is available'
-            SomeClass.mapping instanceof Closure
-            SomeClass.mappingClosureCalled
+        SomeClass.mapping instanceof Closure
+        SomeClass.mappingClosureCalled
     }
 
     @Issue('https://github.com/grails/grails-core/issues/12461')
     void 'a domain class marked with @GrailsCompileStatic containing an inner class and a "namedQueries" block'() {
         setup:
-            SomeClass.getNamedQuery('test')
+        SomeClass.getNamedQuery('test')
 
         expect: 'the configuration from the "namedQueries" closure is available'
-            SomeClass.namedQueries instanceof Closure
-            SomeClass.namedQueriesClosureCalled
+        SomeClass.namedQueries instanceof Closure
+        SomeClass.namedQueriesClosureCalled
     }
 }
 

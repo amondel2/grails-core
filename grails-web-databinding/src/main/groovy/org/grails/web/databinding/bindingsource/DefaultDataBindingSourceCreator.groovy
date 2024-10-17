@@ -45,16 +45,17 @@ class DefaultDataBindingSourceCreator implements DataBindingSourceCreator {
     @Override
     DataBindingSource createDataBindingSource(MimeType mimeType, Class bindingTargetType, Object bindingSource) {
         final DataBindingSource dataBindingSource
-        if(bindingSource instanceof DataBindingSource) {
+        if (bindingSource instanceof DataBindingSource) {
             dataBindingSource = (DataBindingSource) bindingSource
-        } else if(bindingSource instanceof HttpServletRequest) {
-            dataBindingSource = createDataBindingSource(bindingTargetType, (HttpServletRequest)bindingSource)
-        } else if(bindingSource instanceof Map) {
+        } else if (bindingSource instanceof HttpServletRequest) {
+            dataBindingSource = createDataBindingSource(bindingTargetType, (HttpServletRequest) bindingSource)
+        } else if (bindingSource instanceof Map) {
             dataBindingSource = new SimpleMapDataBindingSource(DataBindingUtils.convertPotentialGStrings((Map) bindingSource))
-        } else if (bindingSource){
+        } else if (bindingSource) {
             dataBindingSource = new SimpleMapDataBindingSource(new LazyMetaPropertyMap(bindingSource))
         } else {
-            dataBindingSource = new SimpleMapDataBindingSource(Collections.emptyMap()) // LazyMetaPropertyMap dislike null source
+            dataBindingSource = new SimpleMapDataBindingSource(Collections.emptyMap())
+            // LazyMetaPropertyMap dislike null source
         }
         dataBindingSource
     }
@@ -64,7 +65,7 @@ class DefaultDataBindingSourceCreator implements DataBindingSourceCreator {
         throw new UnsupportedOperationException()
     }
 
-    protected  DataBindingSource createDataBindingSource(Object bindingTarget, HttpServletRequest req) {
+    protected DataBindingSource createDataBindingSource(Object bindingTarget, HttpServletRequest req) {
         final GrailsWebRequest grailsWebRequest = GrailsWebRequest.lookup(req)
         final GrailsParameterMap parameterMap = grailsWebRequest.getParams()
         new SimpleMapDataBindingSource(parameterMap)

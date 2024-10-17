@@ -8,7 +8,7 @@ import grails.testing.web.controllers.ControllerUnitTest
 import org.grails.plugins.testing.GrailsMockMultipartFile
 import spock.lang.Specification
 
- /**
+/**
  * Tests Grails data binding capabilities.
  *
  * @author Graeme Rocher
@@ -96,9 +96,9 @@ class DataBindingTests extends Specification implements ControllerUnitTest<TestC
         then:
         city.people instanceof Set
         city.people.size() == 3
-        city.people.find { it.name == 'Jeff' && it.birthDate == null} != null
-        city.people.find { it.name == 'Jake' && it.birthDate != null} != null
-        city.people.find { it.name == 'Zack' && it.birthDate == null} != null
+        city.people.find { it.name == 'Jeff' && it.birthDate == null } != null
+        city.people.find { it.name == 'Jake' && it.birthDate != null } != null
+        city.people.find { it.name == 'Zack' && it.birthDate == null } != null
     }
 
     void testBindingASinglePropertyWithSubscriptOperator() {
@@ -243,7 +243,7 @@ class DataBindingTests extends Specification implements ControllerUnitTest<TestC
         person.properties = params
 
         then:
-        'Douglas Adams' ==  person.name
+        'Douglas Adams' == person.name
         person.birthDate == null
     }
 
@@ -294,7 +294,7 @@ class DataBindingTests extends Specification implements ControllerUnitTest<TestC
         when:
         def a = new Author()
 
-        params.name =  ''
+        params.name = ''
         params.hairColour = '  '
 
         a.properties = params
@@ -443,6 +443,7 @@ class TestController {
 @Entity
 class DataBindingTestsBook {
     static instanceCount = 0
+
     DataBindingTestsBook() {
         instanceCount++
     }
@@ -458,19 +459,20 @@ class BookReview {
 
 @Entity
 class MyBean {
-  @BindingFormat('MMddyyyy')
-  Date formattedDate
-  Integer someIntProperty
-  Integer someOtherIntProperty
-  Integer thirdIntProperty
-  Float someFloatProperty
-  static constraints = {
-    someIntProperty(min:1, nullable:true)
-    someOtherIntProperty(max:99)
-    thirdIntProperty nullable:false
-    formattedDate nullable: true
-  }
+    @BindingFormat('MMddyyyy')
+    Date formattedDate
+    Integer someIntProperty
+    Integer someOtherIntProperty
+    Integer thirdIntProperty
+    Float someFloatProperty
+    static constraints = {
+        someIntProperty(min: 1, nullable: true)
+        someOtherIntProperty(max: 99)
+        thirdIntProperty nullable: false
+        formattedDate nullable: true
+    }
 }
+
 @Entity
 class Author {
     String name
@@ -478,14 +480,16 @@ class Author {
     City placeOfBirth
 
     static constraints = {
-        name(nullable:true)
+        name(nullable: true)
     }
 }
+
 @Entity
 class City {
     String name
     static hasMany = [people: DataBindingTestsPerson]
 }
+
 @Entity
 class DataBindingTestsPerson {
     String name
@@ -499,10 +503,11 @@ class DataBindingTestsPerson {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((birthDate == null) ? 0 : birthDate.hashCode());
+        +((birthDate == null) ? 0 : birthDate.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this.is(obj))
@@ -525,6 +530,7 @@ class DataBindingTestsPerson {
         return true;
     }
 }
+
 @Entity
 class Pet {
     String name
@@ -542,6 +548,7 @@ class WithEncoding {
 
     static embedded = ['eDate']
 }
+
 class EmbedDate {
 
     Date aDate
@@ -550,13 +557,16 @@ class EmbedDate {
     static constraints = {
     }
 }
+
 @Entity
 class AuthorCommand {
     List beans = []
+
     public AuthorCommand() {
         beans << new AuthorBean()
     }
 }
+
 @Entity
 class AuthorBean {
     Integer[] integers

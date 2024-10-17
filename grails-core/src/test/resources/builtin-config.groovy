@@ -1,4 +1,4 @@
-userHomeVar=userHome
-grailsHomeVar=grailsHome
-appNameVar=appName
-appVersionVar=appVersion
+userHomeVar = userHome
+grailsHomeVar = grailsHome
+appNameVar = appName
+appVersionVar = appVersion

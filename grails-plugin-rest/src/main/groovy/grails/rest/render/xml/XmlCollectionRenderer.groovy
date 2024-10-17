@@ -23,9 +23,9 @@ import groovy.transform.CompileStatic
 import grails.web.mime.MimeType
 
 /**
- * 
+ *
  * A XML renderer for a collection of objects
- * 
+ *
  * @since 2.3.1
  *
  */

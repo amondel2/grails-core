@@ -10,7 +10,7 @@ class StackTraceFiltererSpec extends Specification {
 
     void "Test basic filter"() {
         given: "A controller that should throw a MissingPropertyException"
-            def cls = gcl.parseClass('''
+        def cls = gcl.parseClass('''
 package test
 
 class FooController {
@@ -25,17 +25,17 @@ class FooController {
 ''')
 
         when: "The stack trace is filtered with custom packages"
-           filterer.setCutOffPackage("org.spockframework.util")
-           Throwable exception
-           try {
-               cls.getDeclaredConstructor().newInstance().show()
-           } catch (e) {
-               filterer.filter(e)
-               exception = e
-           }
+        filterer.setCutOffPackage("org.spockframework.util")
+        Throwable exception
+        try {
+            cls.getDeclaredConstructor().newInstance().show()
+        } catch (e) {
+            filterer.filter(e)
+            exception = e
+        }
 
         then: "Only valid stack elements are retained"
-            exception != null
+        exception != null
 
         when:
         StackTraceElement[] stackTraces = exception.stackTrace
@@ -47,7 +47,7 @@ class FooController {
 
     void "Test deep filter"() {
         given: "A controller that calls a service and rethrows an exception"
-            def cls = gcl.parseClass('''
+        def cls = gcl.parseClass('''
 package test
 
 class FooController {
@@ -74,18 +74,18 @@ class FooService {
 ''')
 
         when: "The stack trace is filtered with custom packages"
-           filterer.setCutOffPackage("org.spockframework.util")
-           Throwable exception
-           try {
-               cls.getDeclaredConstructor().newInstance().show()
-           } catch (e) {
-               filterer.filter(e, true)
-               println getExceptionContents(e)
-               exception = e
-           }
+        filterer.setCutOffPackage("org.spockframework.util")
+        Throwable exception
+        try {
+            cls.getDeclaredConstructor().newInstance().show()
+        } catch (e) {
+            filterer.filter(e, true)
+            println getExceptionContents(e)
+            exception = e
+        }
 
         then: "Only valid stack elements are retained"
-            exception != null
+        exception != null
 
         when:
         StackTraceElement[] stackTraces = exception.stackTrace

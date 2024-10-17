@@ -41,24 +41,21 @@ public class Triple<A, B, C> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Triple other = (Triple)obj;
+        Triple other = (Triple) obj;
         if (aValue == null) {
             if (other.aValue != null)
                 return false;
-        }
-        else if (!aValue.equals(other.aValue))
+        } else if (!aValue.equals(other.aValue))
             return false;
         if (bValue == null) {
             if (other.bValue != null)
                 return false;
-        }
-        else if (!bValue.equals(other.bValue))
+        } else if (!bValue.equals(other.bValue))
             return false;
         if (cValue == null) {
             if (other.cValue != null)
                 return false;
-        }
-        else if (!cValue.equals(other.cValue))
+        } else if (!cValue.equals(other.cValue))
             return false;
         return true;
     }

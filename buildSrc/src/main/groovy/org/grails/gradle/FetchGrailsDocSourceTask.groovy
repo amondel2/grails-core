@@ -29,9 +29,15 @@ import org.gradle.api.tasks.TaskAction
  */
 class FetchGrailsDocSourceTask extends DefaultTask {
 
-    @Optional @Input String explicitGrailsDocHome = project.findProperty('grails-doc.home') ?: null
-    @Optional @Input String grailsDocBranch = System.getenv('TARGET_GRAILS_DOC_BRANCH') ?: 'main'
-    @Optional @OutputDirectory checkoutDir = project.findProperty('grails-doc.checkoutDir') ?: project.layout.buildDirectory.dir("checkout")
+    @Optional
+    @Input
+    String explicitGrailsDocHome = project.findProperty('grails-doc.home') ?: null
+    @Optional
+    @Input
+    String grailsDocBranch = System.getenv('TARGET_GRAILS_DOC_BRANCH') ?: 'main'
+    @Optional
+    @OutputDirectory
+            checkoutDir = project.findProperty('grails-doc.checkoutDir') ?: project.layout.buildDirectory.dir("checkout")
 
     @TaskAction
     void fetchGrailsDocSource() {
@@ -43,7 +49,7 @@ class FetchGrailsDocSourceTask extends DefaultTask {
             if (grailsDocBranch) {
                 ant.get(src: "https://github.com/grails/grails-doc/archive/refs/heads/${grailsDocBranch}.zip", dest: zipFile, verbose: true)
                 ant.unzip(src: zipFile, dest: checkoutDir) {
-                    mapper(type: 'regexp', from:/(grails-doc-[\w]*\/)(.*)/, to:/grails-docs-src\/\2/)
+                    mapper(type: 'regexp', from: /(grails-doc-[\w]*\/)(.*)/, to: /grails-docs-src\/\2/)
                 }
             }
         }

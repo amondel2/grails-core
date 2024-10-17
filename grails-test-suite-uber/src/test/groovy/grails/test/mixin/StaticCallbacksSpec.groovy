@@ -8,25 +8,29 @@ import spock.lang.Specification
  */
 class StaticCallbacksSpec extends Specification implements GrailsUnitTest {
 
-    Closure doWithSpring() {{ ->
-        myService(MyService)
-    }}
-    
-    Closure doWithConfig() {{ c ->
-        c.myConfigValue = 'Hello'    
-    }}
-    
+    Closure doWithSpring() {
+        { ->
+            myService(MyService)
+        }
+    }
+
+    Closure doWithConfig() {
+        { c ->
+            c.myConfigValue = 'Hello'
+        }
+    }
+
     def "grailsApplication is not null"() {
         expect:
         grailsApplication != null
     }
-    
+
     def "doWithSpring callback is executed"() {
         expect:
         grailsApplication.mainContext.getBean('myService') != null
     }
 
-    def "doWithConfig callback is executed"(){
+    def "doWithConfig callback is executed"() {
         expect:
         config.myConfigValue == 'Hello'
     }

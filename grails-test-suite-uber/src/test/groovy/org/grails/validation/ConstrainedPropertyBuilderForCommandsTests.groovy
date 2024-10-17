@@ -13,7 +13,7 @@ class ConstrainedPropertyBuilderForCommandsTests extends Specification implement
     void testImportFrom_AllConstraints_ConstraintsExist() {
         when:
         def personCommandConstraints = PersonAllConstraintsNoNormalConstraintsCommand.constraintsMap
-        
+
         then:
         personCommandConstraints != null
         personCommandConstraints.size() == 5
@@ -154,7 +154,7 @@ class ConstrainedPropertyBuilderForCommandsTests extends Specification implement
 
         when:
         person.clearErrors()
-        person.firstName  = null
+        person.firstName = null
         person.email = "wrongEmail"
         person.validate()
 
@@ -220,7 +220,7 @@ class ConstrainedPropertyBuilderForCommandsTests extends Specification implement
 
         when:
         person.clearErrors()
-        person.firstName  = null
+        person.firstName = null
         person.email = "wrongEmail"
         person.validate()
 
@@ -336,11 +336,11 @@ class ConstraintsPerson {
     String email
 
     static constraints = {
-        firstName(nullable:false, blank:false, maxSize:30)
-        lastName(nullable:false, blank:false, maxSize:50)
-        middleName(nullable:true, blank:false, notEqual:"myMiddleName")
-        telephone(nullable:true, blank:false, matches:"123123")
-        email(nullable:true, blank:false, email:true)
+        firstName(nullable: false, blank: false, maxSize: 30)
+        lastName(nullable: false, blank: false, maxSize: 50)
+        middleName(nullable: true, blank: false, notEqual: "myMiddleName")
+        telephone(nullable: true, blank: false, matches: "123123")
+        email(nullable: true, blank: false, email: true)
     }
 }
 
@@ -373,9 +373,9 @@ class PersonAllConstraintsWithNormalConstraintsFirstCommand implements Validatea
     String email
 
     static constraints = {
-        firstName(nullable:true, blank:true, maxSize:10)
-        lastName(nullable:true, blank:true, maxSize:20)
-        email(nullable:false, blank:true, email:true)
+        firstName(nullable: true, blank: true, maxSize: 10)
+        lastName(nullable: true, blank: true, maxSize: 20)
+        email(nullable: false, blank: true, email: true)
 
         importFrom ConstraintsPerson
     }
@@ -391,9 +391,9 @@ class PersonAllConstraintsWithNormalConstraintsLastCommand implements Validateab
     static constraints = {
         importFrom ConstraintsPerson
 
-        firstName(nullable:true, blank:true, maxSize:10)
-        lastName(nullable:true, blank:true, maxSize:20)
-        email(nullable:false, blank:true, email:true)
+        firstName(nullable: true, blank: true, maxSize: 10)
+        lastName(nullable: true, blank: true, maxSize: 20)
+        email(nullable: false, blank: true, email: true)
     }
 }
 
@@ -405,7 +405,7 @@ class PersonAllConstraintsNoNormalConstraintsIncludingCommand implements Validat
     String email
 
     static constraints = {
-        importFrom ConstraintsPerson, include:["firstName", "lastName"]
+        importFrom ConstraintsPerson, include: ["firstName", "lastName"]
     }
 }
 
@@ -417,7 +417,7 @@ class PersonAllConstraintsNoNormalConstraintsExcludingCommand implements Validat
     String email
 
     static constraints = {
-        importFrom ConstraintsPerson, exclude:["firstName", "lastName"]
+        importFrom ConstraintsPerson, exclude: ["firstName", "lastName"]
     }
 }
 
@@ -429,7 +429,7 @@ class PersonAllConstraintsNoNormalConstraintsIncludingByRegexpCommand implements
     String email
 
     static constraints = {
-        importFrom ConstraintsPerson, include:[".*Name"]
+        importFrom ConstraintsPerson, include: [".*Name"]
     }
 }
 
@@ -441,6 +441,6 @@ class PersonAllConstraintsNoNormalConstraintsIncludingExcludingByRegexpCommand i
     String email
 
     static constraints = {
-        importFrom ConstraintsPerson, include:[".*Name"], exclude:["m.*Name"]
+        importFrom ConstraintsPerson, include: [".*Name"], exclude: ["m.*Name"]
     }
 }

@@ -31,13 +31,13 @@ class MultipleRenderCallsContentTypeTests extends Specification implements Contr
 class MultipleRenderController {
 
     def test = {
-        render(text:"foo",contentType:"text/xml")
-        render(text:"bar",contentType:"application/json")
+        render(text: "foo", contentType: "text/xml")
+        render(text: "bar", contentType: "application/json")
     }
 
     def test2 = {
         response.contentType = "text/xml"
 
-        render(text:"bar")
+        render(text: "bar")
     }
 }

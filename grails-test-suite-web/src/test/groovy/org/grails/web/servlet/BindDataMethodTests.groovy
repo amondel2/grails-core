@@ -124,7 +124,7 @@ class BindingController {
 
     def bindWithMap() {
         def target = new CommandObject()
-        bindData target, [ name : 'Marc Palmer' ]
+        bindData target, [name: 'Marc Palmer']
         [target: target]
     }
 
@@ -136,48 +136,48 @@ class BindingController {
 
     def bindWithIncludes() {
         def target = new CommandObject()
-        bindData target, [ name : 'Marc Palmer', email : 'dontwantthis' ], [include:['name']]
+        bindData target, [name: 'Marc Palmer', email: 'dontwantthis'], [include: ['name']]
         [target: target]
     }
 
     def bindWithEmptyIncludesExcludesMap() {
         def target = new CommandObject()
-        bindData target, [ name : 'Marc Palmer', email : 'dowantthis' ], [:]
+        bindData target, [name: 'Marc Palmer', email: 'dowantthis'], [:]
         [target: target]
     }
 
     def bindWithIncludeOverriddenByExclude() {
         def target = new CommandObject()
-        bindData target, [ name : 'Marc Palmer', email : 'dontwantthis' ], [include: ['name', 'email'], exclude: ['email']]
+        bindData target, [name: 'Marc Palmer', email: 'dontwantthis'], [include: ['name', 'email'], exclude: ['email']]
         [target: target]
     }
 
     def bindWithPrefixFilter() {
         def target = new CommandObject()
         def filter = "lee"
-        bindData target, [ 'mark.name' : 'Marc Palmer', 'mark.email' : 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], filter
+        bindData target, ['mark.name': 'Marc Palmer', 'mark.email': 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], filter
         [target: target]
     }
 
     def bindWithParamsAndDisallowed() {
         def target = new CommandObject()
-        bindData target, params, [exclude:['email']]
+        bindData target, params, [exclude: ['email']]
         [target: target]
     }
 
     def bindWithPrefixFilterAndDisallowed() {
         def target = new CommandObject()
         def filter = "lee"
-        def disallowed = [exclude:["email"]]
-        bindData target, [ 'mark.name' : 'Marc Palmer', 'mark.email' : 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], disallowed, filter
+        def disallowed = [exclude: ["email"]]
+        bindData target, ['mark.name': 'Marc Palmer', 'mark.email': 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], disallowed, filter
         [target: target]
     }
 
     def bindWithStringConvertedToList() {
         def target = new CommandObject()
         def filter = "lee"
-        def disallowed = [exclude:"email"]
-        bindData target, [ 'mark.name' : 'Marc Palmer', 'mark.email' : 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], disallowed, filter
+        def disallowed = [exclude: "email"]
+        bindData target, ['mark.name': 'Marc Palmer', 'mark.email': 'dontwantthis', 'lee.name': 'Lee Butts', 'lee.email': 'lee@mail.com'], disallowed, filter
         [target: target]
     }
 }

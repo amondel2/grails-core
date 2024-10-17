@@ -15,16 +15,16 @@ class SoftwareVersionSpec extends Specification {
         softwareVersion == expected
 
         where:
-        semver                  || expected
-        "1.0.0"                 || new SoftwareVersion(major: 1, minor: 0, patch: 0)
+        semver                 || expected
+        "1.0.0"                || new SoftwareVersion(major: 1, minor: 0, patch: 0)
 
-        "1.0.0.M1"              || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("M1"))
-        "1.0.0.RC1"             || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("RC1"))
-        "1.0.0.BUILD-SNAPSHOT"  || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("BUILD-SNAPSHOT"))
+        "1.0.0.M1"             || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("M1"))
+        "1.0.0.RC1"            || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("RC1"))
+        "1.0.0.BUILD-SNAPSHOT" || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("BUILD-SNAPSHOT"))
 
-        "1.0.0-M1"              || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("M1"))
-        "1.0.0-RC1"             || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("RC1"))
-        "1.0.0-BUILD-SNAPSHOT"  || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("BUILD-SNAPSHOT"))
+        "1.0.0-M1"             || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("M1"))
+        "1.0.0-RC1"            || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("RC1"))
+        "1.0.0-BUILD-SNAPSHOT" || new SoftwareVersion(major: 1, minor: 0, patch: 0, snapshot: new Snapshot("BUILD-SNAPSHOT"))
 
     }
 }

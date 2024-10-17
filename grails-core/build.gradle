@@ -17,25 +17,25 @@ dependencies {
 
 
     api project(":grails-bootstrap"), {
-        exclude group:"org.fusesource.jansi", module:"jansi"
-        exclude group:"jline", module:"jline"
-        exclude group:"net.java.dev.jna", module:"jna"
+        exclude group: "org.fusesource.jansi", module: "jansi"
+        exclude group: "jline", module: "jline"
+        exclude group: "net.java.dev.jna", module: "jna"
 
         // Ant
-        exclude group:"org.apache.groovy", module:"groovy-ant"
-        exclude group:"org.apache.ant", module:"ant"
-        exclude group:"org.apache.ant", module:"ant-launcher"
-        exclude group:"org.apache.ivy", module:"ivy"
-        exclude group:"org.apache.ant", module:"ant-trax"
-        exclude group:"org.apache.ant", module:"ant-junit"
+        exclude group: "org.apache.groovy", module: "groovy-ant"
+        exclude group: "org.apache.ant", module: "ant"
+        exclude group: "org.apache.ant", module: "ant-launcher"
+        exclude group: "org.apache.ivy", module: "ivy"
+        exclude group: "org.apache.ant", module: "ant-trax"
+        exclude group: "org.apache.ant", module: "ant-junit"
 
-        exclude group:"org.codehaus.gant", module:"gant_groovy1.8"
+        exclude group: "org.codehaus.gant", module: "gant_groovy1.8"
     }
 
     api project(":grails-spring"), {
-        exclude group:'org.springframework', module:'spring-tx'
-        exclude group:'org.springframework', module:'spring-web'
-        exclude group:'org.grails', module:'grails-bootstrap'
+        exclude group: 'org.springframework', module: 'spring-tx'
+        exclude group: 'org.springframework', module: 'spring-web'
+        exclude group: 'org.grails', module: 'grails-bootstrap'
     }
 
     api "org.grails:grails-datastore-core:$datastoreVersion"
@@ -59,11 +59,11 @@ tasks.named('processResources') {
 
 eclipse {
     classpath {
-       file {
-           whenMerged { classpath ->
+        file {
+            whenMerged { classpath ->
                 // don't add global ASTs since the source code is in this project and that causes greclipse compilation to fail
-                classpath.entries.find { entry -> entry.kind == 'src' && entry.path == "src/main/resources" }?.excludes=["META-INF/services/org.codehaus.groovy.transform.ASTTransformation"]
-           }
-       }
+                classpath.entries.find { entry -> entry.kind == 'src' && entry.path == "src/main/resources" }?.excludes = ["META-INF/services/org.codehaus.groovy.transform.ASTTransformation"]
+            }
+        }
     }
 }

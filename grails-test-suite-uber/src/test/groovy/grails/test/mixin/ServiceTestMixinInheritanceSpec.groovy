@@ -16,10 +16,12 @@ class ServiceTestMixinInheritanceSpec extends TestSuperClass {
         transactionManager.is(TestSuperClass.manager)
     }
 }
+
 @Artefact(ServiceArtefactHandler.TYPE)
 class TestService {
 
 }
+
 class TestSuperClass extends Specification {
     public static final DatastoreTransactionManager manager = new DatastoreTransactionManager()
 

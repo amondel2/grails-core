@@ -35,17 +35,17 @@ class RegexUrlMappingTests {
     void testComparable() {
         def parser = new DefaultUrlMappingParser()
         def application = new DefaultGrailsApplication()
-        def m1 = new RegexUrlMapping(parser.parse("/foo/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m2 = new RegexUrlMapping(parser.parse("/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m3 = new RegexUrlMapping(parser.parse("/foo/bar/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m4 = new RegexUrlMapping(parser.parse("/foo/(*)/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m5 = new RegexUrlMapping(parser.parse("/(*)/foo/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m6 = new RegexUrlMapping(parser.parse("/foo/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m7 = new RegexUrlMapping(parser.parse("/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m8 = new RegexUrlMapping(parser.parse("/foo/(*)/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m9 = new RegexUrlMapping(parser.parse("/(*)/(*)/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m10 = new RegexUrlMapping(parser.parse("/(*)/(*)/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
-        def m11 = new RegexUrlMapping(parser.parse("/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,null, application)
+        def m1 = new RegexUrlMapping(parser.parse("/foo/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m2 = new RegexUrlMapping(parser.parse("/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m3 = new RegexUrlMapping(parser.parse("/foo/bar/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m4 = new RegexUrlMapping(parser.parse("/foo/(*)/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m5 = new RegexUrlMapping(parser.parse("/(*)/foo/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m6 = new RegexUrlMapping(parser.parse("/foo/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m7 = new RegexUrlMapping(parser.parse("/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m8 = new RegexUrlMapping(parser.parse("/foo/(*)/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m9 = new RegexUrlMapping(parser.parse("/(*)/(*)/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m10 = new RegexUrlMapping(parser.parse("/(*)/(*)/(*)"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
+        def m11 = new RegexUrlMapping(parser.parse("/"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, null, application)
 
 
         assertTrue m1.compareTo(m1) == 0

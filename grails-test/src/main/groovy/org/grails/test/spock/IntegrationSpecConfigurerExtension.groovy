@@ -41,8 +41,8 @@ class IntegrationSpecConfigurerExtension implements IAnnotationDrivenExtension<A
 
     void visitSpecAnnotation(Annotation annotation, SpecInfo spec) {
         final context = Holders.getApplicationContext()
-        if(context) {
-            for(FeatureInfo info in spec.getAllFeatures()) {
+        if (context) {
+            for (FeatureInfo info in spec.getAllFeatures()) {
                 info.addInterceptor(new IntegrationSpecMethodInterceptor(context))
             }
         }
@@ -65,13 +65,12 @@ class IntegrationSpecConfigurerExtension implements IAnnotationDrivenExtension<A
         @Override
         void intercept(IMethodInvocation invocation) {
             final instance = invocation.instance ?: invocation.sharedInstance
-            if(instance) {
+            if (instance) {
                 GrailsTestInterceptor interceptor = new GrailsTestInterceptor(instance, mode, applicationContext, ["Spec", "Specification", "Tests", "Test"] as String[])
                 interceptor.wrap {
                     invocation.proceed()
                 }
-            }
-            else {
+            } else {
                 invocation.proceed()
             }
         }

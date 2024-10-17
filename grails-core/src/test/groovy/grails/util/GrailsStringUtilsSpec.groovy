@@ -21,46 +21,47 @@ import spock.lang.Specification
 
 /**
  */
-class GrailsStringUtilsSpec extends Specification{
+class GrailsStringUtilsSpec extends Specification {
 
     void "Test toBoolean"() {
         expect:
-            GrailsStringUtils.toBoolean("on") == true
-            GrailsStringUtils.toBoolean("yes") == true
-            GrailsStringUtils.toBoolean("true") == true
-            GrailsStringUtils.toBoolean("1") == true
-            GrailsStringUtils.toBoolean("ON") == true
-            GrailsStringUtils.toBoolean("Yes") == true
-            GrailsStringUtils.toBoolean("TRue") == true
-            GrailsStringUtils.toBoolean("false") == false
-            GrailsStringUtils.toBoolean("0") == false
-            GrailsStringUtils.toBoolean("off") == false
+        GrailsStringUtils.toBoolean("on") == true
+        GrailsStringUtils.toBoolean("yes") == true
+        GrailsStringUtils.toBoolean("true") == true
+        GrailsStringUtils.toBoolean("1") == true
+        GrailsStringUtils.toBoolean("ON") == true
+        GrailsStringUtils.toBoolean("Yes") == true
+        GrailsStringUtils.toBoolean("TRue") == true
+        GrailsStringUtils.toBoolean("false") == false
+        GrailsStringUtils.toBoolean("0") == false
+        GrailsStringUtils.toBoolean("off") == false
     }
+
     void "Test substringBefore method"() {
         expect:
-            GrailsStringUtils.substringBefore("abc", "a")   == ""
-            GrailsStringUtils.substringBefore("abcba", "b") == "a"
-            GrailsStringUtils.substringBefore("abc", "c")   == "ab"
-            GrailsStringUtils.substringBefore("abc", "d")   == "abc"
-            GrailsStringUtils.substringBefore("abc", "")    == ""
-            GrailsStringUtils.substringBefore("abc", null)  == "abc"
+        GrailsStringUtils.substringBefore("abc", "a") == ""
+        GrailsStringUtils.substringBefore("abcba", "b") == "a"
+        GrailsStringUtils.substringBefore("abc", "c") == "ab"
+        GrailsStringUtils.substringBefore("abc", "d") == "abc"
+        GrailsStringUtils.substringBefore("abc", "") == ""
+        GrailsStringUtils.substringBefore("abc", null) == "abc"
     }
 
     void "Test substringAfter method"() {
         expect:
-            GrailsStringUtils.substringAfter("abc", "a")   == "bc"
-            GrailsStringUtils.substringAfter("abcba", "b") == "cba"
-            GrailsStringUtils.substringAfter("abc", "c")   == ""
-            GrailsStringUtils.substringAfter("abc", "d")   == "abc"
-            GrailsStringUtils.substringAfter("abc", "")    == "abc"
+        GrailsStringUtils.substringAfter("abc", "a") == "bc"
+        GrailsStringUtils.substringAfter("abcba", "b") == "cba"
+        GrailsStringUtils.substringAfter("abc", "c") == ""
+        GrailsStringUtils.substringAfter("abc", "d") == "abc"
+        GrailsStringUtils.substringAfter("abc", "") == "abc"
     }
 
     void "Test trimStart method"() {
         expect:
-            GrailsStringUtils.trimStart("abc", "") == 'abc'
-            GrailsStringUtils.trimStart("abc", null) == 'abc'
-            GrailsStringUtils.trimStart("abc", "a") == 'bc'
-            GrailsStringUtils.trimStart("abc", "ab") == 'c'
-            GrailsStringUtils.trimStart("abc", "c") == 'abc'
+        GrailsStringUtils.trimStart("abc", "") == 'abc'
+        GrailsStringUtils.trimStart("abc", null) == 'abc'
+        GrailsStringUtils.trimStart("abc", "a") == 'bc'
+        GrailsStringUtils.trimStart("abc", "ab") == 'c'
+        GrailsStringUtils.trimStart("abc", "c") == 'abc'
     }
 }

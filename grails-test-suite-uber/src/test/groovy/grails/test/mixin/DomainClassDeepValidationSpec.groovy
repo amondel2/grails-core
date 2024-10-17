@@ -31,31 +31,31 @@ class DomainClassDeepValidationSpec extends Specification implements DataTest {
 
     @Issue('GRAILS-8738')
     void "Test that validation cascades to the child from the owner"() {
-        when:"a domain model with invalid children is created"
-            def testObj = new ExampleParent()
-            testObj.title = 'Testing'
-            def oneChild = new ExampleSingleChild()
-            testObj.oneChild = oneChild
-            def manyChildren = [new ExampleManyChild(), new ExampleManyChild(), new ExampleManyChild(), new ExampleManyChild()]
+        when: "a domain model with invalid children is created"
+        def testObj = new ExampleParent()
+        testObj.title = 'Testing'
+        def oneChild = new ExampleSingleChild()
+        testObj.oneChild = oneChild
+        def manyChildren = [new ExampleManyChild(), new ExampleManyChild(), new ExampleManyChild(), new ExampleManyChild()]
 
         then: "The children have validation errors"
-            !oneChild.validate()
-            !manyChildren[0].validate()
+        !oneChild.validate()
+        !manyChildren[0].validate()
 
         when: "When the children are assigned to the parent"
-            testObj.manyChildren = manyChildren
+        testObj.manyChildren = manyChildren
         then: "The parent has validation errors"
-            !testObj.validate(deepValidate: true)
-            testObj.validate(deepValidate: false)
+        !testObj.validate(deepValidate: true)
+        testObj.validate(deepValidate: false)
 
-        when:"The children are made valid"
-            oneChild.singleName = 'foo'
-            testObj.manyChildren.each { it.childName = "stuff" }
+        when: "The children are made valid"
+        oneChild.singleName = 'foo'
+        testObj.manyChildren.each { it.childName = "stuff" }
 
         then: "The parent has no validation errors"
-            testObj.validate()
-            testObj.validate(deepValidate: false)
-            testObj.validate(deepValidate: true)
+        testObj.validate()
+        testObj.validate(deepValidate: false)
+        testObj.validate(deepValidate: true)
 
     }
 }

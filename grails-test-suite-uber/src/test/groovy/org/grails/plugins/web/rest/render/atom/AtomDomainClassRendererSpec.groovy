@@ -18,23 +18,23 @@ class AtomDomainClassRendererSpec extends BaseDomainClassRendererSpec {
     void 'Test that the Atom renderer renders domain objects with appropriate links'() {
 
         given: 'An Atom renderer'
-            def renderer = getRenderer()
+        def renderer = getRenderer()
 
         and: 'A Book domain object'
-            def author = Author.create(2, 'Stephen King')
-            def author2 = Author.create(3, 'King Stephen')
-            def book = Book.create(1, 'The Stand', author)
-            book.link(href: '/publisher', rel: 'The Publisher')
-            book.authors.addAll(author, author2)
+        def author = Author.create(2, 'Stephen King')
+        def author2 = Author.create(3, 'King Stephen')
+        def book = Book.create(1, 'The Stand', author)
+        book.link(href: '/publisher', rel: 'The Publisher')
+        book.authors.addAll(author, author2)
 
         when: 'The Book is rendered'
-            def request = setupRequest('application/atom+xml')
-            def response = setupResponse(request)
-            def renderContext = new ServletRenderContext(request)
-            renderer.render(book, renderContext)
+        def request = setupRequest('application/atom+xml')
+        def response = setupResponse(request)
+        def renderContext = new ServletRenderContext(request)
+        renderer.render(book, renderContext)
 
         then: 'The resulting Atom is correct'
-            def expectedContent = toCompactXml('''
+        def expectedContent = toCompactXml('''
                 <?xml version="1.0" encoding="UTF-8"?>
                 <feed xmlns="http://www.w3.org/2005/Atom">
                     <id>tag:localhost:1</id>
@@ -68,31 +68,31 @@ class AtomDomainClassRendererSpec extends BaseDomainClassRendererSpec {
                     </authors>
                 </feed>            
             ''')
-            response.contentAsString == expectedContent
-            response.contentType == GrailsWebUtil.getContentType(AtomRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        response.contentAsString == expectedContent
+        response.contentType == GrailsWebUtil.getContentType(AtomRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
     }
 
     void 'Test that the Atom renderer renders a list of domain objects with the appropriate links'() {
 
         given: 'An Atom renderer'
-            def renderer = getRenderer()
+        def renderer = getRenderer()
 
         and: 'A Book domain object'
-            def author = Author.create(2, 'Stephen King')
-            def author2 = Author.create(3, 'King Stephen')
-            def book = Book.create(1, 'The Stand', author)
-            book.link(href: '/publisher', rel: 'The Publisher')
-            book.authors.addAll(author, author2)
+        def author = Author.create(2, 'Stephen King')
+        def author2 = Author.create(3, 'King Stephen')
+        def book = Book.create(1, 'The Stand', author)
+        book.link(href: '/publisher', rel: 'The Publisher')
+        book.authors.addAll(author, author2)
 
         when: 'The Author collection of the Book is rendered'
-            def webRequest = setupRequest('application/atom+xml')
-            def response = setupResponse(webRequest)
-            def renderContext = new ServletRenderContext(webRequest)
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/authors')
-            renderer.render(book.authors, renderContext)
+        def webRequest = setupRequest('application/atom+xml')
+        def response = setupResponse(webRequest)
+        def renderContext = new ServletRenderContext(webRequest)
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/authors')
+        renderer.render(book.authors, renderContext)
 
         then: 'The resulting Atom is correct'
-            def expectedContent = toCompactXml('''
+        def expectedContent = toCompactXml('''
                 <?xml version="1.0" encoding="UTF-8"?>
                 <feed xmlns="http://www.w3.org/2005/Atom">
                     <title></title>
@@ -115,8 +115,8 @@ class AtomDomainClassRendererSpec extends BaseDomainClassRendererSpec {
                     </entry>
                 </feed>
             ''')
-            response.contentAsString == expectedContent
-            response.contentType == GrailsWebUtil.getContentType(AtomRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        response.contentAsString == expectedContent
+        response.contentType == GrailsWebUtil.getContentType(AtomRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
     }
 
     protected Renderer getRenderer() {
