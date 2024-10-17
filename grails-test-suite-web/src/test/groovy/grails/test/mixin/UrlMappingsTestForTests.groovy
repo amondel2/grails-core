@@ -13,25 +13,25 @@ class UrlMappingsTestForTests extends Specification implements UrlMappingsUnitTe
     void testUrlMappings() {
 
         expect:
-        assertUrlMapping "/book/list", controller:"book", action:"list"
+        assertUrlMapping "/book/list", controller: "book", action: "list"
     }
 }
 
 @Artefact("Controller")
 class BookController {
-    def list() { }
+    def list() {}
 }
 
 class UrlMappings {
 
     static mappings = {
-        "/$controller/$action?/$id?"{
+        "/$controller/$action?/$id?" {
             constraints {
                 // apply constraints here
             }
         }
 
-        "/"(view:"/index")
-        "500"(view:'/error')
+        "/"(view: "/index")
+        "500"(view: '/error')
     }
 }

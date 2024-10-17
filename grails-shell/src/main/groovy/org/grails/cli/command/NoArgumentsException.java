@@ -25,6 +25,6 @@ import org.springframework.boot.cli.command.CommandException;
  */
 class NoArgumentsException extends CommandException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 }

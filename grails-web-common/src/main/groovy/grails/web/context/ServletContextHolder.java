@@ -28,12 +28,12 @@ import jakarta.servlet.ServletContext;
  */
 public class ServletContextHolder {
 
+    public static ServletContext getServletContext() {
+        return (ServletContext) Holders.getServletContext();
+    }
+
     public static void setServletContext(final ServletContext servletContext) {
         Holders.setServletContext(servletContext);
         Holders.addApplicationDiscoveryStrategy(new ServletEnvironmentGrailsApplicationDiscoveryStrategy(servletContext));
-    }
-
-    public static ServletContext getServletContext() {
-        return (ServletContext) Holders.getServletContext();
     }
 }

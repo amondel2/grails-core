@@ -23,13 +23,11 @@ import static jline.internal.Preconditions.checkNotNull;
 
 /**
  * Copied from jline AggregateCompleter
- *
+ * <p>
  * sorts aggregated completions
- *
  */
 public class SortedAggregateCompleter
-    implements Completer
-{
+        implements Completer {
     private final List<Completer> completers = new ArrayList<Completer>();
 
     public SortedAggregateCompleter() {
@@ -69,8 +67,8 @@ public class SortedAggregateCompleter
     /**
      * Perform a completion operation across all aggregated completers.
      *
-     * @see Completer#complete(String, int, java.util.List)
      * @return the highest completion return value from all completers
+     * @see Completer#complete(String, int, java.util.List)
      */
     public int complete(final String buffer, final int cursor, final List<CharSequence> candidates) {
         // buffer could be null
@@ -110,12 +108,11 @@ public class SortedAggregateCompleter
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +
-            "completers=" + completers +
-            '}';
+                "completers=" + completers +
+                '}';
     }
 
-    private class Completion
-    {
+    private class Completion {
         public final List<CharSequence> candidates;
 
         public int cursor;

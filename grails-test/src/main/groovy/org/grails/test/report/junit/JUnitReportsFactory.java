@@ -32,21 +32,21 @@ public class JUnitReportsFactory {
     protected final File reportsDir;
     protected final List<String> formats;
 
-    @SuppressWarnings("unchecked")
-    public static JUnitReportsFactory createFromBuildBinding(Binding buildBinding) {
-        // This is not great, the phase and type names probably shouldn't be sourced from the binding.
-        return new JUnitReportsFactory(
-                (String)buildBinding.getProperty("currentTestPhaseName"),
-                (String)buildBinding.getProperty("currentTestTypeName"),
-                (File)buildBinding.getProperty("testReportsDir"),
-                (List<String>)buildBinding.getProperty("reportFormats"));
-    }
-
     public JUnitReportsFactory(String phaseName, String typeName, File reportsDir, List<String> formats) {
         this.phaseName = phaseName;
         this.typeName = typeName;
         this.reportsDir = reportsDir;
         this.formats = formats;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static JUnitReportsFactory createFromBuildBinding(Binding buildBinding) {
+        // This is not great, the phase and type names probably shouldn't be sourced from the binding.
+        return new JUnitReportsFactory(
+                (String) buildBinding.getProperty("currentTestPhaseName"),
+                (String) buildBinding.getProperty("currentTestTypeName"),
+                (File) buildBinding.getProperty("testReportsDir"),
+                (List<String>) buildBinding.getProperty("reportFormats"));
     }
 
     public JUnitReports createReports(String name) {

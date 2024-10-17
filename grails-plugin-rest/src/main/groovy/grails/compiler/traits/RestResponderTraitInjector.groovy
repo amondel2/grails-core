@@ -24,7 +24,7 @@ import grails.artefact.controller.RestResponder
  *
  */
 class RestResponderTraitInjector extends ControllerTraitInjector {
-    
+
     @Override
     Class getTrait() {
         RestResponder

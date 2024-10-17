@@ -20,7 +20,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 
 /**
  * Represents a runtime bean configuration.
- *
+ * <p>
  * Credit must go to Solomon Duskis and the
  * article: http://jroller.com/page/Solomon?entry=programmatic_configuration_in_spring
  *
@@ -38,6 +38,13 @@ public interface BeanConfiguration {
     String getName();
 
     /**
+     * Sets the name of the bean in the app ctx.
+     *
+     * @param beanName The bean name
+     */
+    void setName(String beanName);
+
+    /**
      * @return true if the bean is singleton
      */
     boolean isSingleton();
@@ -47,11 +54,13 @@ public interface BeanConfiguration {
      */
     AbstractBeanDefinition getBeanDefinition();
 
+    void setBeanDefinition(BeanDefinition definition);
+
     /**
      * Adds a property value to this bean.
-     * @param propertyName The name of the property
-     * @param propertyValue The value of the property
      *
+     * @param propertyName  The name of the property
+     * @param propertyValue The value of the property
      * @return Returns this bean configuration
      */
     BeanConfiguration addProperty(String propertyName, Object propertyValue);
@@ -73,14 +82,12 @@ public interface BeanConfiguration {
     BeanConfiguration setDependsOn(String[] dependsOn);
 
     /**
-     *
      * @param beanName
      * @return This BeanConfiguration
      */
     BeanConfiguration setFactoryBean(String beanName);
 
     /**
-     *
      * @param methodName
      * @return This BeanConfiguration
      */
@@ -95,13 +102,8 @@ public interface BeanConfiguration {
     BeanConfiguration setAutowire(String type);
 
     /**
-     * Sets the name of the bean in the app ctx.
-     * @param beanName The bean name
-     */
-    void setName(String beanName);
-
-    /**
      * Returns true if the bean config has the name property set.
+     *
      * @param name The name of the property
      * @return true if it does have a property with the given name
      */
@@ -125,6 +127,7 @@ public interface BeanConfiguration {
 
     /**
      * Sets the BeanConfiguration as an Abstract bean definition
+     *
      * @param isAbstract Whether its abstract or not
      * @return This BeanConfiguration object
      */
@@ -136,6 +139,4 @@ public interface BeanConfiguration {
      * @param name Either a string which is the name of the bean, a RuntimeBeanReference or a BeanConfiguration
      */
     void setParent(Object name);
-
-    void setBeanDefinition(BeanDefinition definition);
 }

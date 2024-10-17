@@ -72,7 +72,7 @@ createTestTask("cli", ["org/codehaus/groovy/grails/cli/**/*Tests.class"], ["org/
 createTestTask("uniqueConstraints", ["**/UniqueConstraintTests.class"], [])
 createTestTask("taglib", ["**/web/taglib/**/*Tests.class"], ["**/Abstract*"])
 createTestTask("other", ["**/*Tests.class"], ["**/Abstract*", "**/TransactionalServiceReloadTests*",
-        "**/ContentFormatControllerTests*", "**/web/taglib/**", "**/cli/**Tests.class"])
+                                              "**/ContentFormatControllerTests*", "**/web/taglib/**", "**/cli/**Tests.class"])
 
 def createTestTask(name, includes, excludes) {
     createTestTaskWithoutSuffix("${name}Test", includes, excludes)
@@ -80,7 +80,7 @@ def createTestTask(name, includes, excludes) {
 
 def createTestTaskWithoutSuffix(String name, includes, excludes) {
     task = tasks.add(name: name, type: Test) {
-    	doFirst dependencyCache
+        doFirst dependencyCache
         systemProperties = ['grails.cli.testing': "true", 'groovy.grails.joint': "true"]
         maxHeapSize = '1500m'
         minHeapSize = '256m'
@@ -99,7 +99,7 @@ def createTestTaskWithoutSuffix(String name, includes, excludes) {
     task.dependsOn coreJar
 }
 
-tasks.addRule("Pattern: <testTaskName>Coverage will execute the corresponding test task with coverage") {String taskName ->
+tasks.addRule("Pattern: <testTaskName>Coverage will execute the corresponding test task with coverage") { String taskName ->
     String coverageName = 'Coverage'
     if (taskName.endsWith(coverageName)) {
         def testTaskName = taskName.substring(0, taskName.length() - coverageName.length())
@@ -113,14 +113,14 @@ tasks.addRule("Pattern: <testTaskName>Coverage will execute the corresponding te
 }
 
 def applyCoveragetToTestTasks(def testTasks) {
-    testTasks.each {testTask ->
+    testTasks.each { testTask ->
         testTask.dependsOn instrumentForCoverage
         testTask.classpath = project.files(tasks.instrumentForCoverage.instrumentedClassesDir) + testTask.classpath + project.rootProject.configurations.coverage
         coverageReport.dependsOn testTask
     }
 }
 
-tasks.addRule("Pattern: testSingle<Name> will test **/<Name>Tests.class") {String taskName ->
+tasks.addRule("Pattern: testSingle<Name> will test **/<Name>Tests.class") { String taskName ->
     if (taskName.startsWith("testSingle") && !taskName.endsWith('Coverage')) {
         createTestTaskWithoutSuffix(taskName, ['**/' + taskName.substring(10) + 'Tests.class'], [])
     }

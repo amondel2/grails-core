@@ -16,7 +16,6 @@
 package grails.util
 
 
-
 /**
  * A interface for objects that have been assigned a name
  *

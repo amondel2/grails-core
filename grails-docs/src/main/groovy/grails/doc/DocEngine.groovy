@@ -67,7 +67,7 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
     boolean exists(String name) {
         int barIndex = name.indexOf('|')
         if (barIndex > -1) {
-            def refItem = name[0..barIndex-1]
+            def refItem = name[0..barIndex - 1]
             def refCategory = name[barIndex + 1..-1]
 
             if (refCategory.startsWith("http://") || refCategory.startsWith("https://")) {
@@ -86,9 +86,8 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
                     return true
                 }
 
-                emitWarning(name,ref,"page")
-            }
-            else if (refCategory.startsWith("api:")) {
+                emitWarning(name, ref, "page")
+            } else if (refCategory.startsWith("api:")) {
                 def ref = refCategory[4..-1]
                 if (EXTERNAL_DOCS.keySet().find { ref.startsWith(it) }) {
                     return true
@@ -96,21 +95,20 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
 
                 ref = ref.replace('.' as char, '/' as char)
                 if (ref.indexOf('#') > -1) {
-                    ref = ref[0..ref.indexOf("#")-1]
+                    ref = ref[0..ref.indexOf("#") - 1]
                 }
 
                 def apiBase = initialContext.get(API_BASE_PATH)
                 if (apiBase) {
-                    def apiDocExists = [ "api", "gapi" ].any { dir ->
+                    def apiDocExists = ["api", "gapi"].any { dir ->
                         def path = "${apiBase}/${dir}/${ref}.html"
                         new File(path).exists()
                     }
                     if (apiDocExists) return true
                 }
 
-                emitWarning(name,ref,"class")
-            }
-            else {
+                emitWarning(name, ref, "class")
+            } else {
                 String dir = getNaturalName(refCategory)
                 def ref = "${basedir}/ref/${dir}/${refItem}.gdoc"
                 File file = new File(ref)
@@ -118,7 +116,7 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
                     return true
                 }
 
-                emitWarning(name,ref,"page")
+                emitWarning(name, ref, "page")
             }
         }
 
@@ -136,10 +134,10 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
     }
 
     protected void init() {
-        engineProperties?.findAll { it.key?.startsWith("api.")}?.each {
+        engineProperties?.findAll { it.key?.startsWith("api.") }?.each {
             EXTERNAL_DOCS[it.key[4..-1]] = it.value
         }
-        engineProperties?.findAll { it.key?.startsWith("alias.")}?.each {
+        engineProperties?.findAll { it.key?.startsWith("alias.") }?.each {
             ALIAS[it.key[6..-1]] = it.value
         }
 
@@ -198,8 +196,7 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
             if (i >= 0) alias = alias[(i + 1)..-1]
 
             buffer << "<a href=\"$contextPath/guide/single.html#${alias.encodeAsUrlFragment()}\" class=\"guide\">$view</a>"
-        }
-        else if (name.startsWith("api:")) {
+        } else if (name.startsWith("api:")) {
             def link = name[4..-1]
 
             def externalKey = EXTERNAL_DOCS.keySet().find { link.startsWith(it) }
@@ -207,24 +204,22 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
 
             if (externalKey) {
                 buffer << "<a href=\"${EXTERNAL_DOCS[externalKey]}/$link${anchor ? '#' + anchor : ''}\" class=\"api\">$view</a>"
-            }
-            else {
+            } else {
                 def apiBase = initialContext.get(API_BASE_PATH)
                 contextPath = initialContext.get(API_CONTEXT_PATH)
 
-                def apiDir = [ "api", "gapi" ].find { dir -> new File("${apiBase}/${dir}/${link}").exists() }
+                def apiDir = ["api", "gapi"].find { dir -> new File("${apiBase}/${dir}/${link}").exists() }
                 buffer << "<a href=\"$contextPath/$apiDir/$link${anchor ? '#' + anchor : ''}\" class=\"api\">$view</a>"
             }
-        }
-        else {
+        } else {
             String dir = getNaturalName(name)
             def link = "$contextPath/ref/${dir}/${view}.html"
-            buffer <<  "<a href=\"$link\" class=\"$name\">$view</a>"
+            buffer << "<a href=\"$link\" class=\"$name\">$view</a>"
         }
     }
 
     void appendLink(StringBuffer buffer, String name, String view) {
-        appendLink(buffer,name,view,"")
+        appendLink(buffer, name, view, "")
     }
 
     void appendCreateLink(StringBuffer buffer, String name, String view) {
@@ -252,27 +247,23 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
             if (i >= words.size()) {
                 w = ""
                 words.add(i, w)
-            }
-            else {
+            } else {
                 w = words.get(i)
             }
 
             if (Character.isLowerCase(c) || Character.isDigit(c)) {
                 if (Character.isLowerCase(c) && w.length() == 0) {
                     c = Character.toUpperCase(c)
-                }
-                else if (w.length() > 1 && Character.isUpperCase(w.charAt(w.length() - 1))) {
+                } else if (w.length() > 1 && Character.isUpperCase(w.charAt(w.length() - 1))) {
                     w = ""
-                    words.add(++i,w)
+                    words.add(++i, w)
                 }
 
                 words.set(i, w + c)
-            }
-            else if (Character.isUpperCase(c)) {
+            } else if (Character.isUpperCase(c)) {
                 if ((i == 0 && w.length() == 0) || Character.isUpperCase(w.charAt(w.length() - 1))) {
                     words.set(i, w + c)
-                }
-                else {
+                } else {
                     words.add(++i, String.valueOf(c))
                 }
             }
@@ -284,14 +275,16 @@ class DocEngine extends BaseRenderEngine implements WikiRenderEngine {
 }
 
 class WarningMacro extends BaseMacro {
-    String getName() {"warning"}
+    String getName() { "warning" }
+
     void execute(Writer writer, MacroParameter params) {
         writer << '<blockquote class="warning">' << params.content << "</blockquote>"
     }
 }
 
 class NoteMacro extends BaseMacro {
-    String getName() {"note"}
+    String getName() { "note" }
+
     void execute(Writer writer, MacroParameter params) {
         writer << '<blockquote class="note">' << params.content << "</blockquote>"
     }
@@ -301,6 +294,7 @@ class BlockQuoteFilter extends RegexTokenFilter {
     BlockQuoteFilter() {
         super(/(?m)^bc.\s*?(.*?)\n\n/);
     }
+
     void handleMatch(StringBuffer buffer, MatchResult result, FilterContext context) {
         buffer << "<pre class=\"bq\"><code>${result.group(1)}</code></pre>\n\n"
     }
@@ -310,6 +304,7 @@ class ItalicFilter extends RegexTokenFilter {
     ItalicFilter() {
         super(/\b_([^\n]*?)_\b/);
     }
+
     void handleMatch(StringBuffer buffer, MatchResult result, FilterContext context) {
         buffer << " <em class=\"italic\">${result.group(1)}</em> "
     }
@@ -319,6 +314,7 @@ class BoldFilter extends RegexTokenFilter {
     BoldFilter() {
         super(/\*([^\n]*?)\*/);
     }
+
     void handleMatch(StringBuffer buffer, MatchResult result, FilterContext context) {
         buffer << "<strong class=\"bold\">${result.group(1)}</strong>"
     }
@@ -334,8 +330,7 @@ class CodeFilter extends RegexTokenFilter {
         // are we inside a code block?
         if (text.indexOf('class="code"') > -1) {
             buffer << "@$text@"
-        }
-        else {
+        } else {
             buffer << "<code>${text}</code>"
         }
     }
@@ -350,8 +345,7 @@ class ImageFilter extends RegexTokenFilter {
         def img = result.group(1)
         if (img.startsWith("http://") || img.startsWith("https://")) {
             buffer << "<img border=\"0\" class=\"center\" src=\"$img\"></img>"
-        }
-        else {
+        } else {
             def path = context.renderContext.get(DocEngine.RESOURCES_CONTEXT_PATH) ?: "."
             buffer << "<img border=\"0\" class=\"center\" src=\"$path/img/$img\"></img>"
         }
@@ -370,8 +364,7 @@ class TextileLinkFilter extends RegexTokenFilter {
 
         if (link.startsWith("http://") || link.startsWith("https://")) {
             buffer << "<a href=\"$link\" target=\"blank\">$text</a>$space"
-        }
-        else {
+        } else {
             buffer << "<a href=\"$link\">$text</a>$space"
         }
     }

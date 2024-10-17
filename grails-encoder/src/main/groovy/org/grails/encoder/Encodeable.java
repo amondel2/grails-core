@@ -26,8 +26,7 @@ public interface Encodeable {
     /**
      * Encode with given encoder.
      *
-     * @param encoder
-     *            the encoder
+     * @param encoder the encoder
      * @return the encoded result
      */
     CharSequence encode(Encoder encoder);

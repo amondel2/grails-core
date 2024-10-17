@@ -73,7 +73,6 @@ import org.springframework.util.StringUtils;
  * @author Marc Palmer
  * @author Steven Devijver
  * @author Graeme Rocher
- *
  * @see grails.plugins.GrailsPluginManager
  * @see grails.plugins.DefaultGrailsPluginManager
  * @see grails.core.ArtefactHandler
@@ -86,10 +85,9 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
     protected static final Pattern GETCLASSESMETH_PATTERN = Pattern.compile("(get)(\\w+)(Classes)");
     protected static final Pattern ISCLASS_PATTERN = Pattern.compile("(is)(\\w+)(Class)");
     protected static final Pattern GETCLASS_PATTERN = Pattern.compile("(get)(\\w+)Class");
-
-    protected Class<?>[] allClasses = new Class[0];
     protected static Log log = LogFactory.getLog(DefaultGrailsApplication.class);
-
+    private static boolean extensionMethodsInitialized = false;
+    protected Class<?>[] allClasses = new Class[0];
     protected Set<Class<?>> loadedClasses = new LinkedHashSet<Class<?>>();
     protected ArtefactHandler[] artefactHandlers;
     protected Map<String, ArtefactHandler> artefactHandlersByName = new HashMap<String, ArtefactHandler>();
@@ -99,23 +97,8 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
     protected Resource[] resources;
     protected boolean initialised = false;
     protected GrailsApplicationClass applicationClass;
-
-    protected MappingContext proxyMappingContext = buildMappingContextProxy(this);
     protected MappingContext mappingContext;
-
-    private static MappingContext buildMappingContextProxy(final DefaultGrailsApplication application) {
-        InvocationHandler proxyHandler = new InvocationHandler() {
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                MappingContext realContext = application.mappingContext;
-                if(realContext == null) {
-                    throw new GrailsConfigurationException("The method ["+method+"] cannot be accessed before GORM has initialized");
-                }
-                return ReflectionUtils.invokeMethod(method, realContext, args);
-            }
-        };
-        return (MappingContext) Proxy.newProxyInstance(application.getClass().getClassLoader(), new Class[]{MappingContext.class}, proxyHandler);
-    }
+    protected MappingContext proxyMappingContext = buildMappingContextProxy(this);
 
     /**
      * Creates a new empty Grails application.
@@ -131,7 +114,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         this(new GroovyClassLoader());
         this.applicationClass = applicationClass;
     }
-    
+
     public DefaultGrailsApplication(ClassLoader classLoader) {
         super();
         this.classLoader = classLoader;
@@ -142,7 +125,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
      *
      * @param classes The classes
      */
-    public DefaultGrailsApplication(final Class<?>...classes) {
+    public DefaultGrailsApplication(final Class<?>... classes) {
         this(classes, new GroovyClassLoader(Thread.currentThread().getContextClassLoader()));
     }
 
@@ -163,7 +146,6 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
 
     /**
      * Loads a GrailsApplication using the given ResourceLocator instance which will search for appropriate class names
-     *
      */
     public DefaultGrailsApplication(Resource[] resources) {
         this();
@@ -183,7 +165,6 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
 
     /**
      * Loads a GrailsApplication using the given ResourceLocator instance which will search for appropriate class names
-     *
      */
     public DefaultGrailsApplication(org.grails.io.support.Resource[] resources) {
         this();
@@ -201,6 +182,59 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         }
     }
 
+    private static MappingContext buildMappingContextProxy(final DefaultGrailsApplication application) {
+        InvocationHandler proxyHandler = new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                MappingContext realContext = application.mappingContext;
+                if (realContext == null) {
+                    throw new GrailsConfigurationException("The method [" + method + "] cannot be accessed before GORM has initialized");
+                }
+                return ReflectionUtils.invokeMethod(method, realContext, args);
+            }
+        };
+        return (MappingContext) Proxy.newProxyInstance(application.getClass().getClassLoader(), new Class[]{MappingContext.class}, proxyHandler);
+    }
+
+    protected static void initialiseGroovyExtensionModules() {
+        if (extensionMethodsInitialized) return;
+
+        extensionMethodsInitialized = true;
+        Map<CachedClass, List<MetaMethod>> map = new HashMap<CachedClass, List<MetaMethod>>();
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+        try {
+            Enumeration<URL> resources = classLoader.getResources(ExtensionModuleScanner.MODULE_META_INF_FILE);
+            while (resources.hasMoreElements()) {
+                URL url = resources.nextElement();
+                if (url.getPath().contains("groovy-all")) {
+                    // already registered
+                    continue;
+                }
+                Properties properties = new Properties();
+                InputStream inStream = null;
+                try {
+                    inStream = url.openStream();
+                    properties.load(inStream);
+                    ((MetaClassRegistryImpl) GroovySystem.getMetaClassRegistry()).registerExtensionModuleFromProperties(properties, classLoader, map);
+                } catch (IOException e) {
+                    throw new GroovyRuntimeException("Unable to load module META-INF descriptor", e);
+                } finally {
+                    if (inStream != null) {
+                        inStream.close();
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+
+        for (Map.Entry<CachedClass, List<MetaMethod>> moduleMethods : map.entrySet()) {
+            CachedClass cls = moduleMethods.getKey();
+            cls.addNewMopMethods(moduleMethods.getValue());
+        }
+    }
+
     /**
      * @return The application class
      */
@@ -213,7 +247,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
      *
      * @see grails.core.ArtefactHandler
      */
-    @SuppressWarnings( "deprecation" )
+    @SuppressWarnings("deprecation")
     protected void initArtefactHandlers() {
 
         List<ArtefactHandler> additionalArtefactHandlers = GrailsFactoriesLoader.loadFactories(ArtefactHandler.class, getClassLoader());
@@ -228,7 +262,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
     private void updateArtefactHandlers() {
         // Cache the list as an array
         artefactHandlers = artefactHandlersByName.values().toArray(
-            new ArtefactHandler[artefactHandlersByName.size()]);
+                new ArtefactHandler[artefactHandlersByName.size()]);
     }
 
     /**
@@ -303,7 +337,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
      */
     protected void refreshArtefactGrailsClassCaches() {
         for (Object o : artefactInfo.values()) {
-            ((DefaultArtefactInfo)o).updateComplete();
+            ((DefaultArtefactInfo) o).updateComplete();
         }
     }
 
@@ -314,17 +348,15 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
 
     public Config getConfig() {
         if (config == null) {
-            if(parentContext != null) {
+            if (parentContext != null) {
                 org.springframework.core.env.Environment environment = parentContext.getEnvironment();
-                if(environment instanceof ConfigurableEnvironment) {
+                if (environment instanceof ConfigurableEnvironment) {
                     MutablePropertySources propertySources = ((ConfigurableEnvironment) environment).getPropertySources();
                     this.config = new PropertySourcesConfig(propertySources);
-                }
-                else {
+                } else {
                     this.config = new PropertySourcesConfig();
                 }
-            }
-            else {
+            } else {
                 this.config = new PropertySourcesConfig();
             }
 
@@ -378,7 +410,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
      */
     public void refresh() {
         if (classLoader instanceof GroovyClassLoader) {
-            configureLoadedClasses(((GroovyClassLoader)classLoader).getLoadedClasses());
+            configureLoadedClasses(((GroovyClassLoader) classLoader).getLoadedClasses());
         }
     }
 
@@ -389,8 +421,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
 
         if (GrailsUtil.isDevelopmentEnv()) {
             initialise();
-        }
-        else {
+        } else {
             throw new IllegalStateException("Cannot rebuild GrailsApplication when not in development mode!");
         }
     }
@@ -541,8 +572,6 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         artefactHandlersByName.put(handler.getType(), handler);
         updateArtefactHandlers();
     }
-
-
 
     public boolean hasArtefactHandler(String type) {
         return artefactHandlersByName.containsKey(type);
@@ -713,48 +742,6 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         initialised = true;
     }
 
-    private static boolean extensionMethodsInitialized = false;
-    protected static void initialiseGroovyExtensionModules() {
-        if(extensionMethodsInitialized) return;
-
-        extensionMethodsInitialized = true;
-        Map<CachedClass, List<MetaMethod>> map = new HashMap<CachedClass, List<MetaMethod>>();
-
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        try {
-            Enumeration<URL> resources = classLoader.getResources(ExtensionModuleScanner.MODULE_META_INF_FILE);
-            while (resources.hasMoreElements()) {
-                URL url = resources.nextElement();
-                if (url.getPath().contains("groovy-all")) {
-                    // already registered
-                    continue;
-                }
-                Properties properties = new Properties();
-                InputStream inStream = null;
-                try {
-                    inStream = url.openStream();
-                    properties.load(inStream);
-                    ((MetaClassRegistryImpl)GroovySystem.getMetaClassRegistry()).registerExtensionModuleFromProperties(properties, classLoader, map);
-                }
-                catch (IOException e) {
-                    throw new GroovyRuntimeException("Unable to load module META-INF descriptor", e);
-                }
-                finally {
-                    if(inStream != null) {
-                        inStream.close();
-                    }
-                }
-            }
-        }
-        catch (IOException ignored) {}
-
-        for (Map.Entry<CachedClass, List<MetaMethod>> moduleMethods : map.entrySet()) {
-            CachedClass cls = moduleMethods.getKey();
-            cls.addNewMopMethods( moduleMethods.getValue() );
-        }
-    }
-
     // This is next call is equiv to getControllerByURI / getTagLibForTagName
     public GrailsClass getArtefactForFeature(String artefactType, Object featureID) {
         return artefactHandlersByName.get(artefactType).getArtefactForFeature(featureID);
@@ -807,7 +794,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         if (handler != null && handler.isArtefact(artefactClass)) {
             GrailsClass artefactGrailsClass;
             if (handler instanceof DomainClassArtefactHandler) {
-                artefactGrailsClass = ((DomainClassArtefactHandler)handler).newArtefactClass(artefactClass, proxyMappingContext);
+                artefactGrailsClass = ((DomainClassArtefactHandler) handler).newArtefactClass(artefactClass, proxyMappingContext);
             } else {
                 artefactGrailsClass = handler.newArtefactClass(artefactClass);
             }
@@ -817,8 +804,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
             DefaultArtefactInfo info = getArtefactInfo(artefactType, true);
             if (overrideable) {
                 info.addOverridableGrailsClass(artefactGrailsClass);
-            }
-            else {
+            } else {
                 info.addGrailsClass(artefactGrailsClass);
             }
             info.updateComplete();
@@ -828,7 +814,7 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
             if (isInitialised()) {
                 initializeArtefacts(artefactType);
                 ApplicationContext context = getMainContext();
-                if(context instanceof ConfigurableApplicationContext && contextInitialized && ((ConfigurableApplicationContext) context).isActive()) {
+                if (context instanceof ConfigurableApplicationContext && contextInitialized && ((ConfigurableApplicationContext) context).isActive()) {
 
                     context.publishEvent(new ArtefactAdditionEvent(artefactGrailsClass));
                 }
@@ -838,14 +824,13 @@ public class DefaultGrailsApplication extends AbstractGrailsApplication implemen
         }
 
 
-
         throw new GrailsConfigurationException("Cannot add " + artefactType + " class [" +
                 artefactClass + "]. It is not a " + artefactType + "!");
     }
 
     @Override
     public MappingContext getMappingContext() {
-        if(mappingContext != null) {
+        if (mappingContext != null) {
             return mappingContext;
         }
         return proxyMappingContext;

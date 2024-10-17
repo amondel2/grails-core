@@ -9,9 +9,11 @@ import spock.lang.Specification
 
 class ChainMethodWithRequestDataValueProcessorSpec extends Specification implements ControllerUnitTest<TestChainController>, DomainUnitTest<TestChainBook> {
 
-    Closure doWithSpring() {{ ->
-        requestDataValueProcessor MockRequestDataValueProcessor
-    }}
+    Closure doWithSpring() {
+        { ->
+            requestDataValueProcessor MockRequestDataValueProcessor
+        }
+    }
 
     void 'test chain method with model and request data value processor'() {
         when:
@@ -19,7 +21,7 @@ class ChainMethodWithRequestDataValueProcessorSpec extends Specification impleme
 
         then:
         controller.flash.chainModel.book
-        controller.flash.chainModel[GrailsFlashScope.ERRORS_PREFIX+System.identityHashCode(controller.flash.chainModel.book)]
+        controller.flash.chainModel[GrailsFlashScope.ERRORS_PREFIX + System.identityHashCode(controller.flash.chainModel.book)]
         '/testChain/create?requestDataValueProcessorParamName=paramValue' == response.redirectedUrl
     }
 }

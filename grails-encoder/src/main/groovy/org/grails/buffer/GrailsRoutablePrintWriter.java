@@ -30,11 +30,8 @@ import org.springframework.objenesis.instantiator.ObjectInstantiator;
 // https://github.com/grails/grails-gsp/blob/v6.0.2/grails-web-sitemesh/src/main/groovy/org/grails/web/sitemesh/GrailsRoutablePrintWriter.java
 public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
     private static final Logger LOG = LoggerFactory.getLogger(GrailsRoutablePrintWriter.class);
-    private DestinationFactory factory;
-    private boolean blockFlush = true;
-    private boolean blockClose = true;
-    private boolean destinationActivated = false;
-    private static ObjectInstantiator instantiator=null;
+    private static ObjectInstantiator instantiator = null;
+
     static {
         try {
             instantiator = new ObjenesisStd(false).getInstantiatorOf(GrailsRoutablePrintWriter.class);
@@ -43,12 +40,10 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
         }
     }
 
-    /**
-     * Factory to lazily instantiate the destination.
-     */
-    public static interface DestinationFactory {
-        Writer activateDestination() throws IOException;
-    }
+    private DestinationFactory factory;
+    private boolean blockFlush = true;
+    private boolean blockClose = true;
+    private boolean destinationActivated = false;
 
     public GrailsRoutablePrintWriter(DestinationFactory factory) {
         super(new NullWriter());
@@ -57,7 +52,7 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
 
     public static GrailsRoutablePrintWriter newInstance(DestinationFactory factory) {
         if (instantiator != null) {
-            GrailsRoutablePrintWriter instance = (GrailsRoutablePrintWriter)instantiator.newInstance();
+            GrailsRoutablePrintWriter instance = (GrailsRoutablePrintWriter) instantiator.newInstance();
             instance.out = new NullWriter();
             instance.factory = factory;
             instance.blockFlush = true;
@@ -72,8 +67,7 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
         if (!destinationActivated && factory != null) {
             try {
                 super.setTarget(factory.activateDestination());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setError();
             }
             destinationActivated = true;
@@ -277,31 +271,6 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
         return super.append(csq);
     }
 
-    /**
-     * Just to keep super constructor for PrintWriter happy - it's never
-     * actually used.
-     */
-    private static class NullWriter extends Writer {
-        protected NullWriter() {
-            super();
-        }
-
-        @Override
-        public void write(char cbuf[], int off, int len) throws IOException {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void flush() throws IOException {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void close() throws IOException {
-            throw new UnsupportedOperationException();
-        }
-    }
-
     public boolean isBlockFlush() {
         return blockFlush;
     }
@@ -354,6 +323,38 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
         this.destinationActivated = destinationActivated;
         if (!this.destinationActivated) {
             super.setTarget(new NullWriter());
+        }
+    }
+
+    /**
+     * Factory to lazily instantiate the destination.
+     */
+    public static interface DestinationFactory {
+        Writer activateDestination() throws IOException;
+    }
+
+    /**
+     * Just to keep super constructor for PrintWriter happy - it's never
+     * actually used.
+     */
+    private static class NullWriter extends Writer {
+        protected NullWriter() {
+            super();
+        }
+
+        @Override
+        public void write(char cbuf[], int off, int len) throws IOException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void flush() throws IOException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void close() throws IOException {
+            throw new UnsupportedOperationException();
         }
     }
 }

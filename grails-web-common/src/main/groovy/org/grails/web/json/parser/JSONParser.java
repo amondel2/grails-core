@@ -9,6 +9,82 @@ import org.grails.web.json.JSONObject;
 @SuppressWarnings("all")
 public final class JSONParser implements JsonParserConstants {
 
+    static private int[] jj_la1_0;
+
+    static {
+        jj_la1_init_0();
+    }
+
+    final private int[] jj_la1 = new int[12];
+    /**
+     * Generated Token Manager.
+     */
+    public JsonParserTokenManager token_source;
+    /**
+     * Current token.
+     */
+    public Token token;
+    /**
+     * Next token.
+     */
+    public Token jj_nt;
+    SimpleCharStream jj_input_stream;
+    private int jj_ntk;
+    private int jj_gen;
+    private java.util.List jj_expentries = new java.util.ArrayList();
+    private int[] jj_expentry;
+    private int jj_kind = -1;
+
+    /**
+     * Constructor with InputStream.
+     */
+    public JSONParser(java.io.InputStream stream) {
+        this(stream, null);
+    }
+
+    /**
+     * Constructor with InputStream and supplied encoding
+     */
+    public JSONParser(java.io.InputStream stream, String encoding) {
+        try {
+            jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1);
+        } catch (java.io.UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        token_source = new JsonParserTokenManager(jj_input_stream);
+        token = new Token();
+        jj_ntk = -1;
+        jj_gen = 0;
+        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    }
+
+    /**
+     * Constructor.
+     */
+    public JSONParser(java.io.Reader stream) {
+        jj_input_stream = new SimpleCharStream(stream, 1, 1);
+        token_source = new JsonParserTokenManager(jj_input_stream);
+        token = new Token();
+        jj_ntk = -1;
+        jj_gen = 0;
+        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    }
+
+    /**
+     * Constructor with generated Token Manager.
+     */
+    public JSONParser(JsonParserTokenManager tm) {
+        token_source = tm;
+        token = new Token();
+        jj_ntk = -1;
+        jj_gen = 0;
+        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
+    }
+
+    private static void jj_la1_init_0() {
+        jj_la1_0 = new int[]{0x3a500c40, 0x2100000, 0xc00, 0x800000, 0x3a500c40, 0x800000, 0x3a500c40, 0x38000c40, 0x40000000, 0x20, 0x20000000, 0xc00,};
+    }
+
     final public Object parse() throws ParseException {
         Object json = null;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -138,7 +214,7 @@ public final class JSONParser implements JsonParserConstants {
     }
 
     final private void Elements(JSONArray array) throws ParseException {
-        while(addElementAndGetNextToken(array) == 23) {
+        while (addElementAndGetNextToken(array) == 23) {
             jj_consume_token(23);
         }
         jj_la1[5] = jj_gen;
@@ -341,55 +417,6 @@ public final class JSONParser implements JsonParserConstants {
     }
 
     /**
-     * Generated Token Manager.
-     */
-    public JsonParserTokenManager token_source;
-    SimpleCharStream jj_input_stream;
-    /**
-     * Current token.
-     */
-    public Token token;
-    /**
-     * Next token.
-     */
-    public Token jj_nt;
-    private int jj_ntk;
-    private int jj_gen;
-    final private int[] jj_la1 = new int[12];
-    static private int[] jj_la1_0;
-
-    static {
-        jj_la1_init_0();
-    }
-
-    private static void jj_la1_init_0() {
-        jj_la1_0 = new int[]{0x3a500c40, 0x2100000, 0xc00, 0x800000, 0x3a500c40, 0x800000, 0x3a500c40, 0x38000c40, 0x40000000, 0x20, 0x20000000, 0xc00,};
-    }
-
-    /**
-     * Constructor with InputStream.
-     */
-    public JSONParser(java.io.InputStream stream) {
-        this(stream, null);
-    }
-
-    /**
-     * Constructor with InputStream and supplied encoding
-     */
-    public JSONParser(java.io.InputStream stream, String encoding) {
-        try {
-            jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1);
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        token_source = new JsonParserTokenManager(jj_input_stream);
-        token = new Token();
-        jj_ntk = -1;
-        jj_gen = 0;
-        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
-    }
-
-    /**
      * Reinitialise.
      */
     public void ReInit(java.io.InputStream stream) {
@@ -413,34 +440,11 @@ public final class JSONParser implements JsonParserConstants {
     }
 
     /**
-     * Constructor.
-     */
-    public JSONParser(java.io.Reader stream) {
-        jj_input_stream = new SimpleCharStream(stream, 1, 1);
-        token_source = new JsonParserTokenManager(jj_input_stream);
-        token = new Token();
-        jj_ntk = -1;
-        jj_gen = 0;
-        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
-    }
-
-    /**
      * Reinitialise.
      */
     public void ReInit(java.io.Reader stream) {
         jj_input_stream.ReInit(stream, 1, 1);
         token_source.ReInit(jj_input_stream);
-        token = new Token();
-        jj_ntk = -1;
-        jj_gen = 0;
-        for (int i = 0; i < 12; i++) jj_la1[i] = -1;
-    }
-
-    /**
-     * Constructor with generated Token Manager.
-     */
-    public JSONParser(JsonParserTokenManager tm) {
-        token_source = tm;
         token = new Token();
         jj_ntk = -1;
         jj_gen = 0;
@@ -472,7 +476,6 @@ public final class JSONParser implements JsonParserConstants {
         throw generateParseException();
     }
 
-
     /**
      * Get the next Token.
      */
@@ -502,10 +505,6 @@ public final class JSONParser implements JsonParserConstants {
         else
             return (jj_ntk = jj_nt.kind);
     }
-
-    private java.util.List jj_expentries = new java.util.ArrayList();
-    private int[] jj_expentry;
-    private int jj_kind = -1;
 
     /**
      * Generate ParseException.

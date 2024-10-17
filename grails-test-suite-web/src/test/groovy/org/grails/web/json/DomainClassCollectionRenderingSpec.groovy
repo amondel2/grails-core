@@ -34,20 +34,20 @@ class DomainClassCollectionRenderingSpec extends Specification implements Grails
     @Issue('GRAILS-11197')
     void 'Test rendering nested collection of objects as JSON'() {
         given: 'a JSON renderer'
-            def renderer = new JsonRenderer(Album)
-            renderer.grailsApplication = grailsApplication
-            renderer.registerCustomConverter()
+        def renderer = new JsonRenderer(Album)
+        renderer.grailsApplication = grailsApplication
+        renderer.registerCustomConverter()
 
         when: 'a domain object with a reference to a collection of other domain objects is rendered'
-            def webRequest = GrailsWebRequest.lookup()
-            def undertow = new Album(title: 'Undertow')
-            def lateralus = new Album(title: 'Lateralus')
-            def company = new Company(name: 'Tool Inc.')
-            company.addToAlbums(undertow).addToAlbums(lateralus).save(flush: true, failOnError: true)
-            renderer.render(undertow, new ServletRenderContext(webRequest, [includes: ['title', 'companies']]))
+        def webRequest = GrailsWebRequest.lookup()
+        def undertow = new Album(title: 'Undertow')
+        def lateralus = new Album(title: 'Lateralus')
+        def company = new Company(name: 'Tool Inc.')
+        company.addToAlbums(undertow).addToAlbums(lateralus).save(flush: true, failOnError: true)
+        renderer.render(undertow, new ServletRenderContext(webRequest, [includes: ['title', 'companies']]))
 
         then: 'all of the nested elements have fully qualified class names'
-            def expectedResponse = '''
+        def expectedResponse = '''
                 {
                     "title": "Undertow",
                     "companies": [
@@ -66,7 +66,7 @@ class DomainClassCollectionRenderingSpec extends Specification implements Grails
                     ]
                 }
             '''
-            objectMapper.readTree((webRequest.response as MockHttpServletResponse).contentAsString) == objectMapper.readTree(expectedResponse)
+        objectMapper.readTree((webRequest.response as MockHttpServletResponse).contentAsString) == objectMapper.readTree(expectedResponse)
     }
 }
 

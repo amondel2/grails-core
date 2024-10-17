@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals
  * @author Graeme Rocher
  * @since 1.0
  */
-@Ignore //TODO Ignore for JDK 11
+@Ignore
+//TODO Ignore for JDK 11
 class SpringProxiedBeanReloadTests {
 
     @Test
@@ -25,7 +26,7 @@ class SpringProxiedBeanReloadTests {
         bb.beans {
             interceptor(DummyInterceptor)
             target(cls) {
-               author = "Stephen King"
+                author = "Stephen King"
             }
             myBean(ProxyFactoryBean) {
                 targetName = 'target'
@@ -46,7 +47,7 @@ class SpringProxiedBeanReloadTests {
         bb.beans {
             interceptor(DummyInterceptor)
             target(cls) {
-               author = "Stephen King"
+                author = "Stephen King"
             }
             myBean(ProxyFactoryBean) {
                 targetName = 'target'
@@ -62,6 +63,7 @@ class SpringProxiedBeanReloadTests {
     }
 
 }
+
 class DummyInterceptor implements MethodInterceptor {
     Object invoke(MethodInvocation methodInvocation) {
         methodInvocation.proceed()

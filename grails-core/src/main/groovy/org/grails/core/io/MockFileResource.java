@@ -15,9 +15,9 @@
  */
 package org.grails.core.io;
 
-import java.io.UnsupportedEncodingException;
-
 import org.springframework.core.io.ByteArrayResource;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Mocks the behavior of a FileResource.

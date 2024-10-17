@@ -77,8 +77,7 @@ class MimeTypesConfiguration {
                     for (Object i : list) {
                         mimes.add(new MimeType(i.toString(), key))
                     }
-                }
-                else {
+                } else {
                     mimes.add(new MimeType(v.toString(), key))
                 }
 

@@ -34,9 +34,44 @@ import java.util.Set;
  * @since 2.3
  */
 public final class DefaultEncodingStateRegistry implements EncodingStateRegistry {
+    public static final StreamingEncoder NONE_ENCODER = BasicCodecLookup.NONE_ENCODER;
     private static final Logger LOG = LoggerFactory.getLogger(DefaultEncodingStateRegistry.class);
     private Map<Encoder, Map<Long, WeakReference<CharSequence>>> encodedCharSequencesForEncoder = new HashMap<>();
-    public static final StreamingEncoder NONE_ENCODER = BasicCodecLookup.NONE_ENCODER;
+
+    /**
+     * Checks if encoder should be applied to a input with given encoding state
+     *
+     * @param encoderToApply       the encoder to apply
+     * @param currentEncodingState the current encoding state
+     * @return true, if should encode
+     */
+    public static boolean shouldEncodeWith(Encoder encoderToApply, EncodingState currentEncodingState) {
+        if (isNoneEncoder(encoderToApply)) return false;
+        if (currentEncodingState != null && currentEncodingState.getEncoders() != null) {
+            for (Encoder encoder : currentEncodingState.getEncoders()) {
+                if (isPreviousEncoderSafeOrEqual(encoderToApply, encoder)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isNoneEncoder(Encoder encoderToApply) {
+        return encoderToApply == null || encoderToApply == NONE_ENCODER || encoderToApply.getClass() == NoneEncoder.class;
+    }
+
+    /**
+     * Checks if is previous encoder is already "safe", equal or equivalent
+     *
+     * @param encoderToApply  the encoder to apply
+     * @param previousEncoder the previous encoder
+     * @return true, if previous encoder is already "safe", equal or equivalent
+     */
+    public static boolean isPreviousEncoderSafeOrEqual(Encoder encoderToApply, Encoder previousEncoder) {
+        return previousEncoder == encoderToApply || !encoderToApply.isApplyToSafelyEncoded() && previousEncoder.isSafe() && encoderToApply.isSafe()
+                || previousEncoder.getCodecIdentifier().isEquivalent(encoderToApply.getCodecIdentifier());
+    }
 
     private long calculateKey(CharSequence charSequence) {
         int contentHashCode = charSequence.hashCode();
@@ -100,40 +135,5 @@ public final class DefaultEncodingStateRegistry implements EncodingStateRegistry
         if (isNoneEncoder(encoderToApply)) return false;
         EncodingState encodingState = getEncodingStateFor(string);
         return shouldEncodeWith(encoderToApply, encodingState);
-    }
-
-    /**
-     * Checks if encoder should be applied to a input with given encoding state
-     *
-     * @param encoderToApply       the encoder to apply
-     * @param currentEncodingState the current encoding state
-     * @return true, if should encode
-     */
-    public static boolean shouldEncodeWith(Encoder encoderToApply, EncodingState currentEncodingState) {
-        if (isNoneEncoder(encoderToApply)) return false;
-        if (currentEncodingState != null && currentEncodingState.getEncoders() != null) {
-            for (Encoder encoder : currentEncodingState.getEncoders()) {
-                if (isPreviousEncoderSafeOrEqual(encoderToApply, encoder)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public static boolean isNoneEncoder(Encoder encoderToApply) {
-        return encoderToApply == null || encoderToApply == NONE_ENCODER || encoderToApply.getClass() == NoneEncoder.class;
-    }
-
-    /**
-     * Checks if is previous encoder is already "safe", equal or equivalent
-     *
-     * @param encoderToApply  the encoder to apply
-     * @param previousEncoder the previous encoder
-     * @return true, if previous encoder is already "safe", equal or equivalent
-     */
-    public static boolean isPreviousEncoderSafeOrEqual(Encoder encoderToApply, Encoder previousEncoder) {
-        return previousEncoder == encoderToApply || !encoderToApply.isApplyToSafelyEncoded() && previousEncoder.isSafe() && encoderToApply.isSafe()
-                || previousEncoder.getCodecIdentifier().isEquivalent(encoderToApply.getCodecIdentifier());
     }
 }

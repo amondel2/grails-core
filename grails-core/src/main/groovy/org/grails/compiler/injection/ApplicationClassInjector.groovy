@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.grails.compiler.injection
+
 import grails.compiler.ast.AstTransformer
 import grails.compiler.ast.GrailsArtefactClassInjector
 import grails.core.GrailsApplication
@@ -44,6 +45,7 @@ import org.grails.io.support.UrlResource
 import org.springframework.util.ClassUtils
 import static org.codehaus.groovy.ast.tools.GeneralUtils.*
 import java.lang.reflect.Modifier
+
 /**
  * Injector for the 'Application' class
  *
@@ -79,9 +81,9 @@ class ApplicationClassInjector implements GrailsArtefactClassInjector {
     @Override
     @CompileDynamic
     void performInjectionOnAnnotatedClass(SourceUnit source, ClassNode classNode) {
-        if(applicationArtefactHandler.isArtefact(classNode)) {
-            def objectId = Integer.valueOf( System.identityHashCode(classNode) )
-            if(!transformedInstances.contains(objectId)) {
+        if (applicationArtefactHandler.isArtefact(classNode)) {
+            def objectId = Integer.valueOf(System.identityHashCode(classNode))
+            if (!transformedInstances.contains(objectId)) {
                 transformedInstances << objectId
 
                 def arguments = new ArgumentListExpression(new ClassExpression(classNode))
@@ -89,23 +91,23 @@ class ApplicationClassInjector implements GrailsArtefactClassInjector {
                 def methodCallStatement = new ExpressionStatement(enableAgentMethodCall)
 
                 List<Statement> statements = [
-                        stmt( callX(classX(System), "setProperty", args(  propX( classX(BuildSettings), "MAIN_CLASS_NAME"), constX(classNode.name) )) ),
+                        stmt(callX(classX(System), "setProperty", args(propX(classX(BuildSettings), "MAIN_CLASS_NAME"), constX(classNode.name)))),
                         methodCallStatement
                 ]
                 classNode.addStaticInitializerStatements(statements, true)
 
                 def packageNamesMethod = classNode.getMethod('packageNames', GrailsASTUtils.ZERO_PARAMETERS)
 
-                if(packageNamesMethod == null || packageNamesMethod.declaringClass != classNode) {
+                if (packageNamesMethod == null || packageNamesMethod.declaringClass != classNode) {
                     def collectionClassNode = GrailsASTUtils.replaceGenericsPlaceholders(ClassHelper.make(Collection), [E: ClassHelper.make(String)])
 
                     def packageNamesBody = new BlockStatement()
                     def grailsAppDir = GrailsResourceUtils.getAppDir(new UrlResource(GrailsASTUtils.getSourceUrl(source)))
-                    if(grailsAppDir.exists()) {
+                    if (grailsAppDir.exists()) {
 
                         def packageNames = ResourceUtils.getProjectPackageNames(grailsAppDir.file.parentFile)
-                                                        .collect() { String str -> new ConstantExpression(str) }
-                        if(packageNames.any() { ConstantExpression packageName -> ['org','com','io','net'].contains(packageName.text) }) {
+                                .collect() { String str -> new ConstantExpression(str) }
+                        if (packageNames.any() { ConstantExpression packageName -> ['org', 'com', 'io', 'net'].contains(packageName.text) }) {
                             GrailsASTUtils.error(source, classNode, "Do not place Groovy sources in common package names such as 'org', 'com', 'io' or 'net' as this can result in performance degradation of classpath scanning")
                         }
                         packageNamesBody.addStatement(new ReturnStatement(new ExpressionStatement(new ListExpression(packageNames.toList()))))
@@ -114,14 +116,14 @@ class ApplicationClassInjector implements GrailsArtefactClassInjector {
                 }
 
                 def classLoader = getClass().classLoader
-                if(ClassUtils.isPresent('jakarta.servlet.ServletContext', classLoader)) {
+                if (ClassUtils.isPresent('jakarta.servlet.ServletContext', classLoader)) {
                     GrailsASTUtils.addAnnotationOrGetExisting(classNode, ClassHelper.make(classLoader.loadClass('org.springframework.web.servlet.config.annotation.EnableWebMvc')))
                 }
-                if(ClassUtils.isPresent('org.springframework.boot.autoconfigure.EnableAutoConfiguration', classLoader) ) {
+                if (ClassUtils.isPresent('org.springframework.boot.autoconfigure.EnableAutoConfiguration', classLoader)) {
                     def enableAutoConfigurationAnnotation = GrailsASTUtils.addAnnotationOrGetExisting(classNode, ClassHelper.make(classLoader.loadClass('org.springframework.boot.autoconfigure.EnableAutoConfiguration')))
 
-                    for(autoConfigureClassName in EXCLUDED_AUTO_CONFIGURE_CLASSES) {
-                        if(ClassUtils.isPresent(autoConfigureClassName, classLoader)) {
+                    for (autoConfigureClassName in EXCLUDED_AUTO_CONFIGURE_CLASSES) {
+                        if (ClassUtils.isPresent(autoConfigureClassName, classLoader)) {
                             def autoConfigClassExpression = new ClassExpression(ClassHelper.make(classLoader.loadClass(autoConfigureClassName)))
                             GrailsASTUtils.addExpressionToAnnotationMember(enableAutoConfigurationAnnotation, EXCLUDE_MEMBER, autoConfigClassExpression)
                         }
@@ -132,10 +134,9 @@ class ApplicationClassInjector implements GrailsArtefactClassInjector {
     }
 
 
-
     @Override
     boolean shouldInject(URL url) {
-        if(url == null) return false
+        if (url == null) return false
         def res = new UrlResource(url)
         return GrailsResourceUtils.isGrailsResource(res) && res.filename == "Application.groovy"
     }

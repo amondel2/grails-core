@@ -192,9 +192,9 @@ class GrailsCorsConfigurationSpec extends Specification {
                         "allowedMethods[0]": "GET",
                         "allowedHeaders[0]": "Foo",
                         "allowedHeaders[1]": "Bar",
-                        "exposedHeaders": "Foo",
-                        "allowCredentials": "true",
-                        "maxAge": "1234",
+                        "exposedHeaders"   : "Foo",
+                        "allowCredentials" : "true",
+                        "maxAge"           : "1234",
                 ]
         ])
 

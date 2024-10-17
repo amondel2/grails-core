@@ -20,12 +20,12 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
 
         then:
         info
-        'website'== info.controllerName
-        'displayPlugin'== info.actionName
-        '0.3.1'== info.params.version
-        'csv'== info.params.plugin
-        'csv-0.3.1'== info.params.fullName
-        'pom'== info.params.type
+        'website' == info.controllerName
+        'displayPlugin' == info.actionName
+        '0.3.1' == info.params.version
+        'csv' == info.params.plugin
+        'csv-0.3.1' == info.params.fullName
+        'pom' == info.params.type
     }
 
     void testHyphenDelimiters() {
@@ -38,13 +38,13 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
 
         then:
         info
-        'hyphenTests'== info.controllerName
-        'view'== info.actionName
-        'one'== info.params.first
-        'two'== info.params.second
-        'three'== info.params.third
-        'four'== info.params.fourth
-        'json'== info.params.format
+        'hyphenTests' == info.controllerName
+        'view' == info.actionName
+        'one' == info.params.first
+        'two' == info.params.second
+        'three' == info.params.third
+        'four' == info.params.fourth
+        'json' == info.params.format
 
 
         when:
@@ -52,12 +52,12 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
 
         then:
         info
-        'hyphenTests'== info.controllerName
-        'view'== info.actionName
-        'one'== info.params.first
-        'two'== info.params.second
-        'three'== info.params.third
-        'four'== info.params.fourth
+        'hyphenTests' == info.controllerName
+        'view' == info.actionName
+        'one' == info.params.first
+        'two' == info.params.second
+        'three' == info.params.third
+        'four' == info.params.fourth
         !info.params.format
     }
 
@@ -69,7 +69,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         def info = holder.match("/bar")
 
         then:
-        "/x/y"== info.getURI()
+        "/x/y" == info.getURI()
     }
 
     void testParseRequestArgument() {
@@ -79,13 +79,13 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         when:
         def info = holder.match("/foo")
 
-        then:"should have been a request parsing mapping"
+        then: "should have been a request parsing mapping"
         info.parsingRequest
 
         when:
         info = holder.match("/foo2")
 
-        then:"should have been a request parsing mapping"
+        then: "should have been a request parsing mapping"
         info.parsingRequest
 
 
@@ -110,14 +110,14 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         def mappings = holder.urlMappings
 
         when:
-        def m = holder.urlMappings.find() { it.controllerName == 'book'}
+        def m = holder.urlMappings.find() { it.controllerName == 'book' }
 
         then:
         m
-        "/book/dierk/gina/foo"== m.createURL(author: "dierk", title: "gina", test: "foo", "utf-8")
+        "/book/dierk/gina/foo" == m.createURL(author: "dierk", title: "gina", test: "foo", "utf-8")
 
         when:
-        m = holder.urlMappings.find() { it.controllerName == 'blog'}
+        m = holder.urlMappings.find() { it.controllerName == 'blog' }
 
         then:
         m
@@ -129,7 +129,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         "/blog/foo" == m.createURL(entry: "foo", null)
         '/blog/My%20%2410' == m.createURL(entry: 'My $10', "utf-8")
         '/blog/My%20%24temp' == m.createURL(entry: 'My $temp', "utf-8")
-        "/blog/foo?day=24" ==  m.createURL(entry: "foo", day: 24, "utf-8")
+        "/blog/foo?day=24" == m.createURL(entry: "foo", day: 24, "utf-8")
 
         when:
         m.createURL([:], "utf-8")
@@ -138,33 +138,33 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         thrown(Throwable)
 
         when:
-        m = holder.urlMappings.find() { it.controllerName == 'files'}
+        m = holder.urlMappings.find() { it.controllerName == 'files' }
 
         then:
         m
-        "/files/path/to/my/file" == m.createURL([path:"/path/to/my/file"], "utf-8")
+        "/files/path/to/my/file" == m.createURL([path: "/path/to/my/file"], "utf-8")
 
         when:
-        m = holder.urlMappings.find() { it.controllerName == 'download'}
+        m = holder.urlMappings.find() { it.controllerName == 'download' }
 
         then:
         m
-        "/filenameext/grails" == m.createURL([fname:'grails'], "utf-8")
-        "/filenameext/grails." == m.createURL([fname:'grails.'], "utf-8")
-        "/filenameext/grails.jpg" == m.createURL(fname:"grails",fext:".jpg", "utf-8")
+        "/filenameext/grails" == m.createURL([fname: 'grails'], "utf-8")
+        "/filenameext/grails." == m.createURL([fname: 'grails.'], "utf-8")
+        "/filenameext/grails.jpg" == m.createURL(fname: "grails", fext: ".jpg", "utf-8")
 
         when:
-        m = holder.urlMappings.find() { it.controllerName == 'myFiles'}
+        m = holder.urlMappings.find() { it.controllerName == 'myFiles' }
 
         then:
         m
         "/another/arbitrary/something-source.jar" ==
-                m.createURL(controller:"myFiles",action:"index", prefix:"source", ext:"jar", "utf-8")
+                m.createURL(controller: "myFiles", action: "index", prefix: "source", ext: "jar", "utf-8")
 
         // "ext" is a required property, so if it isn't specified an
         // exception should be thrown.
         when:
-        m.createURL(controller:"myFiles",action:"index", prefix:"source", "utf-8")
+        m.createURL(controller: "myFiles", action: "index", prefix: "source", "utf-8")
 
         then:
         thrown(UrlMappingException)
@@ -173,17 +173,17 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
     void testCreateUrlWithFragment() {
         given:
         def holder = urlMappingsHolder
-        def mappings = holder.urlMappings.find() { it.controllerName == 'book'}
+        def mappings = holder.urlMappings.find() { it.controllerName == 'book' }
 
         when:
-        def m = holder.urlMappings.find() { it.controllerName == 'book'}
+        def m = holder.urlMappings.find() { it.controllerName == 'book' }
 
         then:
         m
         "/book/dierk/gina/foo#testfrag" == m.createURL(author: "dierk", title: "gina", test: "foo", "utf-8", "testfrag")
 
         when:
-        m = holder.urlMappings.find() { it.controllerName == 'blog'}
+        m = holder.urlMappings.find() { it.controllerName == 'blog' }
 
         then:
         m
@@ -192,7 +192,6 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         // Test the behaviour of a null encoding.
         "/blog/foo/2007/10/24#testfrag2" == m.createURL(entry: "foo", year: 2007, month: 10, day: 24, null, "testfrag2")
     }
-
 
 
     void testMatchUriWithConstraints() {
@@ -204,7 +203,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         // mapping would be "/foo/$hello/bar
         def parser = new DefaultUrlMappingParser()
 
-        def m = new RegexUrlMapping(parser.parse('/foo/(*)/bar'), "test", "action", null, null, null, null,UrlMapping.ANY_VERSION, [cp] as ConstrainedProperty[], grailsApplication)
+        def m = new RegexUrlMapping(parser.parse('/foo/(*)/bar'), "test", "action", null, null, null, null, UrlMapping.ANY_VERSION, [cp] as ConstrainedProperty[], grailsApplication)
 
         def info = m.match("/foo/world/bar")
 
@@ -223,7 +222,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
 
         // mapping would be "/foo/$hello/bar
         def parser = new DefaultUrlMappingParser()
-        def m = new RegexUrlMapping(parser.parse('/foo/(*)/bar'), "test", "action", null, null, null, null, UrlMapping.ANY_VERSION,[cp] as ConstrainedProperty[], grailsApplication)
+        def m = new RegexUrlMapping(parser.parse('/foo/(*)/bar'), "test", "action", null, null, null, null, UrlMapping.ANY_VERSION, [cp] as ConstrainedProperty[], grailsApplication)
 
 
         def info = m.match("/foo/2007/bar")
@@ -260,7 +259,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         'survey' == info.controllerName
         'viewByName' == info.actionName
     }
-    
+
     void testParameterContainingADot() {
         given:
         def holder = urlMappingsHolder
@@ -284,18 +283,18 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
         'view' == info.actionName
         'my.id' == info.params.foo
     }
-    
+
     void testInit() {
         given:
         def parser = new DefaultUrlMappingParser()
         expect:
-        new RegexUrlMapping(parser.parse("/(*)/hello"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION,[] as ConstrainedProperty[], grailsApplication)
+        new RegexUrlMapping(parser.parse("/(*)/hello"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, [] as ConstrainedProperty[], grailsApplication)
     }
 
     void testMatchUriNoConstraints() {
         given:
         def parser = new DefaultUrlMappingParser()
-        def m = new RegexUrlMapping(parser.parse("/foo/(*)/bar"), "test", null, null, null, null, null,UrlMapping.ANY_VERSION, [] as ConstrainedProperty[], new DefaultGrailsApplication())
+        def m = new RegexUrlMapping(parser.parse("/foo/(*)/bar"), "test", null, null, null, null, null, UrlMapping.ANY_VERSION, [] as ConstrainedProperty[], new DefaultGrailsApplication())
         def info = m.match("/foo/test/bar")
         def info2 = m.match("/foo/bar/test")
 
@@ -328,7 +327,7 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
                 controller = "myFiles"
                 action = "index"
             }
-            "/foo"(controller:"foo", parseRequest:true)
+            "/foo"(controller: "foo", parseRequest: true)
 
             "/foo2"(controller: "foo") {
                 parseRequest = true
@@ -344,13 +343,13 @@ class RegexUrlMappingTests extends Specification implements UrlMappingsUnitTest<
                 parseRequest = true
             }
 
-            "/bar"(uri:"/x/y")
+            "/bar"(uri: "/x/y")
 
             "/surveys/view/$id" {
                 controller = "survey"
                 action = "viewById"
                 constraints {
-                    id(matches:/\d+/)
+                    id(matches: /\d+/)
                 }
             }
             "/surveys/view/$name" {

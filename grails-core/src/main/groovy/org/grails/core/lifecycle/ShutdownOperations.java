@@ -18,6 +18,7 @@ package org.grails.core.lifecycle;
 import grails.util.Holders;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -28,12 +29,10 @@ import java.util.LinkedHashSet;
  * @since 2.0
  */
 public class ShutdownOperations {
+    public static final Runnable DEFAULT_SHUTDOWN_OPERATION = Holders::reset;
     private static final Log LOG = LogFactory.getLog(ShutdownOperations.class);
-
     private static final Collection<Runnable> shutdownOperations = new LinkedHashSet<>();
     private static final Collection<Runnable> preservedShutdownOperations = new LinkedHashSet<>();
-
-    public static final Runnable DEFAULT_SHUTDOWN_OPERATION = Holders::reset;
 
     static {
         resetOperations();
@@ -59,6 +58,7 @@ public class ShutdownOperations {
 
     /**
      * Adds a shutdown operation which will be run once for the next shutdown
+     *
      * @param runnable The runnable operation
      */
     public static synchronized void addOperation(Runnable runnable) {
@@ -67,12 +67,13 @@ public class ShutdownOperations {
 
     /**
      * Adds a shutdown operation
-     * @param runnable The runnable operation
+     *
+     * @param runnable                The runnable operation
      * @param preserveForNextShutdown should preserve the operation for subsequent shutdowns, useful in tests
      */
     public static synchronized void addOperation(Runnable runnable, boolean preserveForNextShutdown) {
         shutdownOperations.add(runnable);
-        if(preserveForNextShutdown) {
+        if (preserveForNextShutdown) {
             preservedShutdownOperations.add(runnable);
         }
     }

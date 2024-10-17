@@ -19,18 +19,9 @@ import grails.util.GrailsStringUtils;
 import groovy.util.ConfigObject;
 import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.springframework.core.convert.support.ConfigurableConversionService;
-import org.springframework.core.env.EnumerablePropertySource;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.PropertySources;
-import org.springframework.core.env.PropertySourcesPropertyResolver;
+import org.springframework.core.env.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Graeme Rocher
@@ -63,6 +54,7 @@ public class PropertySourcesConfig extends NavigableMapConfig {
         this.propertySourcesPropertyResolver = new PropertySourcesPropertyResolver(propertySources);
         initializeFromPropertySources(propertySources);
     }
+
     public PropertySourcesConfig(PropertySource propertySource) {
         MutablePropertySources mutablePropertySources = new MutablePropertySources();
         mutablePropertySources.addFirst(propertySource);
@@ -70,6 +62,7 @@ public class PropertySourcesConfig extends NavigableMapConfig {
         this.propertySourcesPropertyResolver = new PropertySourcesPropertyResolver(propertySources);
         initializeFromPropertySources(propertySources);
     }
+
     public PropertySources getPropertySources() {
         return propertySources;
     }
@@ -81,20 +74,20 @@ public class PropertySourcesConfig extends NavigableMapConfig {
     protected void initializeFromPropertySources(PropertySources propertySources) {
 
         EnvironmentAwarePropertySource environmentAwarePropertySource = new EnvironmentAwarePropertySource(propertySources);
-        if(propertySources instanceof MutablePropertySources) {
+        if (propertySources instanceof MutablePropertySources) {
             final String applicationConfig = "applicationConfigurationProperties";
             if (propertySources.contains(applicationConfig)) {
-                ((MutablePropertySources)propertySources).addBefore(applicationConfig, environmentAwarePropertySource);
+                ((MutablePropertySources) propertySources).addBefore(applicationConfig, environmentAwarePropertySource);
             } else {
-                ((MutablePropertySources)propertySources).addLast(environmentAwarePropertySource);
+                ((MutablePropertySources) propertySources).addLast(environmentAwarePropertySource);
             }
         }
 
         List<PropertySource<?>> propertySourceList = DefaultGroovyMethods.toList(propertySources);
         Collections.reverse(propertySourceList);
-        for(PropertySource propertySource : propertySourceList) {
-            if(propertySource instanceof EnumerablePropertySource) {
-                EnumerablePropertySource enumerablePropertySource = (EnumerablePropertySource)propertySource;
+        for (PropertySource propertySource : propertySourceList) {
+            if (propertySource instanceof EnumerablePropertySource) {
+                EnumerablePropertySource enumerablePropertySource = (EnumerablePropertySource) propertySource;
                 mergeEnumerablePropertySource(enumerablePropertySource);
             }
         }
@@ -126,13 +119,13 @@ public class PropertySourcesConfig extends NavigableMapConfig {
             value = resolvePlaceholders(value.toString());
         } else if (value instanceof List) {
             List<Object> result = new ArrayList<>();
-            for (Object element : (List)value) {
+            for (Object element : (List) value) {
                 result.add(processAndEvaluate(element));
             }
             return result;
         } else if (value instanceof Map) {
             Map<Object, Object> result = new LinkedHashMap<>();
-            for (Object key : ((Map)value).keySet()) {
+            for (Object key : ((Map) value).keySet()) {
                 result.put(key, processAndEvaluate(((Map) value).get(key)));
             }
             return result;
@@ -151,7 +144,7 @@ public class PropertySourcesConfig extends NavigableMapConfig {
 
     @Override
     public String resolvePlaceholders(String text) {
-        if(!GrailsStringUtils.isBlank(text)) {
+        if (!GrailsStringUtils.isBlank(text)) {
             return propertySourcesPropertyResolver.resolvePlaceholders(text);
         }
         return text;

@@ -66,8 +66,7 @@ public class Holder<T> {
         if (t == null) {
             instances.remove(id);
             instances.remove(thisClassLoaderId);
-        }
-        else {
+        } else {
             instances.put(id, t);
             instances.put(thisClassLoaderId, t);
         }

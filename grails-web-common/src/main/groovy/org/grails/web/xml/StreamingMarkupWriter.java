@@ -38,8 +38,7 @@ public class StreamingMarkupWriter extends groovy.xml.streamingmarkupsupport.Str
     public void write(int i) throws IOException {
         if (writingAttribute && i == '"') {
             writer.write("&quot;");
-        }
-        else {
+        } else {
             super.write(i);
         }
     }

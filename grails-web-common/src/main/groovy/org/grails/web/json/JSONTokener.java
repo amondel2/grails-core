@@ -61,19 +61,6 @@ public class JSONTokener {
         this.mySource = s;
     }
 
-
-    /**
-     * Back up one character. This provides a sort of lookahead capability,
-     * so that you can test for a digit or letter before attempting to parse
-     * the next number or identifier.
-     */
-    public void back() {
-        if (this.myIndex > 0) {
-            this.myIndex -= 1;
-        }
-    }
-
-
     /**
      * Get the hex value of a character (base16).
      *
@@ -94,6 +81,16 @@ public class JSONTokener {
         return -1;
     }
 
+    /**
+     * Back up one character. This provides a sort of lookahead capability,
+     * so that you can test for a digit or letter before attempting to parse
+     * the next number or identifier.
+     */
+    public void back() {
+        if (this.myIndex > 0) {
+            this.myIndex -= 1;
+        }
+    }
 
     /**
      * Determine if the source string still contains characters that next()
@@ -165,7 +162,7 @@ public class JSONTokener {
      * @throws JSONException
      */
     public char nextClean() throws JSONException {
-        for (; ;) {
+        for (; ; ) {
             char c = next();
             if (c == '/') {
                 switch (next()) {
@@ -175,7 +172,7 @@ public class JSONTokener {
                         } while (c != '\n' && c != '\r' && c != 0);
                         break;
                     case '*':
-                        for (; ;) {
+                        for (; ; ) {
                             c = next();
                             if (c == 0) {
                                 throw syntaxError("Unclosed comment.");
@@ -218,7 +215,7 @@ public class JSONTokener {
     public String nextString(char quote) throws JSONException {
         char c;
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             c = next();
             switch (c) {
                 case 0:
@@ -272,7 +269,7 @@ public class JSONTokener {
      */
     public String nextTo(char d) {
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             char c = next();
             if (c == d || c == 0 || c == '\n' || c == '\r') {
                 if (c != 0) {
@@ -295,7 +292,7 @@ public class JSONTokener {
     public String nextTo(String delimiters) {
         char c;
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             c = next();
             if (delimiters.indexOf(c) >= 0 || c == 0 ||
                     c == '\n' || c == '\r') {
@@ -437,7 +434,7 @@ public class JSONTokener {
      *
      * @param to A character to skip to.
      * @return The requested character, or zero if the requested character
-     *         is not found.
+     * is not found.
      */
     public char skipTo(char to) {
         char c;

@@ -32,8 +32,7 @@ class GrailsMockHttpSession extends MockHttpSession {
         def mp = getClass().metaClass.getMetaProperty(name)
         if (mp) {
             mp.setProperty(this, value)
-        }
-        else {
+        } else {
             setAttribute(name, value)
         }
     }

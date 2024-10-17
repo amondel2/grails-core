@@ -19,6 +19,7 @@ import groovy.xml.slurpersupport.GPathResult;
 import org.grails.core.exceptions.GrailsConfigurationException;
 import org.grails.io.support.SpringIOUtils;
 import org.springframework.core.io.Resource;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -26,7 +27,6 @@ import java.util.List;
 /**
  * Holds a reference to the parsed grails-plugin.xml descriptor and the
  * resource used to parse the descriptor
- *
  */
 public class BinaryGrailsPluginDescriptor {
 
@@ -59,7 +59,7 @@ public class BinaryGrailsPluginDescriptor {
      * @return The parsed descriptor
      */
     public GPathResult getParsedXml() {
-        if(parsedXml == null) {
+        if (parsedXml == null) {
             InputStream inputStream;
             try {
                 inputStream = resource.getInputStream();

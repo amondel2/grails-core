@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Graeme Rocher
  * @since 0.4
- *        <p/>
- *        Created: Mar 5, 2007
- *        Time: 7:50:41 AM
+ * <p/>
+ * Created: Mar 5, 2007
+ * Time: 7:50:41 AM
  */
 public class UrlMappingDataTests {
 
@@ -47,10 +47,10 @@ public class UrlMappingDataTests {
 
         assertFalse(tokens.length == 0);
 
-        assertEquals("blog",tokens[0]);
-        assertEquals("(*)",tokens[1]);
-        assertEquals("2007",tokens[2]);
-        assertEquals("(*)?",tokens[3]);
+        assertEquals("blog", tokens[0]);
+        assertEquals("(*)", tokens[1]);
+        assertEquals("2007", tokens[2]);
+        assertEquals("(*)?", tokens[3]);
 
         assertFalse(data.isOptional(0));
         assertTrue(data.isOptional(1));

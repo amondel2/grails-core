@@ -55,10 +55,9 @@ class NullBindingPersonController {
         def p = new NullBindingPerson()
         p.properties = params
         if (p.hasErrors()) {
-            [personInstance:p]
-        }
-        else {
-            redirect action:"foo"
+            [personInstance: p]
+        } else {
+            redirect action: "foo"
         }
     }
 }

@@ -14,7 +14,7 @@ class InheritanceWithValidationTests extends Specification implements DataTest {
         mockDomains(CustomProperty, StringPropertyValue)
     }
 
-    void testNewStringValue () {
+    void testNewStringValue() {
 
         given:
         def property = new CustomProperty()
@@ -35,7 +35,7 @@ class AbstractCustomPropertyValue implements Validateable {
     boolean valid = false
 
     static constraints = {
-        valid (validator: validator)
+        valid(validator: validator)
     }
 
     static transients = ['valid']

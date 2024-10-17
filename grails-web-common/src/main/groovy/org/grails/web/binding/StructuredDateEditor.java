@@ -79,7 +79,7 @@ public class StructuredDateEditor extends CustomDateEditor implements Structured
             int hour = getIntegerValue(fieldValues, "hour", 0);
             int minute = getIntegerValue(fieldValues, "minute", 0);
 
-            Calendar c = new GregorianCalendar(year,month - 1,day,hour,minute);
+            Calendar c = new GregorianCalendar(year, month - 1, day, hour, minute);
             if (type == Date.class) {
                 return c.getTime();
             }
@@ -87,8 +87,7 @@ public class StructuredDateEditor extends CustomDateEditor implements Structured
                 return new java.sql.Date(c.getTime().getTime());
             }
             return c;
-        }
-        catch (NumberFormatException nfe) {
+        } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("Unable to parse structured date from request for date [\"+propertyName+\"]\"");
         }
     }

@@ -15,8 +15,8 @@ class SHA256CodecTests {
         def primitiveResult = [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, 33].encodeAsSHA256()
         def toStringResult = 'Hello World!'.encodeAsSHA256()
 
-        assertEquals(expectedResult,primitiveResult)
-        assertEquals(expectedResult,toStringResult)
+        assertEquals(expectedResult, primitiveResult)
+        assertEquals(expectedResult, toStringResult)
 
         //make sure encoding null returns null
         assertNull null.encodeAsSHA256()
@@ -25,7 +25,7 @@ class SHA256CodecTests {
     @Test
     void testDecode() {
         assertThrows(UnsupportedOperationException, {
-            [1,2,3,4,5].decodeSHA256()
+            [1, 2, 3, 4, 5].decodeSHA256()
         })
     }
 }

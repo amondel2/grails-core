@@ -49,14 +49,13 @@ class MapBasedSmartPropertyOverrideConfigurer implements BeanFactoryPostProcesso
         if (!beans) {
             return
         }
-        for(beanName in beans.keySet()) {
+        for (beanName in beans.keySet()) {
             def beanProperties = beans.get(beanName)
             if (!(beanProperties instanceof Map)) {
                 throw new IllegalArgumentException("Entry in bean config for bean '" + beanName + "' must be a Map")
-            }
-            else {
+            } else {
                 final beanPropertiesMap = (Map) beanProperties
-                for(beanPropertyName in beanPropertiesMap.keySet()) {
+                for (beanPropertyName in beanPropertiesMap.keySet()) {
                     final beanPropertyValue = beanPropertiesMap.get(beanPropertyName)
                     applyPropertyValue(factory, beanName.toString(), beanPropertyName.toString(), beanPropertyValue)
                 }
@@ -83,43 +82,39 @@ class MapBasedSmartPropertyOverrideConfigurer implements BeanFactoryPostProcesso
     protected BeanDefinition getTargetBeanDefinition(ConfigurableListableBeanFactory factory, String beanName) {
         if (factory.containsBeanDefinition(beanName)) {
             getTargetBeanDefinition(factory, beanName, factory.getBeanDefinition(beanName))
-        }
-        else {
+        } else {
             null
         }
     }
 
     protected BeanDefinition getTargetBeanDefinition(ConfigurableListableBeanFactory factory,
-            String beanName, BeanDefinition beanDefinition) {
+                                                     String beanName, BeanDefinition beanDefinition) {
 
         if (beanDefinition.factoryBeanName) {
             beanDefinition
-        }
-        else {
+        } else {
             getTargetBeanDefinition(factory, beanName, beanDefinition,
                     classLoader.loadClass(beanDefinition.beanClassName))
         }
     }
 
     protected BeanDefinition getTargetBeanDefinition(ConfigurableListableBeanFactory factory, String beanName,
-            BeanDefinition beanDefinition, Class beanClass) {
+                                                     BeanDefinition beanDefinition, Class beanClass) {
 
         if (FactoryBean.isAssignableFrom(beanClass)) {
             getTargetBeanDefinitionForFactoryBean(factory, beanName, beanDefinition, beanClass)
-        }
-        else {
+        } else {
             beanDefinition
         }
     }
 
     protected BeanDefinition getTargetBeanDefinitionForFactoryBean(ConfigurableListableBeanFactory factory,
-            String beanName, BeanDefinition beanDefinition, Class<? extends FactoryBean> beanClass) {
+                                                                   String beanName, BeanDefinition beanDefinition, Class<? extends FactoryBean> beanClass) {
 
         if (TransactionProxyFactoryBean.isAssignableFrom(beanClass)) {
             getTargetBeanDefinition(factory, beanName,
-                    (BeanDefinition)beanDefinition.propertyValues.getPropertyValue("target").value)
-        }
-        else {
+                    (BeanDefinition) beanDefinition.propertyValues.getPropertyValue("target").value)
+        } else {
             beanDefinition
         }
     }

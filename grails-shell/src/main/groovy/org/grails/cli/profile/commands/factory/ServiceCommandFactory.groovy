@@ -21,7 +21,6 @@ import org.grails.cli.profile.Profile
 import org.grails.cli.profile.ProfileCommand
 
 
-
 /**
  * Uses the service registry pattern to locate commands
  *
@@ -32,7 +31,7 @@ import org.grails.cli.profile.ProfileCommand
 class ServiceCommandFactory implements CommandFactory {
     @Override
     Collection<Command> findCommands(Profile profile, boolean inherited) {
-        if(inherited) return Collections.emptyList()
+        if (inherited) return Collections.emptyList()
         ServiceLoader.load(Command).findAll() { Command cmd ->
             cmd instanceof ProfileCommand
         }

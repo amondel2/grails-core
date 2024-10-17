@@ -64,7 +64,7 @@ public class GrailsWebRequestFilter extends OncePerRequestFilter implements Appl
         try {
             WebUtils.storeGrailsWebRequest(webRequest);
 
-            if(!isIncludeOrForward) {
+            if (!isIncludeOrForward) {
                 // Set the flash scope instance to its next state. We do
                 // this here so that the flash is available from Grails
                 // filters in a valid state.
@@ -75,16 +75,14 @@ public class GrailsWebRequestFilter extends OncePerRequestFilter implements Appl
             // Pass control on to the next filter (or the servlet if
             // there are no more filters in the chain).
             filterChain.doFilter(request, response);
-        }
-        finally {
+        } finally {
             webRequest.requestCompleted();
 
-            if(isIncludeOrForward) {
-                if(previous != null) {
+            if (isIncludeOrForward) {
+                if (previous != null) {
                     WebUtils.storeGrailsWebRequest(previous);
                 }
-            }
-            else {
+            } else {
 
                 WebUtils.clearGrailsWebRequest();
                 LocaleContextHolder.setLocale(null);
@@ -117,6 +115,6 @@ public class GrailsWebRequestFilter extends OncePerRequestFilter implements Appl
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        paramListenerBeans=applicationContext.getBeansOfType(ParameterCreationListener.class).values();
+        paramListenerBeans = applicationContext.getBeansOfType(ParameterCreationListener.class).values();
     }
 }

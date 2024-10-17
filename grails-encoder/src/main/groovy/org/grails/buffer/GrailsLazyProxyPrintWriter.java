@@ -22,13 +22,6 @@ public class GrailsLazyProxyPrintWriter extends GrailsPrintWriter {
     private DestinationFactory factory;
     private boolean destinationActivated = false;
 
-    /**
-     * Factory to lazily instantiate the destination.
-     */
-    public static interface DestinationFactory {
-        Writer activateDestination() throws IOException;
-    }
-
     public GrailsLazyProxyPrintWriter(DestinationFactory factory) {
         super(null);
         this.factory = factory;
@@ -39,8 +32,7 @@ public class GrailsLazyProxyPrintWriter extends GrailsPrintWriter {
         if (!destinationActivated) {
             try {
                 super.setOut(factory.activateDestination());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setError();
             }
             destinationActivated = true;
@@ -73,5 +65,12 @@ public class GrailsLazyProxyPrintWriter extends GrailsPrintWriter {
         if (!this.destinationActivated) {
             super.setOut(null);
         }
+    }
+
+    /**
+     * Factory to lazily instantiate the destination.
+     */
+    public static interface DestinationFactory {
+        Writer activateDestination() throws IOException;
     }
 }

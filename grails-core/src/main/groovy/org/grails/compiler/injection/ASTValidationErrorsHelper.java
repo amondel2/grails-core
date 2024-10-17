@@ -160,7 +160,7 @@ public class ASTValidationErrorsHelper implements ASTErrorsHelper {
     protected void addSetErrorsMethod(final ClassNode paramTypeClassNode) {
         final String errorsArgumentName = "$errorsArg";
         MethodNode setErrorsMethod = paramTypeClassNode.getMethod(SET_ERRORS_METHOD_NAME,
-             new Parameter[] { new Parameter(ERRORS_CLASS_NODE, errorsArgumentName)});
+                new Parameter[]{new Parameter(ERRORS_CLASS_NODE, errorsArgumentName)});
         if (setErrorsMethod == null) {
             final Expression assignErrorsExpression = new BinaryExpression(ERRORS_EXPRESSION,
                     EQUALS_SYMBOL, new VariableExpression(errorsArgumentName));

@@ -26,7 +26,7 @@ ext {
     // When making changes in the dependencyVersions, remember to also update the Grails BOM Documentation:
     // https://docs.grails.org/snapshot/ref/Dependency%20Versions/Grails%20BOM.html
     dependencyVersions = [
-            'grailsGradlePlugin'      : [version: grailsGradlePluginVersion,
+            'grailsGradlePlugin'     : [version: grailsGradlePluginVersion,
                                         group  : 'org.grails',
                                         names  : ['grails-gradle-plugin'],
                                         modules: ['']
@@ -154,8 +154,8 @@ if (jointBuildGroovyJarProperty) {
     }
 } else {
     groovyDependency = dependencies.create("org.apache.groovy:groovy:${groovyVersion}") {
-        exclude module:"commons-cli"
-        exclude module:"ant"
+        exclude module: "commons-cli"
+        exclude module: "ant"
     }
 }
 
@@ -202,7 +202,7 @@ allprojects {
         maven { url = 'https://repo.grails.org/grails/core' }
         maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
         // mavenLocal() // Keep, this will be uncommented and used by CI (groovy-joint-workflow)
-        if(groovyVersion.endsWith('-SNAPSHOT')) {
+        if (groovyVersion.endsWith('-SNAPSHOT')) {
             maven {
                 name = 'ASF Snapshot repo'
                 url = 'https://repository.apache.org/content/repositories/snapshots'
@@ -428,7 +428,7 @@ subprojects { project ->
     dependencies {
         documentation("org.fusesource.jansi:jansi:$jansiVersion")
         documentation("jline:jline:$jlineVersion")
-        documentation ("com.github.javaparser:javaparser-core:$javaParserCoreVersion")
+        documentation("com.github.javaparser:javaparser-core:$javaParserCoreVersion")
 
         if (compiledByGradleGroovyVersion(project)) {
             documentation "org.codehaus.groovy:groovy:$GroovySystem.version"

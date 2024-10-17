@@ -33,7 +33,6 @@ import java.io.IOException;
  * anticipated needs.
  *
  * @author Kris De Volder
- *
  * @since 2.0.0.M2
  */
 public class GrailsEclipseConsole extends GrailsConsole {
@@ -53,20 +52,20 @@ public class GrailsEclipseConsole extends GrailsConsole {
         super();
     }
 
+    private static Boolean boolProp(String propName) {
+        try {
+            String prop = System.getProperty(propName);
+            return prop != null && Boolean.valueOf(prop);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private boolean eclipseSupportsAnsi() {
         if (eclipseSupportsAnsi == null) {
             eclipseSupportsAnsi = boolProp(ECLIPSE_SUPPORTS_ANSI_PROP);
         }
         return eclipseSupportsAnsi;
-    }
-
-    private static Boolean boolProp(String propName) {
-        try {
-            String prop =  System.getProperty(propName);
-            return prop != null && Boolean.valueOf(prop);
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     @Override

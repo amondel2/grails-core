@@ -23,14 +23,14 @@ public class EncodingStateRegistryLookupHolder {
     private EncodingStateRegistryLookupHolder() {
     }
 
+    public static EncodingStateRegistryLookup getEncodingStateRegistryLookup() {
+        return holder.get();
+    }
+
     public static void setEncodingStateRegistryLookup(EncodingStateRegistryLookup lookup) {
         holder.set(lookup);
     }
 
-    public static EncodingStateRegistryLookup getEncodingStateRegistryLookup() {
-        return holder.get();
-    }
-    
     public static void clear() {
         holder.set(null);
     }

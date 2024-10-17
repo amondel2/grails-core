@@ -23,16 +23,16 @@ import spock.lang.Specification
 /**
  * @author graemerocher
  */
-class EnhancesSpec extends Specification{
+class EnhancesSpec extends Specification {
     void "Test that the enhances trait transform works as expected"() {
 
-        when:"The generated transformer is loaded"
-            def traitInjector = getClass().classLoader.loadClass("grails.artefact.FooTraitInjector").getDeclaredConstructor().newInstance()
+        when: "The generated transformer is loaded"
+        def traitInjector = getClass().classLoader.loadClass("grails.artefact.FooTraitInjector").getDeclaredConstructor().newInstance()
 
-        then:"It is a valid trait injector"
-            traitInjector instanceof TraitInjector
-            traitInjector.trait == Foo
-            traitInjector.artefactTypes == ['Controller'] as String[]
+        then: "It is a valid trait injector"
+        traitInjector instanceof TraitInjector
+        traitInjector.trait == Foo
+        traitInjector.artefactTypes == ['Controller'] as String[]
     }
 }
 

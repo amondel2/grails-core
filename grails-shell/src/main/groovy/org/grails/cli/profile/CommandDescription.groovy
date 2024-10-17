@@ -93,7 +93,7 @@ class CommandDescription {
      * @param synonyms The synonyms
      * @return This command description
      */
-    CommandDescription synonyms(String...synonyms) {
+    CommandDescription synonyms(String... synonyms) {
         this.synonyms.addAll(synonyms)
         return this
     }
@@ -128,7 +128,7 @@ class CommandDescription {
     CommandDescription argument(Map args) {
         def arg = new CommandArgument(args)
         def name = arg.name
-        if(name) {
+        if (name) {
             arguments[name] = arg
         }
         return this
@@ -143,7 +143,7 @@ class CommandDescription {
     CommandDescription flag(Map args) {
         def arg = new CommandArgument(args)
         def name = arg.name
-        if(name) {
+        if (name) {
             arg.required = false
             flags[name] = arg
         }

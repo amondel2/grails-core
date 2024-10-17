@@ -24,25 +24,43 @@ import org.gradle.api.tasks.*
  */
 class PublishGuide extends DefaultTask {
 
-    @Optional @Input String language = ""
-    @Optional @Input String sourceRepo
-    @Optional @Input Properties properties = new Properties()
-    @Optional @Input Boolean asciidoc = false
-    @Optional @Input List propertiesFiles = []
+    @Optional
+    @Input
+    String language = ""
+    @Optional
+    @Input
+    String sourceRepo
+    @Optional
+    @Input
+    Properties properties = new Properties()
+    @Optional
+    @Input
+    Boolean asciidoc = false
+    @Optional
+    @Input
+    List propertiesFiles = []
 
-    @InputDirectory File sourceDir = new File(project.projectDir, "src")
-    @Optional @InputDirectory File workDir = project.layout.buildDirectory.get().asFile
-    @Optional @InputDirectory File resourcesDir = new File(project.projectDir, "resources")
+    @InputDirectory
+    File sourceDir = new File(project.projectDir, "src")
+    @Optional
+    @InputDirectory
+    File workDir = project.layout.buildDirectory.get().asFile
+    @Optional
+    @InputDirectory
+    File resourcesDir = new File(project.projectDir, "resources")
 
-    @Optional @Input Collection macros = []
+    @Optional
+    @Input
+    Collection macros = []
 
-    @OutputDirectory File targetDir = project.layout.buildDirectory.dir("docs").get().asFile
+    @OutputDirectory
+    File targetDir = project.layout.buildDirectory.dir("docs").get().asFile
 
     @TaskAction
     def publishGuide() {
         def props = new Properties()
         def docProperties = new File("${resourcesDir}/doc.properties")
-        if(docProperties.exists()) {
+        if (docProperties.exists()) {
             docProperties.withInputStream { input ->
                 props.load(input)
             }
@@ -50,7 +68,7 @@ class PublishGuide extends DefaultTask {
 
         // Add properties from any optional properties files too.
         for (f in propertiesFiles) {
-            (f as File).withInputStream {input ->
+            (f as File).withInputStream { input ->
                 props.load(input)
             }
         }

@@ -33,10 +33,8 @@ import java.util.Map;
 /**
  * Allows looking up key classes in a static context
  *
- *
  * @author Burt Beckwith
  * @author Graeme Rocher
- *
  * @since 2.0
  */
 public class Holders {
@@ -49,12 +47,12 @@ public class Holders {
 
     private static List<GrailsApplicationDiscoveryStrategy> applicationDiscoveryStrategies = GrailsFactoriesLoader.loadFactories(GrailsApplicationDiscoveryStrategy.class, Holders.class.getClassLoader());
     private static Holder servletContexts;
+    private static GrailsApplication applicationSingleton; // TODO remove
+
     static {
 
         createServletContextsHolder();
     }
-
-    private static GrailsApplication applicationSingleton; // TODO remove
 
     private Holders() {
         // static only
@@ -76,20 +74,20 @@ public class Holders {
         applicationSingleton = null;
     }
 
-    public static void setServletContext(final Object servletContext) {
-        servletContexts.set(servletContext);
-    }
-
     public static Object getServletContext() {
         return get(servletContexts, "servletContext");
     }
 
+    public static void setServletContext(final Object servletContext) {
+        servletContexts.set(servletContext);
+    }
+
     public static ApplicationContext getApplicationContext() {
-        for(GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
+        for (GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
             ApplicationContext applicationContext = strategy.findApplicationContext();
-            if(applicationContext != null ) {
+            if (applicationContext != null) {
                 boolean running = ((Lifecycle) applicationContext).isRunning();
-                if(running) {
+                if (running) {
                     return applicationContext;
                 }
             }
@@ -98,26 +96,25 @@ public class Holders {
     }
 
     /**
-     *
      * @return The ApplicationContext or null if it doesn't exist
      */
     public static ApplicationContext findApplicationContext() {
-        for(GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
+        for (GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
             ApplicationContext applicationContext = strategy.findApplicationContext();
-            if(applicationContext != null) {
+            if (applicationContext != null) {
                 return applicationContext;
             }
         }
         return null;
     }
+
     /**
-     *
      * @return The ApplicationContext or null if it doesn't exist
      */
     public static GrailsApplication findApplication() {
-        for(GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
+        for (GrailsApplicationDiscoveryStrategy strategy : applicationDiscoveryStrategies) {
             GrailsApplication grailsApplication = strategy.findGrailsApplication();
-            if(grailsApplication != null) {
+            if (grailsApplication != null) {
                 return grailsApplication;
             }
         }
@@ -134,15 +131,15 @@ public class Holders {
         applicationSingleton = application;
     }
 
+    public static Config getConfig() {
+        return get(configs, "config");
+    }
+
     public static void setConfig(Config config) {
         configs.set(config);
 
         // reset flat config
         flatConfigs.set(config == null ? null : config);
-    }
-
-    public static Config getConfig() {
-        return get(configs, "config");
     }
 
     public static Map<?, ?> getFlatConfig() {
@@ -154,15 +151,15 @@ public class Holders {
         pluginManagersInCreation.set(inCreation);
     }
 
+    public static GrailsPluginManager getPluginManager() {
+        return getPluginManager(false);
+    }
+
     public static void setPluginManager(GrailsPluginManager pluginManager) {
         if (pluginManager != null) {
             pluginManagersInCreation.set(false);
         }
         pluginManagers.set(pluginManager);
-    }
-
-    public static GrailsPluginManager getPluginManager() {
-        return getPluginManager(false);
     }
 
     public static GrailsPluginManager getPluginManager(boolean mappedOnly) {
@@ -177,8 +174,7 @@ public class Holders {
 
             try {
                 Thread.sleep(100);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 break;
             }
         }
@@ -213,17 +209,14 @@ public class Holders {
     private static void createServletContextsHolder() {
         try {
             Class<?> clazz = Holders.class.getClassLoader().loadClass("grails.web.context.WebRequestServletHolder");
-            servletContexts = (Holder)clazz.newInstance();
-        }
-        catch (ClassNotFoundException e) {
+            servletContexts = (Holder) clazz.newInstance();
+        } catch (ClassNotFoundException e) {
             // shouldn't happen
             LOG.debug("Error initializing servlet context holder, not running in Servlet environment: " + e.getMessage(), e);
-        }
-        catch (InstantiationException e) {
+        } catch (InstantiationException e) {
             // shouldn't happen
             LOG.debug("Error initializing servlet context holder, not running in Servlet environment: " + e.getMessage(), e);
-        }
-        catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             // shouldn't happen
             LOG.debug("Error initializing servlet context holder, not running in Servlet environment: " + e.getMessage(), e);
         }

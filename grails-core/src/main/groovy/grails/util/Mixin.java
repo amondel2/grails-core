@@ -24,7 +24,6 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 
 
 /**
- *
  * @author Graeme Rocher
  * @since 2.3
  */
@@ -33,5 +32,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 @Target(ElementType.TYPE)
 @GroovyASTTransformationClass("org.grails.compiler.injection.MixinTransformation")
 public @interface Mixin {
-    Class<?>[] value ();
+    Class<?>[] value();
 }

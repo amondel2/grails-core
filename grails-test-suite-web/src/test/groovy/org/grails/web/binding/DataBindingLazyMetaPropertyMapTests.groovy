@@ -23,8 +23,8 @@ class DataBindingLazyMetaPropertyMapTests extends Specification {
 
     void testDataBindingWithSubmap() {
         when:
-       def map = new DataBindingLazyMetaPropertyMap(new PropertyMapTest(name:"Bart", age:11, other:"stuff"))
-        map['name', 'age'] = [name:"Homer", age:"45", other:"changed"]
+        def map = new DataBindingLazyMetaPropertyMap(new PropertyMapTest(name: "Bart", age: 11, other: "stuff"))
+        map['name', 'age'] = [name: "Homer", age: "45", other: "changed"]
 
         then:
         map.age == 45

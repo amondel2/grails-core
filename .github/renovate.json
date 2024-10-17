@@ -3,14 +3,21 @@
     "config:base",
     "helpers:pinGitHubActionDigests"
   ],
-  "labels": ["type: dependency upgrade"],
+  "labels": [
+    "type: dependency upgrade"
+  ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["pin", "digest"],
+      "matchUpdateTypes": [
+        "pin",
+        "digest"
+      ],
       "enabled": false
     },
     {
-      "matchPackagePatterns": ["*"],
+      "matchPackagePatterns": [
+        "*"
+      ],
       "allowedVersions": "!/SNAPSHOT$/"
     },
     {

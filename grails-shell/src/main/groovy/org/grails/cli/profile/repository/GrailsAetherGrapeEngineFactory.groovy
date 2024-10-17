@@ -31,8 +31,8 @@ import org.grails.cli.compiler.grape.RepositorySystemSessionAutoConfiguration
 class GrailsAetherGrapeEngineFactory {
 
     static AetherGrapeEngine create(GroovyClassLoader classLoader,
-                                           List<GrailsRepositoryConfiguration> repositoryConfigurations,
-                                           DependencyResolutionContext dependencyResolutionContext) {
+                                    List<GrailsRepositoryConfiguration> repositoryConfigurations,
+                                    DependencyResolutionContext dependencyResolutionContext) {
 
         RepositorySystem repositorySystem = createServiceLocator()
                 .getService(RepositorySystem.class)

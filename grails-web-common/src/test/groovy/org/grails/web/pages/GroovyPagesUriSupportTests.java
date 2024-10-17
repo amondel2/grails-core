@@ -88,5 +88,6 @@ public class GroovyPagesUriSupportTests {
         assertEquals("/foo/bar/foo", uriSupport.getNoSuffixViewURI(controller, "bar/foo"));
     }
 
-    class FooInterceptor extends GroovyObjectSupport {}
+    class FooInterceptor extends GroovyObjectSupport {
+    }
 }

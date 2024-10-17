@@ -79,8 +79,7 @@ class YamlTocStrategy {
         def filePath = "${basename}$ext"
         if (resourceChecker.exists(filePath)) {
             return filePath
-        }
-        else if (pathElements) {
+        } else if (pathElements) {
             // Now check whether it's in any sub-directories named after the
             // ancestor nodes. First we look in a directory with the same
             // name as the root (named) node, then in a sub-directory of

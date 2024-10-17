@@ -40,7 +40,7 @@ class JsonCollectionRenderer extends JsonRenderer implements ContainerRenderer {
         super(Collection, mimeTypes)
         this.componentType = componentType
     }
-    
+
     @Override
     protected void renderJson(JSON converter, RenderContext context) {
         converter.setExcludes(componentType, excludes != null ? excludes : context.excludes)

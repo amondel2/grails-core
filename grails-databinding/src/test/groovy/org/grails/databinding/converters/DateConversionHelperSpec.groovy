@@ -14,7 +14,7 @@ class DateConversionHelperSpec extends Specification {
     void 'Test parsing dates'() {
         given:
         Calendar calendar = getInstance()
-        DateConversionHelper helper = new DateConversionHelper(formatStrings: ['yyyy-MM-dd HH:mm:ss.S',"yyyy-MM-dd'T'HH:mm:ss'Z'","yyyy-MM-dd HH:mm:ss.S z","yyyy-MM-dd'T'HH:mm:ss.SSSX"])
+        DateConversionHelper helper = new DateConversionHelper(formatStrings: ['yyyy-MM-dd HH:mm:ss.S', "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd HH:mm:ss.S z", "yyyy-MM-dd'T'HH:mm:ss.SSSX"])
 
         when:
         Date date = helper.convert '2013-04-15 21:26:31.973'

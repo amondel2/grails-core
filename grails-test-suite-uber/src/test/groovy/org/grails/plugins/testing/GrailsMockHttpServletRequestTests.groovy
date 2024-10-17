@@ -175,7 +175,7 @@ class GrailsMockHttpServletRequestTests extends Specification {
     void verifyXmlResult(xml) {
         3 == (int) xml.item.size()
         'Apple' == xml.item[1].name.text() as String
-        '2' ==  xml.item[2].@qty.text() as String
+        '2' == xml.item[2].@qty.text() as String
     }
 
     void verifyJsonResult(json) {

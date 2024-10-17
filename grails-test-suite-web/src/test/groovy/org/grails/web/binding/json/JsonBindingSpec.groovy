@@ -14,9 +14,9 @@ class JsonBindingSpec extends Specification implements ControllerUnitTest<Bindin
             {
     "name": "Douglas", "age": "42"}
 '''
-    when:
+        when:
         def model = controller.createPersonCommandObject()
-    then:
+        then:
         model.person instanceof Person
         model.person.name == 'Douglas'
         model.person.age == 42
@@ -34,9 +34,9 @@ class JsonBindingSpec extends Specification implements ControllerUnitTest<Bindin
     ]
 }
 '''
-    when:
+        when:
         def model = controller.createFamily()
-    then:
+        then:
         model.family.lastName == 'Brown'
 
         model.family.familyMembers.size() == 2
@@ -69,15 +69,15 @@ class JsonBindingSpec extends Specification implements ControllerUnitTest<Bindin
 
     void 'Test parsing JSON with other than UTF-8 content type'() {
         given:
-            String jsonString = '{"name":"Hello öäåÖÄÅ"}'
-            request.method = 'POST'
-            request.contentType = 'application/json; charset=UTF-16'
-            request.content = jsonString.getBytes("UTF-16")
+        String jsonString = '{"name":"Hello öäåÖÄÅ"}'
+        request.method = 'POST'
+        request.contentType = 'application/json; charset=UTF-16'
+        request.content = jsonString.getBytes("UTF-16")
         when:
-            def model = controller.createPersonCommandObject()
+        def model = controller.createPersonCommandObject()
         then:
-            model.person instanceof Person
-            model.person.name == 'Hello öäåÖÄÅ'
+        model.person instanceof Person
+        model.person.name == 'Hello öäåÖÄÅ'
     }
 
     void 'Test binding JSON to a Map'() {
@@ -94,39 +94,39 @@ class JsonBindingSpec extends Specification implements ControllerUnitTest<Bindin
         model.family.mapData.name == 'Jeff'
         model.family.mapData.country == 'USA'
     }
-    
+
     @Issue('GRAILS-11576')
     void 'Test binding malformed JSON to a command object'() {
         given:
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'POST'
         request.JSON = '{"mapData": {"name":"Jeff{{{"'
-        
+
         when:
         def model = controller.createFamily()
-        
+
         then:
         model.family.hasErrors()
-        
+
         when:
         def familyError = model.family.errors.allErrors.find {
             it.objectName == 'family'
         }
-        
+
         then:
         familyError?.defaultMessage?.contains 'Error occurred initializing command object [family]. groovy.json.JsonException'
     }
-    
+
     @Issue('GRAILS-11646')
     void 'should JSON encoding be handled'() {
         given:
         request.contentType = 'application/json; charset=ISO-8859-1'
         request.method = 'POST'
         request.content = '{"data": "Multibyte characters: äöåÄÖÅ"}'
-        
+
         expect:
         request.JSON.toString() == '{"data":"Multibyte characters: äöåÄÖÅ"}'
-    } 
+    }
 }
 
 @Artefact('Controller')

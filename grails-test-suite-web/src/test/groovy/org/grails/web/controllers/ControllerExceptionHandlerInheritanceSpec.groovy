@@ -41,12 +41,12 @@ class ControllerExceptionHandlerInheritanceSpec extends Specification implements
         then:
         superClassMetaData.size() == 2
         superClassMetaData.find { it.exceptionType == NumberFormatException && it.methodName == 'superClassNumberFormatExceptionHandler' }
-        superClassMetaData.find { it.exceptionType == BatchUpdateException && it.methodName == 'handleSQLException'}
+        superClassMetaData.find { it.exceptionType == BatchUpdateException && it.methodName == 'handleSQLException' }
 
         subClassMetaData.size() == 3
-        subClassMetaData.find { it.exceptionType == SQLException && it.methodName == 'handleSQLException'}
-        subClassMetaData.find { it.exceptionType == BatchUpdateException && it.methodName == 'handleSQLException'}
-        subClassMetaData.find { it.exceptionType == NumberFormatException && it.methodName == 'subclassNumberFormatExceptionHandler'}
+        subClassMetaData.find { it.exceptionType == SQLException && it.methodName == 'handleSQLException' }
+        subClassMetaData.find { it.exceptionType == BatchUpdateException && it.methodName == 'handleSQLException' }
+        subClassMetaData.find { it.exceptionType == NumberFormatException && it.methodName == 'subclassNumberFormatExceptionHandler' }
     }
 }
 

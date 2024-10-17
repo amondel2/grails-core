@@ -13,8 +13,7 @@ public class StringEscapeCategory {
         try {
             String uri = new URI("http", "localhost", '/' + str, "").toASCIIString();
             return uri.substring(17, uri.length() - 1);
-        }
-        catch (URISyntaxException ex) {
+        } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -23,8 +22,7 @@ public class StringEscapeCategory {
         try {
             String uri = new URI("http", "localhost", "/", str).toASCIIString();
             return uri.substring(18, uri.length());
-        }
-        catch (URISyntaxException ex) {
+        } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }

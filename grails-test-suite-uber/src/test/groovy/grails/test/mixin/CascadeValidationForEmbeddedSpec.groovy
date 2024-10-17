@@ -12,18 +12,18 @@ class CascadeValidationForEmbeddedSpec extends Specification implements DataTest
 
     void "Test that validation cascades to embedded entities"() {
 
-        when:"An entity with an invalid embedded entity is created"
-            def company = new Company()
-            company.address = new CompanyAddress()
+        when: "An entity with an invalid embedded entity is created"
+        def company = new Company()
+        company.address = new CompanyAddress()
 
-        then:"The entity is invalid"
-            company.validate() == false
+        then: "The entity is invalid"
+        company.validate() == false
 
-        when:"The embedded entity is made valid"
-            company.address.country = "Spain"
+        when: "The embedded entity is made valid"
+        company.address.country = "Spain"
 
-        then:"The root entity validates"
-            company.validate() == true
+        then: "The root entity validates"
+        company.validate() == true
     }
 }
 
@@ -34,7 +34,7 @@ class Company {
     static embedded = ['address']
 
     static constraints = {
-        address(nullable:false)
+        address(nullable: false)
     }
 }
 
@@ -43,6 +43,6 @@ class CompanyAddress {
     String country
 
     static constraints = {
-        country(blank:false)
+        country(blank: false)
     }
 }

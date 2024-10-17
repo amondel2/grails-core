@@ -15,18 +15,18 @@
  */
 package org.grails.asm;
 
+import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.lang.Nullable;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.ObjectUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.core.annotation.AnnotationAttributes;
-import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.lang.Nullable;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.ObjectUtils;
 
 /**
  * ASM visitor which looks for annotations defined on a class or method,
@@ -74,8 +74,7 @@ final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttrib
             List<AnnotationAttributes> attributeList = this.attributesMap.get(this.annotationType);
             if (attributeList == null) {
                 this.attributesMap.add(this.annotationType, this.attributes);
-            }
-            else {
+            } else {
                 attributeList.add(0, this.attributes);
             }
             if (!AnnotationUtils.isInJavaLangAnnotationPackage(annotationClass.getName())) {
@@ -94,8 +93,7 @@ final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttrib
                             this.metaAnnotationMap.put(annotationClass.getName(), metaAnnotationTypeNames);
                         }
                     }
-                }
-                catch (Throwable ex) {
+                } catch (Throwable ex) {
                     if (logger.isDebugEnabled()) {
                         logger.debug("Failed to introspect meta-annotations on " + annotationClass + ": " + ex);
                     }
@@ -119,8 +117,7 @@ final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttrib
                 for (Annotation metaMetaAnnotation : annotationType.getAnnotations()) {
                     recursivelyCollectMetaAnnotations(visited, metaMetaAnnotation);
                 }
-            }
-            catch (Throwable ex) {
+            } catch (Throwable ex) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Failed to introspect meta-annotations on " + annotation + ": " + ex);
                 }

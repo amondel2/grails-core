@@ -1,4 +1,4 @@
-apply plugin:'application'
+apply plugin: 'application'
 
 mainClassName = "org.grails.cli.GrailsCli"
 
@@ -59,8 +59,8 @@ dependencies {
     implementation("org.apache.maven.resolver:maven-resolver-impl:$apacheMavenResolverVersion")
     implementation("org.apache.maven.resolver:maven-resolver-transport-file:$apacheMavenResolverVersion")
     implementation("org.apache.maven.resolver:maven-resolver-transport-http:$apacheMavenResolverVersion") {
-        exclude group: "org.slf4j", module:"jcl-over-slf4j"
-        exclude group: "commons-codec", module:"commons-codec"
+        exclude group: "org.slf4j", module: "jcl-over-slf4j"
+        exclude group: "commons-codec", module: "commons-codec"
     }
     implementation "commons-codec:commons-codec:$commonsCodecVersion"
 
@@ -78,11 +78,11 @@ dependencies {
 
 eclipse {
     classpath {
-       file {
-           whenMerged { classpath ->
-                classpath.entries.find { entry -> entry.kind == 'src' && entry.path == "src/test/resources" }?.excludes=["profiles-repository/**", "gradle-sample/**"]
-           }
-       }
+        file {
+            whenMerged { classpath ->
+                classpath.entries.find { entry -> entry.kind == 'src' && entry.path == "src/test/resources" }?.excludes = ["profiles-repository/**", "gradle-sample/**"]
+            }
+        }
     }
 }
 

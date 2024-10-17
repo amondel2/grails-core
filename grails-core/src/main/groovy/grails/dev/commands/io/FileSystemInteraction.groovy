@@ -120,7 +120,7 @@ interface FileSystemInteraction {
      * @return The class name
      */
     String className(Resource resource)
-    
+
     /**
      * Get files matching the given pattern
      *
@@ -132,9 +132,11 @@ interface FileSystemInteraction {
     static class CopySpec {
         def from
         def into
+
         void from(path) {
             this.from = path
         }
+
         void into(path) {
             this.into = path
         }

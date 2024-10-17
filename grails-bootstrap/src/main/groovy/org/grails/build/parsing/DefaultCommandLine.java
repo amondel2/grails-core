@@ -65,11 +65,6 @@ public class DefaultCommandLine implements CommandLine {
         return parser.parse(defaultCommandLine, args);
     }
 
-    public void setEnvironment(String environment) {
-        this.environment = environment;
-        System.setProperty(Environment.KEY, environment);
-    }
-
     public void setCommand(String name) {
         commandName = name;
     }
@@ -79,8 +74,7 @@ public class DefaultCommandLine implements CommandLine {
         String env;
         if (useDefaultEnv && commandName != null) {
             env = lookupEnvironmentForCommand();
-        }
-        else {
+        } else {
             String fallbackEnv = System.getProperty(Environment.KEY) != null ? System.getProperty(Environment.KEY) : Environment.DEVELOPMENT.getName();
             env = environment != null ? environment : fallbackEnv;
         }
@@ -89,6 +83,11 @@ public class DefaultCommandLine implements CommandLine {
         System.setProperty(Environment.DEFAULT, String.valueOf(useDefaultEnv));
 
         return env;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+        System.setProperty(Environment.KEY, environment);
     }
 
     public String lookupEnvironmentForCommand() {
@@ -101,15 +100,15 @@ public class DefaultCommandLine implements CommandLine {
         return environment != null;
     }
 
+    public String getCommandName() {
+        return commandName;
+    }
+
     public void setCommandName(String cmd) {
         if (REFRESH_DEPENDENCIES_ARGUMENT.equals(cmd)) {
             addUndeclaredOption(REFRESH_DEPENDENCIES_ARGUMENT);
         }
         commandName = cmd;
-    }
-
-    public String getCommandName() {
-        return commandName;
     }
 
     public void addRemainingArg(String arg) {
@@ -148,7 +147,7 @@ public class DefaultCommandLine implements CommandLine {
         final Iterator<Map.Entry<String, Object>> i = undeclaredOptions.entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry<String, Object> next = i.next();
-            if(!i.hasNext()) {
+            if (!i.hasNext()) {
                 return next;
             }
         }
@@ -172,12 +171,11 @@ public class DefaultCommandLine implements CommandLine {
         StringBuilder sb = new StringBuilder();
         String sep = "";
         List<String> args = new ArrayList<String>(remainingArgs);
-        if(includeOptions) {
+        if (includeOptions) {
             for (Map.Entry<String, Object> entry : undeclaredOptions.entrySet()) {
-                if (entry.getValue() instanceof Boolean && ((Boolean)entry.getValue())) {
+                if (entry.getValue() instanceof Boolean && ((Boolean) entry.getValue())) {
                     args.add('-' + entry.getKey());
-                }
-                else {
+                } else {
                     args.add('-' + entry.getKey() + '=' + entry.getValue());
                 }
             }
@@ -200,13 +198,13 @@ public class DefaultCommandLine implements CommandLine {
         systemProperties.put(name, value);
     }
 
-    public void setRawArguments(String[] args) {
-        this.rawArguments = args;
-    }
-
     @Override
     public String[] getRawArguments() {
         return rawArguments;
+    }
+
+    public void setRawArguments(String[] args) {
+        this.rawArguments = args;
     }
 
     public static class SpecifiedOption {

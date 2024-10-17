@@ -14,7 +14,7 @@ import spock.lang.Specification
 /**
  * Created by graemerocher on 28/05/14.
  */
-class GrailsSpringApplicationSpec extends Specification{
+class GrailsSpringApplicationSpec extends Specification {
 
     AnnotationConfigServletWebServerApplicationContext context
 
@@ -23,14 +23,14 @@ class GrailsSpringApplicationSpec extends Specification{
     }
 
     void "Test run Grails via SpringApplication"() {
-        when:"SpringApplication is used to run a Grails app"
-        SpringApplication springApplication  = new SpringApplication(Application)
+        when: "SpringApplication is used to run a Grails app"
+        SpringApplication springApplication = new SpringApplication(Application)
         springApplication.allowBeanDefinitionOverriding = true
         context = (AnnotationConfigServletWebServerApplicationContext) springApplication.run()
 
-        then:"The application runs"
-            context != null
-            new URL("http://localhost:${context.webServer.port}/foo/bar").text == 'hello world'
+        then: "The application runs"
+        context != null
+        new URL("http://localhost:${context.webServer.port}/foo/bar").text == 'hello world'
     }
 
 

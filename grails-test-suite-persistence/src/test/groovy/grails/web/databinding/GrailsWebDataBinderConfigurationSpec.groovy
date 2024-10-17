@@ -103,7 +103,7 @@ class GrailsWebDataBinderConfigurationSpec extends Specification implements Data
         author.name == '  Jeff Scott Brown   '
         author.stringWithSpecialBinding == 'Jeff Scott Brown'
     }
-    
+
     void 'Test binding format code'() {
         given:
         messageSource.addMessage 'my.date.format', Locale.US, 'MMddyyyy'
@@ -111,7 +111,7 @@ class GrailsWebDataBinderConfigurationSpec extends Specification implements Data
         def child = new Child()
 
         when:
-        def binder = new GrailsWebDataBinder(grailsApplication)  {
+        def binder = new GrailsWebDataBinder(grailsApplication) {
             Locale getLocale() {
                 Locale.US
             }

@@ -7,37 +7,58 @@ package org.grails.web.json.parser;
  */
 public class TokenMgrError extends Error {
 
-    private static final long serialVersionUID = -1178356779103776805L;
-
-    /*
-    * Ordinals for various reasons why an Error of this type can be thrown.
-    */
-
     /**
      * Lexical error occurred.
      */
     static final int LEXICAL_ERROR = 0;
 
+    /*
+     * Ordinals for various reasons why an Error of this type can be thrown.
+     */
     /**
      * An attempt was made to create a second instance of a static token manager.
      */
     static final int STATIC_LEXER_ERROR = 1;
-
     /**
      * Tried to change to an invalid lexical state.
      */
     static final int INVALID_LEXICAL_STATE = 2;
-
     /**
      * Detected (and bailed out of) an infinite loop in the token manager.
      */
     static final int LOOP_DETECTED = 3;
-
+    private static final long serialVersionUID = -1178356779103776805L;
     /**
      * Indicates the reason why the exception is thrown. It will have
      * one of the above 4 values.
      */
     int errorCode;
+
+    /**
+     * No arg constructor.
+     */
+    public TokenMgrError() {
+        // default
+    }
+
+    /**
+     * Constructor with message and reason.
+     */
+    public TokenMgrError(String message, int reason) {
+        super(message);
+        errorCode = reason;
+    }
+
+    /**
+     * Full Constructor.
+     */
+    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+    }
+
+    /*
+     * Constructors of various flavors follow.
+     */
 
     /**
      * Replaces unprintable characters by their escaped (or unicode escaped)
@@ -119,32 +140,6 @@ public class TokenMgrError extends Error {
     @Override
     public String getMessage() {
         return super.getMessage();
-    }
-
-    /*
-    * Constructors of various flavors follow.
-    */
-
-    /**
-     * No arg constructor.
-     */
-    public TokenMgrError() {
-        // default
-    }
-
-    /**
-     * Constructor with message and reason.
-     */
-    public TokenMgrError(String message, int reason) {
-        super(message);
-        errorCode = reason;
-    }
-
-    /**
-     * Full Constructor.
-     */
-    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-        this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
     }
 }
 /* JavaCC - OriginalChecksum=861a54b2f4b0b399c1118976139c1137 (do not edit this line) */

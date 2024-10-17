@@ -37,8 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
 public final class HTMLCodec implements CodecFactory, GrailsApplicationAware, InitializingBean {
     public static final String CONFIG_PROPERTY_GSP_HTMLCODEC = "grails.views.gsp.htmlcodec";
     static final String CODEC_NAME = "HTML";
-    private GrailsApplication grailsApplication;
-    private Encoder encoder;
     static final Encoder xml_encoder = new HTMLEncoder();
     static final Encoder html4_encoder = new HTML4Encoder() {
         @Override
@@ -52,6 +50,8 @@ public final class HTMLCodec implements CodecFactory, GrailsApplicationAware, In
             return HTMLEncoder.HTML_CODEC_IDENTIFIER;
         }
     };
+    private GrailsApplication grailsApplication;
+    private Encoder encoder;
 
     public HTMLCodec() {
         setUseLegacyEncoder(true);

@@ -54,7 +54,7 @@ trait ResponseRedirector implements WebAttributes {
     private Collection<RedirectEventListener> redirectListeners
 
     @Generated
-    @Autowired(required=false)
+    @Autowired(required = false)
     void setRedirectListeners(Collection<RedirectEventListener> redirectListeners) {
         this.redirectListeners = redirectListeners
     }
@@ -73,7 +73,7 @@ trait ResponseRedirector implements WebAttributes {
 
     @Generated
     LinkGenerator getGrailsLinkGenerator() {
-        if(this.linkGenerator == null) {
+        if (this.linkGenerator == null) {
             this.linkGenerator = webRequest.getApplicationContext().getBean(LinkGenerator)
         }
         return this.linkGenerator
@@ -87,13 +87,13 @@ trait ResponseRedirector implements WebAttributes {
      */
     @Generated
     void redirect(object) {
-        if(object) {
+        if (object) {
 
             Class<?> objectClass = object.getClass()
             boolean isDomain = DomainClassArtefactHandler.isDomainClass(objectClass) && object instanceof GroovyObject
-            if(isDomain) {
-                def id = ((GroovyObject)object).getProperty(GormProperties.IDENTITY)
-                if(id != null) {
+            if (isDomain) {
+                def id = ((GroovyObject) object).getProperty(GormProperties.IDENTITY)
+                if (id != null) {
                     def args = [:]
                     args.put LinkGenerator.ATTRIBUTE_RESOURCE, object
                     args.put LinkGenerator.ATTRIBUTE_METHOD, HttpMethod.GET.toString()
@@ -133,7 +133,7 @@ trait ResponseRedirector implements WebAttributes {
      */
     @Generated
     Map getChainModel() {
-        (Map)getFlash().get(FlashScope.CHAIN_MODEL)
+        (Map) getFlash().get(FlashScope.CHAIN_MODEL)
     }
 
 
@@ -146,7 +146,7 @@ trait ResponseRedirector implements WebAttributes {
      */
     @Generated
     void chain(Map args) {
-        String controller = (args.controller ?: GrailsNameUtils.getLogicalPropertyName( getClass().name, ControllerArtefactHandler.TYPE)).toString()
+        String controller = (args.controller ?: GrailsNameUtils.getLogicalPropertyName(getClass().name, ControllerArtefactHandler.TYPE)).toString()
         String action = args.action?.toString()
         String namespace = args.remove('namespace')
         String plugin = args.remove('plugin')?.toString()

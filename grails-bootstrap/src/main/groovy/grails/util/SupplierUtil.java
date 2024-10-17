@@ -30,13 +30,12 @@ public class SupplierUtil {
      * Caches the result of supplier in a thread safe manner.
      *
      * @param actual The supplier providing the result
-     * @param <T> The type of result
+     * @param <T>    The type of result
      * @return A new supplier that will cache the result
      */
     public static <T> Supplier<T> memoized(Supplier<T> actual) {
         return new Supplier<T>() {
-            Supplier<T> delegate = this::initialize;
-            boolean initialized;
+            boolean initialized;            Supplier<T> delegate = this::initialize;
 
             public T get() {
                 return delegate.get();
@@ -50,6 +49,8 @@ public class SupplierUtil {
                 }
                 return delegate.get();
             }
+
+
         };
     }
 
@@ -58,13 +59,12 @@ public class SupplierUtil {
      * is only cached if it is non null or non empty if an optional.
      *
      * @param actual The supplier providing the result
-     * @param <T> The type of result
+     * @param <T>    The type of result
      * @return A new supplier that will cache the result
      */
     public static <T> Supplier<T> memoizedNonEmpty(Supplier<T> actual) {
         return new Supplier<T>() {
-            Supplier<T> delegate = this::initialize;
-            boolean initialized;
+            boolean initialized;            Supplier<T> delegate = this::initialize;
 
             public T get() {
                 return delegate.get();
@@ -86,6 +86,8 @@ public class SupplierUtil {
                 }
                 return delegate.get();
             }
+
+
         };
     }
 }

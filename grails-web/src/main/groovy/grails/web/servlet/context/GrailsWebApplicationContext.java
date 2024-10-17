@@ -15,13 +15,11 @@
  */
 package grails.web.servlet.context;
 
+import grails.core.GrailsApplication;
 import grails.spring.BeanBuilder;
-
+import grails.web.servlet.context.support.GrailsEnvironment;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
-
-import grails.core.GrailsApplication;
-import grails.web.servlet.context.support.GrailsEnvironment;
 import org.grails.spring.GrailsApplicationContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -35,11 +33,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ConfigurableWebEnvironment;
 import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.context.support.ServletContextAwareProcessor;
-import org.springframework.web.context.support.ServletContextResource;
-import org.springframework.web.context.support.ServletContextResourcePatternResolver;
-import org.springframework.web.context.support.StandardServletEnvironment;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.context.support.*;
 
 /**
  * A WebApplicationContext that extends StaticApplicationContext to allow for programmatic
@@ -106,6 +100,10 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
         return grailsApplication;
     }
 
+    public ServletContext getServletContext() {
+        return servletContext;
+    }
+
     /**
      * Set the ServletContext that this WebApplicationContext runs in.
      */
@@ -113,8 +111,8 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
         this.servletContext = servletContext;
     }
 
-    public ServletContext getServletContext() {
-        return servletContext;
+    public String getNamespace() {
+        return namespace;
     }
 
     public void setNamespace(String namespace) {
@@ -124,13 +122,13 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
         }
     }
 
-    public String getNamespace() {
-        return namespace;
-    }
-
     public void setConfigLocation(String configLocation) {
         Assert.notNull(configLocation, "Argument [configLocation] cannot be null");
-        configLocations = new String[] { configLocation };
+        configLocations = new String[]{configLocation};
+    }
+
+    public String[] getConfigLocations() {
+        return configLocations;
     }
 
     public void setConfigLocations(String[] configLocations) {
@@ -138,12 +136,9 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
         this.configLocations = configLocations;
     }
 
-    public String[] getConfigLocations() {
-        return configLocations;
-    }
-
     /**
      * Register ServletContextAwareProcessor.
+     *
      * @see ServletContextAwareProcessor
      */
     @Override
@@ -157,6 +152,7 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
 
     /**
      * This implementation supports file paths beneath the root of the ServletContext.
+     *
      * @see ServletContextResource
      */
     @Override
@@ -166,6 +162,7 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
 
     /**
      * This implementation supports pattern matching in unexpanded WARs too.
+     *
      * @see ServletContextResourcePatternResolver
      */
     @Override
@@ -177,7 +174,7 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
     protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         if (configLocations.length > 0) {
             for (String configLocation : configLocations) {
-                BeanBuilder beanBuilder = new BeanBuilder(getParent(),getClassLoader());
+                BeanBuilder beanBuilder = new BeanBuilder(getParent(), getClassLoader());
                 final ServletContextResource resource = new ServletContextResource(getServletContext(), configLocation);
                 beanBuilder.loadBeans(resource);
                 beanBuilder.registerBeans(this);
@@ -186,12 +183,12 @@ public class GrailsWebApplicationContext extends GrailsApplicationContext
         super.prepareBeanFactory(beanFactory);
     }
 
-    public void setServletConfig(ServletConfig servletConfig) {
-        this.servletConfig = servletConfig;
-    }
-
     public ServletConfig getServletConfig() {
         return servletConfig;
+    }
+
+    public void setServletConfig(ServletConfig servletConfig) {
+        this.servletConfig = servletConfig;
     }
 
     @Override

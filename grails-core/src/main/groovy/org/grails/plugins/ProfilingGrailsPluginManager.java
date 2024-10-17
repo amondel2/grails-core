@@ -81,8 +81,7 @@ public class ProfilingGrailsPluginManager extends DefaultGrailsPluginManager {
                     plugin.doWithDynamicMethods(applicationContext);
 
                     System.out.println("doWithDynamicMethods for plugin [" + plugin.getName() + "] took " + (System.currentTimeMillis() - pluginTime));
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     throw new GrailsConfigurationException("Error configuring dynamic methods for plugin " + plugin + ": " + t.getMessage(), t);
                 }
             }

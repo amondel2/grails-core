@@ -29,7 +29,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.validation.Validator;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Default implementation of the {@link GrailsDomainClass} interface
@@ -75,11 +76,10 @@ public class DefaultGrailsDomainClass extends AbstractGrailsClass implements Gra
                 persistentEntity = mappingContext.getPersistentEntity(this.getFullName());
                 if (persistentEntity == null) {
                     MappingContext concreteMappingContext = getApplication().getMappingContext();
-                    if(concreteMappingContext.getClass() == KeyValueMappingContext.class) {
+                    if (concreteMappingContext.getClass() == KeyValueMappingContext.class) {
                         // In a unit testing context, allow
                         persistentEntity = concreteMappingContext.addPersistentEntity(getClazz());
-                    }
-                    else {
+                    } else {
                         throw new GrailsConfigurationException("Could not retrieve the respective entity for domain " + this.getName() + " in the mapping context API");
                     }
                 }
@@ -89,7 +89,7 @@ public class DefaultGrailsDomainClass extends AbstractGrailsClass implements Gra
 
     @Override
     public boolean isAutowire() {
-        if(autowire == null) {
+        if (autowire == null) {
             verifyContextIsInitialized();
             autowire = persistentEntity.getMapping().getMappedForm().isAutowire();
         }
@@ -125,12 +125,11 @@ public class DefaultGrailsDomainClass extends AbstractGrailsClass implements Gra
     @Override
     public Map getConstrainedProperties() {
         verifyContextIsInitialized();
-        if(constrainedProperties == null) {
+        if (constrainedProperties == null) {
             ConstrainedDiscovery constrainedDiscovery = GrailsFactoriesLoader.loadFactory(ConstrainedDiscovery.class);
-            if(constrainedDiscovery == null) {
+            if (constrainedDiscovery == null) {
                 constrainedProperties = Collections.emptyMap();
-            }
-            else {
+            } else {
                 constrainedProperties = constrainedDiscovery.findConstrainedProperties(persistentEntity);
             }
         }

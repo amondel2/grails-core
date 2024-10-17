@@ -9,15 +9,19 @@ import spock.lang.Specification
 
 class CommandObjectsSpec extends Specification implements ControllerUnitTest<TestController>, DataTest {
 
-    Closure doWithSpring() {{ ->
-        theAnswer(Integer, 42)
-    }}
-
-    Closure doWithConfig() {{ config ->
-        config['grails.gorm.default.constraints'] = {
-            isProg inList: ['Emerson', 'Lake', 'Palmer']
+    Closure doWithSpring() {
+        { ->
+            theAnswer(Integer, 42)
         }
-    }}
+    }
+
+    Closure doWithConfig() {
+        { config ->
+            config['grails.gorm.default.constraints'] = {
+                isProg inList: ['Emerson', 'Lake', 'Palmer']
+            }
+        }
+    }
 
     void "Test command object with date binding"() {
         setup:
@@ -268,7 +272,7 @@ class CommandObjectsSpec extends Specification implements ControllerUnitTest<Tes
         0 == model.co.validationCounter
 
         when:
-        ClassWithNoValidateMethod.metaClass.validate = { -> ++ delegate.validationCounter }
+        ClassWithNoValidateMethod.metaClass.validate = { -> ++delegate.validationCounter }
         model = controller.methodActionWithNonValidateableCommandObjectWithAValidateMethod()
 
         then:
@@ -331,7 +335,7 @@ class TestController {
         [artist: a]
     }
 
-    def methodActionWithMultipleCommandObjects(Person person, Artist artist)  {
+    def methodActionWithMultipleCommandObjects(Person person, Artist artist) {
         [person: person, artist: artist]
     }
 

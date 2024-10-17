@@ -28,7 +28,7 @@ import java.util.regex.Pattern
  * @since 2.3.6
  */
 @CompileStatic
-abstract class GrailsStringUtils extends StringUtils{
+abstract class GrailsStringUtils extends StringUtils {
 
     private static final Pattern BOOLEAN_PATTERN = Pattern.compile(/^on$|^true$|^yes$|^1$/, Pattern.CASE_INSENSITIVE)
 
@@ -60,11 +60,11 @@ abstract class GrailsStringUtils extends StringUtils{
      * @param str The string to apply the substring
      * @param token The token to match
      */
-    static String substringBefore(String str, String token)  {
-        if(token == null) return str
+    static String substringBefore(String str, String token) {
+        if (token == null) return str
         def i = str.indexOf(token)
 
-        if(i > -1) {
+        if (i > -1) {
             return str.substring(0, i)
         }
         return str
@@ -86,11 +86,11 @@ abstract class GrailsStringUtils extends StringUtils{
      * @param str The string to apply the substring
      * @param token The token to match
      */
-    static String substringBeforeLast(String str, String token)  {
-        if(token == null) return str
+    static String substringBeforeLast(String str, String token) {
+        if (token == null) return str
         def i = str.lastIndexOf(token)
 
-        if(i > -1) {
+        if (i > -1) {
             return str.substring(0, i)
         }
         return str
@@ -111,11 +111,11 @@ abstract class GrailsStringUtils extends StringUtils{
      * @param str The string to apply the substring
      * @param token The token to match
      */
-    static String substringAfter(String str, String token)  {
-        if(token == null) return str
+    static String substringAfter(String str, String token) {
+        if (token == null) return str
         def i = str.indexOf(token)
 
-        if(i > -1) {
+        if (i > -1) {
             return str.substring(i + token.length())
         }
         return str
@@ -136,11 +136,11 @@ abstract class GrailsStringUtils extends StringUtils{
      * @param str The string to apply the substring
      * @param token The token to match
      */
-    static String substringAfterLast(String str, String token)  {
-        if(token == null) return str
+    static String substringAfterLast(String str, String token) {
+        if (token == null) return str
         def i = str.lastIndexOf(token)
 
-        if(i > -1) {
+        if (i > -1) {
             return str.substring(i + token.length())
         }
         return str
@@ -153,10 +153,9 @@ abstract class GrailsStringUtils extends StringUtils{
      * @return The trimmed string
      */
     static String trimStart(String str, String start) {
-        if(!str || !start || !str.startsWith(start)) {
+        if (!str || !start || !str.startsWith(start)) {
             return str
-        }
-        else {
+        } else {
             return str.substring(start.length())
         }
     }
@@ -188,7 +187,7 @@ abstract class GrailsStringUtils extends StringUtils{
      * @return The name of the file excluding path and extension
      */
     static String getFileBasename(String path) {
-        stripFilenameExtension( getFilename(path) )
+        stripFilenameExtension(getFilename(path))
     }
 
 }

@@ -33,69 +33,69 @@ class RestfulControllerSuperClassSpec extends Specification implements Controlle
 
     void "Test the index action returns the correct model"() {
 
-        when:"The index action is executed"
+        when: "The index action is executed"
         controller.index()
 
-        then:"The model is correct"
+        then: "The model is correct"
         assert !model.videoList
         assert model.videoCount == 0
     }
 
 
     void "Test the save action returns the correct model, status and location"() {
-        when:"The save action is executed"
-            request.method = 'POST'
-            controller.params['title'] = 'TestVideo'
-            controller.save()
+        when: "The save action is executed"
+        request.method = 'POST'
+        controller.params['title'] = 'TestVideo'
+        controller.save()
 
-        then:"The model is created successfully"
-            model.video != null
-            response.status == HttpStatus.CREATED.value()
-            response.getHeader('Location') != null
+        then: "The model is created successfully"
+        model.video != null
+        response.status == HttpStatus.CREATED.value()
+        response.getHeader('Location') != null
     }
 
     void "Test the update action returns the correct model, status and location"() {
         given: "An existing domain object and Restful controller"
-            def video = new Video(title:'Existing').save()
-        when:"The update action is executed on controller"
-            request.method = 'PUT'
-            controller.params['id']=video.id
-            controller.params['title'] = 'Updated'
-            controller.update()
+        def video = new Video(title: 'Existing').save()
+        when: "The update action is executed on controller"
+        request.method = 'PUT'
+        controller.params['id'] = video.id
+        controller.params['title'] = 'Updated'
+        controller.update()
 
-        then:"The model is created successfully"
-            model.video != null
-            response.status == HttpStatus.OK.value()
-            response.getHeader('Location') != null
+        then: "The model is created successfully"
+        model.video != null
+        response.status == HttpStatus.OK.value()
+        response.getHeader('Location') != null
 
     }
 
     void "Test the patch action returns the correct model, status and location"() {
         given: "An existing domain object and Restful controller"
-            def video = new Video(title:'Existing').save()
-        when:"The patch action is executed on controller"
-            request.method = 'PATCH'
-            controller.params['id']=video.id
-            controller.params['title'] = 'Updated'
-            controller.params.numberOfMinutes = '42'
-            controller.patch()
+        def video = new Video(title: 'Existing').save()
+        when: "The patch action is executed on controller"
+        request.method = 'PATCH'
+        controller.params['id'] = video.id
+        controller.params['title'] = 'Updated'
+        controller.params.numberOfMinutes = '42'
+        controller.patch()
 
-        then:"The model is created successfully"
-            model.video != null
-            model.video.numberOfMinutes == 42
-            response.status == HttpStatus.OK.value()
-            response.getHeader('Location') != null
+        then: "The model is created successfully"
+        model.video != null
+        model.video.numberOfMinutes == 42
+        response.status == HttpStatus.OK.value()
+        response.getHeader('Location') != null
 
     }
 
     void "Test negative max param still only returns min size list"() {
         given: "save objects"
-        101.times { new Video(title:"Existing + ${it}").save(failOnError: true) }
+        101.times { new Video(title: "Existing + ${it}").save(failOnError: true) }
 
-        when:"The index action is executed with param"
+        when: "The index action is executed with param"
         controller.index(-1)
 
-        then:"return model is 100"
+        then: "return model is 100"
         assert model.videoList.size() == 10
         assert model.videoCount == 101
 

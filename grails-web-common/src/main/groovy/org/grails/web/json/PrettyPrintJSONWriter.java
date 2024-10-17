@@ -18,6 +18,7 @@ package org.grails.web.json;
 import static org.grails.web.json.JSONWriter.Mode.ARRAY;
 import static org.grails.web.json.JSONWriter.Mode.KEY;
 import static org.grails.web.json.JSONWriter.Mode.OBJECT;
+
 import groovy.lang.Writable;
 
 import java.io.IOException;
@@ -34,13 +35,14 @@ public class PrettyPrintJSONWriter extends JSONWriter {
     public static final String DEFAULT_INDENT_STR = "  ";
 
     public static final String NEWLINE;
+
     static {
         String nl = System.getProperty("line.separator");
         NEWLINE = nl != null ? nl : "\n";
     }
 
-    private int indentLevel = 0;
     private final String indentStr;
+    private int indentLevel = 0;
 
     public PrettyPrintJSONWriter(Writer w) {
         this(w, DEFAULT_INDENT_STR);
@@ -54,8 +56,7 @@ public class PrettyPrintJSONWriter extends JSONWriter {
     private void newline() {
         try {
             writer.write(NEWLINE);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new JSONException(e);
         }
     }
@@ -65,8 +66,7 @@ public class PrettyPrintJSONWriter extends JSONWriter {
             for (int i = 0; i < indentLevel; i++) {
                 writer.write(indentStr);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new JSONException(e);
         }
     }
@@ -83,8 +83,7 @@ public class PrettyPrintJSONWriter extends JSONWriter {
                     indent();
                 }
                 writableValue.writeTo(writer);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new JSONException(e);
             }
             if (mode == OBJECT) {
@@ -150,8 +149,7 @@ public class PrettyPrintJSONWriter extends JSONWriter {
                 comma = false;
                 mode = OBJECT;
                 return this;
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 throw new JSONException(e);
             }
         }

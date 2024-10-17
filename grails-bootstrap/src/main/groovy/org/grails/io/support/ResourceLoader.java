@@ -29,7 +29,9 @@ package org.grails.io.support;
  */
 public interface ResourceLoader {
 
-    /** Pseudo URL prefix for loading from the class path: "classpath:" */
+    /**
+     * Pseudo URL prefix for loading from the class path: "classpath:"
+     */
     String CLASSPATH_URL_PREFIX = "classpath:";
 
     /**
@@ -45,6 +47,7 @@ public interface ResourceLoader {
      * </ul>
      * <p>Note that a Resource handle does not imply an existing resource;
      * you need to invoke Resource#exists to check for existence.
+     *
      * @param location the resource location
      * @return a corresponding Resource handle
      * @see #CLASSPATH_URL_PREFIX
@@ -56,6 +59,7 @@ public interface ResourceLoader {
      * <p>Clients which need to access the ClassLoader directly can do so
      * in a uniform manner with the ResourceLoader, rather than relying
      * on the thread context ClassLoader.
+     *
      * @return the ClassLoader (never <code>null</code>)
      */
     ClassLoader getClassLoader();

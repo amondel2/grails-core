@@ -63,26 +63,24 @@ SOFTWARE.
  */
 public class JSONWriter {
 
+    static Writable nullWritable = new NullWritable();
     /**
      * The comma flag determines if a comma should be output before the next
      * value.
      */
     protected boolean comma;
-
     /**
      * The current mode. Values:
      */
     protected Mode mode;
-
-    /**
-     * The Mode stack.
-     */
-    private Stack<Mode> stack = new Stack<Mode>();
-
     /**
      * The writer that will receive the output.
      */
     protected Writer writer;
+    /**
+     * The Mode stack.
+     */
+    private Stack<Mode> stack = new Stack<Mode>();
 
     /**
      * Make a fresh JSONWriter. It can be used to build one JSON text.
@@ -92,27 +90,10 @@ public class JSONWriter {
         this.mode = INIT;
         this.writer = w;
     }
-    
-    private static class WritableString implements Writable {
-        private String string;
-        
-        WritableString(String string) {
-            this.string = string;
-        }
-        
-        @Override
-        public Writer writeTo(Writer out) throws IOException {
-            out.write(string);
-            return out;
-        }
-        
-        public String toString() {
-            return string;
-        }
-    }
-    
+
     /**
      * Append a value.
+     *
      * @param s A string value.
      * @return this
      */
@@ -320,26 +301,16 @@ public class JSONWriter {
 
     /**
      * Append a number value
-     * 
+     *
      * @param number
      * @return
      */
     public JSONWriter value(Number number) {
         return number != null ? append(number.toString()) : valueNull();
     }
-    
+
     public JSONWriter valueNull() {
         return append(nullWritable);
-    }
-    
-    static Writable nullWritable = new NullWritable();
-    
-    private static class NullWritable implements Writable {
-        @Override
-        public Writer writeTo(Writer out) throws IOException {
-            out.write("null");
-            return out;
-        }
     }
 
     /**
@@ -350,25 +321,7 @@ public class JSONWriter {
      * @return this
      */
     public JSONWriter value(Object o) {
-        return  o != null ? append(new QuotedWritable(o)) : valueNull();
-    }
-    
-    private static class QuotedWritable implements Writable {
-        Object o;
-        
-        QuotedWritable(Object o) {
-            this.o = o;
-        }
-
-        @Override
-        public Writer writeTo(Writer out) throws IOException {
-            JSONObject.writeValue(out, o);
-            return out;
-        }
-        
-        public String toString() {
-            return String.valueOf(o);
-        }
+        return o != null ? append(new QuotedWritable(o)) : valueNull();
     }
 
     /**
@@ -380,5 +333,49 @@ public class JSONWriter {
         ARRAY,
         KEY,
         DONE
+    }
+
+    private static class WritableString implements Writable {
+        private String string;
+
+        WritableString(String string) {
+            this.string = string;
+        }
+
+        @Override
+        public Writer writeTo(Writer out) throws IOException {
+            out.write(string);
+            return out;
+        }
+
+        public String toString() {
+            return string;
+        }
+    }
+
+    private static class NullWritable implements Writable {
+        @Override
+        public Writer writeTo(Writer out) throws IOException {
+            out.write("null");
+            return out;
+        }
+    }
+
+    private static class QuotedWritable implements Writable {
+        Object o;
+
+        QuotedWritable(Object o) {
+            this.o = o;
+        }
+
+        @Override
+        public Writer writeTo(Writer out) throws IOException {
+            JSONObject.writeValue(out, o);
+            return out;
+        }
+
+        public String toString() {
+            return String.valueOf(o);
+        }
     }
 }

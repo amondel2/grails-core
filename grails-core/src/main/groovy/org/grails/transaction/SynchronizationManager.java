@@ -18,7 +18,7 @@ package org.grails.transaction;
 
 /**
  * Strategy interface to allow providing a dedicated synchronization mechanism.
- * 
+ *
  * @author Michael Hunger
  * @author Oliver Gierke
  * @see SpringTransactionSynchronizationManager
@@ -26,9 +26,9 @@ package org.grails.transaction;
  */
 interface SynchronizationManager {
 
-	void initSynchronization();
+    void initSynchronization();
 
-	boolean isSynchronizationActive();
+    boolean isSynchronizationActive();
 
-	void clearSynchronization();
+    void clearSynchronization();
 }

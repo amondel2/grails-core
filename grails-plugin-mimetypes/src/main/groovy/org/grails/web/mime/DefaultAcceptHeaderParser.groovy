@@ -62,22 +62,20 @@ class DefaultAcceptHeaderParser implements AcceptHeaderParser {
                 List tokenWithArgs = t.split(';').toList()
                 Map<String, String> params = [:]
                 final paramsList = tokenWithArgs.size() > 1 ? tokenWithArgs[1..-1] : []
-                paramsList.each{ it ->
+                paramsList.each { it ->
                     String theString = it as String
                     def i = theString.indexOf('=')
                     if (i > -1) {
-                        params[theString[0..i-1].trim()] = theString[i+1..-1].trim()
+                        params[theString[0..i - 1].trim()] = theString[i + 1..-1].trim()
                     }
                 }
                 if (params) {
-                    createMimeTypeAndAddToList(tokenWithArgs[0].trim(),mimeConfig, mimes, params)
+                    createMimeTypeAndAddToList(tokenWithArgs[0].trim(), mimeConfig, mimes, params)
+                } else {
+                    createMimeTypeAndAddToList(tokenWithArgs[0].trim(), mimeConfig, mimes)
                 }
-                else {
-                    createMimeTypeAndAddToList(tokenWithArgs[0].trim(),mimeConfig, mimes)
-                }
-            }
-            else {
-                createMimeTypeAndAddToList(t.trim(),mimeConfig, mimes)
+            } else {
+                createMimeTypeAndAddToList(t.trim(), mimeConfig, mimes)
             }
         }
 
@@ -88,14 +86,13 @@ class DefaultAcceptHeaderParser implements AcceptHeaderParser {
 
         // remove duplicate text/xml and application/xml entries
         MimeType textXml = mimes.find { MimeType it -> it.name == 'text/xml' }
-        MimeType appXml = mimes.find { MimeType it -> it.name ==  MimeType.XML.name }
+        MimeType appXml = mimes.find { MimeType it -> it.name == MimeType.XML.name }
         if (textXml && appXml) {
             // take the largest q value
             appXml.parameters.q = [textXml.qualityAsNumber, appXml.qualityAsNumber].max()
 
             mimes.remove(textXml)
-        }
-        else if (textXml) {
+        } else if (textXml) {
             textXml.name = MimeType.XML.name
         }
 
@@ -119,7 +116,7 @@ class DefaultAcceptHeaderParser implements AcceptHeaderParser {
     }
 
 
-    protected void createMimeTypeAndAddToList(String name, MimeType[] mimeConfig, List<MimeType> mimes, Map<String,String> params = null) {
+    protected void createMimeTypeAndAddToList(String name, MimeType[] mimeConfig, List<MimeType> mimes, Map<String, String> params = null) {
         def mime = params ? new MimeType(name, params) : new MimeType(name)
         //First try to find the exact match for the mime type using name and version. If version is not set,  consider
         // version match to be successful.
@@ -127,7 +124,7 @@ class DefaultAcceptHeaderParser implements AcceptHeaderParser {
             mt.name == name && (!mime.version || mt.version == mime.version)
         }
         //Fallback: Try to find match using the name (if version match is not found).
-        foundMime = foundMime?: mimeConfig.find { MimeType mt -> mt.name == name }
+        foundMime = foundMime ?: mimeConfig.find { MimeType mt -> mt.name == name }
         if (foundMime) {
             mime.extension = foundMime.extension
             mimes << mime

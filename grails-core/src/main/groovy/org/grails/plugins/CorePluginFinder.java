@@ -43,9 +43,8 @@ import java.util.*;
  */
 public class CorePluginFinder implements ParentApplicationContextAware {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CorePluginFinder.class);
     public static final String CORE_PLUGIN_PATTERN = "META-INF/grails-plugin.xml";
-
+    private static final Logger LOG = LoggerFactory.getLogger(CorePluginFinder.class);
     private final Set<Class<?>> foundPluginClasses = new HashSet<Class<?>>();
     @SuppressWarnings("unused")
     private final GrailsApplication application;
@@ -89,7 +88,6 @@ public class CorePluginFinder implements ParentApplicationContextAware {
     }
 
 
-
     @SuppressWarnings("rawtypes")
     private void loadCorePluginsFromResources(Resource[] resources) throws IOException {
 
@@ -106,7 +104,7 @@ public class CorePluginFinder implements ParentApplicationContextAware {
 
                     for (String pluginType : ph.pluginTypes) {
                         Class<?> pluginClass = attemptCorePluginClassLoad(pluginType);
-                        if(pluginClass != null) {
+                        if (pluginClass != null) {
                             addPlugin(pluginClass);
                             binaryDescriptors.put(pluginClass, new BinaryGrailsPluginDescriptor(resource, ph.pluginClasses));
                         }
@@ -161,11 +159,10 @@ public class CorePluginFinder implements ParentApplicationContextAware {
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            if(localName.equals("type")) {
+            if (localName.equals("type")) {
                 state = PluginParseState.TYPE;
                 buff = new StringBuilder();
-            }
-            else if(localName.equals("resource")) {
+            } else if (localName.equals("resource")) {
                 state = PluginParseState.RESOURCE;
                 buff = new StringBuilder();
             }

@@ -14,7 +14,7 @@ class BindToPropertyThatIsNotReadableTests extends Specification implements Doma
         when:
         def b = new PropertyNotReadableBook()
 
-        b.properties = [calculatedField:[1,2,3], title:"blah"]
+        b.properties = [calculatedField: [1, 2, 3], title: "blah"]
 
         then:
         6 == b.sum()

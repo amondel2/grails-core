@@ -53,7 +53,7 @@ public class GrailsHttpSession implements HttpSession {
     /* (non-Javadoc)
      * @see jakarta.servlet.http.HttpSession#getAttributeNames()
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public Enumeration getAttributeNames() {
         createSessionIfNecessary();
         synchronized (this) {
@@ -102,12 +102,12 @@ public class GrailsHttpSession implements HttpSession {
     }
 
     /* (non-Javadoc)
-     * @see jakarta.servlet.http.HttpSession#getServletContext()
+     * @see jakarta.servlet.http.HttpSession#setMaxInactiveInterval(int)
      */
-    public ServletContext getServletContext() {
+    public void setMaxInactiveInterval(int arg0) {
         createSessionIfNecessary();
         synchronized (this) {
-            return adaptee.getServletContext();
+            adaptee.setMaxInactiveInterval(arg0);
         }
     }
 
@@ -167,6 +167,16 @@ public class GrailsHttpSession implements HttpSession {
     }
 */
 
+    /* (non-Javadoc)
+     * @see jakarta.servlet.http.HttpSession#getServletContext()
+     */
+    public ServletContext getServletContext() {
+        createSessionIfNecessary();
+        synchronized (this) {
+            return adaptee.getServletContext();
+        }
+    }
+
     /**
      * @see jakarta.servlet.http.HttpSession
      * @deprecated
@@ -219,16 +229,6 @@ public class GrailsHttpSession implements HttpSession {
         createSessionIfNecessary();
         synchronized (this) {
             adaptee.setAttribute(name, value);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see jakarta.servlet.http.HttpSession#setMaxInactiveInterval(int)
-     */
-    public void setMaxInactiveInterval(int arg0) {
-        createSessionIfNecessary();
-        synchronized (this) {
-            adaptee.setMaxInactiveInterval(arg0);
         }
     }
 

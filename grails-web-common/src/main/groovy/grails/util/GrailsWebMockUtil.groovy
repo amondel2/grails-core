@@ -37,22 +37,19 @@ import org.springframework.web.context.request.RequestContextHolder
  */
 @CompileStatic
 class GrailsWebMockUtil {
-    
+
     /**
      * Binds a Mock implementation of a GrailsWebRequest object to the current thread. The mock version uses
      * instances of the Spring MockHttpServletRequest, MockHttpServletResponse and MockServletContext classes.
      *
      * @param ctx The WebApplicationContext to use
      *
-     * @see org.springframework.mock.web.MockHttpServletRequest
-     * @see org.springframework.mock.web.MockHttpServletResponse
-     * @see org.springframework.mock.web.MockServletContext
-     *
+     * @see org.springframework.mock.web.MockHttpServletRequest* @see org.springframework.mock.web.MockHttpServletResponse* @see org.springframework.mock.web.MockServletContext*
      * @return The GrailsWebRequest instance
      */
     static GrailsWebRequest bindMockWebRequest(WebApplicationContext ctx) {
         def servletContext = ctx.getServletContext()
-        if(servletContext == null) {
+        if (servletContext == null) {
 
         }
         bindMockWebRequest(ctx, new MockHttpServletRequest(servletContext), new MockHttpServletResponse())
@@ -66,17 +63,14 @@ class GrailsWebMockUtil {
      * @param request The request
      * @param response The response
      *
-     * @see org.springframework.mock.web.MockHttpServletRequest
-     * @see org.springframework.mock.web.MockHttpServletResponse
-     * @see org.springframework.mock.web.MockServletContext
-     *
+     * @see org.springframework.mock.web.MockHttpServletRequest* @see org.springframework.mock.web.MockHttpServletResponse* @see org.springframework.mock.web.MockServletContext*
      * @return The GrailsWebRequest instance
      */
     static GrailsWebRequest bindMockWebRequest(ApplicationContext ctx, MockHttpServletRequest request, MockHttpServletResponse response) {
-        ServletContext servletContext = ctx instanceof WebApplicationContext && ((WebApplicationContext)ctx).getServletContext() != null ? ((WebApplicationContext)ctx).getServletContext() : request.getServletContext()
+        ServletContext servletContext = ctx instanceof WebApplicationContext && ((WebApplicationContext) ctx).getServletContext() != null ? ((WebApplicationContext) ctx).getServletContext() : request.getServletContext()
         GrailsWebRequest webRequest = new GrailsWebRequest(request, response, servletContext, ctx)
         request.setAttribute(GrailsApplicationAttributes.WEB_REQUEST, webRequest)
-        for (ParameterCreationListener listener: ctx.getBeansOfType(ParameterCreationListener).values()) {
+        for (ParameterCreationListener listener : ctx.getBeansOfType(ParameterCreationListener).values()) {
             webRequest.addParameterListener(listener)
         }
         RequestContextHolder.setRequestAttributes(webRequest)
@@ -87,10 +81,7 @@ class GrailsWebMockUtil {
      * Binds a Mock implementation of a GrailsWebRequest object to the current thread. The mock version uses
      * instances of the Spring MockHttpServletRequest, MockHttpServletResponse and MockServletContext classes.
      *
-     * @see org.springframework.mock.web.MockHttpServletRequest
-     * @see org.springframework.mock.web.MockHttpServletResponse
-     * @see org.springframework.mock.web.MockServletContext
-     *
+     * @see org.springframework.mock.web.MockHttpServletRequest* @see org.springframework.mock.web.MockHttpServletResponse* @see org.springframework.mock.web.MockServletContext*
      * @return The GrailsWebRequest instance
      */
     static GrailsWebRequest bindMockWebRequest() {
@@ -102,7 +93,7 @@ class GrailsWebMockUtil {
 
     static GrailsWebRequest bindMockWebRequest(ServletContext servletContext, MockHttpServletRequest request, MockHttpServletResponse response) {
         GrailsWebRequest webRequest = new GrailsWebRequest(request,
-                                                response, servletContext);
+                response, servletContext);
         request.setAttribute(GrailsApplicationAttributes.WEB_REQUEST, webRequest)
         RequestContextHolder.setRequestAttributes(webRequest)
         webRequest

@@ -19,7 +19,9 @@ import grails.core.GrailsApplication;
 import grails.gorm.validation.ConstrainedProperty;
 import grails.web.mapping.UrlMappingData;
 import grails.web.mapping.UrlMappingInfo;
+
 import java.net.URI;
+
 import org.springframework.util.Assert;
 
 import java.util.Collections;
@@ -51,7 +53,7 @@ public class ResponseCodeUrlMapping extends AbstractUrlMapping {
         this.urlData = (ResponseCodeMappingData) urlData;
 
         Assert.isTrue(constraints == null || constraints.length == 0,
-            "Constraints can't be used for response code url mapping");
+                "Constraints can't be used for response code url mapping");
     }
 
     public UrlMappingInfo match(String uri) {
@@ -127,11 +129,11 @@ public class ResponseCodeUrlMapping extends AbstractUrlMapping {
         return null;
     }
 
-    public void setExceptionType(Class<?> exClass) {
-        this.exceptionType = exClass;
-    }
-
     public Class<?> getExceptionType() {
         return exceptionType;
+    }
+
+    public void setExceptionType(Class<?> exClass) {
+        this.exceptionType = exClass;
     }
 }

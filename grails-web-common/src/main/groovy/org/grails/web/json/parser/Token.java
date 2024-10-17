@@ -62,18 +62,6 @@ public class Token {
     public Token specialToken;
 
     /**
-     * An optional attribute value of the Token.
-     * Tokens which are not used as syntactic sugar will often contain
-     * meaningful values that will be used later on by the compiler or
-     * interpreter. This attribute value is often different from the image.
-     * Any subclass of Token that actually wants to return a non-null value can
-     * override this method as appropriate.
-     */
-    public Object getValue() {
-        return null;
-    }
-
-    /**
      * No-argument constructor
      */
     public Token() {
@@ -93,14 +81,6 @@ public class Token {
     public Token(int kind, String image) {
         this.kind = kind;
         this.image = image;
-    }
-
-    /**
-     * Returns the image.
-     */
-    @Override
-    public String toString() {
-        return image;
     }
 
     /**
@@ -124,6 +104,26 @@ public class Token {
 
     public static Token newToken(int ofKind) {
         return newToken(ofKind, null);
+    }
+
+    /**
+     * An optional attribute value of the Token.
+     * Tokens which are not used as syntactic sugar will often contain
+     * meaningful values that will be used later on by the compiler or
+     * interpreter. This attribute value is often different from the image.
+     * Any subclass of Token that actually wants to return a non-null value can
+     * override this method as appropriate.
+     */
+    public Object getValue() {
+        return null;
+    }
+
+    /**
+     * Returns the image.
+     */
+    @Override
+    public String toString() {
+        return image;
     }
 
 }

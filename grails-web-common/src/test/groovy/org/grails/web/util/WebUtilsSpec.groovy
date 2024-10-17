@@ -8,18 +8,18 @@ import spock.lang.Specification
  */
 class WebUtilsSpec extends Specification {
 
-	@Issue("https://github.com/grails/grails-core/issues/10545")
-	def testToQueryString() {
-		given:
-		Map params = ["name":"sudhir-nimavat", "address.zip":"12345"]
+    @Issue("https://github.com/grails/grails-core/issues/10545")
+    def testToQueryString() {
+        given:
+        Map params = ["name": "sudhir-nimavat", "address.zip": "12345"]
 
-		when:
-		String result = WebUtils.toQueryString(params)
+        when:
+        String result = WebUtils.toQueryString(params)
 
-		then:
-		result.startsWith("?")
-		def tokens = result[1..-1].split('&')
-		tokens.find({ it == "name=sudhir-nimavat"}) != null
-		tokens.find({ it == "address.zip=12345"}) != null
-	}
+        then:
+        result.startsWith("?")
+        def tokens = result[1..-1].split('&')
+        tokens.find({ it == "name=sudhir-nimavat" }) != null
+        tokens.find({ it == "address.zip=12345" }) != null
+    }
 }

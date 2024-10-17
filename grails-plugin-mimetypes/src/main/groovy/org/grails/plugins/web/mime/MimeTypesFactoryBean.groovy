@@ -36,7 +36,7 @@ import org.springframework.context.ApplicationContextAware
  */
 @CompileStatic
 @Deprecated
-class MimeTypesFactoryBean implements FactoryBean<MimeType[]>, ApplicationContextAware{
+class MimeTypesFactoryBean implements FactoryBean<MimeType[]>, ApplicationContextAware {
 
     ApplicationContext applicationContext
     GrailsApplication grailsApplication
@@ -60,15 +60,14 @@ class MimeTypesFactoryBean implements FactoryBean<MimeType[]>, ApplicationContex
         for (entry in mimeConfig.entrySet()) {
             if (entry.value instanceof List) {
                 for (i in entry.value) {
-                    mimes << new MimeType(i.toString(),entry.key.toString())
+                    mimes << new MimeType(i.toString(), entry.key.toString())
                 }
-            }
-            else {
+            } else {
                 mimes << new MimeType(entry.value.toString(), entry.key.toString())
             }
         }
-        for(MimeTypeProvider mtp in mimeTypeProviders) {
-            for(MimeType mt in mtp.mimeTypes) {
+        for (MimeTypeProvider mtp in mimeTypeProviders) {
+            for (MimeType mt in mtp.mimeTypes) {
                 if (!mimes.contains(mt)) {
                     mimes << mt
                 }

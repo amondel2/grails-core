@@ -39,7 +39,7 @@ class DevelopmentModeWatchSpec extends Specification {
         cleanup:
         System.clearProperty("base.dir")
         System.setProperty(Environment.KEY, Environment.TEST.getName())
-        if(watchedFile != null) {
+        if (watchedFile != null) {
             watchedFile.delete()
         }
     }

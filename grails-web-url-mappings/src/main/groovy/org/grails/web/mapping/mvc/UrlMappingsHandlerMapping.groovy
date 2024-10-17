@@ -66,8 +66,8 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
 
     @Autowired
     void setHandlerInterceptors(HandlerInterceptor[] handlerInterceptors) {
-        for(hi in handlerInterceptors) {
-            if(!(hi instanceof MappedInterceptor)) {
+        for (hi in handlerInterceptors) {
+            if (!(hi instanceof MappedInterceptor)) {
                 setInterceptors(hi)
             }
         }
@@ -75,9 +75,9 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
 
     @Autowired(required = false)
     void setWebRequestInterceptors(WebRequestInterceptor[] webRequestInterceptors) {
-        webRequestHandlerInterceptors = webRequestInterceptors.collect( { WebRequestInterceptor wri ->
-             new WebRequestHandlerInterceptorAdapter(wri)
-         } ) as HandlerInterceptor[]
+        webRequestHandlerInterceptors = webRequestInterceptors.collect({ WebRequestInterceptor wri ->
+            new WebRequestHandlerInterceptorAdapter(wri)
+        }) as HandlerInterceptor[]
     }
 
     @Autowired(required = false)
@@ -91,7 +91,7 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
                 (HandlerExecutionChain) handler : new HandlerExecutionChain(handler))
 
         // WebRequestInterceptor need to come first, as these include things like Hibernate OSIV
-        if(webRequestHandlerInterceptors) {
+        if (webRequestHandlerInterceptors) {
             chain.addInterceptors webRequestHandlerInterceptors
         }
 
@@ -102,8 +102,7 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
                 if (mappedInterceptor.matches(lookupPath, this.pathMatcher)) {
                     chain.addInterceptor(mappedInterceptor.getInterceptor())
                 }
-            }
-            else {
+            } else {
                 chain.addInterceptor(interceptor)
             }
         }
@@ -122,7 +121,7 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
 
         def matchedInfo = request.getAttribute(MATCHED_REQUEST)
         def errorStatus = request.getAttribute(WebUtils.ERROR_STATUS_CODE_ATTRIBUTE)
-        if(matchedInfo != null && errorStatus == null) return matchedInfo
+        if (matchedInfo != null && errorStatus == null) return matchedInfo
 
         String uri = urlHelper.getPathWithinApplication(request);
         def webRequest = GrailsWebRequest.lookup(request)
@@ -132,42 +131,38 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
         String version = findRequestedVersion(webRequest)
 
 
-        if(errorStatus && !WebUtils.isInclude(request)) {
+        if (errorStatus && !WebUtils.isInclude(request)) {
             def exception = request.getAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE)
             UrlMappingInfo info
-            if(exception instanceof Throwable) {
+            if (exception instanceof Throwable) {
                 exception = ExceptionUtils.getRootCause(exception)
                 def exceptionSpecificMatch = urlMappingsHolder.matchStatusCode(errorStatus.toString().toInteger(), (Throwable) exception)
-                if(exceptionSpecificMatch) {
+                if (exceptionSpecificMatch) {
                     info = exceptionSpecificMatch
-                }
-                else {
+                } else {
                     info = urlMappingsHolder.matchStatusCode(errorStatus.toString().toInteger())
                 }
-            }
-            else {
+            } else {
                 info = urlMappingsHolder.matchStatusCode(errorStatus.toString().toInteger())
             }
 
             request.setAttribute(MATCHED_REQUEST, info)
             return info
-        }
-        else {
+        } else {
 
             def infos = urlMappingsHolder.matchAll(uri, request.getMethod(), version != null ? version : UrlMapping.ANY_VERSION)
 
-            for(UrlMappingInfo info in infos) {
-                if(info) {
-                    if(info.redirectInfo) return info
+            for (UrlMappingInfo info in infos) {
+                if (info) {
+                    if (info.redirectInfo) return info
 
                     webRequest.resetParams()
                     info.configure(webRequest)
-                    if(info instanceof GrailsControllerUrlMappingInfo) {
+                    if (info instanceof GrailsControllerUrlMappingInfo) {
                         request.setAttribute(MATCHED_REQUEST, info)
-                        request.setAttribute(GrailsApplicationAttributes.GRAILS_CONTROLLER_CLASS, ((GrailsControllerUrlMappingInfo)info).controllerClass)
+                        request.setAttribute(GrailsApplicationAttributes.GRAILS_CONTROLLER_CLASS, ((GrailsControllerUrlMappingInfo) info).controllerClass)
                         return info
-                    }
-                    else if(info.viewName || info.URI) {
+                    } else if (info.viewName || info.URI) {
                         return info
                     }
                 }
@@ -180,13 +175,12 @@ class UrlMappingsHandlerMapping extends AbstractHandlerMapping {
 
     protected String findRequestedVersion(GrailsWebRequest currentRequest) {
         String version = currentRequest.getHeader(HttpHeaders.ACCEPT_VERSION)
-        if(!version && mimeTypeResolver) {
+        if (!version && mimeTypeResolver) {
             MimeType mimeType = mimeTypeResolver.resolveResponseMimeType(currentRequest)
             version = mimeType.version
         }
         return version
     }
-
 
 
     static class ErrorHandlingHandler implements HandlerInterceptor {

@@ -12,7 +12,7 @@ class CommandObjectNullabilitySpec extends Specification implements ControllerUn
         when:
         controller.createWidget()
         def widget = model.widget
-        
+
         then:
         widget
         widget.hasErrors()
@@ -22,7 +22,7 @@ class CommandObjectNullabilitySpec extends Specification implements ControllerUn
         widget.errors.getFieldError('implicitlyNonNullableUnconstrainedProperty').code == 'nullable'
         widget.errors.getFieldError('privatePropertyWithPublicGetterAndSetter').code == 'nullable'
         widget.errors.getFieldError('publicPropertyWithNoField').code == 'nullable'
-        
+
         and:
         !widget.errors.getFieldError('staticPublicPropertyWithNoField')
         !widget.errors.getFieldError('someStaticProperty')
@@ -35,7 +35,7 @@ class CommandObjectNullabilitySpec extends Specification implements ControllerUn
         when:
         controller.createWidgetSubclass()
         def widget = model.widget
-        
+
         then:
         widget
         widget.hasErrors()
@@ -48,7 +48,7 @@ class CommandObjectNullabilitySpec extends Specification implements ControllerUn
         widget.errors.getFieldError('subclassImplicitlyNonNullableUnconstrainedProperty').code == 'nullable'
         widget.errors.getFieldError('privatePropertyWithPublicGetterAndSetter').code == 'nullable'
         widget.errors.getFieldError('publicPropertyWithNoField').code == 'nullable'
-        
+
         and:
         !widget.errors.getFieldError('staticPublicPropertyWithNoField')
         !widget.errors.getFieldError('someStaticProperty')
@@ -59,11 +59,11 @@ class CommandObjectNullabilitySpec extends Specification implements ControllerUn
 
 @Artefact('Controller')
 class CommandController {
-    
+
     def createWidget(Widget widget) {
         render view: 'create', model: [widget: widget]
     }
-    
+
     def createWidgetSubclass(WidgetSubclass widget) {
         render view: 'create', model: [widget: widget]
     }
@@ -77,25 +77,25 @@ class Widget {
     static String someStaticProperty
     private String privatePropertyWithNoSetterOrGetter
     private String privatePropertyWithPublicGetterAndSetter
-    
+
     public void setPrivatePropertyWithPublicGetterAndSetter(String s) {
         privatePropertyWithPublicGetterAndSetter = s
     }
-    
+
     public String getPrivatePropertyWithPublicGetterAndSetter() {
         privatePropertyWithPublicGetterAndSetter
     }
-    
+
     public void setPublicPropertyWithNoField(String s) {
     }
-    
+
     public String getPublicPropertyWithNoField() {
         null
     }
 
     public static void setStaticPublicPropertyWithNoField(String s) {
     }
-    
+
     public static String getStaticPublicPropertyWithNoField() {
         null
     }
@@ -113,7 +113,7 @@ class WidgetSubclass extends Widget {
     String subclassImplicitlyNonNullableConstrainedProperty
     String subclassImplicitlyNonNullableUnconstrainedProperty
     static String someSubclassStaticProperty
-    
+
     static constraints = {
         subclassExplicitlyNullableProperty nullable: true
         subclassExplicitlyNonNullableProperty nullable: false

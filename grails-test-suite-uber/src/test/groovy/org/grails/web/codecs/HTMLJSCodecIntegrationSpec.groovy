@@ -22,7 +22,7 @@ public class HTMLJSCodecIntegrationSpec extends Specification {
     GrailsCodecClass jsCodecClass
     GrailsCodecClass htmlJsCodecClass
     EncodingStateRegistry registry
-    
+
     def setup() {
         def grailsApplication = Mock(GrailsApplication)
         htmlJsCodecClass = new DefaultGrailsCodecClass(HTMLJSCodec)
@@ -39,18 +39,18 @@ public class HTMLJSCodecIntegrationSpec extends Specification {
         GrailsWebMockUtil.bindMockWebRequest()
         registry = GrailsWebRequest.lookup().getEncodingStateRegistry()
     }
-    
+
     @Unroll
     def "do streaming html and js encoding - prevent double encoding - preEncoded:#preEncoded"(boolean preEncoded) {
         given:
-            def target = new FastStringWriter()
-            def writer = target.getWriterForEncoder(htmlJsCodecClass.encoder, registry)
+        def target = new FastStringWriter()
+        def writer = target.getWriterForEncoder(htmlJsCodecClass.encoder, registry)
         when:
-            writer << (preEncoded ? htmlCodecClass.encoder.encode("<script>") : "<script>")
-            writer.flush()
+        writer << (preEncoded ? htmlCodecClass.encoder.encode("<script>") : "<script>")
+        writer.flush()
         then:
-            target.toString() == '\\u0026lt\\u003bscript\\u0026gt\\u003b'
+        target.toString() == '\\u0026lt\\u003bscript\\u0026gt\\u003b'
         where:
-            preEncoded << [true, false]
+        preEncoded << [true, false]
     }
 }

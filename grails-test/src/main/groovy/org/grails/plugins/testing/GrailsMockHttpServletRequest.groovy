@@ -46,7 +46,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
  * A custom mock HTTP servlet request that provides the extra properties
  * and methods normally injected by the "servlets" plugin.
  */
-class GrailsMockHttpServletRequest extends MockHttpServletRequest implements MultipartHttpServletRequest{
+class GrailsMockHttpServletRequest extends MockHttpServletRequest implements MultipartHttpServletRequest {
 
     boolean invalidToken
     MultiValueMap multipartFiles = new LinkedMultiValueMap<String, MultipartFile>()
@@ -91,7 +91,7 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
             mt?.name == newContentType
         }
 
-        if(!mimeType) {
+        if (!mimeType) {
             mimeType = new MimeType(newContentType)
         }
         setAttribute(GrailsApplicationAttributes.REQUEST_FORMATS, [mimeType] as MimeType[])
@@ -107,11 +107,9 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
         setFormat('json')
         if (sourceJson instanceof String) {
             setContent(sourceJson.getBytes("UTF-8"))
-        }
-        else if (sourceJson instanceof JSON) {
+        } else if (sourceJson instanceof JSON) {
             setContent(sourceJson.toString().getBytes("UTF-8"))
-        }
-        else {
+        } else {
             setContent(new JSON(sourceJson).toString().getBytes("UTF-8"))
         }
         getAttribute("org.codehaus.groovy.grails.WEB_REQUEST")?.informParameterCreationListeners()
@@ -128,11 +126,10 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
 
         if (sourceXml instanceof String) {
             setContent(sourceXml.getBytes("UTF-8"))
-        }
-        else {
+        } else {
             XML xml
-            if(sourceXml instanceof XML) {
-                xml = (XML)sourceXml
+            if (sourceXml instanceof XML) {
+                xml = (XML) sourceXml
             } else {
                 xml = new XML(sourceXml)
             }
@@ -213,13 +210,13 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
         def mp = getClass().metaClass.getMetaProperty(name)
         if (mp) {
             mp.setProperty(this, value)
-        }
-        else {
+        } else {
             setAttribute(name, value)
         }
     }
 
     boolean isGet() { method == "GET" }
+
     boolean isPost() { method == "POST" }
 
     /**
@@ -261,11 +258,11 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
                     break
 
                 case 1:
-                    match = c.call(key:name, value:getAttribute(name))
+                    match = c.call(key: name, value: getAttribute(name))
                     break
 
                 default:
-                    match =  c.call(name, getAttribute(name))
+                    match = c.call(name, getAttribute(name))
             }
             if (match) {
                 result[name] = getAttribute(name)
@@ -291,13 +288,15 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
                     break
 
                 case 1:
-                    match = c.call(key:name, value:getAttribute(name))
+                    match = c.call(key: name, value: getAttribute(name))
                     break
 
                 default:
-                    match =  c.call(name, getAttribute(name))
+                    match = c.call(name, getAttribute(name))
             }
-            if (match) { results[name] = getAttribute(name) }
+            if (match) {
+                results[name] = getAttribute(name)
+            }
         }
         results
     }
@@ -313,7 +312,7 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
                     break
 
                 case 1:
-                    c.call(key:name, value:getAttribute(name))
+                    c.call(key: name, value: getAttribute(name))
                     break
 
                 default:
@@ -323,35 +322,35 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     Iterator<String> getFileNames() {
         return multipartFiles.keySet().iterator()
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     MultipartFile getFile(String name) {
         return multipartFiles.getFirst(name)
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     List<MultipartFile> getFiles(String name) {
         return multipartFiles.get(name)
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     Map<String, MultipartFile> getFileMap() {
         return multipartFiles.toSingleValueMap()
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc}
      */
     MultiValueMap<String, MultipartFile> getMultiFileMap() {
         return multipartFiles
@@ -408,7 +407,7 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
     }
 
     Collection<Part> getParts() {
-        getMultiFileMap().values().flatten().collect {new MockPart(it)}
+        getMultiFileMap().values().flatten().collect { new MockPart(it) }
     }
 
     Part getPart(String name) {
@@ -424,7 +423,7 @@ class GrailsMockHttpServletRequest extends MockHttpServletRequest implements Mul
         if (response == null) {
             response = new GrailsMockHttpServletResponse()
         }
-        startAsync(this,response)
+        startAsync(this, response)
     }
 
     AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) {
@@ -558,11 +557,11 @@ class MockAsyncContext implements AsyncContext {
     }
 
     void addListener(AsyncListener listener) {
-        asyncListeners << [listener:listener, event:new AsyncEvent(this, request, response)]
+        asyncListeners << [listener: listener, event: new AsyncEvent(this, request, response)]
     }
 
     void addListener(AsyncListener listener, ServletRequest servletRequest, ServletResponse servletResponse) {
-        asyncListeners << [listener:listener, event:new AsyncEvent(this, servletRequest, servletResponse)]
+        asyncListeners << [listener: listener, event: new AsyncEvent(this, servletRequest, servletResponse)]
     }
 
     def <T extends AsyncListener> T createListener(Class<T> clazz) {

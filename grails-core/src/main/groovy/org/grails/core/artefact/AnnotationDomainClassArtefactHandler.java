@@ -15,10 +15,10 @@
  */
 package org.grails.core.artefact;
 
+import jakarta.persistence.Entity;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import jakarta.persistence.Entity;
 
 /**
  * Detects annotated domain classes for EJB3 style mappings.
@@ -32,6 +32,10 @@ public class AnnotationDomainClassArtefactHandler extends DomainClassArtefactHan
 
     private Set<String> jpaClassNames = new HashSet<String>();
 
+    public static boolean isJPADomainClass(Class<?> clazz) {
+        return clazz != null && clazz.getAnnotation(Entity.class) != null;
+    }
+
     public Set<String> getJpaClassNames() {
         return jpaClassNames;
     }
@@ -43,9 +47,5 @@ public class AnnotationDomainClassArtefactHandler extends DomainClassArtefactHan
             jpaClassNames.add(clazz.getName());
         }
         return super.isArtefactClass(clazz);
-    }
-
-    public static boolean isJPADomainClass(Class<?> clazz) {
-        return clazz != null && clazz.getAnnotation(Entity.class) != null;
     }
 }

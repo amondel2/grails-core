@@ -58,7 +58,7 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
     private static final String VIEW_PREFIX = "view:";
     private static final String METHOD_PREFIX = "method:";
     private static final String VERSION_PREFIX = "version:";
-
+    private static final String ID_PARAM = "id";
     private final GrailsApplication grailsApplication;
     private Object controllerName;
     private Object actionName;
@@ -66,7 +66,6 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
     private Object namespace;
     private Object redirectInfo;
     private Object id;
-    private static final String ID_PARAM = "id";
     private UrlMappingData urlData;
     private Object viewName;
     private boolean parsingRequest;
@@ -82,20 +81,19 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         this.urlData = urlData;
         this.grailsApplication = grailsApplication;
         ApplicationContext applicationContext = null;
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
             applicationContext = grailsApplication.getMainContext();
         }
-        if(applicationContext != null && applicationContext.containsBean(UrlConverter.BEAN_NAME)) {
+        if (applicationContext != null && applicationContext.containsBean(UrlConverter.BEAN_NAME)) {
             urlConverter = applicationContext.getBean(UrlConverter.BEAN_NAME, UrlConverter.class);
-        }
-        else {
+        } else {
             urlConverter = new CamelCaseUrlConverter();
         }
     }
 
     @SuppressWarnings("rawtypes")
     public DefaultUrlMappingInfo(Object redirectInfo, Object controllerName, Object actionName, Object namespace, Object pluginName, Object viewName, Map params,
-            UrlMappingData urlData, GrailsApplication grailsApplication) {
+                                 UrlMappingData urlData, GrailsApplication grailsApplication) {
         this(redirectInfo, controllerName, actionName, namespace, pluginName, viewName, null, UrlMapping.ANY_VERSION, params, urlData, grailsApplication);
     }
 
@@ -116,11 +114,6 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         }
     }
 
-    @Override
-    public String getVersion() {
-        return this.version;
-    }
-
     public DefaultUrlMappingInfo(Object viewName, Map params, UrlMappingData urlData, GrailsApplication grailsApplication) {
         this(params, urlData, grailsApplication);
         this.viewName = viewName;
@@ -133,7 +126,7 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         Assert.notNull(uri, "Argument [uri] cannot be null or blank");
     }
 
-    public DefaultUrlMappingInfo(Object uri,String httpMethod, UrlMappingData data, GrailsApplication grailsApplication) {
+    public DefaultUrlMappingInfo(Object uri, String httpMethod, UrlMappingData data, GrailsApplication grailsApplication) {
         this(Collections.emptyMap(), data, grailsApplication);
         this.uri = uri;
         this.httpMethod = httpMethod;
@@ -150,6 +143,10 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         this.viewName = info.getViewName();
     }
 
+    @Override
+    public String getVersion() {
+        return this.version;
+    }
 
     @Override
     public String getHttpMethod() {
@@ -185,6 +182,7 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         String name = evaluateNameForValue(namespace);
         return urlConverter.toUrlElement(name);
     }
+
     public String getControllerName() {
         String name = evaluateNameForValue(controllerName);
         if (name == null && getViewName() == null && uri == null) {
@@ -257,17 +255,17 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
     }
 
     private boolean isMultipartDisabled() {
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
             return grailsApplication.getConfig().getProperty(SETTING_GRAILS_WEB_DISABLE_MULTIPART, Boolean.class, false);
         }
         return false;
     }
 
     private MultipartResolver getMultipartResolver() {
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
             ApplicationContext ctx = grailsApplication.getMainContext();
-            if(ctx != null) {
-                return (MultipartResolver)ctx.getBean(DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME);
+            if (ctx != null) {
+                return (MultipartResolver) ctx.getBean(DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME);
             }
         }
         return null;
@@ -319,8 +317,8 @@ public class DefaultUrlMappingInfo extends AbstractUrlMappingInfo {
         result = 31 * result + (id != null ? (ID_PREFIX + id).hashCode() : 0);
         result = 31 * result + (viewName != null ? (VIEW_PREFIX + viewName).hashCode() : 0);
         result = 31 * result + (uri != null ? uri.hashCode() : 0);
-        result = 31 * result + (httpMethod != null ? (METHOD_PREFIX +httpMethod).hashCode() : 0);
-        result = 31 * result + (version != null ? (VERSION_PREFIX +version).hashCode() : 0);
+        result = 31 * result + (httpMethod != null ? (METHOD_PREFIX + httpMethod).hashCode() : 0);
+        result = 31 * result + (version != null ? (VERSION_PREFIX + version).hashCode() : 0);
         return result;
     }
 }

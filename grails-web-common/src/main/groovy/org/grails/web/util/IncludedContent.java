@@ -30,7 +30,7 @@ import java.io.Writer;
  */
 public class IncludedContent implements Writable {
 
-    private String contentType = GrailsWebUtil.getContentType("text/html","UTF-8");
+    private String contentType = GrailsWebUtil.getContentType("text/html", "UTF-8");
     private Object content;
     private String redirectURL;
 
@@ -57,6 +57,7 @@ public class IncludedContent implements Writable {
 
     /**
      * Returns the included content type (default is text/html;charset=UTF=8)
+     *
      * @return The content type
      */
     public String getContentType() {
@@ -65,6 +66,7 @@ public class IncludedContent implements Writable {
 
     /**
      * Returns the included content
+     *
      * @return The content
      */
     public Object getContent() {
@@ -77,12 +79,10 @@ public class IncludedContent implements Writable {
         }
 
         if (content instanceof StreamCharBuffer) {
-            ((StreamCharBuffer)content).writeTo(target);
-        }
-        else if (content instanceof String) {
-            target.write((String)content);
-        }
-        else {
+            ((StreamCharBuffer) content).writeTo(target);
+        } else if (content instanceof String) {
+            target.write((String) content);
+        } else {
             target.write(String.valueOf(content));
         }
         return target;
@@ -94,11 +94,11 @@ public class IncludedContent implements Writable {
         }
 
         if (content instanceof StreamCharBuffer) {
-            return ((StreamCharBuffer)content).toCharArray();
+            return ((StreamCharBuffer) content).toCharArray();
         }
 
         if (content instanceof String) {
-            return ((String)content).toCharArray();
+            return ((String) content).toCharArray();
         }
 
         return String.valueOf(content).toCharArray();

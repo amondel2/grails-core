@@ -36,6 +36,17 @@ import java.net.URLConnection;
 public abstract class AbstractFileResolvingResource implements Resource {
 
     /**
+     * Set the {@link URLConnection#setUseCaches "useCaches"} flag on the
+     * given connection, preferring <code>false</code> but leaving the
+     * flag at <code>true</code> for JNLP based resources.
+     *
+     * @param con the URLConnection to set the flag on
+     */
+    private static void useCachesIfNecessary(URLConnection con) {
+        con.setUseCaches(con.getClass().getName().startsWith("JNLP"));
+    }
+
+    /**
      * This implementation returns a File reference for the underlying class path
      * resource, provided that it refers to a file in the file system.
      */
@@ -63,16 +74,6 @@ public abstract class AbstractFileResolvingResource implements Resource {
      */
     protected File getFile(URI uri) throws IOException {
         return GrailsResourceUtils.getFile(uri, getDescription());
-    }
-
-    /**
-     * Set the {@link URLConnection#setUseCaches "useCaches"} flag on the
-     * given connection, preferring <code>false</code> but leaving the
-     * flag at <code>true</code> for JNLP based resources.
-     * @param con the URLConnection to set the flag on
-     */
-    private static void useCachesIfNecessary(URLConnection con) {
-        con.setUseCaches(con.getClass().getName().startsWith("JNLP"));
     }
 
     public boolean exists() {
@@ -111,8 +112,7 @@ public abstract class AbstractFileResolvingResource implements Resource {
             InputStream is = getInputStream();
             is.close();
             return true;
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             return false;
         }
     }
@@ -126,8 +126,7 @@ public abstract class AbstractFileResolvingResource implements Resource {
                 return (file.canRead() && !file.isDirectory());
             }
             return true;
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             return false;
         }
     }

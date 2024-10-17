@@ -31,25 +31,25 @@ import jakarta.persistence.FlushModeType
 class PropertySourcesConfigSpec extends Specification {
 
     void "Test that PropertySourcesConfig works as expected"() {
-        given:"A PropertySourcesConfig instance"
-            def propertySource = new MapPropertySource("foo", [one:1, two:2, 'flush.mode': 'commit', 'three.four': 34, 'empty.value':null])
-            def propertySources = new MutablePropertySources()
-            propertySources.addLast(propertySource)
-            def config = new PropertySourcesConfig(propertySources)
+        given: "A PropertySourcesConfig instance"
+        def propertySource = new MapPropertySource("foo", [one: 1, two: 2, 'flush.mode': 'commit', 'three.four': 34, 'empty.value': null])
+        def propertySources = new MutablePropertySources()
+        propertySources.addLast(propertySource)
+        def config = new PropertySourcesConfig(propertySources)
 
-        expect:"The config to be accessible"
-            config.one == 1
-            config.two == 2
-            config.three.four == 34
-            !config?.four?.five
-            config.getProperty('one', String) == '1'
-            config.getProperty('three.four', String) == '34'
-            config.getProperty('three', String) == null
-            config.get('three.four') == 34
-            config.getProperty('three.four') == '34'
-            config.getProperty('three.four', Date) == null
-            config.getProperty('flush.mode', FlushModeType) == FlushModeType.COMMIT
-            !config.empty.value
+        expect: "The config to be accessible"
+        config.one == 1
+        config.two == 2
+        config.three.four == 34
+        !config?.four?.five
+        config.getProperty('one', String) == '1'
+        config.getProperty('three.four', String) == '34'
+        config.getProperty('three', String) == null
+        config.get('three.four') == 34
+        config.getProperty('three.four') == '34'
+        config.getProperty('three.four', Date) == null
+        config.getProperty('flush.mode', FlushModeType) == FlushModeType.COMMIT
+        !config.empty.value
     }
 
     @Issue("https://github.com/grails/grails-spring-security-core/issues/724")
@@ -70,7 +70,7 @@ class PropertySourcesConfigSpec extends Specification {
         given:
         def source = new NavigableMap()
         def chainMap = new NavigableMap()
-        chainMap.merge(["chainMap" :[
+        chainMap.merge(["chainMap": [
                 [pattern: '/assets/**', filters: 'none'],
                 [pattern: '/**/js/**', filters: 'none'],
                 [pattern: '/**/css/**', filters: 'none'],
@@ -100,6 +100,7 @@ class PropertySourcesConfigSpec extends Specification {
       test pass.
 
      */
+
     @Ignore("Cannot set property 'bar' on null object")
     @Issue('grails/grails-core#10188')
     void 'test replacing nested property values'() {

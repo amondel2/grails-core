@@ -71,7 +71,7 @@ trait CommandEvents {
      * @param args The arguments to the event
      */
     @Generated
-    void notify(String eventName, Object...args) {
+    void notify(String eventName, Object... args) {
         EventStorage.fireEvent(this, eventName, args)
     }
 

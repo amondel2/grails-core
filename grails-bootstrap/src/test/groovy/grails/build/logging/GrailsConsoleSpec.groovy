@@ -38,7 +38,7 @@ import java.util.regex.Pattern
  * @author Tom Bujok
  * @since 2.3
  */
-@IgnoreIf({ env['CI'] || !GrailsConsole.instance.isAnsiEnabled() })
+@IgnoreIf ({ env['CI'] || !GrailsConsole.instance.isAnsiEnabled() })
 class GrailsConsoleSpec extends Specification {
 
     static final String RESET = Pattern.quote(Ansi.ansi().reset().toString())
@@ -49,7 +49,7 @@ class GrailsConsoleSpec extends Specification {
 
     def setup() {
         InputStream systemIn = Mock(InputStream)
-        systemIn.read(* _) >> -1
+        systemIn.read(*_) >> -1
         out = Mock(PrintStream)
 
         console = GrailsConsole.getInstance()
@@ -66,7 +66,7 @@ class GrailsConsoleSpec extends Specification {
         console.outputMessage("MSG", 1)
 
         then:
-        out./print.*/(* _) >> { def args -> output += args.join('') }
+        out./print.*/(*_) >> { def args -> output += args.join('') }
         assert assertResetMarkAtTheEndOfOutput(output)
     }
 
@@ -76,7 +76,7 @@ class GrailsConsoleSpec extends Specification {
         console.error("LABEL", "MSG")
 
         then:
-        out./print.*/(* _) >> { def args -> output += args.join('') }
+        out./print.*/(*_) >> { def args -> output += args.join('') }
         assert assertResetMarkAtTheEndOfOutput(output)
     }
 
@@ -86,7 +86,7 @@ class GrailsConsoleSpec extends Specification {
         console.userInput("QUESTION")
 
         then:
-        out./write.*/(* _) >> { def args -> output = new String(args[0], args[1], args[2]) }
+        out./write.*/(*_) >> { def args -> output = new String(args[0], args[1], args[2]) }
         assert assertResetMarkAtTheEndOfOutput(output)
     }
 

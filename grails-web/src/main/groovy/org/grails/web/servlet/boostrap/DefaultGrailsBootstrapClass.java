@@ -16,12 +16,11 @@
 package org.grails.web.servlet.boostrap;
 
 import grails.util.Environment;
-import groovy.lang.Closure;
-import org.grails.core.AbstractGrailsClass;
 import grails.web.servlet.bootstrap.GrailsBootstrapClass;
-import org.grails.datastore.mapping.reflect.ClassPropertyFetcher;
-
+import groovy.lang.Closure;
 import jakarta.servlet.ServletContext;
+import org.grails.core.AbstractGrailsClass;
+import org.grails.datastore.mapping.reflect.ClassPropertyFetcher;
 
 @SuppressWarnings("serial")
 public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements GrailsBootstrapClass {
@@ -33,7 +32,9 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
     @SuppressWarnings("rawtypes")
     private static final Closure BLANK_CLOSURE = new Closure(DefaultGrailsBootstrapClass.class) {
         @Override
-        public Object call(Object... args) { return null; }
+        public Object call(Object... args) {
+            return null;
+        }
     };
     private final Object instance;
 
@@ -51,7 +52,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
 
         Object obj = ClassPropertyFetcher.getInstancePropertyValue(instance, INIT_CLOSURE);
         if (obj instanceof Closure) {
-            return (Closure<?>)obj;
+            return (Closure<?>) obj;
         }
         return BLANK_CLOSURE;
     }
@@ -59,7 +60,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
     public Closure<?> getDestroyClosure() {
         Object obj = ClassPropertyFetcher.getInstancePropertyValue(instance, DESTROY_CLOSURE);
         if (obj instanceof Closure) {
-            return (Closure<?>)obj;
+            return (Closure<?>) obj;
         }
         return BLANK_CLOSURE;
     }
@@ -68,7 +69,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
         Closure<?> init = getInitClosure();
         if (init != null) {
             Class[] parameterTypes = init.getParameterTypes();
-            if(parameterTypes != null) {
+            if (parameterTypes != null) {
                 init = init.curry(new Object[]{servletContext});
             }
             Environment.executeForCurrentEnvironment(init);

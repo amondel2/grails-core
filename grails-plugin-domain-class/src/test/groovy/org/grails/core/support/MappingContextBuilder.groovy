@@ -30,7 +30,7 @@ class MappingContextBuilder {
         constraintEvaluator = new DefaultConstraintEvaluator(constraintRegistry, mappingContext, [:])
     }
 
-    void build(Class...classes) {
+    void build(Class... classes) {
         Collection<PersistentEntity> entities = mappingContext.addPersistentEntities(classes)
         for (PersistentEntity entity in entities) {
             entity.initialize()

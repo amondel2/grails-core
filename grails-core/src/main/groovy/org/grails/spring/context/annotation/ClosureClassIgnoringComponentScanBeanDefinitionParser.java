@@ -84,90 +84,6 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
         return scanner;
     }
 
-    /**
-     * This ClassLoader is used to restrict getResources & getResource methods only to the
-     * parent ClassLoader. getResources/getResource usually search all parent level classloaders.
-     * (look at details in source code of java.lang.ClassLoader.getResources)
-     *
-     * @author Lari Hotari
-     */
-    private static final class ParentOnlyGetResourcesClassLoader extends ClassLoader {
-        private final Method findResourcesMethod=ReflectionUtils.findMethod(ClassLoader.class, "findResources", String.class);
-        private final Method findResourceMethod=ReflectionUtils.findMethod(ClassLoader.class, "findResource", String.class);
-
-        private ClassLoader rootLoader;
-
-        public ParentOnlyGetResourcesClassLoader(ClassLoader parent) {
-            super(parent);
-            rootLoader = DefaultGroovyMethods.getRootLoader(parent);
-            ReflectionUtils.makeAccessible(findResourceMethod);
-            ReflectionUtils.makeAccessible(findResourcesMethod);
-        }
-
-        @Override
-        public Enumeration<URL> getResources(String name) throws IOException {
-            if(Environment.isFork()) {
-                return super.getResources(name);
-            }
-            else {
-                if (rootLoader != null) {
-                    // search all parents up to rootLoader
-                    Collection<URL> urls = new LinkedHashSet<URL>();
-                    findResourcesRecursive(getParent(), name, urls);
-                    return Collections.enumeration(urls);
-                }
-
-                return invokeFindResources(getParent(), name);
-            }
-        }
-
-        private void findResourcesRecursive(ClassLoader parent, String name, Collection<URL> urls) {
-            Enumeration<URL> result = invokeFindResources(parent, name);
-            while (result.hasMoreElements()) {
-                urls.add(result.nextElement());
-            }
-            if (parent != rootLoader) {
-                findResourcesRecursive(parent.getParent(), name, urls);
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        private Enumeration<URL> invokeFindResources(ClassLoader parent, String name) {
-            return (Enumeration<URL>)ReflectionUtils.invokeMethod(findResourcesMethod, parent, name);
-        }
-
-        @Override
-        public URL getResource(String name) {
-            if(Environment.isFork()) {
-                return super.getResource(name);
-            }
-            else {
-                if (rootLoader != null) {
-                    return findResourceRecursive(getParent(), name);
-                }
-
-                return invokeFindResource(getParent(), name);
-            }
-        }
-
-        private URL findResourceRecursive(ClassLoader parent, String name) {
-            URL url = invokeFindResource(parent, name);
-            if (url != null) {
-                return url;
-            }
-
-            if (parent != rootLoader) {
-                return findResourceRecursive(parent.getParent(), name);
-            }
-
-            return null;
-        }
-
-        private URL invokeFindResource(ClassLoader parent, String name) {
-            return (URL)ReflectionUtils.invokeMethod(findResourceMethod, parent, name);
-        }
-    }
-
     @Override
     protected ClassPathBeanDefinitionScanner configureScanner(ParserContext parserContext, Element element) {
         final ClassPathBeanDefinitionScanner scanner = super.configureScanner(parserContext, element);
@@ -190,8 +106,7 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
                     return parentOnlyGetResourcesClassLoader;
                 }
             };
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             // restrictive classloading environment, use the original
             parentOnlyResourceLoader = originalResourceLoader;
         }
@@ -201,7 +116,7 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
             protected Resource[] findAllClassPathResources(String location) throws IOException {
                 Set<Resource> result = new LinkedHashSet<Resource>(16);
 
-                if(BuildSettings.CLASSES_DIR != null) {
+                if (BuildSettings.CLASSES_DIR != null) {
                     @SuppressWarnings("unused")
                     URL classesDir = BuildSettings.CLASSES_DIR.toURI().toURL();
 
@@ -242,5 +157,87 @@ public class ClosureClassIgnoringComponentScanBeanDefinitionParser extends Compo
         });
         scanner.setResourceLoader(resourceResolver);
         return scanner;
+    }
+
+    /**
+     * This ClassLoader is used to restrict getResources & getResource methods only to the
+     * parent ClassLoader. getResources/getResource usually search all parent level classloaders.
+     * (look at details in source code of java.lang.ClassLoader.getResources)
+     *
+     * @author Lari Hotari
+     */
+    private static final class ParentOnlyGetResourcesClassLoader extends ClassLoader {
+        private final Method findResourcesMethod = ReflectionUtils.findMethod(ClassLoader.class, "findResources", String.class);
+        private final Method findResourceMethod = ReflectionUtils.findMethod(ClassLoader.class, "findResource", String.class);
+
+        private ClassLoader rootLoader;
+
+        public ParentOnlyGetResourcesClassLoader(ClassLoader parent) {
+            super(parent);
+            rootLoader = DefaultGroovyMethods.getRootLoader(parent);
+            ReflectionUtils.makeAccessible(findResourceMethod);
+            ReflectionUtils.makeAccessible(findResourcesMethod);
+        }
+
+        @Override
+        public Enumeration<URL> getResources(String name) throws IOException {
+            if (Environment.isFork()) {
+                return super.getResources(name);
+            } else {
+                if (rootLoader != null) {
+                    // search all parents up to rootLoader
+                    Collection<URL> urls = new LinkedHashSet<URL>();
+                    findResourcesRecursive(getParent(), name, urls);
+                    return Collections.enumeration(urls);
+                }
+
+                return invokeFindResources(getParent(), name);
+            }
+        }
+
+        private void findResourcesRecursive(ClassLoader parent, String name, Collection<URL> urls) {
+            Enumeration<URL> result = invokeFindResources(parent, name);
+            while (result.hasMoreElements()) {
+                urls.add(result.nextElement());
+            }
+            if (parent != rootLoader) {
+                findResourcesRecursive(parent.getParent(), name, urls);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        private Enumeration<URL> invokeFindResources(ClassLoader parent, String name) {
+            return (Enumeration<URL>) ReflectionUtils.invokeMethod(findResourcesMethod, parent, name);
+        }
+
+        @Override
+        public URL getResource(String name) {
+            if (Environment.isFork()) {
+                return super.getResource(name);
+            } else {
+                if (rootLoader != null) {
+                    return findResourceRecursive(getParent(), name);
+                }
+
+                return invokeFindResource(getParent(), name);
+            }
+        }
+
+        private URL findResourceRecursive(ClassLoader parent, String name) {
+            URL url = invokeFindResource(parent, name);
+            if (url != null) {
+                return url;
+            }
+
+            if (parent != rootLoader) {
+                return findResourceRecursive(parent.getParent(), name);
+            }
+
+            return null;
+        }
+
+        private URL invokeFindResource(ClassLoader parent, String name) {
+            return (URL) ReflectionUtils.invokeMethod(findResourceMethod, parent, name);
+        }
     }
 }

@@ -10,7 +10,7 @@ class RedirectController {
     def index() { redirect action: 'list' }
 
     def redirectToDefaultAction() {
-        redirect(controller:"redirect")
+        redirect(controller: "redirect")
     }
 
     def testNoController() {
@@ -18,71 +18,71 @@ class RedirectController {
     }
 
     def redirectTwice() {
-        redirect(action:'one')
-        redirect(action:'two')
+        redirect(action: 'one')
+        redirect(action: 'two')
     }
 
     def responseCommitted() {
         response.outputStream << "write data"
         response.outputStream.flush()
-        redirect(action:'one')
+        redirect(action: 'one')
     }
 
     def toAction() {
-        redirect(action:'foo')
+        redirect(action: 'foo')
     }
 
     def toActionPermanent() {
-        redirect(action:'foo', permanent: true)
+        redirect(action: 'foo', permanent: true)
     }
 
     def toActionPermanentFalse() {
-        redirect(action:'foo', permanent: false)
+        redirect(action: 'foo', permanent: false)
     }
 
     def toActionPermanentStringTrue() {
-        redirect(action:'foo', permanent: 'true')
+        redirect(action: 'foo', permanent: 'true')
     }
 
     def toActionPermanentStringFalse() {
-        redirect(action:'foo', permanent: 'false')
+        redirect(action: 'foo', permanent: 'false')
     }
 
     def toActionWithGstring() {
         def prefix = 'f'
-        redirect(action:"${prefix}oo")
+        redirect(action: "${prefix}oo")
     }
 
     def toRoot() {
-        redirect(controller:'default')
+        redirect(controller: 'default')
     }
 
     def toController() {
-        redirect(controller:'test')
+        redirect(controller: 'test')
     }
 
     def toControllerAndAction() {
-        redirect(controller:'test', action:'foo')
+        redirect(controller: 'test', action: 'foo')
     }
 
     def toControllerAndActionWithFragment() {
-        redirect(controller:'test', action:'foo', fragment:"frag")
+        redirect(controller: 'test', action: 'foo', fragment: "frag")
     }
 
     def toControllerWithParams() {
-        redirect(controller:'test',action:'foo', params:[one:'two', two:'three'])
+        redirect(controller: 'test', action: 'foo', params: [one: 'two', two: 'three'])
     }
 
     def toControllerWithDuplicateParams() {
-        redirect(controller:'test',action:'foo', params:[one:['two','three']])
+        redirect(controller: 'test', action: 'foo', params: [one: ['two', 'three']])
     }
 
     def toControllerWithDuplicateArrayParams() {
-        redirect(controller:'test',action:'foo', params:[one:['two','three'] as String[]])
+        redirect(controller: 'test', action: 'foo', params: [one: ['two', 'three'] as String[]])
     }
 
     def toAbsolute() {
-        redirect(url:"http://google.com")
+        redirect(url: "http://google.com")
     }
 }
 

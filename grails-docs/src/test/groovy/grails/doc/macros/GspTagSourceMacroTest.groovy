@@ -35,12 +35,12 @@ class GspTagSourceMacroTest extends Specification {
         closureSource.split('\n').size() == linesOfSource
 
         where:
-        tagName               | linesOfSource
-        'textField'           | 5
-        'field'               | 4
-        'checkBox'            | 60
-        'uploadForm'          | 3
-        'tagWithTypedAttrs'   | 3
+        tagName             | linesOfSource
+        'textField'         | 5
+        'field'             | 4
+        'checkBox'          | 60
+        'uploadForm'        | 3
+        'tagWithTypedAttrs' | 3
     }
 
     void 'returns empty string if tag does not exist'() {
@@ -122,7 +122,7 @@ class TestTagLib implements TagLibrary {
         hiddenValue = processFormFieldValueIfNecessary("_${name}", hiddenValue, "hidden")
 
         def hiddenFieldName
-        if(name.indexOf('.') == -1) {
+        if (name.indexOf('.') == -1) {
             hiddenFieldName = "_${name}"
         } else {
             def lastDot = name.lastIndexOf('.')

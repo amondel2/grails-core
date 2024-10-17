@@ -103,7 +103,7 @@ public class CandidateListCompletionHandler implements CompletionHandler {
 
     /**
      * @return true is all the elements of <i>candidates</i>
-     *         start with <i>starts</i>
+     * start with <i>starts</i>
      */
     private final boolean startsWith(final String starts, final String[] candidates) {
         for (int i = 0; i < candidates.length; i++) {

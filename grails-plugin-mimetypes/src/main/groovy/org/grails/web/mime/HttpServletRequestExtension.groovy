@@ -34,17 +34,17 @@ import org.grails.plugins.web.api.MimeTypesApiSupport
  * @author Graeme Rocher
  *
  * @since 3.0
- * 
+ *
  */
 @CompileStatic
 class HttpServletRequestExtension {
-    
+
     protected static MimeTypesApiSupport apiSupport = new MimeTypesApiSupport()
-    
+
     static withFormat(HttpServletRequest request, Closure callable) {
         apiSupport.withFormat(request, callable)
     }
-     
+
     /**
      * Obtains the request format, which is dictated by the CONTENT_TYPE header and evaluated using the
      * configured {@link MimeType} instances. Only configured MimeTypes
@@ -69,7 +69,7 @@ class HttpServletRequestExtension {
      * @return A list of configured mime types
      */
     static MimeType[] getMimeTypes(HttpServletRequest request) {
-        MimeType[] result = (MimeType[])request.getAttribute(GrailsApplicationAttributes.REQUEST_FORMATS)
+        MimeType[] result = (MimeType[]) request.getAttribute(GrailsApplicationAttributes.REQUEST_FORMATS)
         if (!result) {
             WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.servletContext)
             MimeType[] mimeTypes = context != null ? context.getBean(MimeUtility).getKnownMimeTypes() as MimeType[] : MimeType.getConfiguredMimeTypes()

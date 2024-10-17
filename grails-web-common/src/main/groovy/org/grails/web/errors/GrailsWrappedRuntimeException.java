@@ -54,30 +54,29 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @since 0.1
  */
 public class GrailsWrappedRuntimeException extends GrailsException {
+    public static final String URL_PREFIX = "/WEB-INF/grails-app/";
     private static final Class<? extends GrailsApplicationAttributes> grailsApplicationAttributesClass = GrailsFactoriesLoader.loadFactoryClasses(GrailsApplicationAttributes.class, GrailsWebRequest.class.getClassLoader()).get(0);
     private static final Constructor<? extends GrailsApplicationAttributes> grailsApplicationAttributesConstructor = ClassUtils.getConstructorIfAvailable(grailsApplicationAttributesClass, ServletContext.class);
-
     private static final long serialVersionUID = 7284065617154554366L;
     private static final Pattern ANY_GSP_DETAILS = Pattern.compile("_gsp.run");
     private static final Pattern PARSE_DETAILS_STEP1 = Pattern.compile("\\((\\w+)\\.groovy:(\\d+)\\)");
     private static final Pattern PARSE_DETAILS_STEP2 = Pattern.compile("at\\s{1}(\\w+)\\$_closure\\d+\\.doCall\\(\\1:(\\d+)\\)");
     private static final Pattern PARSE_GSP_DETAILS_STEP1 = Pattern.compile("_gsp\\.run\\(((\\w+?)_.*?):(\\d+)\\)");
-    public static final String URL_PREFIX = "/WEB-INF/grails-app/";
-    private static final Log LOG  = LogFactory.getLog(GrailsWrappedRuntimeException.class);
+    private static final Log LOG = LogFactory.getLog(GrailsWrappedRuntimeException.class);
+    private static final String UNKNOWN = "Unknown";
     private String className = UNKNOWN;
-    private int lineNumber = - 1;
+    private int lineNumber = -1;
     private String stackTrace;
     private String[] codeSnippet = new String[0];
     private String gspFile;
     private Throwable cause;
     private PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
     private String[] stackTraceLines;
-    private static final String UNKNOWN = "Unknown";
     private String fileName;
 
     /**
      * @param servletContext The ServletContext instance
-     * @param t The exception that was thrown
+     * @param t              The exception that was thrown
      */
     public GrailsWrappedRuntimeException(ServletContext servletContext, Throwable t) {
         super(t.getMessage(), t);
@@ -98,16 +97,15 @@ public class GrailsWrappedRuntimeException extends GrailsException {
         stackTraceLines = stackTrace.split("\\n");
 
         if (cause instanceof MultipleCompilationErrorsException) {
-            MultipleCompilationErrorsException mcee = (MultipleCompilationErrorsException)cause;
+            MultipleCompilationErrorsException mcee = (MultipleCompilationErrorsException) cause;
             Object message = mcee.getErrorCollector().getErrors().iterator().next();
             if (message instanceof SyntaxErrorMessage) {
-                SyntaxErrorMessage sem = (SyntaxErrorMessage)message;
+                SyntaxErrorMessage sem = (SyntaxErrorMessage) message;
                 lineNumber = sem.getCause().getLine();
                 className = sem.getCause().getSourceLocator();
                 sem.write(pw);
             }
-        }
-        else {
+        } else {
             Matcher m1 = PARSE_DETAILS_STEP1.matcher(stackTrace);
             Matcher m2 = PARSE_DETAILS_STEP2.matcher(stackTrace);
             Matcher gsp = PARSE_GSP_DETAILS_STEP1.matcher(stackTrace);
@@ -116,25 +114,22 @@ public class GrailsWrappedRuntimeException extends GrailsException {
                     System.out.println(gsp.group(1) + " " + gsp.group(2) + " " + gsp.group(3));
                     className = gsp.group(1);
                     lineNumber = Integer.parseInt(gsp.group(3));
-                    gspFile = URL_PREFIX + "views/" + gsp.group(2)  + '/' + className;
-                }
-                else {
+                    gspFile = URL_PREFIX + "views/" + gsp.group(2) + '/' + className;
+                } else {
                     if (m1.find()) {
                         do {
                             className = m1.group(1);
                             lineNumber = Integer.parseInt(m1.group(2));
                         }
                         while (m1.find());
-                    }
-                    else {
+                    } else {
                         while (m2.find()) {
                             className = m2.group(1);
                             lineNumber = Integer.parseInt(m2.group(2));
                         }
                     }
                 }
-            }
-            catch (NumberFormatException nfex) {
+            } catch (NumberFormatException nfex) {
                 // ignore
             }
         }
@@ -150,8 +145,7 @@ public class GrailsWrappedRuntimeException extends GrailsException {
 
                 if (fileName != null) {
                     fileLocation = fileName;
-                }
-                else {
+                } else {
                     String urlPrefix = "";
                     if (gspFile == null) {
                         fileName = className.replace('.', '/') + ".groovy";
@@ -160,22 +154,18 @@ public class GrailsWrappedRuntimeException extends GrailsException {
                         // @todo Refactor this to get the urlPrefix from the ArtefactHandler
                         if (application.isArtefactOfType(ControllerArtefactHandler.TYPE, className)) {
                             urlPrefix += "/controllers/";
-                        }
-                        else if (application.isArtefactOfType("TagLib", className)) {
+                        } else if (application.isArtefactOfType("TagLib", className)) {
                             urlPrefix += "/taglib/";
-                        }
-                        else if (application.isArtefactOfType(ServiceArtefactHandler.TYPE, className)) {
+                        } else if (application.isArtefactOfType(ServiceArtefactHandler.TYPE, className)) {
                             urlPrefix += "/services/";
                         }
                         url = URL_PREFIX + urlPrefix + fileName;
-                    }
-                    else {
+                    } else {
                         url = gspFile;
                         GrailsApplicationAttributes attrs = null;
                         try {
                             attrs = grailsApplicationAttributesConstructor.newInstance(servletContext);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             ReflectionUtils.rethrowRuntimeException(e);
                         }
                         ResourceAwareTemplateEngine engine = attrs.getPagesTemplateEngine();
@@ -194,14 +184,12 @@ public class GrailsWrappedRuntimeException extends GrailsException {
                     try {
                         r = resolver.getResource(fileLocation);
                         in = r.getInputStream();
-                    }
-                    catch (Throwable e) {
+                    } catch (Throwable e) {
                         r = resolver.getResource("file:" + fileLocation);
                         if (r.exists()) {
                             try {
                                 in = r.getInputStream();
-                            }
-                            catch (IOException e1) {
+                            } catch (IOException e1) {
                                 // ignore
                             }
                         }
@@ -217,14 +205,13 @@ public class GrailsWrappedRuntimeException extends GrailsException {
                         if ((lineNumber > 0 && currentLineNumber == lineNumber - 1) ||
                                 (currentLineNumber == lineNumber)) {
                             buf.append(currentLineNumber)
-                               .append(": ")
-                               .append(currentLine)
-                               .append("\n");
-                        }
-                        else if (currentLineNumber == lineNumber + 1) {
+                                    .append(": ")
+                                    .append(currentLine)
+                                    .append("\n");
+                        } else if (currentLineNumber == lineNumber + 1) {
                             buf.append(currentLineNumber)
-                               .append(": ")
-                               .append(currentLine);
+                                    .append(": ")
+                                    .append(currentLine);
                             break;
                         }
                         currentLine = reader.readLine();
@@ -232,16 +219,13 @@ public class GrailsWrappedRuntimeException extends GrailsException {
                     codeSnippet = buf.toString().split("\n");
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOG.warn("[GrailsWrappedRuntimeException] I/O error reading line diagnostics: " + e.getMessage(), e);
-        }
-        finally {
+        } finally {
             if (reader != null) {
                 try {
                     reader.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // ignore
                 }
             }

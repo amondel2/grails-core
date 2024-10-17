@@ -29,7 +29,7 @@ import org.springframework.context.support.GenericApplicationContext;
 /**
  * A programmable runtime Spring configuration that allows a spring ApplicationContext
  * to be constructed at runtime.
- *
+ * <p>
  * Credit must go to Solomon Duskis and the
  * article: http://jroller.com/page/Solomon?entry=programmatic_configuration_in_spring
  *
@@ -41,7 +41,7 @@ public interface RuntimeSpringConfiguration {
     /**
      * Adds a singleton bean definition.
      *
-     * @param name The name of the bean
+     * @param name  The name of the bean
      * @param clazz The class of the bean
      * @return A BeanConfiguration instance
      */
@@ -52,7 +52,7 @@ public interface RuntimeSpringConfiguration {
     /**
      * Adds a prototype bean definition.
      *
-     * @param name The name of the bean
+     * @param name  The name of the bean
      * @param clazz The class of the bean
      * @return A BeanConfiguration instance
      */
@@ -67,6 +67,7 @@ public interface RuntimeSpringConfiguration {
 
     /**
      * Adds an empty singleton bean configuration.
+     *
      * @param name The name of the singleton bean
      * @return A BeanConfiguration instance
      */
@@ -93,9 +94,9 @@ public interface RuntimeSpringConfiguration {
     /**
      * Creates a new singleton bean and adds it to the list of bean references.
      *
-     * @param name The name of the bean
+     * @param name  The name of the bean
      * @param clazz The class of the bean
-     * @param args The constructor arguments of the bean
+     * @param args  The constructor arguments of the bean
      * @return A BeanConfiguration instance
      */
     @SuppressWarnings("rawtypes")
@@ -106,7 +107,7 @@ public interface RuntimeSpringConfiguration {
      * it doesn't add the bean to the list of bean references. Hence should be used for
      * creating nested beans
      *
-     * @param clazz The bean class
+     * @param clazz                The bean class
      * @param constructorArguments The constructor arguments
      * @return A BeanConfiguration instance
      */
@@ -130,14 +131,13 @@ public interface RuntimeSpringConfiguration {
      *
      * @param name The bean name
      * @return A BeanConfiguration instance
-     *
      */
     BeanConfiguration createSingletonBean(String name);
 
     /**
      * Adds a bean configuration to the list of beans to be created.
      *
-     * @param beanName The name of the bean in the context
+     * @param beanName          The name of the bean in the context
      * @param beanConfiguration The BeanConfiguration instance
      */
     void addBeanConfiguration(String beanName, BeanConfiguration beanConfiguration);
@@ -145,8 +145,9 @@ public interface RuntimeSpringConfiguration {
     /**
      * Adds a Spring BeanDefinition. Differs from BeanConfiguration which is a factory class
      * for creating BeanDefinition instances
+     *
      * @param name The name of the bean
-     * @param bd The BeanDefinition instance
+     * @param bd   The BeanDefinition instance
      */
     void addBeanDefinition(String name, BeanDefinition bd);
 
@@ -160,6 +161,7 @@ public interface RuntimeSpringConfiguration {
 
     /**
      * Returns the BeanConfiguration for the specified name.
+     *
      * @param name The name of the bean configuration
      * @return The BeanConfiguration
      */
@@ -203,7 +205,8 @@ public interface RuntimeSpringConfiguration {
      */
     void registerBeansWithConfig(RuntimeSpringConfiguration targetSpringConfig);
 
-    /**                                             \
+    /**
+     * \
      * Adds an abstract bean definition to the bean factory and returns the BeanConfiguration object.
      *
      * @param name The name of the bean
@@ -214,7 +217,7 @@ public interface RuntimeSpringConfiguration {
     /**
      * Adds an alias to a given bean name.
      *
-     * @param alias The alias
+     * @param alias    The alias
      * @param beanName The bean
      */
     void addAlias(String alias, String beanName);
@@ -229,6 +232,7 @@ public interface RuntimeSpringConfiguration {
 
     /**
      * Sets the BeanFactory implementation to use.
+     *
      * @param beanFactory The BeanFactory implementation
      */
     void setBeanFactory(ListableBeanFactory beanFactory);

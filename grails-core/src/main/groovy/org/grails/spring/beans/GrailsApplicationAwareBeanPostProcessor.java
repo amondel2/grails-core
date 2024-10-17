@@ -36,18 +36,18 @@ public class GrailsApplicationAwareBeanPostProcessor extends BeanPostProcessorAd
         this.grailsApplication = grailsApplication;
     }
 
+    public static void processAwareInterfaces(GrailsApplication grailsApplication, Object bean) {
+        if (bean instanceof GrailsApplicationAware) {
+            ((GrailsApplicationAware) bean).setGrailsApplication(grailsApplication);
+        }
+        if (bean instanceof GrailsConfigurationAware) {
+            ((GrailsConfigurationAware) bean).setConfiguration(grailsApplication.getConfig());
+        }
+    }
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         processAwareInterfaces(grailsApplication, bean);
         return bean;
-    }
-
-    public static void processAwareInterfaces(GrailsApplication grailsApplication, Object bean) {
-        if (bean instanceof GrailsApplicationAware) {
-            ((GrailsApplicationAware)bean).setGrailsApplication(grailsApplication);
-        }
-        if (bean instanceof GrailsConfigurationAware) {
-            ((GrailsConfigurationAware)bean).setConfiguration(grailsApplication.getConfig());
-        }
     }
 }

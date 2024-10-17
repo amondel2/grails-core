@@ -21,7 +21,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
  * Dummy annotation to fool boot into not applying the real 'EnableAutoConfiguration' annotation. Do not use in application code.
  *
  * @author Graeme Rocher

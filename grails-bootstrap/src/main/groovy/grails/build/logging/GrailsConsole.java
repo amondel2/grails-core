@@ -54,8 +54,6 @@ import static org.fusesource.jansi.Ansi.ansi;
  */
 public class GrailsConsole implements ConsoleLogger {
 
-    private static GrailsConsole instance;
-
     public static final String ENABLE_TERMINAL = "grails.console.enable.terminal";
     public static final String ENABLE_INTERACTIVE = "grails.console.enable.interactive";
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -68,25 +66,7 @@ public class GrailsConsole implements ConsoleLogger {
     public static final String STACKTRACE_FILTERED_MESSAGE = " (NOTE: Stack trace has been filtered. Use --verbose to see entire trace.)";
     public static final String STACKTRACE_MESSAGE = " (Use --stacktrace to see the full trace)";
     public static final Character SECURE_MASK_CHAR = Character.valueOf('*');
-    private PrintStream originalSystemOut;
-    private PrintStream originalSystemErr;
-    private StringBuilder maxIndicatorString;
-    private int cursorMove;
-    private Thread shutdownHookThread;
-    private Character defaultInputMask = null;
-
-    /**
-     * Whether to enable verbose mode
-     */
-    private boolean verbose = Boolean.getBoolean("grails.verbose");
-
-    /**
-     * Whether to show stack traces
-     */
-    private boolean stacktrace = Boolean.getBoolean("grails.show.stacktrace");
-
-    private boolean progressIndicatorActive = false;
-
+    private static GrailsConsole instance;
     /**
      * The progress indicator to use
      */
@@ -95,20 +75,15 @@ public class GrailsConsole implements ConsoleLogger {
      * The last message that was printed
      */
     String lastMessage = "";
-
     Ansi lastStatus = null;
     /**
      * The reader to read info from the console
      */
     ConsoleReader reader;
-
     Terminal terminal;
-
     PrintStream out;
     PrintStream err;
-
     History history;
-
     /**
      * The category of the current output
      */
@@ -120,7 +95,21 @@ public class GrailsConsole implements ConsoleLogger {
             return DefaultGroovyMethods.join((Iterable) this, CATEGORY_SEPARATOR) + CATEGORY_SEPARATOR;
         }
     };
-
+    private PrintStream originalSystemOut;
+    private PrintStream originalSystemErr;
+    private StringBuilder maxIndicatorString;
+    private int cursorMove;
+    private Thread shutdownHookThread;
+    private Character defaultInputMask = null;
+    /**
+     * Whether to enable verbose mode
+     */
+    private boolean verbose = Boolean.getBoolean("grails.verbose");
+    /**
+     * Whether to show stack traces
+     */
+    private boolean stacktrace = Boolean.getBoolean("grails.show.stacktrace");
+    private boolean progressIndicatorActive = false;
     /**
      * Whether ANSI should be enabled for output
      */
@@ -130,6 +119,68 @@ public class GrailsConsole implements ConsoleLogger {
      * Whether user input is currently active
      */
     private boolean userInputActive;
+    /**
+     * Logs a message below the current status message
+     *
+     * @param msg The message to log
+     */
+    private boolean appendCalled = false;
+
+    protected GrailsConsole() throws IOException {
+        cursorMove = 1;
+
+        initialize(System.in, System.out, System.err);
+
+        // bit of a WTF this, but see no other way to allow a customization indicator
+        maxIndicatorString = new StringBuilder(indicator).append(indicator).append(indicator).append(indicator).append(indicator);
+
+    }
+
+    public static synchronized GrailsConsole getInstance() {
+        if (instance == null) {
+            try {
+                final GrailsConsole console = createInstance();
+                AnsiConsole.systemInstall();
+                console.addShutdownHook();
+                setInstance(console);
+            } catch (IOException e) {
+                throw new RuntimeException("Cannot create grails console: " + e.getMessage(), e);
+            } finally {
+                AnsiConsole.systemUninstall();
+            }
+        }
+        return instance;
+    }
+
+    public static void setInstance(GrailsConsole newConsole) {
+        instance = newConsole;
+        instance.redirectSystemOutAndErr(false);
+    }
+
+    public static synchronized void removeInstance() {
+        if (instance != null) {
+            instance.removeShutdownHook();
+            instance.restoreOriginalSystemOutAndErr();
+            if (instance.getReader() != null) {
+                instance.getReader().shutdown();
+            }
+            instance = null;
+        }
+    }
+
+    public static GrailsConsole createInstance() throws IOException {
+        String className = System.getProperty("grails.console.class");
+        if (className != null) {
+            try {
+                @SuppressWarnings("unchecked")
+                Class<? extends GrailsConsole> klass = (Class<? extends GrailsConsole>) Class.forName(className);
+                return klass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return new GrailsConsole();
+    }
 
     public void addShutdownHook() {
         if (!Environment.isFork()) {
@@ -147,17 +198,6 @@ public class GrailsConsole implements ConsoleLogger {
         if (shutdownHookThread != null) {
             Runtime.getRuntime().removeShutdownHook(shutdownHookThread);
         }
-    }
-
-
-    protected GrailsConsole() throws IOException {
-        cursorMove = 1;
-
-        initialize(System.in, System.out, System.err);
-
-        // bit of a WTF this, but see no other way to allow a customization indicator
-        maxIndicatorString = new StringBuilder(indicator).append(indicator).append(indicator).append(indicator).append(indicator);
-
     }
 
     /**
@@ -219,10 +259,6 @@ public class GrailsConsole implements ConsoleLogger {
 
     public void setErr(PrintStream err) {
         this.err = err;
-    }
-
-    public void setOut(PrintStream out) {
-        this.out = out;
     }
 
     public boolean isInteractiveEnabled() {
@@ -301,33 +337,6 @@ public class GrailsConsole implements ConsoleLogger {
         return System.getProperty("os.name").toLowerCase().indexOf("windows") != -1;
     }
 
-    public static synchronized GrailsConsole getInstance() {
-        if (instance == null) {
-            try {
-                final GrailsConsole console = createInstance();
-                AnsiConsole.systemInstall();
-                console.addShutdownHook();
-                setInstance(console);
-            } catch (IOException e) {
-                throw new RuntimeException("Cannot create grails console: " + e.getMessage(), e);
-            } finally {
-                AnsiConsole.systemUninstall();
-            }
-        }
-        return instance;
-    }
-
-    public static synchronized void removeInstance() {
-        if (instance != null) {
-            instance.removeShutdownHook();
-            instance.restoreOriginalSystemOutAndErr();
-            if (instance.getReader() != null) {
-                instance.getReader().shutdown();
-            }
-            instance = null;
-        }
-    }
-
     public void beforeShutdown() {
         persistHistory();
         restoreTerminal();
@@ -359,11 +368,6 @@ public class GrailsConsole implements ConsoleLogger {
         }
     }
 
-    public static void setInstance(GrailsConsole newConsole) {
-        instance = newConsole;
-        instance.redirectSystemOutAndErr(false);
-    }
-
     protected void redirectSystemOutAndErr(boolean force) {
         if (force || !(System.out instanceof GrailsConsolePrintStream)) {
             System.setOut(new GrailsConsolePrintStream(out));
@@ -373,22 +377,11 @@ public class GrailsConsole implements ConsoleLogger {
         }
     }
 
-    public static GrailsConsole createInstance() throws IOException {
-        String className = System.getProperty("grails.console.class");
-        if (className != null) {
-            try {
-                @SuppressWarnings("unchecked")
-                Class<? extends GrailsConsole> klass = (Class<? extends GrailsConsole>) Class.forName(className);
-                return klass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return new GrailsConsole();
-    }
-
-    public void setAnsiEnabled(boolean ansiEnabled) {
-        this.ansiEnabled = ansiEnabled;
+    /**
+     * @return Whether verbose output is being used
+     */
+    public boolean isVerbose() {
+        return verbose;
     }
 
     /**
@@ -404,24 +397,17 @@ public class GrailsConsole implements ConsoleLogger {
     }
 
     /**
-     * @param stacktrace Sets whether to show stack traces on errors
-     */
-    public void setStacktrace(boolean stacktrace) {
-        this.stacktrace = stacktrace;
-    }
-
-    /**
-     * @return Whether verbose output is being used
-     */
-    public boolean isVerbose() {
-        return verbose;
-    }
-
-    /**
      * @return Whether to show stack traces
      */
     public boolean isStacktrace() {
         return stacktrace;
+    }
+
+    /**
+     * @param stacktrace Sets whether to show stack traces on errors
+     */
+    public void setStacktrace(boolean stacktrace) {
+        this.stacktrace = stacktrace;
     }
 
     /**
@@ -468,6 +454,10 @@ public class GrailsConsole implements ConsoleLogger {
 
     public PrintStream getOut() {
         return out;
+    }
+
+    public void setOut(PrintStream out) {
+        this.out = out;
     }
 
     public Stack<String> getCategory() {
@@ -664,6 +654,10 @@ public class GrailsConsole implements ConsoleLogger {
         return Ansi.isEnabled() && (terminal != null && terminal.isAnsiSupported()) && ansiEnabled;
     }
 
+    public void setAnsiEnabled(boolean ansiEnabled) {
+        this.ansiEnabled = ansiEnabled;
+    }
+
     /**
      * Use to log an error
      *
@@ -741,13 +735,6 @@ public class GrailsConsole implements ConsoleLogger {
         printStream.print(ansi()
                 .eraseLine(Ansi.Erase.BACKWARD).cursorLeft(PROMPT.length()));
     }
-
-    /**
-     * Logs a message below the current status message
-     *
-     * @param msg The message to log
-     */
-    private boolean appendCalled = false;
 
     public void append(String msg) {
         verifySystemOut();

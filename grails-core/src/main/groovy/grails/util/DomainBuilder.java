@@ -27,14 +27,15 @@ import org.codehaus.groovy.runtime.InvokerHelper;
  *
  * <pre><code>
  *      def builder = new DomainBuilder()
-
-        def company = builder.company(name: 'ACME') {
-            employee(name: 'Duke', employeeId: 1) {
-                address(street: '123 Groovy Rd')
-            }
-            employee(name: 'George', employeeId: 2)
-        }
+ *
+ * def company = builder.company(name: 'ACME') {
+ * employee(name: 'Duke', employeeId: 1) {
+ * address(street: '123 Groovy Rd')
+ * }
+ * employee(name: 'George', employeeId: 2)
+ * }
  * </code></pre>
+ *
  * @author Scott Vlaminck
  */
 public class DomainBuilder extends ObjectGraphBuilder {
@@ -47,11 +48,10 @@ public class DomainBuilder extends ObjectGraphBuilder {
     public static class DefaultGrailsChildPropertySetter implements ChildPropertySetter {
         public void setChild(Object parent, Object child, String parentName, String propertyName) {
             if (isCollection(parent, child, parentName, propertyName)) {
-                String propName = propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
+                String propName = propertyName.substring(0, 1).toUpperCase() + propertyName.substring(1);
                 String methodName = "addTo" + propName;
                 InvokerHelper.invokeMethod(parent, methodName, child);
-            }
-            else {
+            } else {
                 InvokerHelper.setProperty(parent, propertyName, child);
             }
         }
@@ -60,8 +60,7 @@ public class DomainBuilder extends ObjectGraphBuilder {
             try {
                 Field field = parent.getClass().getDeclaredField(propertyName);
                 return Collection.class.isAssignableFrom(field.getType());
-            }
-            catch (NoSuchFieldException ignored) { /* ignored */}
+            } catch (NoSuchFieldException ignored) { /* ignored */}
 
             return false;
         }

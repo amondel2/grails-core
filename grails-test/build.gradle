@@ -15,7 +15,7 @@ dependencies {
     api "org.grails.plugins:converters:$legacyConvertersVersion"
 
     // command line requirements
-    api  "jline:jline:$jlineVersion"
+    api "jline:jline:$jlineVersion"
     api "org.fusesource.jansi:jansi:$jansiVersion"
 
     // Ant

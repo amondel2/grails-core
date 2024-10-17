@@ -38,7 +38,7 @@ interface DataBindingSourceRegistry {
      * Adds a new {@link DataBindingSourceCreator} to the registry
      * @param creator The {@link DataBindingSourceCreator}
      */
-    void addDataBindingSourceCreator(DataBindingSourceCreator creator )
+    void addDataBindingSourceCreator(DataBindingSourceCreator creator)
 
     /**
      * Locates a {@link DataBindingSource} for the given MimeType and binding target

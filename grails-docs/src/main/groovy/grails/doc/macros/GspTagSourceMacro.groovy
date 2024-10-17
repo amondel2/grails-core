@@ -37,12 +37,11 @@ class GspTagSourceMacro extends BaseMacro implements Serializable {
     private static final long serialVersionUID = 0L;
 
 
-
     @Input
     List baseDirs
 
     GspTagSourceMacro(basedir) {
-        if (!(basedir instanceof Collection || basedir.class.array)) basedir = [ basedir ]
+        if (!(basedir instanceof Collection || basedir.class.array)) basedir = [basedir]
         baseDirs = basedir.collect { f -> f as File }
     }
 
@@ -53,14 +52,14 @@ class GspTagSourceMacro extends BaseMacro implements Serializable {
         def source = params.params.get("0")
 
         def i = source.indexOf('=')
-        def type = source[0..i-1]
-        def name = source[i+1..-1]
+        def type = source[0..i - 1]
+        def name = source[i + 1..-1]
 
         switch (type) {
             case "tag":
                 def j = name.indexOf('.')
-                def className = name[0..j-1]
-                def tagName = name[j+1..-1]
+                def className = name[0..j - 1]
+                def tagName = name[j + 1..-1]
 
                 // Recursively search for the tag library source file in the
                 // configured base directory.
@@ -94,8 +93,8 @@ class GspTagSourceMacro extends BaseMacro implements Serializable {
      * Extracts the Closure source code for a given tag name.
      *
      * @param tagName name of the tag method to extract the source code for
-     * @param sourceText    the source code to search
-     * @return  source code for the tag Closure or an empty string if not found
+     * @param sourceText the source code to search
+     * @return source code for the tag Closure or an empty string if not found
      */
     String extractTagClosureSource(String tagName, String sourceText) {
         if (!sourceText) return ''

@@ -28,7 +28,7 @@ class Base64CodecTests {
         String wrapperResult = dataWrapper.encodeAsBase64()
 
         assertEquals(expectedResult, primitiveResult)
-        assertEquals(expectedResult,wrapperResult)
+        assertEquals(expectedResult, wrapperResult)
 
         //make sure encoding null returns null
         assertNull null.encodeAsBase64()

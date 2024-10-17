@@ -66,7 +66,7 @@ abstract class Plugin implements GrailsApplicationLifeCycle, GrailsApplicationAw
     /**
      * The {@link GrailsPluginManager} instance
      */
-    GrailsPluginManager getManager() { pluginManager}
+    GrailsPluginManager getManager() { pluginManager }
 
     /**
      * Whether the plugin is enabled
@@ -88,8 +88,8 @@ abstract class Plugin implements GrailsApplicationLifeCycle, GrailsApplicationAw
      * @return The ApplicationContext
      */
     ConfigurableApplicationContext getApplicationContext() {
-        if(applicationContext instanceof ConfigurableApplicationContext) {
-            return (ConfigurableApplicationContext)applicationContext
+        if (applicationContext instanceof ConfigurableApplicationContext) {
+            return (ConfigurableApplicationContext) applicationContext
         }
         return null;
     }
@@ -99,10 +99,10 @@ abstract class Plugin implements GrailsApplicationLifeCycle, GrailsApplicationAw
         this.applicationContext = applicationContext
     }
 /**
-     * Sub classes should override to provide implementations
-     *
-     * @return A closure that defines beans to be executed by Spring
-     */
+ * Sub classes should override to provide implementations
+ *
+ * @return A closure that defines beans to be executed by Spring
+ */
     @Override
     Closure doWithSpring() { null }
 
@@ -164,7 +164,7 @@ abstract class Plugin implements GrailsApplicationLifeCycle, GrailsApplicationAw
     void beans(Closure beanDefinitions) {
         def bb = new BeanBuilder(null, grailsApplication.classLoader)
         bb.beans beanDefinitions
-        bb.registerBeans((BeanDefinitionRegistry)applicationContext)
-        new MapBasedSmartPropertyOverrideConfigurer(grailsApplication: grailsApplication).postProcessBeanFactory(((ConfigurableApplicationContext)applicationContext).beanFactory)
+        bb.registerBeans((BeanDefinitionRegistry) applicationContext)
+        new MapBasedSmartPropertyOverrideConfigurer(grailsApplication: grailsApplication).postProcessBeanFactory(((ConfigurableApplicationContext) applicationContext).beanFactory)
     }
 }

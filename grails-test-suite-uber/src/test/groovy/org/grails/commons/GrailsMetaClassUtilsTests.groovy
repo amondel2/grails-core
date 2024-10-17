@@ -24,11 +24,11 @@ class GrailsMetaClassUtilsTests {
         def metaClass = new ExpandoMetaClass(Dummy, true)
 
         // add property
-        metaClass.getFoo = {-> "bar" }
+        metaClass.getFoo = { -> "bar" }
         // add instance method
         metaClass.foo = { String txt -> "bar:$txt".toString() }
         // add static method
-        metaClass.'static'.bar = {-> "foo" }
+        metaClass.'static'.bar = { -> "foo" }
         // add constructor
         metaClass.constructor = { String txt ->
             def obj = BeanUtils.instantiateClass(Dummy)

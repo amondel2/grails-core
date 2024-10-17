@@ -11,7 +11,8 @@ class GrailsWebDataBindingListenerSpec extends Specification implements GrailsUn
 
     DataBindingListenerAdapter dataBindingListenerAdapter = Mock()
 
-    Closure doWithSpring() { { ->
+    Closure doWithSpring() {
+        { ->
             testWidgetDataBindingListener(InstanceFactoryBean, dataBindingListenerAdapter, DataBindingListenerAdapter)
         }
     }

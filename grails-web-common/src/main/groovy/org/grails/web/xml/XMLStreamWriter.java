@@ -16,6 +16,7 @@
 package org.grails.web.xml;
 
 import groovy.xml.streamingmarkupsupport.StreamingMarkupWriter;
+
 import static org.grails.web.xml.XMLStreamWriter.Mode.*;
 
 import java.io.IOException;

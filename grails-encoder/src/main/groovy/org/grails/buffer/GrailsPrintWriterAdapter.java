@@ -32,9 +32,8 @@ import org.springframework.objenesis.instantiator.ObjectInstantiator;
  */
 public class GrailsPrintWriterAdapter extends PrintWriter implements GrailsWrappedWriter {
     private static final Logger LOG = LoggerFactory.getLogger(GrailsPrintWriterAdapter.class);
-    protected GrailsPrintWriter target;
-
     private static ObjectInstantiator instantiator;
+
     static {
         try {
             instantiator = new ObjenesisStd(false).getInstantiatorOf(GrailsPrintWriterAdapter.class);
@@ -42,6 +41,8 @@ public class GrailsPrintWriterAdapter extends PrintWriter implements GrailsWrapp
             LOG.debug("Couldn't get direct performance optimized instantiator for GrailsPrintWriterAdapter. Using default instantiation.", e);
         }
     }
+
+    protected GrailsPrintWriter target;
 
     public GrailsPrintWriterAdapter(Writer wrapped) {
         super(new Writer() {
@@ -65,22 +66,11 @@ public class GrailsPrintWriterAdapter extends PrintWriter implements GrailsWrapp
 
     public static GrailsPrintWriterAdapter newInstance(Writer wrapped) {
         if (instantiator != null) {
-            GrailsPrintWriterAdapter instance = (GrailsPrintWriterAdapter)instantiator.newInstance();
+            GrailsPrintWriterAdapter instance = (GrailsPrintWriterAdapter) instantiator.newInstance();
             instance.setTarget(wrapped);
             return instance;
         }
         return new GrailsPrintWriterAdapter(wrapped);
-    }
-
-    public void setTarget(Writer wrapped) {
-        if (wrapped instanceof GrailsPrintWriter) {
-            this.target = ((GrailsPrintWriter)wrapped);
-        }
-        else {
-            this.target = new GrailsPrintWriter(wrapped);
-        }
-        this.out = this.target;
-        this.lock = this.out != null ? this.out : this;
     }
 
     public boolean isAllowUnwrappingOut() {
@@ -89,6 +79,16 @@ public class GrailsPrintWriterAdapter extends PrintWriter implements GrailsWrapp
 
     public GrailsPrintWriter getTarget() {
         return target;
+    }
+
+    public void setTarget(Writer wrapped) {
+        if (wrapped instanceof GrailsPrintWriter) {
+            this.target = ((GrailsPrintWriter) wrapped);
+        } else {
+            this.target = new GrailsPrintWriter(wrapped);
+        }
+        this.out = this.target;
+        this.lock = this.out != null ? this.out : this;
     }
 
     public Writer getOut() {

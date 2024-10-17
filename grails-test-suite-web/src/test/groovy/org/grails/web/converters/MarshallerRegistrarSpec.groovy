@@ -11,17 +11,19 @@ import spock.lang.Specification
 
 class MarshallerRegistrarSpec extends Specification implements ControllerUnitTest<JsonMarshallerController>, DomainUnitTest<Post> {
 
-    Closure doWithSpring() {{ ->
-        marshallerRegistrar(MarshallerRegistrar)
-    }}
-    
+    Closure doWithSpring() {
+        { ->
+            marshallerRegistrar(MarshallerRegistrar)
+        }
+    }
+
     def "should use custom marshaller"() {
         when:
         controller.show()
         then:
         response.contentAsString == '{"content":"Content","custom":true}'
     }
-    
+
 }
 
 @Artefact("Controller")
@@ -39,7 +41,7 @@ class MarshallerRegistrar {
     void registerMarshallers() {
         println "Registering custom marshallers"
         JSON.registerObjectMarshaller(Post) { Post p ->
-            return [ content: p.content, custom: true ]
+            return [content: p.content, custom: true]
         }
     }
 }

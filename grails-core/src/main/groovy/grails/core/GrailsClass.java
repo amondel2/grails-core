@@ -26,7 +26,7 @@ import grails.core.support.GrailsApplicationAware;
  * @author Graeme Rocher
  * @since 0.1
  */
-public interface GrailsClass extends GrailsApplicationAware{
+public interface GrailsClass extends GrailsApplicationAware {
 
     /**
      * Whether the class is abstract or not
@@ -44,6 +44,7 @@ public interface GrailsClass extends GrailsApplicationAware{
 
     /**
      * Gets the initial value of the given property on the class.
+     *
      * @param name The name of the property
      * @return The initial value
      */
@@ -51,6 +52,7 @@ public interface GrailsClass extends GrailsApplicationAware{
 
     /**
      * Returns true if the class has the specified property.
+     *
      * @param name The name of the property
      * @return true if it does
      */
@@ -58,8 +60,9 @@ public interface GrailsClass extends GrailsApplicationAware{
 
     /**
      * Creates a new instance of this class.
-     *
+     * <p>
      * This method can be used as factory method in the Spring application context.
+     *
      * @return A new instance of this class
      */
     Object newInstance();
@@ -103,6 +106,7 @@ public interface GrailsClass extends GrailsApplicationAware{
 
     /**
      * Returns the name of the property in natural terms (eg. 'lastName' becomes 'Last Name')
+     *
      * @return The natural property name.
      */
     String getNaturalName();
@@ -134,9 +138,9 @@ public interface GrailsClass extends GrailsApplicationAware{
 
     /**
      * Obtains a property value for the given name and type
+     *
      * @param name The name
      * @param type The type
-     *
      * @return The property value
      */
     <T> T getPropertyValue(String name, Class<T> type);

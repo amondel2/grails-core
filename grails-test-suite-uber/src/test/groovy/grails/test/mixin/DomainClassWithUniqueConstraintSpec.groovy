@@ -10,16 +10,16 @@ import spock.lang.Specification
 class DomainClassWithUniqueConstraintSpec extends Specification implements DomainUnitTest<Group> {
 
     void "Test that unique constraint is enforced"() {
-        given:"An existing persisted instance"
-            new Group(name:"foo").save(flush:true)
+        given: "An existing persisted instance"
+        new Group(name: "foo").save(flush: true)
 
-        when:"We try to persist another instance"
-            def g = new Group(name:"foo")
-            g.save()
+        when: "We try to persist another instance"
+        def g = new Group(name: "foo")
+        g.save()
 
-        then:"a validation error occurs"
-            g.hasErrors()
-            Group.count() == 1
+        then: "a validation error occurs"
+        g.hasErrors()
+        Group.count() == 1
     }
 }
 
@@ -27,6 +27,6 @@ class DomainClassWithUniqueConstraintSpec extends Specification implements Domai
 class Group {
     String name
     static constraints = {
-        name unique:true
+        name unique: true
     }
 }

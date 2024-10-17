@@ -1,4 +1,3 @@
-
 apply plugin: 'maven-publish'
 
 publishing {
@@ -7,14 +6,14 @@ publishing {
             pom.withXml {
                 def xml = asNode()
 
-                xml.children().last() + pomInfo                
+                xml.children().last() + pomInfo
 
                 xml.children().last() + {
                     delegate.dependencies {
                         delegate.dependency {
                             delegate.groupId "org.grails"
                             delegate.artifactId "grails-bootstrap"
-                            delegate.version( project.version )
+                            delegate.version(project.version)
                             delegate.scope "api"
 
                             delegate.exclusions {
@@ -36,11 +35,11 @@ publishing {
                                 }
                             }
                         }
-                        for(sub in ['rest', 'databinding', 'i18n', 'services', 'url-mappings', 'interceptors']) {
+                        for (sub in ['rest', 'databinding', 'i18n', 'services', 'url-mappings', 'interceptors']) {
                             delegate.dependency {
                                 delegate.groupId "org.grails"
                                 delegate.artifactId "grails-plugin-${sub}"
-                                delegate.version( project.version )
+                                delegate.version(project.version)
                                 delegate.scope "api"
                             }
                         }
@@ -65,7 +64,7 @@ publishing {
                         delegate.dependency {
                             delegate.groupId "com.h2database"
                             delegate.artifactId "h2"
-                            delegate.version( h2Version )
+                            delegate.version(h2Version)
                             delegate.scope "runtimeOnly"
                         }
 

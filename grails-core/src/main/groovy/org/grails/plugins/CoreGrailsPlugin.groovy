@@ -52,101 +52,102 @@ import org.springframework.util.ClassUtils
 class CoreGrailsPlugin extends Plugin {
 
     def version = GrailsUtil.getGrailsVersion()
-    def watchedResources = [    "file:./grails-app/conf/spring/resources.xml",
-                                "file:./grails-app/conf/spring/resources.groovy",
-                                "file:./grails-app/conf/application.groovy",
-                                "file:./grails-app/conf/application.yml"]
+    def watchedResources = ["file:./grails-app/conf/spring/resources.xml",
+                            "file:./grails-app/conf/spring/resources.groovy",
+                            "file:./grails-app/conf/application.groovy",
+                            "file:./grails-app/conf/application.yml"]
 
     private static final SPRING_PROXY_TARGET_CLASS_CONFIG = "spring.aop.proxy-target-class"
 
     @Override
-    Closure doWithSpring() { {->
+    Closure doWithSpring() {
+        { ->
 
-        def application = grailsApplication
+            def application = grailsApplication
 
-        // Grails config as properties
-        def config = application.config
-        def placeHolderPrefix = config.getProperty(Settings.SPRING_PLACEHOLDER_PREFIX, '${')
+            // Grails config as properties
+            def config = application.config
+            def placeHolderPrefix = config.getProperty(Settings.SPRING_PLACEHOLDER_PREFIX, '${')
 
 
-        // enable post-processing of @Configuration beans defined by plugins
-        grailsConfigurationClassPostProcessor ConfigurationClassPostProcessor
-        grailsBeanOverrideConfigurer(MapBasedSmartPropertyOverrideConfigurer) {
-            delegate.grailsApplication = application
-        }
-        propertySourcesPlaceholderConfigurer(GrailsPlaceholderConfigurer) {
-            placeholderPrefix = placeHolderPrefix
-        }
-
-        Class proxyCreatorClazz = null
-        // replace AutoProxy advisor with Groovy aware one
-        if (ClassUtils.isPresent('org.aspectj.lang.annotation.Around', application.classLoader) && !config.getProperty(Settings.SPRING_DISABLE_ASPECTJ, Boolean)) {
-            proxyCreatorClazz = GroovyAwareAspectJAwareAdvisorAutoProxyCreator
-        } else {
-            proxyCreatorClazz = GroovyAwareInfrastructureAdvisorAutoProxyCreator
-        }
-
-        Boolean isProxyTargetClass = config.getProperty(SPRING_PROXY_TARGET_CLASS_CONFIG, Boolean)
-        "org.springframework.aop.config.internalAutoProxyCreator"(proxyCreatorClazz) {
-            if (isProxyTargetClass != null) {
-                proxyTargetClass = isProxyTargetClass
+            // enable post-processing of @Configuration beans defined by plugins
+            grailsConfigurationClassPostProcessor ConfigurationClassPostProcessor
+            grailsBeanOverrideConfigurer(MapBasedSmartPropertyOverrideConfigurer) {
+                delegate.grailsApplication = application
             }
+            propertySourcesPlaceholderConfigurer(GrailsPlaceholderConfigurer) {
+                placeholderPrefix = placeHolderPrefix
+            }
+
+            Class proxyCreatorClazz = null
+            // replace AutoProxy advisor with Groovy aware one
+            if (ClassUtils.isPresent('org.aspectj.lang.annotation.Around', application.classLoader) && !config.getProperty(Settings.SPRING_DISABLE_ASPECTJ, Boolean)) {
+                proxyCreatorClazz = GroovyAwareAspectJAwareAdvisorAutoProxyCreator
+            } else {
+                proxyCreatorClazz = GroovyAwareInfrastructureAdvisorAutoProxyCreator
+            }
+
+            Boolean isProxyTargetClass = config.getProperty(SPRING_PROXY_TARGET_CLASS_CONFIG, Boolean)
+            "org.springframework.aop.config.internalAutoProxyCreator"(proxyCreatorClazz) {
+                if (isProxyTargetClass != null) {
+                    proxyTargetClass = isProxyTargetClass
+                }
+            }
+
+            def packagesToScan = []
+
+            def beanPackages = config.getProperty(Settings.SPRING_BEAN_PACKAGES, List)
+            if (beanPackages) {
+                packagesToScan += beanPackages
+            }
+
+
+            if (packagesToScan) {
+                xmlns grailsContext: "http://grails.org/schema/context"
+                grailsContext.'component-scan'('base-package': packagesToScan.join(','))
+            }
+
+            grailsApplicationAwarePostProcessor(GrailsApplicationAwareBeanPostProcessor, ref("grailsApplication"))
+            pluginManagerPostProcessor(PluginManagerAwareBeanPostProcessor)
+
+            // add shutdown hook if not running in war deployed mode
+            final warDeployed = Environment.isWarDeployed()
+            final devMode = !warDeployed && environment == Environment.DEVELOPMENT
+            if (devMode && ClassUtils.isPresent('jline.Terminal', application.classLoader)) {
+                shutdownHook(DevelopmentShutdownHook)
+            }
+            abstractGrailsResourceLocator {
+                searchLocations = [BuildSettings.BASE_DIR.absolutePath]
+            }
+            grailsResourceLocator(DefaultResourceLocator) { bean ->
+                bean.parent = "abstractGrailsResourceLocator"
+            }
+
+            customEditors(CustomEditorConfigurer) {
+                customEditors = [(Class)     : ClassEditor,
+                                 (Properties): PropertiesEditor]
+            }
+
+            proxyHandler(DefaultProxyHandler)
         }
-
-        def packagesToScan = []
-
-        def beanPackages = config.getProperty(Settings.SPRING_BEAN_PACKAGES, List)
-        if (beanPackages) {
-            packagesToScan += beanPackages
-        }
-
-
-        if (packagesToScan) {
-            xmlns grailsContext:"http://grails.org/schema/context"
-            grailsContext.'component-scan'('base-package':packagesToScan.join(','))
-        }
-
-        grailsApplicationAwarePostProcessor(GrailsApplicationAwareBeanPostProcessor, ref("grailsApplication"))
-        pluginManagerPostProcessor(PluginManagerAwareBeanPostProcessor)
-
-        // add shutdown hook if not running in war deployed mode
-        final warDeployed = Environment.isWarDeployed()
-        final devMode = !warDeployed && environment == Environment.DEVELOPMENT
-        if (devMode && ClassUtils.isPresent('jline.Terminal', application.classLoader)) {
-            shutdownHook(DevelopmentShutdownHook)
-        }
-        abstractGrailsResourceLocator {
-            searchLocations = [BuildSettings.BASE_DIR.absolutePath]
-        }
-        grailsResourceLocator(DefaultResourceLocator) { bean ->
-            bean.parent = "abstractGrailsResourceLocator"
-        }
-
-        customEditors(CustomEditorConfigurer) {
-            customEditors = [(Class): ClassEditor,
-                             (Properties): PropertiesEditor]
-        }
-
-        proxyHandler(DefaultProxyHandler)
-    }}
+    }
 
     @Override
     @CompileStatic
     void onChange(Map<String, Object> event) {
-        GenericApplicationContext applicationContext = (GenericApplicationContext)this.applicationContext
+        GenericApplicationContext applicationContext = (GenericApplicationContext) this.applicationContext
         if (event.source instanceof Resource) {
-            Resource res = (Resource)event.source
-            if(res.filename.endsWith('.xml')) {
+            Resource res = (Resource) event.source
+            if (res.filename.endsWith('.xml')) {
                 def xmlBeans = new DefaultListableBeanFactory()
                 new XmlBeanDefinitionReader(xmlBeans).loadBeanDefinitions(res)
-                for(String beanName in xmlBeans.beanDefinitionNames) {
+                for (String beanName in xmlBeans.beanDefinitionNames) {
                     applicationContext.registerBeanDefinition(beanName, xmlBeans.getBeanDefinition(beanName))
                 }
             }
-        }
-        else if (event.source instanceof Class) {
+        } else if (event.source instanceof Class) {
             def clazz = (Class) event.source
-            if(Script.isAssignableFrom(clazz)) {
+            if (Script.isAssignableFrom(clazz)) {
                 RuntimeSpringConfiguration springConfig = new DefaultRuntimeSpringConfiguration(applicationContext)
                 RuntimeSpringConfigUtilities.reloadSpringResourcesConfig(springConfig, grailsApplication, clazz)
                 springConfig.registerBeansWithContext(applicationContext)

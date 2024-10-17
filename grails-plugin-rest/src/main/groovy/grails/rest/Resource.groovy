@@ -59,5 +59,5 @@ public @interface Resource {
     /**
      * @return The super class to use for the generated controller class
      */
-    Class<?> superClass() default RestfulController 
+    Class<?> superClass() default RestfulController
 }

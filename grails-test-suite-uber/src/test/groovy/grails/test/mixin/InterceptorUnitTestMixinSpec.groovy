@@ -10,34 +10,34 @@ import spock.lang.Specification
 class InterceptorUnitTestMixinSpec extends Specification implements InterceptorUnitTest<TestInterceptor> {
 
     void "Test interceptor matching"() {
-        when:"A request matches the interceptor"
-        withRequest(controller:"foo", action:"bar")
+        when: "A request matches the interceptor"
+        withRequest(controller: "foo", action: "bar")
 
-        then:"The interceptor does match"
+        then: "The interceptor does match"
         interceptor.doesMatch()
 
-        when:"A request matches the interceptor"
-        withRequest(controller:"foo", action:"not")
+        when: "A request matches the interceptor"
+        withRequest(controller: "foo", action: "not")
 
-        then:"The interceptor does match"
+        then: "The interceptor does match"
         !interceptor.doesMatch()
 
-        when:"A request matches the interceptor"
-        withRequest(controller:"foo")
+        when: "A request matches the interceptor"
+        withRequest(controller: "foo")
 
-        then:"The interceptor does match"
+        then: "The interceptor does match"
         !interceptor.doesMatch()
 
-        when:"A request matches the interceptor"
-        withRequest(controller:"bar", action:"not")
+        when: "A request matches the interceptor"
+        withRequest(controller: "bar", action: "not")
 
-        then:"The interceptor does match"
+        then: "The interceptor does match"
         !interceptor.doesMatch()
     }
 }
 
 class TestInterceptor implements Interceptor {
     TestInterceptor() {
-        match(controller:"foo", action:"bar")
+        match(controller: "foo", action: "bar")
     }
 }

@@ -11,24 +11,26 @@ import spock.lang.Specification
  */
 class SpyBeanSpec extends Specification implements GrailsUnitTest {
 
-    def myAddressValueConverterMock =Spy(MyAddressValueConverter)
+    def myAddressValueConverterMock = Spy(MyAddressValueConverter)
 
-    Closure doWithSpring() {{ ->
-        myAddressValueConverter(InstanceFactoryBean, myAddressValueConverterMock, MyAddressValueConverter)
-    }}
+    Closure doWithSpring() {
+        { ->
+            myAddressValueConverter(InstanceFactoryBean, myAddressValueConverterMock, MyAddressValueConverter)
+        }
+    }
 
     def "it's possible to use Spy instances as beans as well"() {
         given:
-        def binder=grailsApplication.mainContext.getBean("grailsWebDataBinder")
-        def person=new MyPerson()
+        def binder = grailsApplication.mainContext.getBean("grailsWebDataBinder")
+        def person = new MyPerson()
         when:
-        binder.bind person, [name:'Lari', address:'Espoo,Finland'] as SimpleMapDataBindingSource
+        binder.bind person, [name: 'Lari', address: 'Espoo,Finland'] as SimpleMapDataBindingSource
         then:
         1 * myAddressValueConverterMock.canConvert('Espoo,Finland')
         1 * myAddressValueConverterMock.convert('Espoo,Finland')
         0 * myAddressValueConverterMock._
-        person.address.city=='Espoo'
-        person.address.country=='Finland'
+        person.address.city == 'Espoo'
+        person.address.country == 'Finland'
     }
 }
 

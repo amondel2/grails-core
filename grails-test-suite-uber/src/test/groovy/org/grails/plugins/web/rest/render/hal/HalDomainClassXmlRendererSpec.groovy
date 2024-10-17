@@ -18,30 +18,30 @@ class HalDomainClassXmlRendererSpec extends BaseDomainClassRendererSpec {
         def initializer = new ConvertersConfigurationInitializer(grailsApplication: new DefaultGrailsApplication())
         initializer.initialize()
     }
-    
+
     void cleanup() {
         ConvertersConfigurationHolder.clear()
     }
 
     void 'Test that the HAL renderer renders domain objects with appropriate links'() {
         given: 'A HAL renderer'
-            def renderer = getRenderer()
+        def renderer = getRenderer()
 
         and: 'A Book domain object'
-            def author = Author.create(2, 'Stephen King')
-            def author2 = Author.create(3, 'King Stephen')
-            def book = Book.create(1, 'The Stand', author)
-            book.link(href: '/publisher', rel: 'The Publisher')
-            book.authors.addAll(author, author2)
+        def author = Author.create(2, 'Stephen King')
+        def author2 = Author.create(3, 'King Stephen')
+        def book = Book.create(1, 'The Stand', author)
+        book.link(href: '/publisher', rel: 'The Publisher')
+        book.authors.addAll(author, author2)
 
         when: 'A domain object is rendered'
-            def webRequest = setupRequest('application/hal+xml')
-            def response = setupResponse(webRequest)
-            def renderContext = new ServletRenderContext(webRequest)
-            renderer.render(book, renderContext)
+        def webRequest = setupRequest('application/hal+xml')
+        def response = setupResponse(webRequest)
+        def renderContext = new ServletRenderContext(webRequest)
+        renderer.render(book, renderContext)
 
         then: 'The resulting HAL is correct'
-            def expectedContent = toCompactXml('''
+        def expectedContent = toCompactXml('''
                 <?xml version="1.0" encoding="UTF-8"?>
                 <resource href="http://localhost/books/1" hreflang="en">
                     <link rel="The Publisher" href="/publisher" hreflang="en" />
@@ -55,27 +55,27 @@ class HalDomainClassXmlRendererSpec extends BaseDomainClassRendererSpec {
                     </resource>
                 </resource>
             ''')
-            response.contentAsString == expectedContent
-            response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        response.contentAsString == expectedContent
+        response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
     }
 
     void 'Test that the HAL renderer renders regular linkable groovy objects with appropriate links'() {
         given: 'A HAL renderer'
-            def renderer = getRenderer()
+        def renderer = getRenderer()
 
         and: 'A regular linkable groovy object'
-            def product = new Product(name: 'MacBook', category: new Category(name: 'laptop'))
-            product.link(rel: 'company', href: 'https://apple.com', title: 'Made by Apple')
+        def product = new Product(name: 'MacBook', category: new Category(name: 'laptop'))
+        product.link(rel: 'company', href: 'https://apple.com', title: 'Made by Apple')
 
         when: 'A domain object is rendered'
-            def webRequest = setupRequest('application/hal+xml')
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/product/Macbook')
-            def response = setupResponse(webRequest)
-            def renderContext = new ServletRenderContext(webRequest)
-            renderer.render(product, renderContext)
+        def webRequest = setupRequest('application/hal+xml')
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/product/Macbook')
+        def response = setupResponse(webRequest)
+        def renderContext = new ServletRenderContext(webRequest)
+        renderer.render(product, renderContext)
 
         then: 'The resulting HAL is correct'
-            def expectedContent = toCompactXml('''
+        def expectedContent = toCompactXml('''
                 <?xml version="1.0" encoding="UTF-8"?>
                 <resource href="http://localhost/product/Macbook" hreflang="en">
                     <link rel="company" href="https://apple.com" hreflang="en" title="Made by Apple" />
@@ -85,30 +85,30 @@ class HalDomainClassXmlRendererSpec extends BaseDomainClassRendererSpec {
                     <name>MacBook</name>
                 </resource>
             ''')
-            response.contentAsString == expectedContent
-            response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        response.contentAsString == expectedContent
+        response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
     }
 
     void 'Test that the HAL renderer renders a list of domain objects with the appropriate links'() {
         given: 'A HAL renderer'
-            def renderer = getRenderer()
+        def renderer = getRenderer()
 
         and: 'A Book domain object'
-            def author = Author.create(2, 'Stephen King')
-            def author2 = Author.create(3, 'King Stephen')
-            def book = Book.create(1, 'The Stand', author)
-            book.link(href: '/publisher', rel: 'The Publisher')
-            book.authors.addAll(author, author2)
+        def author = Author.create(2, 'Stephen King')
+        def author2 = Author.create(3, 'King Stephen')
+        def book = Book.create(1, 'The Stand', author)
+        book.link(href: '/publisher', rel: 'The Publisher')
+        book.authors.addAll(author, author2)
 
         when: 'A domain object is rendered'
-            def webRequest = setupRequest('application/hal+xml')
-            def response = setupResponse(webRequest)
-            def renderContext = new ServletRenderContext(webRequest)
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/authors')
-            renderer.render(book.authors, renderContext)
+        def webRequest = setupRequest('application/hal+xml')
+        def response = setupResponse(webRequest)
+        def renderContext = new ServletRenderContext(webRequest)
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, '/authors')
+        renderer.render(book.authors, renderContext)
 
         then: 'The resulting HAL is correct'
-            response.contentAsString == toCompactXml('''
+        response.contentAsString == toCompactXml('''
                 <?xml version="1.0" encoding="UTF-8"?>
                 <resource href="http://localhost/authors" hreflang="en">
                     <resource href="http://localhost/authors/2" hreflang="en">
@@ -119,7 +119,7 @@ class HalDomainClassXmlRendererSpec extends BaseDomainClassRendererSpec {
                     </resource>
                 </resource>
             ''')
-            response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        response.contentType == GrailsWebUtil.getContentType(HalXmlRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
     }
 
     protected HalXmlRenderer getRenderer() {

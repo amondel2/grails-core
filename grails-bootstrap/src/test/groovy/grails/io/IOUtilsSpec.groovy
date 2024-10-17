@@ -4,7 +4,7 @@ import grails.util.BuildSettings
 import spock.lang.Specification
 
 
-class IOUtilsSpec extends Specification{
+class IOUtilsSpec extends Specification {
 
     void "Test findClassResource finds a class resource"() {
         expect:

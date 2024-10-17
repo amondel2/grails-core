@@ -28,7 +28,7 @@ class Parent {
     List children
     String name
 
-    static hasMany = [ children: Child ]
+    static hasMany = [children: Child]
 
     static constraints = {
         name nullable: true
@@ -37,5 +37,5 @@ class Parent {
 
 @Entity
 class Child {
-    static belongsTo = [ parent: Parent ]
+    static belongsTo = [parent: Parent]
 }

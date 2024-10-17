@@ -34,10 +34,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.context.request.RequestContextHolder;
 
 public class CodecPrintWriterTest {
-    EncodingStateRegistry registry=new DefaultEncodingStateRegistry();
+    EncodingStateRegistry registry = new DefaultEncodingStateRegistry();
 
     private Encoder getEncoder(GrailsApplication grailsApplication, Class<?> codecClass) {
-        Encoder encoder=null;
+        Encoder encoder = null;
         if (grailsApplication != null && codecClass != null) {
             GrailsCodecClass codecArtefact = (GrailsCodecClass) grailsApplication.getArtefact("Codec", codecClass.getName());
             encoder = codecArtefact.getEncoder();
@@ -47,8 +47,8 @@ public class CodecPrintWriterTest {
 
     @Test
     public void testPrintString() {
-        FastStringWriter stringwriter=new FastStringWriter();
-        CodecPrintWriter writer=new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), HTMLCodec.class), registry);
+        FastStringWriter stringwriter = new FastStringWriter();
+        CodecPrintWriter writer = new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), HTMLCodec.class), registry);
         writer.print("&&");
         writer.flush();
         assertEquals("&amp;&amp;", stringwriter.getValue());
@@ -56,8 +56,8 @@ public class CodecPrintWriterTest {
 
     @Test
     public void testPrintStringWithClosure() {
-        FastStringWriter stringwriter=new FastStringWriter();
-        CodecPrintWriter writer=new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), CodecWithClosureProperties.class), registry);
+        FastStringWriter stringwriter = new FastStringWriter();
+        CodecPrintWriter writer = new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), CodecWithClosureProperties.class), registry);
         writer.print("hello");
         writer.flush();
         assertEquals("-> hello <-", stringwriter.getValue());
@@ -65,9 +65,9 @@ public class CodecPrintWriterTest {
 
     @Test
     public void testPrintStreamCharBuffer() throws IOException {
-        FastStringWriter stringwriter=new FastStringWriter();
-        CodecPrintWriter writer=new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), HTMLCodec.class), registry);
-        StreamCharBuffer buf=new StreamCharBuffer();
+        FastStringWriter stringwriter = new FastStringWriter();
+        CodecPrintWriter writer = new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), HTMLCodec.class), registry);
+        StreamCharBuffer buf = new StreamCharBuffer();
         buf.getWriter().write("&&");
         writer.write(buf);
         writer.flush();
@@ -76,9 +76,9 @@ public class CodecPrintWriterTest {
 
     @Test
     public void testPrintStreamCharBufferWithClosure() throws IOException {
-        FastStringWriter stringwriter=new FastStringWriter();
-        CodecPrintWriter writer=new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), CodecWithClosureProperties.class), registry);
-        StreamCharBuffer buf=new StreamCharBuffer();
+        FastStringWriter stringwriter = new FastStringWriter();
+        CodecPrintWriter writer = new CodecPrintWriter(stringwriter, getEncoder(new MockGrailsApplication(), CodecWithClosureProperties.class), registry);
+        StreamCharBuffer buf = new StreamCharBuffer();
         buf.getWriter().write("hola");
         writer.write(buf);
         writer.flush();
@@ -105,8 +105,8 @@ public class CodecPrintWriterTest {
         out.print("3");
 
         // similar as taglib call
-        FastStringWriter bufferWriter=new FastStringWriter();
-        GrailsPrintWriter out2=new GrailsPrintWriter(bufferWriter);
+        FastStringWriter bufferWriter = new FastStringWriter();
+        GrailsPrintWriter out2 = new GrailsPrintWriter(bufferWriter);
         outputStack.push(out2);
         out.print("4");
         codecOut.print("A");
@@ -137,8 +137,8 @@ public class CodecPrintWriterTest {
     }
 
     private GrailsWebRequest bindMockHttpRequest() {
-        GrailsMockHttpServletRequest mockRequest=new GrailsMockHttpServletRequest();
-        GrailsMockHttpServletResponse mockResponse=new GrailsMockHttpServletResponse();
+        GrailsMockHttpServletRequest mockRequest = new GrailsMockHttpServletRequest();
+        GrailsMockHttpServletResponse mockResponse = new GrailsMockHttpServletResponse();
         GrailsWebRequest webRequest = new GrailsWebRequest(mockRequest, mockResponse, mockRequest.getServletContext());
         mockRequest.setAttribute(GrailsApplicationAttributes.WEB_REQUEST, webRequest);
         RequestContextHolder.setRequestAttributes(webRequest);
@@ -146,7 +146,7 @@ public class CodecPrintWriterTest {
     }
 }
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 class MockGrailsApplication implements GrailsApplication {
 
     private Map<String, DefaultGrailsCodecClass> mockCodecArtefacts = new HashMap<String, DefaultGrailsCodecClass>();
@@ -192,13 +192,13 @@ class MockGrailsApplication implements GrailsApplication {
         throw new UnsupportedOperationException();
     }
 
+    public void setMainContext(ApplicationContext context) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public MappingContext getMappingContext() {
         return null;
-    }
-
-    public void setMainContext(ApplicationContext context) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

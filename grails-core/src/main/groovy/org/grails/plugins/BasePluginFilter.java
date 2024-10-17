@@ -90,7 +90,7 @@ public abstract class BasePluginFilter implements PluginFilter {
     /**
      * Template method shared by subclasses of <code>BasePluginFilter</code>.
      */
-    public List<GrailsPlugin>  filterPluginList(List<GrailsPlugin> original) {
+    public List<GrailsPlugin> filterPluginList(List<GrailsPlugin> original) {
 
         originalPlugins = Collections.unmodifiableList(original);
         addedNames = new HashSet<String>();
@@ -125,10 +125,8 @@ public abstract class BasePluginFilter implements PluginFilter {
      * Checks whether a plugin is dependent on another plugin with the specified
      * name
      *
-     * @param plugin
-     *            the plugin to compare
-     * @param pluginName
-     *            the name to compare against
+     * @param plugin     the plugin to compare
+     * @param pluginName the name to compare against
      * @return true if <code>plugin</code> depends on <code>pluginName</code>
      */
     protected boolean isDependentOn(GrailsPlugin plugin, String pluginName) {
@@ -154,8 +152,8 @@ public abstract class BasePluginFilter implements PluginFilter {
      * as included or excluded plugins
      *
      * @return a sublist containing the elements of the original list
-     *         corresponding with the explicitlyNamed items as passed into the
-     *         constructor
+     * corresponding with the explicitlyNamed items as passed into the
+     * constructor
      */
     private void buildExplicitlyNamedList() {
 
@@ -163,7 +161,7 @@ public abstract class BasePluginFilter implements PluginFilter {
         // included set
 
         for (GrailsPlugin plugin : originalPlugins) {
-        // find explicitly included plugins
+            // find explicitly included plugins
             String name = plugin.getName();
             if (suppliedNames.contains(name)) {
                 explicitlyNamedPlugins.add(plugin);
@@ -174,7 +172,6 @@ public abstract class BasePluginFilter implements PluginFilter {
 
     /**
      * Builds a name to plugin map from the original list of plugins supplied
-     *
      */
     private void buildNameMap() {
         nameMap = new HashMap<String, GrailsPlugin>();

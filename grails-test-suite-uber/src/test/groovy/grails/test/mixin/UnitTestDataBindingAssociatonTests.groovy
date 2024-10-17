@@ -22,7 +22,7 @@ class UnitTestDataBindingAssociatonTests extends Specification implements Contro
         // TODO: This currently doesn't work. See GRAILS-9120
 //        params."pirate" = [id: pirate.id, name: 'new name']
         params."pirate.id" = pirate.id
-        params."pirate" = [name:'new name']
+        params."pirate" = [name: 'new name']
         params.id = ship.id
         controller.pirate()
 
@@ -35,6 +35,7 @@ class UnitTestDataBindingAssociatonTests extends Specification implements Contro
 class Pirate2 {
     String name
 }
+
 @Entity
 class Ship2 {
     Pirate2 pirate
@@ -42,7 +43,7 @@ class Ship2 {
 
 @Artefact("Controller")
 class ShipController {
-    def pirate ={
+    def pirate = {
         def shipInstance = Ship2.get(params.id)
         shipInstance.properties = params
 

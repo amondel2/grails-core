@@ -11,13 +11,13 @@ class WithCriteriaReadOnlySpec extends Specification implements DomainUnitTest<P
         ['Jeff', 'Betsy', 'Jake', 'Zack'].each { name ->
             new Person(name: name).save()
         }
-        
+
         when:
         def results = Person.withCriteria {
             readOnly true
             like 'name', 'J%'
         }
-        
+
         then:
         results.size() == 2
     }

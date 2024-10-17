@@ -34,6 +34,7 @@ public class MockClosureProxy extends AbstractClosureProxy {
 
     /**
      * Constructor.
+     *
      * @param target
      * @param methodName
      * @param expectation
@@ -46,8 +47,8 @@ public class MockClosureProxy extends AbstractClosureProxy {
         if (!(expectation instanceof LooseExpectation) && !(expectation instanceof StrictExpectation)) {
             throw new IllegalArgumentException(
                     "Expectation must be either groovy.mock.interceptor.LooseExpectation or " +
-                    " groovy.mock.interceptor.StrictExpectation (actual class: " +
-                    expectation.getClass() + ")");
+                            " groovy.mock.interceptor.StrictExpectation (actual class: " +
+                            expectation.getClass() + ")");
         }
     }
 
@@ -55,21 +56,22 @@ public class MockClosureProxy extends AbstractClosureProxy {
      * Checks whether the target "method" is expected or not, on the
      * basis that this closure is mocking a method with the name
      * <code>methodName</code>.
+     *
      * @param args The arguments to the "method" (actually
-     * the argumetns to the target closure invocation).
+     *             the argumetns to the target closure invocation).
      */
     @Override
     protected void doBeforeCall(Object[] args) {
         if (expectation instanceof LooseExpectation) {
             ((LooseExpectation) expectation).match(methodName);
-        }
-        else {
+        } else {
             ((StrictExpectation) expectation).match(methodName);
         }
     }
 
     /**
      * Empty implementation.
+     *
      * @param args The arguments to the target closure.
      */
     @Override
@@ -80,6 +82,7 @@ public class MockClosureProxy extends AbstractClosureProxy {
     /**
      * Creates a new <code>MockClosureProxy</code> wrapping the given
      * closure.
+     *
      * @param c The closure to wrap.
      * @return the new proxy.
      */

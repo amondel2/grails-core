@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpSession
  *
  * @author Graeme Rocher
  * @author Jeff Brown
- * 
+ *
  */
 @CompileStatic
 trait ServletAttributes implements WebAttributes {

@@ -122,11 +122,11 @@ class GroupedUrlMappingSpec extends AbstractUrlMappingsSpec {
 
     @Issue('#9394')
     void "Test that nested group parameters are supported"() {
-        given:"A link generator with a dynamic URL mapping"
+        given: "A link generator with a dynamic URL mapping"
         def linkGenerator = getLinkGenerator {
             group "/events/$alias", {
                 group "/orders", {
-                    "/$id" (controller: 'test', action: 'show')
+                    "/$id"(controller: 'test', action: 'show')
                 }
 
                 "/"(controller: 'test', action: 'index')
@@ -134,8 +134,8 @@ class GroupedUrlMappingSpec extends AbstractUrlMappingsSpec {
         }
 
         expect:
-        linkGenerator.link(controller:"test", action: 'show', id:1, params:[alias:'foo']) == 'http://localhost/events/foo/orders/1'
-        linkGenerator.link(controller:"test", action: 'index', params:[alias:'foo']) == 'http://localhost/events/foo'
+        linkGenerator.link(controller: "test", action: 'show', id: 1, params: [alias: 'foo']) == 'http://localhost/events/foo/orders/1'
+        linkGenerator.link(controller: "test", action: 'index', params: [alias: 'foo']) == 'http://localhost/events/foo'
     }
 
     @Issue('#9426')

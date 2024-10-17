@@ -15,11 +15,11 @@
  */
 package org.grails.core.io;
 
-import java.io.File;
-
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+
+import java.io.File;
 
 /**
  * Loads from the file system if its not found on the classpath. Useful for mock testing.
@@ -28,6 +28,10 @@ import org.springframework.core.io.Resource;
  * @since 0.4
  */
 public class MockResourceLoader extends DefaultResourceLoader {
+
+    private static boolean isNotPrefixed(String location) {
+        return !location.startsWith("classpath:") && !location.startsWith("classpath*:") && !location.startsWith("file:");
+    }
 
     @Override
     public Resource getResource(String location) {
@@ -39,9 +43,5 @@ public class MockResourceLoader extends DefaultResourceLoader {
             r = new FileSystemResource(new File("./web-app/WEB-INF" + location));
         }
         return r;
-    }
-
-    private static boolean isNotPrefixed(String location) {
-        return !location.startsWith("classpath:") && !location.startsWith("classpath*:") && !location.startsWith("file:");
     }
 }

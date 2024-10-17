@@ -51,8 +51,8 @@ public class DomainBuilderTests extends GroovyTestCase {
         assertNull(employer.getAddress());
         assertEquals(2, employees.size());
 
-        assertEquals(one.getName(), ((Employee)employees.get(0)).getName());
-        assertEquals(two.getName(), ((Employee)employees.get(1)).getName());
+        assertEquals(one.getName(), ((Employee) employees.get(0)).getName());
+        assertEquals(two.getName(), ((Employee) employees.get(1)).getName());
     }
 
     public void testChildIsNotCollection() throws Exception {
@@ -68,7 +68,7 @@ public class DomainBuilderTests extends GroovyTestCase {
         assertEquals(0, employer.getEmployees().size());
     }
 
-    @SuppressWarnings({"unchecked","rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static class Employer {
         private String name = null;
         private Address address = null;
@@ -82,32 +82,44 @@ public class DomainBuilderTests extends GroovyTestCase {
             return employees;
         }
 
-        public void setAddress(Address a) {
-            address = a;
-        }
-
         public Address getAddress() {
             return address;
         }
 
-        public void setName(String n) {
-            name = n;
+        public void setAddress(Address a) {
+            address = a;
         }
 
         public String getName() {
             return name;
         }
+
+        public void setName(String n) {
+            name = n;
+        }
     }
 
     public static class Employee {
         private String name;
-        public void setName(String n) { name = n; }
-        public String getName() { return name; }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String n) {
+            name = n;
+        }
     }
 
     public static class Address {
         private String street;
-        public void setStreet(String s) { street = s; }
-        public String getStreet() { return street; }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String s) {
+            street = s;
+        }
     }
 }

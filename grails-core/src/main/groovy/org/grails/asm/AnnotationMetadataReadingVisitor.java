@@ -15,14 +15,6 @@
  */
 package org.grails.asm;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.MethodVisitor;
 import org.springframework.asm.Opcodes;
@@ -35,6 +27,8 @@ import org.springframework.core.type.MethodMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.*;
 
 /**
  * ASM class visitor which looks for the class name and implemented types as
@@ -68,6 +62,7 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
     /**
      * Declared as a {@link LinkedMultiValueMap} instead of a {@link MultiValueMap}
      * to ensure that the hierarchical ordering of the entries is preserved.
+     *
      * @see AnnotationReadingVisitorUtils#getMergedAnnotationAttributes
      */
     protected final LinkedMultiValueMap<String, AnnotationAttributes> attributesMap = new LinkedMultiValueMap<>(3);

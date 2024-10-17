@@ -79,13 +79,6 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
         return globalClassInjectors;
     }
 
-    public ClassInjector[] getLocalClassInjectors() {
-        if (localClassInjectors == null) {
-            return getClassInjectors();
-        }
-        return localClassInjectors;
-    }
-
     private static void initializeState() {
         if (classInjectors != null) {
             return;
@@ -103,7 +96,7 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
         Resource[] resources;
         try {
             resources = scanForPatterns(resolver, pattern2, pattern);
-            if(resources.length == 0) {
+            if (resources.length == 0) {
                 classLoader = Thread.currentThread().getContextClassLoader();
                 resolver = new PathMatchingResourcePatternResolver(classLoader);
                 resources = scanForPatterns(resolver, pattern2, pattern);
@@ -113,7 +106,7 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
             final Set<Class> injectorClasses = new HashSet<Class>();
             for (Resource resource : resources) {
                 // ignore not readable classes and closures
-                if(!resource.isReadable() || resource.getFilename().contains("$_")) continue;
+                if (!resource.isReadable() || resource.getFilename().contains("$_")) continue;
                 InputStream inputStream = resource.getInputStream();
                 try {
 
@@ -124,15 +117,16 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
                         @Override
                         public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                             try {
-                                if(visible && desc.contains(astTransformerClassName)) {
+                                if (visible && desc.contains(astTransformerClassName)) {
                                     Class<?> injectorClass = finalClassLoader.loadClass(classReader.getClassName().replace('/', '.'));
-                                    if(injectorClasses.contains(injectorClass)) return super.visitAnnotation(desc, true);
+                                    if (injectorClasses.contains(injectorClass))
+                                        return super.visitAnnotation(desc, true);
                                     if (ClassInjector.class.isAssignableFrom(injectorClass)) {
 
                                         injectorClasses.add(injectorClass);
                                         ClassInjector classInjector = (ClassInjector) injectorClass.newInstance();
                                         injectors.add(classInjector);
-                                        if(GlobalClassInjector.class.isAssignableFrom(injectorClass)) {
+                                        if (GlobalClassInjector.class.isAssignableFrom(injectorClass)) {
                                             globalInjectors.add(classInjector);
                                         }
                                     }
@@ -150,20 +144,19 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
 
                 } catch (IOException e) {
                     // ignore
-                } catch(NoClassDefFoundError e) {
+                } catch (NoClassDefFoundError e) {
                     // ignore
-                }
-                finally {
+                } finally {
                     inputStream.close();
                 }
 
 
             }
             Collections.sort(injectors, new Comparator<ClassInjector>() {
-                @SuppressWarnings({ "unchecked", "rawtypes" })
+                @SuppressWarnings({"unchecked", "rawtypes"})
                 public int compare(ClassInjector classInjectorA, ClassInjector classInjectorB) {
                     if (classInjectorA instanceof Comparable) {
-                        return ((Comparable)classInjectorA).compareTo(classInjectorB);
+                        return ((Comparable) classInjectorA).compareTo(classInjectorB);
                     }
                     return 0;
                 }
@@ -177,12 +170,19 @@ public class GrailsAwareInjectionOperation extends CompilationUnit.PrimaryClassN
 
     }
 
-    private static Resource[] scanForPatterns(PathMatchingResourcePatternResolver resolver, String...patterns) throws IOException {
+    private static Resource[] scanForPatterns(PathMatchingResourcePatternResolver resolver, String... patterns) throws IOException {
         List<Resource> results = new ArrayList<Resource>();
-        for(String pattern : patterns) {
-            results.addAll( Arrays.asList(resolver.getResources(pattern)) );
+        for (String pattern : patterns) {
+            results.addAll(Arrays.asList(resolver.getResources(pattern)));
         }
         return results.toArray(new Resource[results.size()]);
+    }
+
+    public ClassInjector[] getLocalClassInjectors() {
+        if (localClassInjectors == null) {
+            return getClassInjectors();
+        }
+        return localClassInjectors;
     }
 
     @Override

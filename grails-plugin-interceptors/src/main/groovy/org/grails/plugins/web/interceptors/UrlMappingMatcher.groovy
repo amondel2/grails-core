@@ -59,9 +59,9 @@ class UrlMappingMatcher implements Matcher {
         boolean hasUriPatterns = !uriPatterns.isEmpty()
 
         boolean isExcluded = this.isExcluded(uri, info)
-        if(matchAll && !isExcluded) return true
+        if (matchAll && !isExcluded) return true
 
-        if(!isExcluded) {
+        if (!isExcluded) {
             if (hasUriPatterns) {
                 uri = uri.replace(';', '')
                 for (pattern in uriPatterns) {
@@ -79,14 +79,14 @@ class UrlMappingMatcher implements Matcher {
     }
 
     protected boolean isExcluded(String uri, UrlMappingInfo info) {
-        for(pattern in uriExcludePatterns) {
-            if(pathMatcher.match(pattern, uri)) {
+        for (pattern in uriExcludePatterns) {
+            if (pathMatcher.match(pattern, uri)) {
                 return true
             }
         }
-        if(info) {
-            for(exclude in excludes) {
-                if(exclude.isExcluded(info)) {
+        if (info) {
+            for (exclude in excludes) {
+                if (exclude.isExcluded(info)) {
                     return true
                 }
             }
@@ -96,10 +96,10 @@ class UrlMappingMatcher implements Matcher {
 
     protected boolean doesMatchInternal(UrlMappingInfo info, String method) {
         (info != null &&
-            ((info.controllerName ?: '') ==~ controllerRegex) &&
-            ((info.actionName ?: '') ==~ actionRegex) &&
-            ((info.namespace ?: '') ==~ namespaceRegex) &&
-            ((method  ?: info.httpMethod ?: '') ==~ methodRegex))
+                ((info.controllerName ?: '') ==~ controllerRegex) &&
+                ((info.actionName ?: '') ==~ actionRegex) &&
+                ((info.namespace ?: '') ==~ namespaceRegex) &&
+                ((method ?: info.httpMethod ?: '') ==~ methodRegex))
     }
 
     @Override
@@ -110,29 +110,27 @@ class UrlMappingMatcher implements Matcher {
 
     @Override
     Matcher matches(Map arguments) {
-        if(arguments.uri) {
+        if (arguments.uri) {
             uriPatterns << arguments.uri.toString()
-        }
-        else {
-            controllerRegex = regexMatch( arguments, "controller")
-            actionRegex = regexMatch( arguments, "action")
-            namespaceRegex = regexMatch( arguments, "namespace")
-            methodRegex = regexMatch( arguments, "method")
+        } else {
+            controllerRegex = regexMatch(arguments, "controller")
+            actionRegex = regexMatch(arguments, "action")
+            namespaceRegex = regexMatch(arguments, "namespace")
+            methodRegex = regexMatch(arguments, "method")
         }
         return this
     }
 
     @Override
     Matcher excludes(Map arguments) {
-        if(arguments.uri) {
+        if (arguments.uri) {
             uriExcludePatterns << arguments.uri.toString()
-        }
-        else {
+        } else {
             def exclude = new MapExclude()
-            exclude.controllerExcludesRegex = regexMatch( arguments, "controller", null)
-            exclude.actionExcludesRegex = regexMatch( arguments, "action", null)
-            exclude.namespaceExcludesRegex = regexMatch( arguments, "namespace", null)
-            exclude.methodExcludesRegex = regexMatch( arguments, "method", null)
+            exclude.controllerExcludesRegex = regexMatch(arguments, "controller", null)
+            exclude.actionExcludesRegex = regexMatch(arguments, "action", null)
+            exclude.namespaceExcludesRegex = regexMatch(arguments, "namespace", null)
+            exclude.methodExcludesRegex = regexMatch(arguments, "method", null)
             excludes << exclude
         }
         return this
@@ -156,13 +154,12 @@ class UrlMappingMatcher implements Matcher {
 
     private Pattern regexMatch(Map arguments, String type, Pattern defaultPattern = WILD_CARD_PATTERN) {
         def value = arguments.get(type)
-        if(!value) return defaultPattern
-        if(value instanceof Pattern) {
-            return (Pattern)value
-        }
-        else {
+        if (!value) return defaultPattern
+        if (value instanceof Pattern) {
+            return (Pattern) value
+        } else {
             def str = value.toString()
-            if(str == '*') return defaultPattern
+            if (str == '*') return defaultPattern
             else {
                 return Pattern.compile(str)
             }
@@ -184,7 +181,7 @@ class UrlMappingMatcher implements Matcher {
 
         @Override
         boolean isExcluded(UrlMappingInfo info) {
-            if(callable) {
+            if (callable) {
                 callable.delegate = interceptor
                 return callable.call()
             }
@@ -197,10 +194,11 @@ class UrlMappingMatcher implements Matcher {
         Pattern actionExcludesRegex
         Pattern namespaceExcludesRegex
         Pattern methodExcludesRegex
+
         @Override
         boolean isExcluded(UrlMappingInfo info) {
             boolean controllerExclude = controllerExcludesRegex == null || ((info.controllerName ?: '') ==~ controllerExcludesRegex)
-            boolean actionExclude = actionExcludesRegex == null  || ((info.actionName ?: '') ==~ actionExcludesRegex)
+            boolean actionExclude = actionExcludesRegex == null || ((info.actionName ?: '') ==~ actionExcludesRegex)
             boolean namespaceExclude = namespaceExcludesRegex == null || ((info.namespace ?: '') ==~ namespaceExcludesRegex)
             boolean methodExclude = methodExcludesRegex == null || ((info.httpMethod ?: '') ==~ methodExcludesRegex)
 

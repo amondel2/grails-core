@@ -25,16 +25,16 @@ import spock.lang.Specification
 class ApplicationContextExtensionSpec extends Specification {
 
     void "Test that beans can be accessed via the dot operator thanks to the extension"() {
-        given:"An application context instance"
-            def ctx = new GenericApplicationContext()
-            def myBean = new Object()
-            ctx.beanFactory.registerSingleton("myBean", myBean)
-            ctx.refresh()
+        given: "An application context instance"
+        def ctx = new GenericApplicationContext()
+        def myBean = new Object()
+        ctx.beanFactory.registerSingleton("myBean", myBean)
+        ctx.refresh()
 
-        expect:"That the bean can be accessed by property access or the subscript operator"
-            ctx.myBean != null
-            ctx.myBean.is(myBean)
-            ctx['myBean'] != null
-            ctx['myBean'].is(myBean)
+        expect: "That the bean can be accessed by property access or the subscript operator"
+        ctx.myBean != null
+        ctx.myBean.is(myBean)
+        ctx['myBean'] != null
+        ctx['myBean'].is(myBean)
     }
 }

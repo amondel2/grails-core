@@ -16,10 +16,10 @@ class DomainConstraintGettersSpec extends Specification implements DataTest {
 
     Class[] getDomainClassesToMock() {
         [
-            BoolMethodPropertiesDomain, DomainWithTransients, InheritedBoolMethodPropertiesDomain,
-            InheritedDomainWithTransients, InheritedMethodPropertiesDomain, InheritedPropertiesDomain,
-            MethodPropertiesDomain, SimplePropertiesDomain, TraitBoolMethodPropertiesDomain, TraitDomainWithTransients,
-            TraitMethodPropertiesDomain, TraitPropertiesDomain
+                BoolMethodPropertiesDomain, DomainWithTransients, InheritedBoolMethodPropertiesDomain,
+                InheritedDomainWithTransients, InheritedMethodPropertiesDomain, InheritedPropertiesDomain,
+                MethodPropertiesDomain, SimplePropertiesDomain, TraitBoolMethodPropertiesDomain, TraitDomainWithTransients,
+                TraitMethodPropertiesDomain, TraitPropertiesDomain
         ]
     }
 
@@ -386,21 +386,27 @@ class MethodPropertiesDomain {
      * publicProperty should be constrained because those getter and setter
      */
     String getPublicProperty() { null }
+
     void setPublicProperty(String value) {}
 
     protected String getProtectedProperty() { null }
+
     protected void setProtectedProperty(String value) {}
 
     private String getPrivateProperty() { null }
+
     private void setPrivateProperty(String value) {}
 
     static String getStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(String value) {}
 
     static protected String getStaticProtectedProperty() { null }
+
     static protected void setStaticProtectedProperty(String value) {}
 
     static private String getStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(String value) {}
 
     String getGetterOnly() { null }
@@ -436,21 +442,27 @@ class ParentMethodPropertiesDomain {
      * publicProperty should be constrained because those getter and setter
      */
     String getPublicProperty() { null }
+
     void setPublicProperty(String value) {}
 
     protected String getProtectedProperty() { null }
+
     protected void setProtectedProperty(String value) {}
 
     private String getPrivateProperty() { null }
+
     private void setPrivateProperty(String value) {}
 
     static String getStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(String value) {}
 
     static protected String getStaticProtectedProperty() { null }
+
     static protected void setStaticProtectedProperty(String value) {}
 
     static private String getStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(String value) {}
 
     String getGetterOnly() { null }
@@ -508,15 +520,19 @@ trait MethodPropertiesDomainTrait {
      * publicProperty should be constrained because those getter and setter
      */
     String getPublicProperty() { null }
+
     void setPublicProperty(String value) {}
 
     private String getPrivateProperty() { null }
+
     private void setPrivateProperty(String value) {}
 
     static String getStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(String value) {}
 
     static private String getStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(String value) {}
 
     String getGetterOnly() { null }
@@ -559,21 +575,27 @@ class BoolMethodPropertiesDomain {
      * publicProperty should be constrained because those getter and setter
      */
     Boolean isPublicProperty() { null }
+
     void setPublicProperty(Boolean value) {}
 
     protected Boolean isProtectedProperty() { null }
+
     protected void setProtectedProperty(Boolean value) {}
 
     private Boolean isPrivateProperty() { null }
+
     private void setPrivateProperty(Boolean value) {}
 
     static Boolean isStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(Boolean value) {}
 
     static protected Boolean isStaticProtectedProperty() { null }
+
     static protected void setStaticProtectedProperty(Boolean value) {}
 
     static private Boolean isStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(Boolean value) {}
 
     Boolean isGetterOnly() { null }
@@ -609,21 +631,27 @@ class ParentBoolMethodPropertiesDomain {
      * publicProperty should be constrained because those getter and setter
      */
     Boolean isPublicProperty() { null }
+
     void setPublicProperty(Boolean value) {}
 
     protected Boolean isProtectedProperty() { null }
+
     protected void setProtectedProperty(Boolean value) {}
 
     private Boolean isPrivateProperty() { null }
+
     private void setPrivateProperty(Boolean value) {}
 
     static Boolean isStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(Boolean value) {}
 
     static protected Boolean isStaticProtectedProperty() { null }
+
     static protected void setStaticProtectedProperty(Boolean value) {}
 
     static private Boolean isStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(Boolean value) {}
 
     Boolean isGetterOnly() { null }
@@ -661,15 +689,19 @@ trait BoolMethodPropertiesDomainTrait {
      * publicProperty should be constrained because those getter and setter
      */
     Boolean isPublicProperty() { null }
+
     void setPublicProperty(Boolean value) {}
 
     private Boolean isPrivateProperty() { null }
+
     private void setPrivateProperty(Boolean value) {}
 
     static Boolean isStaticPublicProperty() { null }
+
     static void setStaticPublicProperty(Boolean value) {}
 
     static private Boolean isStaticPrivateProperty() { null }
+
     static private void setStaticPrivateProperty(Boolean value) {}
 
     Boolean isGetterOnly() { null }
@@ -710,15 +742,19 @@ class DomainWithTransients {
     String simpleProperty
 
     String getMethodProperty() { null }
+
     void setMethodProperty(String value) {}
 
     String getTransientMethodProperty() { null }
+
     void setTransientMethodProperty(String value) {}
 
     Boolean isBoolMethodProperty() { null }
+
     void setBoolMethodProperty(Boolean value) {}
 
     Boolean isTransientBoolMethodProperty() { null }
+
     void setTransientBoolMethodProperty(Boolean value) {}
 }
 
@@ -731,15 +767,19 @@ class ParentDomainWithTransients {
     String simpleProperty
 
     String getMethodProperty() { null }
+
     void setMethodProperty(String value) {}
 
     String getTransientMethodProperty() { null }
+
     void setTransientMethodProperty(String value) {}
 
     Boolean isBoolMethodProperty() { null }
+
     void setBoolMethodProperty(Boolean value) {}
 
     Boolean isTransientBoolMethodProperty() { null }
+
     void setTransientBoolMethodProperty(Boolean value) {}
 }
 
@@ -751,15 +791,19 @@ trait TraitWithTransients {
     String simpleProperty
 
     String getMethodProperty() { null }
+
     void setMethodProperty(String value) {}
 
     transient String getTransientMethodProperty() { null }
+
     transient void setTransientMethodProperty(String value) {}
 
     Boolean isBoolMethodProperty() { null }
+
     void setBoolMethodProperty(Boolean value) {}
 
     transient Boolean isTransientBoolMethodProperty() { null }
+
     transient void setTransientBoolMethodProperty(Boolean value) {}
 }
 

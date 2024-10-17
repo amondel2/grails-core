@@ -50,7 +50,7 @@ class ServiceBeanAliasPostProcessor implements BeanFactoryPostProcessor {
                 BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName)
                 if (beanDefinition instanceof GenericBeanDefinition) {
                     GenericBeanDefinition genericBeanDefinition = (GenericBeanDefinition) beanDefinition
-                    if(genericBeanDefinition.hasBeanClass()) {
+                    if (genericBeanDefinition.hasBeanClass()) {
 
                         Class beanClass = genericBeanDefinition.beanClass
                         Artefact artefactAnn = beanClass?.getAnnotation(Artefact)
@@ -77,7 +77,7 @@ class ServiceBeanAliasPostProcessor implements BeanFactoryPostProcessor {
                 }
             }
         }
-        if(!aliasNamesToListOfBeanNames.isEmpty()) {
+        if (!aliasNamesToListOfBeanNames.isEmpty()) {
             aliasNamesToListOfBeanNames.each { String aliasName, List<String> listOfBeanNames ->
                 // only register the alias if their is only
                 // one candidate target bean for the alias

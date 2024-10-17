@@ -18,7 +18,7 @@ class TomcatJDBCPoolMBeanExporter extends MBeanExporter {
     private static final Log log = LogFactory.getLog(TomcatJDBCPoolMBeanExporter.class)
     GrailsApplication grailsApplication
     private ListableBeanFactory beanFactory
-    
+
     public TomcatJDBCPoolMBeanExporter() {
         super();
         this.setRegistrationPolicy(RegistrationPolicy.REPLACE_EXISTING)
@@ -34,7 +34,7 @@ class TomcatJDBCPoolMBeanExporter extends MBeanExporter {
             } catch (Exception e) {
                 log.warn("Unable to access dataSource bean ${entry.key}", e)
             }
-            if(jmxEnabled) {
+            if (jmxEnabled) {
                 ObjectName objectName = null
                 try {
                     objectName = createJmxObjectName(entry.key, entry.value)
@@ -43,7 +43,7 @@ class TomcatJDBCPoolMBeanExporter extends MBeanExporter {
                     log.warn("Unable to register JMX MBean for ${objectName} beanName:${entry.key}", e)
                 }
             }
-        } 
+        }
     }
 
     protected boolean isJmxEnabled(String beanName, org.apache.tomcat.jdbc.pool.DataSource dataSource) {
@@ -51,31 +51,31 @@ class TomcatJDBCPoolMBeanExporter extends MBeanExporter {
     }
 
     protected ObjectName createJmxObjectName(String beanName, org.apache.tomcat.jdbc.pool.DataSource dataSource) throws MalformedObjectNameException {
-        Hashtable<String,String> properties = new Hashtable<String, String>()
+        Hashtable<String, String> properties = new Hashtable<String, String>()
         properties.type = 'ConnectionPool'
-        properties.application = ((grailsApplication?.getMetadata()?.getApplicationName())?:'grailsApplication').replaceAll(/[,=;:]/, '_')
-        String poolName=dataSource.pool.poolProperties.name
+        properties.application = ((grailsApplication?.getMetadata()?.getApplicationName()) ?: 'grailsApplication').replaceAll(/[,=;:]/, '_')
+        String poolName = dataSource.pool.poolProperties.name
         if (beanName.startsWith('dataSourceUnproxied')) {
             def dataSourceName = beanName - ~/^dataSourceUnproxied_?/
-            if(!dataSourceName) {
+            if (!dataSourceName) {
                 dataSourceName = 'default'
             }
             properties.dataSource = dataSourceName
         } else {
-            if(poolName.startsWith("Tomcat Connection Pool[")) {
+            if (poolName.startsWith("Tomcat Connection Pool[")) {
                 // use bean name if the pool has a default name
-                poolName=beanName
+                poolName = beanName
             }
         }
-        if(!poolName.startsWith("Tomcat Connection Pool[")) {
+        if (!poolName.startsWith("Tomcat Connection Pool[")) {
             properties.pool = poolName
         }
         return new ObjectName('grails.dataSource', properties)
     }
-    
+
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
         super.setBeanFactory(beanFactory)
-        this.beanFactory = (ListableBeanFactory)beanFactory
+        this.beanFactory = (ListableBeanFactory) beanFactory
     }
 }

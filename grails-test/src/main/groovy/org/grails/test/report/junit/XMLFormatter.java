@@ -34,8 +34,7 @@ public class XMLFormatter extends XMLJUnitResultFormatter {
     public XMLFormatter(File file) {
         try {
             super.setOutput(new BufferedOutputStream(new FileOutputStream(file)));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
