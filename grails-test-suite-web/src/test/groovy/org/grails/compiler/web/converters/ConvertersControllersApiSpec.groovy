@@ -9,10 +9,10 @@ class ConvertersControllersApiSpec extends Specification implements ControllerUn
 
     void "Test that the render method for converters is added at compile time"() {
         when:
-            controller.index()
+        controller.index()
 
         then:
-            response.contentAsString == '<?xml version="1.0" encoding="UTF-8"?><string>test</string>'
+        response.contentAsString == '<?xml version="1.0" encoding="UTF-8"?><string>test</string>'
     }
 }
 

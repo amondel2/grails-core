@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class YamlTocStrategySpec extends Specification {
     def "Test basic behaviour"() {
-      given: "A YAML loader"
+        given: "A YAML loader"
         def loader = new YamlTocStrategy(new MockResourceChecker([
                 "intro.gdoc",
                 "intro/whatsNew.gdoc",
@@ -19,7 +19,7 @@ class YamlTocStrategySpec extends Specification {
                 "upgrading.gdoc",
                 "creatingApp.gdoc"]))
 
-      when: "A test YAML document is loaded"
+        when: "A test YAML document is loaded"
         def toc = loader.load("""\
                 intro:
                   title: Introduction
@@ -40,7 +40,7 @@ class YamlTocStrategySpec extends Specification {
                   creatingApp: Creating an Application
                 """.stripIndent())
 
-      then: "The correct UserGuideNode tree is created"
+        then: "The correct UserGuideNode tree is created"
         toc.children?.size() == 2
         toc.children[0].name == "intro"
         toc.children[0].title == "Introduction"

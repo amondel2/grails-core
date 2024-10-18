@@ -165,7 +165,7 @@ public class JSONTokener {
      * @throws JSONException
      */
     public char nextClean() throws JSONException {
-        for (; ;) {
+        for (; ; ) {
             char c = next();
             if (c == '/') {
                 switch (next()) {
@@ -175,7 +175,7 @@ public class JSONTokener {
                         } while (c != '\n' && c != '\r' && c != 0);
                         break;
                     case '*':
-                        for (; ;) {
+                        for (; ; ) {
                             c = next();
                             if (c == 0) {
                                 throw syntaxError("Unclosed comment.");
@@ -218,7 +218,7 @@ public class JSONTokener {
     public String nextString(char quote) throws JSONException {
         char c;
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             c = next();
             switch (c) {
                 case 0:
@@ -272,7 +272,7 @@ public class JSONTokener {
      */
     public String nextTo(char d) {
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             char c = next();
             if (c == d || c == 0 || c == '\n' || c == '\r') {
                 if (c != 0) {
@@ -295,7 +295,7 @@ public class JSONTokener {
     public String nextTo(String delimiters) {
         char c;
         StringBuilder sb = new StringBuilder();
-        for (; ;) {
+        for (; ; ) {
             c = next();
             if (delimiters.indexOf(c) >= 0 || c == 0 ||
                     c == '\n' || c == '\r') {
@@ -437,7 +437,7 @@ public class JSONTokener {
      *
      * @param to A character to skip to.
      * @return The requested character, or zero if the requested character
-     *         is not found.
+     * is not found.
      */
     public char skipTo(char to) {
         char c;

@@ -23,8 +23,8 @@ import org.springframework.beans.factory.Aware;
  * registered by plugins.</p>
  *
  * @author Steven Devijver
- * @since 0.2
  * @see GrailsApplication
+ * @since 0.2
  */
 public interface GrailsApplicationAware extends Aware {
     /**

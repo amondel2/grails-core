@@ -41,10 +41,10 @@ class FileSystemCommandResourceResolver implements CommandResourceResolver {
     @Override
     Collection<Resource> findCommandResources(Profile profile) {
         Resource commandsDir = getCommandsDirectory(profile)
-            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(new StaticResourceLoader(commandsDir))
-        if(commandsDir.exists()) {
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(new StaticResourceLoader(commandsDir))
+        if (commandsDir.exists()) {
             Collection<Resource> commandFiles = []
-            for(ext in matchingFileExtensions) {
+            for (ext in matchingFileExtensions) {
                 commandFiles.addAll resolver.getResources("*.$ext")
             }
             commandFiles = commandFiles.sort(false) { Resource file -> file.filename }

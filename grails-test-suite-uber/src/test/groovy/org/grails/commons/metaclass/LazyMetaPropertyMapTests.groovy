@@ -12,9 +12,9 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testOverridePropertiesRecursionBug() {
-        PropertyMapTest.metaClass.getProperties = {-> new LazyMetaPropertyMap(delegate) }
+        PropertyMapTest.metaClass.getProperties = { -> new LazyMetaPropertyMap(delegate) }
 
-        def obj = new PropertyMapTest(name:"Homer", age:45)
+        def obj = new PropertyMapTest(name: "Homer", age: 45)
 
         assertFalse obj.properties.containsKey('properties')
         assertEquals 3, obj.properties.size()
@@ -23,7 +23,7 @@ class LazyMetaPropertyMapTests {
     @Test
     void testSelectSubMap() {
 
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Bart", age:11, other:"stuff"))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Bart", age: 11, other: "stuff"))
 
         def submap = map['name', 'age']
         assertEquals 2, (int) submap.size()
@@ -54,7 +54,7 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testContainsValue() {
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Homer", age:45))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Homer", age: 45))
 
         assertTrue map.containsValue("Homer")
         assertTrue map.containsValue(45)
@@ -63,7 +63,7 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testGet() {
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Homer", age:45))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Homer", age: 45))
 
         assertEquals "Homer", map.get("name")
         assertEquals "Homer", map.name
@@ -80,7 +80,7 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testPut() {
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Bart", age:11))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Bart", age: 11))
 
         map.name = "Homer"
         map.age = 45
@@ -96,7 +96,7 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testKeySet() {
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Bart", age:11))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Bart", age: 11))
 
         def keys = map.keySet()
 
@@ -106,7 +106,7 @@ class LazyMetaPropertyMapTests {
 
     @Test
     void testValues() {
-        def map = new LazyMetaPropertyMap(new PropertyMapTest(name:"Bart", age:11))
+        def map = new LazyMetaPropertyMap(new PropertyMapTest(name: "Bart", age: 11))
 
         def values = map.values()
 

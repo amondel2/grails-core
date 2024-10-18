@@ -77,8 +77,7 @@ public class SimpleCharStream {
 
                 maxNextCharInd = (bufpos -= tokenBegin);
             }
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw new Error(t.getMessage());
         }
 
@@ -115,8 +114,7 @@ public class SimpleCharStream {
             }
             maxNextCharInd += i;
             return;
-        }
-        catch (java.io.IOException e) {
+        } catch (java.io.IOException e) {
             --bufpos;
             backup(0);
             if (tokenBegin == -1)

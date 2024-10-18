@@ -31,6 +31,7 @@ class CoreGrailsPluginTests extends AbstractGrailsMockTests {
         def appCtx = springConfig.getApplicationContext()
 
     }
+
     void testCorePlugin() {
         def pluginClass = gcl.loadClass("org.grails.plugins.CoreGrailsPlugin")
 
@@ -55,7 +56,7 @@ class CoreGrailsPluginTests extends AbstractGrailsMockTests {
 
         def springConfig = new WebRuntimeSpringConfiguration(ctx)
         springConfig.servletContext = createMockServletContext()
-        ga.config.grails.spring.disable.aspectj.autoweaving=true
+        ga.config.grails.spring.disable.aspectj.autoweaving = true
         ga.configChanged()
         plugin.doWithRuntimeConfiguration(springConfig)
 
@@ -107,7 +108,7 @@ class CoreGrailsPluginTests extends AbstractGrailsMockTests {
         ga.config = new PropertySourcesConfig().merge(co)
 
         def corePluginClass = gcl.loadClass("org.grails.plugins.CoreGrailsPlugin")
-        def corePlugin = new DefaultGrailsPlugin(corePluginClass,ga)
+        def corePlugin = new DefaultGrailsPlugin(corePluginClass, ga)
         def dataSourcePluginClass = gcl.loadClass("org.grails.plugins.datasource.DataSourceGrailsPlugin")
         def dataSourcePlugin = new DefaultGrailsPlugin(dataSourcePluginClass, ga)
 

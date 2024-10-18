@@ -16,7 +16,6 @@
 package org.grails.cli.profile.commands
 
 
-
 /**
  *  Creates a profile
  *

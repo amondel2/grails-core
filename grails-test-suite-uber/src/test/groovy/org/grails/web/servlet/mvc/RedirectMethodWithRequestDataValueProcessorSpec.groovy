@@ -7,9 +7,11 @@ import spock.lang.Specification
 
 class RedirectMethodWithRequestDataValueProcessorSpec extends Specification implements ControllerUnitTest<RedirectController> {
 
-    Closure doWithSpring() {{ ->
-        requestDataValueProcessor MockRequestDataValueProcessor
-    }}
+    Closure doWithSpring() {
+        { ->
+            requestDataValueProcessor MockRequestDataValueProcessor
+        }
+    }
 
     void 'test redirect in controller with all upper class class name'() {
         when:

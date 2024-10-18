@@ -64,7 +64,7 @@ public class MixinTransformation implements ASTTransformation {
         String cName = classNode.getName();
         if (classNode.isInterface()) {
             throw new RuntimeException("Error processing interface '" + cName + "'. " +
-                MY_TYPE_NAME + " not allowed for interfaces.");
+                    MY_TYPE_NAME + " not allowed for interfaces.");
         }
 
         ListExpression values = getListOfClasses(node);
@@ -72,6 +72,7 @@ public class MixinTransformation implements ASTTransformation {
         weaveMixinsIntoClass(classNode, values);
 
     }
+
     public void weaveMixinsIntoClass(ClassNode classNode, ListExpression values) {
         if (values != null) {
             for (Expression current : values.getExpressions()) {
@@ -86,14 +87,14 @@ public class MixinTransformation implements ASTTransformation {
                         boolean isTargetAware = GrailsASTUtils.findInterface(mixinClassNode, new ClassNode(MixinTargetAware.class)) != null;
 
                         ConstructorCallExpression initialValue;
-                        if(isTargetAware) {
+                        if (isTargetAware) {
                             initialValue = new ConstructorCallExpression(mixinClassNode, new MapExpression(
                                     Arrays.asList(new MapEntryExpression(new ConstantExpression("target"), new VariableExpression("this")))
                             ));
-                        }  else {
+                        } else {
                             initialValue = new ConstructorCallExpression(mixinClassNode, GrailsASTUtils.ZERO_ARGUMENTS);
                         }
-                        classNode.addField(fieldName, Modifier.PRIVATE, mixinClassNode,initialValue);
+                        classNode.addField(fieldName, Modifier.PRIVATE, mixinClassNode, initialValue);
                     }
 
                     VariableExpression fieldReference = new VariableExpression(fieldName, mixinClassNode);
@@ -105,8 +106,7 @@ public class MixinTransformation implements ASTTransformation {
                             if (isCandidateMethod(mixinMethod) && !hasDeclaredMethod(classNode, mixinMethod)) {
                                 if (mixinMethod.isStatic()) {
                                     GrailsASTUtils.addCompileStaticAnnotation(GrailsASTUtils.addDelegateStaticMethod(classNode, mixinMethod));
-                                }
-                                else {
+                                } else {
                                     GrailsASTUtils.addCompileStaticAnnotation(GrailsASTUtils.addDelegateInstanceMethod(classNode, fieldReference, mixinMethod, false));
                                 }
                             }
@@ -122,6 +122,7 @@ public class MixinTransformation implements ASTTransformation {
     protected boolean hasDeclaredMethod(ClassNode classNode, MethodNode mixinMethod) {
         return classNode.hasDeclaredMethod(mixinMethod.getName(), mixinMethod.getParameters());
     }
+
     protected ListExpression getListOfClasses(AnnotationNode node) {
         Expression value = node.getMember("value");
         ListExpression values = null;
@@ -143,9 +144,9 @@ public class MixinTransformation implements ASTTransformation {
         ClassNode groovyMethods = GROOVY_OBJECT_CLASS_NODE;
         String methodName = declaredMethod.getName();
         return !declaredMethod.isSynthetic() &&
-            !methodName.contains("$") &&
-            Modifier.isPublic(declaredMethod.getModifiers()) &&
-            !Modifier.isAbstract(declaredMethod.getModifiers()) &&
-            !groovyMethods.hasMethod(declaredMethod.getName(), declaredMethod.getParameters());
+                !methodName.contains("$") &&
+                Modifier.isPublic(declaredMethod.getModifiers()) &&
+                !Modifier.isAbstract(declaredMethod.getModifiers()) &&
+                !groovyMethods.hasMethod(declaredMethod.getName(), declaredMethod.getParameters());
     }
 }

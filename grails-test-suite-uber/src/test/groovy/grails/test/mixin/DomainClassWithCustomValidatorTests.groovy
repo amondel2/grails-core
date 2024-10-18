@@ -11,7 +11,7 @@ class DomainClassWithCustomValidatorTests extends Specification implements Domai
         def uni = new Uniqueable()
 
         then:
-        uni.save(flush:true)
+        uni.save(flush: true)
 
         when:
         def uni2 = new Uniqueable()

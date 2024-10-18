@@ -97,14 +97,14 @@ public class IncludeResponseWrapper extends HttpServletResponseWrapper {
 
     @Override
     public void sendError(int i, String s) throws IOException {
-        if(isCommitted()) throw new IllegalStateException("Response already committed");
+        if (isCommitted()) throw new IllegalStateException("Response already committed");
         setStatus(i);
         flushBuffer();
     }
 
     @Override
     public void sendError(int i) throws IOException {
-        if(isCommitted()) throw new IllegalStateException("Response already committed");
+        if (isCommitted()) throw new IllegalStateException("Response already committed");
         setStatus(i);
         flushBuffer();
     }
@@ -176,31 +176,31 @@ public class IncludeResponseWrapper extends HttpServletResponseWrapper {
 
         return "";
     }
-    
+
     @Override
     public void resetBuffer() {
-       if(isCommitted()) throw new IllegalStateException("Response already committed");
-       if (usingWriter) {
-          charBuffer.reset();
-       }
+        if (isCommitted()) throw new IllegalStateException("Response already committed");
+        if (usingWriter) {
+            charBuffer.reset();
+        }
 
-       if (usingStream) {
-          byteBuffer.reset();
-       }
+        if (usingStream) {
+            byteBuffer.reset();
+        }
     }
 
     @Override
     public void reset() {
         resetBuffer();
-    }    
+    }
 
     @Override
     public void setContentLength(int len) {
-       // do nothing
+        // do nothing
     }
 
     @Override
     public void flushBuffer() {
-       // do nothing
+        // do nothing
     }
 }

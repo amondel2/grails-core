@@ -79,7 +79,7 @@ import java.util.*;
  * @author JSON.org
  * @version 2
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class JSONArray implements JSONElement, List {
 
 
@@ -111,7 +111,7 @@ public class JSONArray implements JSONElement, List {
             return;
         }
         x.back();
-        for (; ;) {
+        for (; ; ) {
             if (x.nextClean() == ',') {
                 x.back();
                 this.myArrayList.add(null);
@@ -407,7 +407,7 @@ public class JSONArray implements JSONElement, List {
      *
      * @param index The index must be between 0 and length() - 1.
      * @return An object value, or null if there is no
-     *         object at that index.
+     * object at that index.
      */
     public Object opt(int index) {
         return (index < 0 || index >= length()) ?
@@ -513,7 +513,7 @@ public class JSONArray implements JSONElement, List {
      *
      * @param index subscript
      * @return A JSONArray value, or null if the index has no value,
-     *         or if the value is not a JSONArray.
+     * or if the value is not a JSONArray.
      */
     public JSONArray optJSONArray(int index) {
         Object o = opt(index);
@@ -758,7 +758,7 @@ public class JSONArray implements JSONElement, List {
      * @param names A JSONArray containing a list of key strings. These will be
      *              paired with the values.
      * @return A JSONObject, or null if there are no names or if this JSONArray
-     *         has no values.
+     * has no values.
      * @throws JSONException If any of the names are null.
      */
     public JSONObject toJSONObject(JSONArray names) throws JSONException {
@@ -782,7 +782,7 @@ public class JSONArray implements JSONElement, List {
      * Warning: This method assumes that the data structure is acyclical.
      *
      * @return a printable, displayable, transmittable
-     *         representation of the array.
+     * representation of the array.
      */
     @Override
     public String toString() {
@@ -801,9 +801,9 @@ public class JSONArray implements JSONElement, List {
      * @param indentFactor The number of spaces to add to each level of
      *                     indentation.
      * @return a printable, displayable, transmittable
-     *         representation of the object, beginning
-     *         with <code>[</code>&nbsp;<small>(left bracket)</small> and ending
-     *         with <code>]</code>&nbsp;<small>(right bracket)</small>.
+     * representation of the object, beginning
+     * with <code>[</code>&nbsp;<small>(left bracket)</small> and ending
+     * with <code>]</code>&nbsp;<small>(right bracket)</small>.
      * @throws JSONException
      */
     public String toString(int indentFactor) throws JSONException {
@@ -819,7 +819,7 @@ public class JSONArray implements JSONElement, List {
      *                     indentation.
      * @param indent       The indention of the top level.
      * @return a printable, displayable, transmittable
-     *         representation of the array.
+     * representation of the array.
      * @throws JSONException
      */
     String toString(int indentFactor, int indent) throws JSONException {
@@ -871,7 +871,7 @@ public class JSONArray implements JSONElement, List {
 
     @Override
     public int hashCode() {
-        return  myArrayList != null ? myArrayList.hashCode() : super.hashCode();
+        return myArrayList != null ? myArrayList.hashCode() : super.hashCode();
     }
 
     /**

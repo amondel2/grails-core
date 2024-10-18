@@ -28,11 +28,11 @@ class CommandScriptTransformSpec extends Specification {
 
 
     void "Test that the CommandScriptTransform correctly populates the description"() {
-        given:"A GroovyClassLoader with the CommandScriptTransform applied"
-            def gcl = GroovyScriptCommandFactory.createGroovyScriptCommandClassLoader()
+        given: "A GroovyClassLoader with the CommandScriptTransform applied"
+        def gcl = GroovyScriptCommandFactory.createGroovyScriptCommandClassLoader()
 
-        when:"A script is parsed"
-            def script = (GroovyScriptCommand)(gcl.parseClass('''
+        when: "A script is parsed"
+        def script = (GroovyScriptCommand) (gcl.parseClass('''
 import org.grails.cli.interactive.completers.DomainClassCompleter
 
 description("example script") {
@@ -47,17 +47,17 @@ description("example script") {
 println "Hello!"
 ''', "MyScript").getDeclaredConstructor().newInstance())
 
-        then:"The scripts description is correctly populated"
-            script.description.name == 'my-script'
-            script.description.description == 'example script'
-            script.description.usage == 'example usage'
-            script.description.arguments.size() == 1
-            script.description.arguments[0].name == 'controllerName'
-            script.description.arguments[0].description == 'The name of the controller'
+        then: "The scripts description is correctly populated"
+        script.description.name == 'my-script'
+        script.description.description == 'example script'
+        script.description.usage == 'example usage'
+        script.description.arguments.size() == 1
+        script.description.arguments[0].name == 'controllerName'
+        script.description.arguments[0].description == 'The name of the controller'
 
-            script.description.flags.size() == 1
-            script.description.flags[0].name == 'test'
-            script.description.flags[0].description == 'Do something'
-            script.description.completer instanceof DomainClassCompleter
+        script.description.flags.size() == 1
+        script.description.flags[0].name == 'test'
+        script.description.flags[0].description == 'Do something'
+        script.description.completer instanceof DomainClassCompleter
     }
 }

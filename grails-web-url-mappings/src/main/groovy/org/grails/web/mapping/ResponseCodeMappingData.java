@@ -33,11 +33,11 @@ public class ResponseCodeMappingData implements UrlMappingData {
     }
 
     public String[] getTokens() {
-        return new String[] {responseCodeAsString};
+        return new String[]{responseCodeAsString};
     }
 
     public String[] getLogicalUrls() {
-        return new String[] {responseCodeAsString};
+        return new String[]{responseCodeAsString};
     }
 
     public String getUrlPattern() {

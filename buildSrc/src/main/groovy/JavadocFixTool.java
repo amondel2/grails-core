@@ -3,73 +3,73 @@
  * All rights reserved. Use is subject to license terms.
  *
  * License Agreement
- * 
- * PLEASE READ THE FOLLOWING LICENSE TERMS CAREFULLY BEFORE USING THE 
- * ACCOMPANYING PROGRAM. THESE TERMS CONSTITUTE A LEGAL AGREEMENT BETWEEN 
+ *
+ * PLEASE READ THE FOLLOWING LICENSE TERMS CAREFULLY BEFORE USING THE
+ * ACCOMPANYING PROGRAM. THESE TERMS CONSTITUTE A LEGAL AGREEMENT BETWEEN
  * YOU AND US.
- * 
- * "Oracle" refers to Oracle America, Inc., for and on behalf of itself and its 
- * subsidiaries and affiliates under common control.  "We," "us," and "our" 
- * refers to Oracle and any Program contributors. "You" and "your" refers to 
+ *
+ * "Oracle" refers to Oracle America, Inc., for and on behalf of itself and its
+ * subsidiaries and affiliates under common control.  "We," "us," and "our"
+ * refers to Oracle and any Program contributors. "You" and "your" refers to
  * the individual or entity that wishes to use the Program. "Program" refers to
  * the Java API Documentation Updater Tool, Copyright (c) 2013, Oracle America,
  * Inc., and updates or error corrections provided by Oracle or contributors.
- * 
- * WARNING: 
- * The Program will analyze directory information on your computer 
- * system and may modify software components on such computer system.  You 
+ *
+ * WARNING:
+ * The Program will analyze directory information on your computer
+ * system and may modify software components on such computer system.  You
  * should only use the Program on computer systems that you maintain sufficient
  * rights to update software components.
- * 
- * If your computer system is owned by a person or entity other than you, 
- * you should check with such person or entity before using the Program. 
- * 
- * It is possible that you may lose some software functionality, and make 
+ *
+ * If your computer system is owned by a person or entity other than you,
+ * you should check with such person or entity before using the Program.
+ *
+ * It is possible that you may lose some software functionality, and make
  * Java API Documentation pages unusable on your computer system after you use
  * the Program to update software components.
- * 
- * License Rights and Obligations 
- * We grant you a perpetual, nonexclusive, limited license to use, modify and 
+ *
+ * License Rights and Obligations
+ * We grant you a perpetual, nonexclusive, limited license to use, modify and
  * distribute the Program in binary and/or source code form, only for the
  * purpose of analyzing the directory structure of your computer system and
  * updating Java API Documentation files.  If you distribute the Program, in
  * either or both binary or source form, including as modified by you, you
  * shall include this License Agreement ("Agreement") with your distribution.
- * 
+ *
  * All rights not expressly granted above are hereby reserved. If you want to
  * use the Program for any purpose other than as permitted under this
  * Agreement, you must obtain a valid license permitting such use from Oracle.
  * Neither the name of Oracle nor the names of any Program contributors may be
  * used to endorse or promote products derived from this software without
  * specific prior written permission.
- * 
- * Ownership and Restrictions 
+ *
+ * Ownership and Restrictions
  * We retain all ownership and intellectual property rights in the Program as
  * provided by us. You retain all ownership and intellectual property rights
  * in your modifications.
- * 
+ *
  * Export
- * You agree to comply fully with export laws and regulations of the United 
+ * You agree to comply fully with export laws and regulations of the United
  * States and any other applicable export laws ("Export Laws") to assure that
  * neither the Program nor any direct products thereof are:  (1) exported,
  * directly or indirectly, in violation of this Agreement or Export Laws; or
  * (2) used for any purposes prohibited by the Export Laws, including, without
  * limitation, nuclear, chemical, or biological weapons proliferation, or
- * development of missile technology. 
- * 
- * Disclaimer of Warranty and Limitation of Liability 
+ * development of missile technology.
+ *
+ * Disclaimer of Warranty and Limitation of Liability
  * THE PROGRAM IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. USE AT YOUR
  * OWN RISK.  WE FURTHER DISCLAIM ALL WARRANTIES, EXPRESS AND IMPLIED,
  * INCLUDING WITHOUT LIMITATION, ANY IMPLIED WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE OR NONINFRINGEMENT. 
- * 
+ * FITNESS FOR A PARTICULAR PURPOSE OR NONINFRINGEMENT.
+ *
  * IN NO EVENT SHALL WE BE LIABLE FOR ANY INDIRECT, DIRECT, INCIDENTAL,
  * SPECIAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, OR DAMAGES FOR LOSS OF PROFITS,
  * REVENUE, DATA OR DATA USE, INCURRED BY YOU OR ANY THIRD PARTY, WHETHER IN AN
  * ACTION IN CONTRACT OR TORT, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGES.  ORACLE SHALL HAVE NO LIABILITY FOR MODIFICATIONS MADE BY
  * YOU OR ANY THIRD PARTY.
- * 
+ *
  * Entire Agreement
  * You agree that this Agreement is the complete agreement for the Program, and
  * this Agreement supersedes all prior or contemporaneous agreements or
@@ -79,10 +79,11 @@
  * You and Oracle agree to submit to the exclusive jurisdiction of, and venue
  * in, the courts of San Francisco or Santa Clara counties in California in
  * any dispute between you and Oracle arising out of or relating to this
- * Agreement. 
- * 
+ * Agreement.
+ *
  * Last updated: 14 June 2013
  */
+
 import java.io.*;
 
 /*
@@ -92,9 +93,9 @@ import java.io.*;
 public class JavadocFixTool {
     // Usual suspects
     private final static String[] fileNames = {"index.html",
-                                         "index.htm",
-                                         "toc.html",
-                                         "toc.htm"};
+            "index.htm",
+            "toc.html",
+            "toc.htm"};
 
     // If we locate this function but not validURL - we are in trouble
     private final String patchString = "function loadFrames() {";
@@ -102,46 +103,46 @@ public class JavadocFixTool {
     // the code that calls this function
     private final static String[] patchData =
             {"    if (targetPage != \"\" && !validURL(targetPage))",
-             "        targetPage = \"undefined\";",
-             "    function validURL(url) {",
-             "        var pos = url.indexOf(\".html\");",
-             "        if (pos == -1 || pos != url.length - 5)",
-             "            return false;",
-             "        var allowNumber = false;",
-             "        var allowSep = false;",
-             "        var seenDot = false;",
-             "        for (var i = 0; i < url.length - 5; i++) {",
-             "            var ch = url.charAt(i);",
-             "            if ('a' <= ch && ch <= 'z' ||",
-             "                    'A' <= ch && ch <= 'Z' ||",
-             "                    ch == '$' ||",
-             "                    ch == '_') {",
-             "                allowNumber = true;",
-             "                allowSep = true;",
-             "            } else if ('0' <= ch && ch <= '9'",
-             "                    || ch == '-') {",
-             "                if (!allowNumber)",
-             "                     return false;",
-             "            } else if (ch == '/' || ch == '.') {",
-             "                if (!allowSep)",
-             "                    return false;",
-             "                allowNumber = false;",
-             "                allowSep = false;",
-             "                if (ch == '.')",
-             "                     seenDot = true;",
-             "                if (ch == '/' && seenDot)",
-             "                     return false;",
-             "            } else {",
-             "                return false;",
-             "            }",
-             "        }",
-             "        return true;",
-             "    }",
-             "    function loadFrames() {"};
+                    "        targetPage = \"undefined\";",
+                    "    function validURL(url) {",
+                    "        var pos = url.indexOf(\".html\");",
+                    "        if (pos == -1 || pos != url.length - 5)",
+                    "            return false;",
+                    "        var allowNumber = false;",
+                    "        var allowSep = false;",
+                    "        var seenDot = false;",
+                    "        for (var i = 0; i < url.length - 5; i++) {",
+                    "            var ch = url.charAt(i);",
+                    "            if ('a' <= ch && ch <= 'z' ||",
+                    "                    'A' <= ch && ch <= 'Z' ||",
+                    "                    ch == '$' ||",
+                    "                    ch == '_') {",
+                    "                allowNumber = true;",
+                    "                allowSep = true;",
+                    "            } else if ('0' <= ch && ch <= '9'",
+                    "                    || ch == '-') {",
+                    "                if (!allowNumber)",
+                    "                     return false;",
+                    "            } else if (ch == '/' || ch == '.') {",
+                    "                if (!allowSep)",
+                    "                    return false;",
+                    "                allowNumber = false;",
+                    "                allowSep = false;",
+                    "                if (ch == '.')",
+                    "                     seenDot = true;",
+                    "                if (ch == '/' && seenDot)",
+                    "                     return false;",
+                    "            } else {",
+                    "                return false;",
+                    "            }",
+                    "        }",
+                    "        return true;",
+                    "    }",
+                    "    function loadFrames() {"};
 
     private final String quickFixString = "if (!(url.indexOf(\".html\") == url.length - 5))";
     private final String[] quickFix = {"        var pos = url.indexOf(\".html\");",
-                                       "        if (pos == -1 || pos != url.length - 5)"};
+            "        if (pos == -1 || pos != url.length - 5)"};
     private static String readme = null;
     private static String version = "Java Documentation Updater Tool version 1.2 06/14/2013\n";
 
@@ -162,16 +163,16 @@ public class JavadocFixTool {
         }
 
         // Last argument should be a path to the document root
-        String name = args[args.length-1];
+        String name = args[args.length - 1];
 
         // Analyze the rest of parameters
-        for (int i = 0 ; i < args.length -1; i++) {
+        for (int i = 0; i < args.length - 1; i++) {
             if ("-R".equalsIgnoreCase(args[i])) {
                 recursive = true;
             } else if ("-C".equalsIgnoreCase(args[i])) {
                 doPatch = false;
             } else {
-                System.err.println("Unknown option passed: "+args[i]);
+                System.err.println("Unknown option passed: " + args[i]);
                 printUsage(System.err);
                 return;
             }
@@ -205,7 +206,8 @@ public class JavadocFixTool {
                 }
                 readme = readmeBuilder.toString();
             }
-        } catch (IOException ignore) {} // Ignore exception - readme not initialized
+        } catch (IOException ignore) {
+        } // Ignore exception - readme not initialized
     }
 
     /*
@@ -219,10 +221,11 @@ public class JavadocFixTool {
             if (folder.exists() && folder.isDirectory() && folder.canRead()) {
                 searchAndPatch(folder);
             } else {
-                System.err.println("Invalid folder in parameter \""+name+"\"");
+                System.err.println("Invalid folder in parameter \"" + name + "\"");
                 printUsage(System.err);
             }
-        } catch (Exception ignored) {} // Die silently
+        } catch (Exception ignored) {
+        } // Die silently
     }
 
     /*
@@ -239,7 +242,7 @@ public class JavadocFixTool {
 
         for (File file : folder.listFiles()) {
             if (file.isDirectory()) {
-                if(recursive) {
+                if (recursive) {
                     searchAndPatch(file);
                 }
                 continue;
@@ -254,10 +257,10 @@ public class JavadocFixTool {
                         try {
                             filePath = file.getCanonicalPath();
                         } catch (IOException ioe) {
-                            System.err.println("Can not resolve path to "+file.getName()+" in folder "+folder.getName());
+                            System.err.println("Can not resolve path to " + file.getName() + " in folder " + folder.getName());
                             continue;
                         }
-                        System.err.println("Patch failed on: "+filePath+" due to the "+ex);
+                        System.err.println("Patch failed on: " + filePath + " due to the " + ex);
                     }
                 }
             }
@@ -276,7 +279,7 @@ public class JavadocFixTool {
         String failedString = patchString;
         String[] patch = patchData;
         // Attempt to look if file is vulnerable
-        for (int i = 0 ; i < 80 ; i++) { // Check first 80 lines - if there is no signature it is not our file
+        for (int i = 0; i < 80; i++) { // Check first 80 lines - if there is no signature it is not our file
             line = br.readLine();
             if (line == null) {
                 // File less than 80 lines long, no signature encountered
@@ -297,7 +300,7 @@ public class JavadocFixTool {
                 if (failedString != null) {
                     // Vulnerable file
                     if (!doPatch) { // Report and return
-                        System.out.println("Vulnerable file found: "+file.getCanonicalPath());
+                        System.out.println("Vulnerable file found: " + file.getCanonicalPath());
                     } else {
                         replaceStringInFile(currentFolder, file, failedString, patch);
                     }
@@ -316,11 +319,11 @@ public class JavadocFixTool {
      */
     public void replaceStringInFile(File folder, File file, String template, String[] replacement)
             throws IOException {
-        System.out.println("Patching file: "+file.getCanonicalPath());
+        System.out.println("Patching file: " + file.getCanonicalPath());
         String name = file.getName();
-        File origFile = new File(folder, name+".orig");
+        File origFile = new File(folder, name + ".orig");
         file.renameTo(origFile);
-        File temporaryFile = new File(folder, name+".tmp");
+        File temporaryFile = new File(folder, name + ".tmp");
         if (temporaryFile.exists()) {
             temporaryFile.delete();
         }
@@ -341,9 +344,9 @@ public class JavadocFixTool {
         pw.flush();
         pw.close();
         if (!temporaryFile.renameTo(new File(folder, name))) {
-            throw new IOException("Unable to rename file in folder "+folder.getName()+
-                    " from \""+temporaryFile.getName()+"\" into \""+name +
-                    "\n Original file saved as "+origFile.getName());
+            throw new IOException("Unable to rename file in folder " + folder.getName() +
+                    " from \"" + temporaryFile.getName() + "\" into \"" + name +
+                    "\n Original file saved as " + origFile.getName());
         }
         origFile.delete();
     }

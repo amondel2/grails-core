@@ -22,7 +22,7 @@ class LinkGeneratorWithFormatSpec extends Specification {
     def path = "welcome"
 
     def mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
+        "/$controller/$action?/$id?(.$format)?" {
             constraints {
                 // apply constraints here
             }
@@ -37,10 +37,10 @@ class LinkGeneratorWithFormatSpec extends Specification {
     @Issue('https://github.com/grails/grails-core/issues/589')
     void "Test that a link containing the format parameter generates correctly"() {
         when:
-            def theLink =
-                    generator.link(controller:"one", action:"two", params:[format:'json'])
+        def theLink =
+                generator.link(controller: "one", action: "two", params: [format: 'json'])
         then:
-            theLink  == 'http://myserver.com/foo/one/two.json'
+        theLink == 'http://myserver.com/foo/one/two.json'
     }
 
 

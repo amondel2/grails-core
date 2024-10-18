@@ -52,8 +52,8 @@ class BindingExcludeTests extends Specification implements ControllerUnitTest<Ex
 class ExcludingController {
     def bind() {
         def p = new Person()
-        bindData(p, request, [exclude:"locations"])
-        return [person:p]
+        bindData(p, request, [exclude: "locations"])
+        return [person: p]
     }
 
     def bindWithGstringExclude() {

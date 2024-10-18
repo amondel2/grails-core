@@ -15,7 +15,7 @@ class BindStringArrayToGenericListTests extends Specification implements Control
     void testBindStringArrayToGenericList() {
         when:
         params.name = "day"
-        params.items = ['rice', 'soup']as String[]
+        params.items = ['rice', 'soup'] as String[]
         def model = controller.save()
 
         then:
@@ -28,7 +28,7 @@ class MenuController {
 
     def save = {
         def m = new Menu(params)
-        [menu:m]
+        [menu: m]
     }
 }
 

@@ -33,6 +33,6 @@ public interface EncodingState {
     Set<Encoder> getEncoders();
 
     EncodingState appendEncoder(Encoder encoder);
-    
+
     EncodingState getPreviousEncodingState();
 }

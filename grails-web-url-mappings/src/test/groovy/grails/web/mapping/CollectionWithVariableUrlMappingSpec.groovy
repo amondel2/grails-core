@@ -7,7 +7,7 @@ class CollectionWithVariableUrlMappingSpec extends AbstractUrlMappingsSpec {
         def urlMappingsHolder = getUrlMappingsHolder {
             "/tickets"(resources: 'ticket') {
                 collection {
-                    "/history/${id}"(controller: 'ticket', action:'history', method: 'GET')
+                    "/history/${id}"(controller: 'ticket', action: 'history', method: 'GET')
                 }
             }
         }

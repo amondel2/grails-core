@@ -22,7 +22,7 @@ import groovy.transform.PackageScope
 
 /**
  * Meta data describing a url mapping
- * 
+ *
  * @since 2.3.5
  *
  */

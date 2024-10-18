@@ -16,92 +16,92 @@ import spock.lang.Specification
 class GlobalGrailsClassInjectorTransformationSpec extends Specification {
 
     void "Test that a correct plugin dot xml file is generated when the plugin dot xml doesn't exist"() {
-        given:"A file that doesn't yet exist"
-            File pluginXml = new File(System.getProperty("java.io.tmpdir"), "plugin-xml-gen-test.test.xml")
-            pluginXml.delete()
-            ClassNode classNode = null
-            CompilationUnit cu = new CompilationUnit(new GroovyClassLoader())
-            cu.addSource("FooGrailsPlugin", '''
+        given: "A file that doesn't yet exist"
+        File pluginXml = new File(System.getProperty("java.io.tmpdir"), "plugin-xml-gen-test.test.xml")
+        pluginXml.delete()
+        ClassNode classNode = null
+        CompilationUnit cu = new CompilationUnit(new GroovyClassLoader())
+        cu.addSource("FooGrailsPlugin", '''
 class FooGrailsPlugin {
 }
 ''')
-            cu.addPhaseOperation(new CompilationUnit.PrimaryClassNodeOperation() {
-                @Override
-                void call(SourceUnit source, GeneratorContext context, ClassNode cn) throws CompilationFailedException {
-                    if(cn.name.endsWith("GrailsPlugin")) {
-                         classNode = cn
-                    }
+        cu.addPhaseOperation(new CompilationUnit.PrimaryClassNodeOperation() {
+            @Override
+            void call(SourceUnit source, GeneratorContext context, ClassNode cn) throws CompilationFailedException {
+                if (cn.name.endsWith("GrailsPlugin")) {
+                    classNode = cn
                 }
-            },Phases.CONVERSION)
-            cu.compile(Phases.CONVERSION)
+            }
+        }, Phases.CONVERSION)
+        cu.compile(Phases.CONVERSION)
 
 
-        expect:"the file doesn't exist"
-            !pluginXml.exists()
+        expect: "the file doesn't exist"
+        !pluginXml.exists()
 
-        when:"the transformation generates the plugin.xml"
-            def transformation = new GlobalGrailsClassInjectorTransformation()
-            transformation.generatePluginXml(classNode,"1.0", ['Foo'] as Set, pluginXml)
+        when: "the transformation generates the plugin.xml"
+        def transformation = new GlobalGrailsClassInjectorTransformation()
+        transformation.generatePluginXml(classNode, "1.0", ['Foo'] as Set, pluginXml)
 
-        then:"the file exists"
-            pluginXml.exists()
+        then: "the file exists"
+        pluginXml.exists()
 
-        when:"the xml is parsed"
-            def xml = new XmlSlurper().parse(pluginXml)
+        when: "the xml is parsed"
+        def xml = new XmlSlurper().parse(pluginXml)
 
-        then:"The generated plugin.xml is valid"
-            xml.@name.text() == "foo"
-            xml.type.text() == "FooGrailsPlugin"
-            xml.resources.size() == 1
-            xml.resources.resource.text() == "Foo"
+        then: "The generated plugin.xml is valid"
+        xml.@name.text() == "foo"
+        xml.type.text() == "FooGrailsPlugin"
+        xml.resources.size() == 1
+        xml.resources.resource.text() == "Foo"
     }
 
     void "Test that a correct plugin dot xml file is updated when the plugin dot xml does exist"() {
-        given:"A file that doesn't yet exist"
-            File pluginXml = File.createTempFile("plugin-xml-gen", "test.xml")
-            ClassNode classNode = null
-            CompilationUnit cu = new CompilationUnit(new GroovyClassLoader())
-            cu.addSource("BarGrailsPlugin", '''
+        given: "A file that doesn't yet exist"
+        File pluginXml = File.createTempFile("plugin-xml-gen", "test.xml")
+        ClassNode classNode = null
+        CompilationUnit cu = new CompilationUnit(new GroovyClassLoader())
+        cu.addSource("BarGrailsPlugin", '''
     class BarGrailsPlugin {
     }
     ''')
-            cu.addPhaseOperation(new CompilationUnit.PrimaryClassNodeOperation() {
-                @Override
-                void call(SourceUnit source, GeneratorContext context, ClassNode cn) throws CompilationFailedException {
-                    if(cn.name.endsWith("GrailsPlugin")) {
-                        classNode = cn
-                    }
-                }
-            },Phases.CONVERSION)
-            cu.compile(Phases.CONVERSION)
-            pluginXml.withWriter { writer ->
-
-                def mkp = new MarkupBuilder(writer)
-                mkp.plugin(name:"foo") {
-                    type "FooGrailsPlugin"
-                    resources {
-                        resource "Foo"
-                        resource "Bar"
-                    }
+        cu.addPhaseOperation(new CompilationUnit.PrimaryClassNodeOperation() {
+            @Override
+            void call(SourceUnit source, GeneratorContext context, ClassNode cn) throws CompilationFailedException {
+                if (cn.name.endsWith("GrailsPlugin")) {
+                    classNode = cn
                 }
             }
-        expect:"the file does exist"
-            pluginXml.exists()
+        }, Phases.CONVERSION)
+        cu.compile(Phases.CONVERSION)
+        pluginXml.withWriter { writer ->
 
-        when:"the transformation generates the plugin.xml"
-            def transformation = new GlobalGrailsClassInjectorTransformation()
-            transformation.generatePluginXml(classNode, "1.0", ['Foo', "Bar"] as Set, pluginXml)
+            def mkp = new MarkupBuilder(writer)
+            mkp.plugin(name: "foo") {
+                type "FooGrailsPlugin"
+                resources {
+                    resource "Foo"
+                    resource "Bar"
+                }
+            }
+        }
+        expect: "the file does exist"
+        pluginXml.exists()
 
-        then:"the file exists"
-            pluginXml.exists()
+        when: "the transformation generates the plugin.xml"
+        def transformation = new GlobalGrailsClassInjectorTransformation()
+        transformation.generatePluginXml(classNode, "1.0", ['Foo', "Bar"] as Set, pluginXml)
 
-        when:"the xml is parsed"
-            def xml = new XmlSlurper().parse(pluginXml)
+        then: "the file exists"
+        pluginXml.exists()
 
-        then:"The generated plugin.xml is valid"
-            xml.@name.text() == "bar"
-            xml.type.text() == "BarGrailsPlugin"
-            xml.resources.resource.size() == 2
-            xml.resources.resource.text() == "FooBar"
+        when: "the xml is parsed"
+        def xml = new XmlSlurper().parse(pluginXml)
+
+        then: "The generated plugin.xml is valid"
+        xml.@name.text() == "bar"
+        xml.type.text() == "BarGrailsPlugin"
+        xml.resources.resource.size() == 2
+        xml.resources.resource.text() == "FooBar"
     }
 }

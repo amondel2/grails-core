@@ -7,11 +7,11 @@ import spock.lang.Specification
 
 class BindingFormatCompilationErrorsSpec extends Specification {
 
-	@Issue('GRAILS-11321')
+    @Issue('GRAILS-11321')
     void 'Test compiling @BindingFormat with no code and no value'() {
         given:
         def gcl = new GroovyClassLoader()
-        
+
         when:
         gcl.parseClass '''
 package com.demo
@@ -26,12 +26,12 @@ class SomeClass {
         e.message.contains 'The @BindingFormat annotation on the field [someProperty] in class [com.demo.SomeClass] must provide a value for either the value() or code() attribute.'
     }
 
-	void 'Test compiling @BindingFormat with code'() {
-		given:
-		def gcl = new GroovyClassLoader()
-		
-		when:
-		def c = gcl.parseClass '''
+    void 'Test compiling @BindingFormat with code'() {
+        given:
+        def gcl = new GroovyClassLoader()
+
+        when:
+        def c = gcl.parseClass '''
 package com.demo
 
 class SomeClass {
@@ -39,16 +39,16 @@ class SomeClass {
 		String someProperty
 }
 '''
-		then:
-		c
-	}
+        then:
+        c
+    }
 
-	void 'Test compiling @BindingFormat with value'() {
-		given:
-		def gcl = new GroovyClassLoader()
-		
-		when:
-		def c = gcl.parseClass '''
+    void 'Test compiling @BindingFormat with value'() {
+        given:
+        def gcl = new GroovyClassLoader()
+
+        when:
+        def c = gcl.parseClass '''
 package com.demo
 
 class SomeClass {
@@ -56,7 +56,7 @@ class SomeClass {
 		String someProperty
 }
 '''
-		then:
-		c
-	}
+        then:
+        c
+    }
 }

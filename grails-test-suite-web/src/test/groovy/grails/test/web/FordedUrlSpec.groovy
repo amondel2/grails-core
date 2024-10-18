@@ -11,7 +11,7 @@ class FordedUrlSpec extends Specification implements ControllerUnitTest<DemoCont
     void 'test forwardedUrl when forward is called'() {
         when:
         controller.firstAction()
-        
+
         then:
         response.forwardedUrl == '/demo/secondAction'
     }
@@ -20,7 +20,7 @@ class FordedUrlSpec extends Specification implements ControllerUnitTest<DemoCont
     void 'test forwardedUrl when forward is not called'() {
         when:
         controller.secondAction()
-        
+
         then:
         response.forwardedUrl == null
     }
@@ -32,6 +32,6 @@ class DemoController {
     def firstAction() {
         forward action: 'secondAction'
     }
-    
+
     def secondAction() {}
 }

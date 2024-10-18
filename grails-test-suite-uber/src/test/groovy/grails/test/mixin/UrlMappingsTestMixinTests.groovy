@@ -126,17 +126,23 @@ class AnotherUrlMappingsSpec extends Specification implements UrlMappingsUnitTes
 
 @Artefact("Controller")
 class GrailsUrlMappingsTestCaseFakeController {
-   static defaultAction = 'action1'
-   def action1(){}
-   def action2(){}
-   def action3(){}
+    static defaultAction = 'action1'
+
+    def action1() {}
+
+    def action2() {}
+
+    def action3() {}
 }
 
 @Artefact("Controller")
 class UserController {
     def publicProfile() {}
+
     def update() {}
+
     def show() {}
+
     def list() {}
 }
 
@@ -179,7 +185,7 @@ class MyUrlMappingsSpec extends Specification implements UrlMappingsUnitTest<MyU
 
 class GRAILS5222UrlMappings {
     static mappings = {
-        "/user/$idText?"{
+        "/user/$idText?" {
             controller = "user"
             action = "publicProfile"
         }
@@ -205,8 +211,8 @@ class GRAILS5222UrlMappingsSpec extends Specification implements UrlMappingsUnit
 
 class GRAILS9863UrlMappings {
     static mappings = {
-        "/p/user" (controller:"user", action:"index", plugin:"sample")
-        "/n/user" (controller:"user", action:"index", namespace:"sample")
+        "/p/user"(controller: "user", action: "index", plugin: "sample")
+        "/n/user"(controller: "user", action: "index", namespace: "sample")
     }
 }
 
@@ -215,9 +221,9 @@ class GRAILS9863UrlMappingsSpec extends Specification implements UrlMappingsUnit
     @Issue("https://github.com/grails/grails-core/issues/9863")
     void testGRAILS9863() {
         when:
-        assertReverseUrlMapping("/p/user", controller:"user", action:"index", plugin:"sample")
-        assertReverseUrlMapping("/n/user", controller:"user", action:"index", namespace: "sample")
-        assertReverseUrlMapping("/user/index", controller:"user", action:"index")
+        assertReverseUrlMapping("/p/user", controller: "user", action: "index", plugin: "sample")
+        assertReverseUrlMapping("/n/user", controller: "user", action: "index", namespace: "sample")
+        assertReverseUrlMapping("/user/index", controller: "user", action: "index")
 
         then:
         noExceptionThrown()
@@ -226,11 +232,11 @@ class GRAILS9863UrlMappingsSpec extends Specification implements UrlMappingsUnit
 
 class GRAILS9110UrlMappings {
     static mappings = {
-        "/user"(controller:"user", action:"publicProfile") {
+        "/user"(controller: "user", action: "publicProfile") {
             boolParam = true
             strParam = "string"
             numParam = 123
-            objParam = [test:true]
+            objParam = [test: true]
             dateParam = new Date(1)
         }
     }
@@ -244,7 +250,7 @@ class GRAILS9110UrlMappingsSpec extends Specification implements UrlMappingsUnit
 
     void testGrails9110() {
         when:
-        assertForwardUrlMapping("/user", controller:"user", action:"publicProfile") {
+        assertForwardUrlMapping("/user", controller: "user", action: "publicProfile") {
             param1 = "true"
         }
 
@@ -252,11 +258,11 @@ class GRAILS9110UrlMappingsSpec extends Specification implements UrlMappingsUnit
         thrown(ComparisonFailure)
 
         when:
-        assertForwardUrlMapping("/user", controller:"user", action:"publicProfile") {
+        assertForwardUrlMapping("/user", controller: "user", action: "publicProfile") {
             boolParam = true
             strParam = "string"
             numParam = 123
-            objParam = [test:true]
+            objParam = [test: true]
             dateParam = new Date(1)
         }
 
@@ -351,7 +357,9 @@ class ResourceTestUrlMappingsSpec extends Specification implements UrlMappingsUn
 @Artefact("Controller")
 class ExceptionTestErrorsController {
     def handleNullPointer() {}
+
     def handleIllegalArgument() {}
+
     def handleDefault() {}
 }
 

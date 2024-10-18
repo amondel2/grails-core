@@ -71,11 +71,11 @@ class BuildSettings {
     public static final String PROVIDED_SCOPE_DESC = "Dependencies needed at development time, but not during deployment"
 
     public static final Map<String, String> SCOPE_TO_DESC = [
-            (BUILD_SCOPE): BUILD_SCOPE_DESC,
+            (BUILD_SCOPE)   : BUILD_SCOPE_DESC,
             (PROVIDED_SCOPE): PROVIDED_SCOPE_DESC,
-            (COMPILE_SCOPE): COMPILE_SCOPE_DESC,
-            (RUNTIME_SCOPE): RUNTIME_SCOPE_DESC,
-            (TEST_SCOPE): TEST_SCOPE_DESC
+            (COMPILE_SCOPE) : COMPILE_SCOPE_DESC,
+            (RUNTIME_SCOPE) : RUNTIME_SCOPE_DESC,
+            (TEST_SCOPE)    : TEST_SCOPE_DESC
     ]
 
     public static final Pattern JAR_PATTERN = ~/^\S+\.jar$/
@@ -107,7 +107,7 @@ class BuildSettings {
      */
     public static final String PROJECT_WORK_DIR = "grails.project.work.dir"
 
-    public static final String OFFLINE_MODE= "grails.offline.mode"
+    public static final String OFFLINE_MODE = "grails.offline.mode"
 
     /**
      * The name of the system property for {@link #}.
@@ -232,30 +232,27 @@ class BuildSettings {
     }
 
     static {
-        boolean grailsAppDirPresent = new File( "grails-app").exists() || new File( "Application.groovy").exists()
-        if(!grailsAppDirPresent) {
+        boolean grailsAppDirPresent = new File("grails-app").exists() || new File("Application.groovy").exists()
+        if (!grailsAppDirPresent) {
             CLASSES_DIR = null
             BUILD_CLASSES_PATH = "build/classes/main"
-        }
-        else {
+        } else {
             String fromSystem = System.getProperty(PROJECT_CLASSES_DIR)
-            if(fromSystem) {
+            if (fromSystem) {
                 CLASSES_DIR = new File(fromSystem)
                 BUILD_CLASSES_PATH = fromSystem
-            }
-            else  {
+            } else {
                 File groovyDir = new File("build/classes/groovy/main")
-                if(groovyDir.exists()) {
+                if (groovyDir.exists()) {
                     BUILD_CLASSES_PATH = "build/classes/groovy/main"
                     CLASSES_DIR = groovyDir
-                }
-                else {
+                } else {
                     BUILD_CLASSES_PATH = "build/classes/main"
                     CLASSES_DIR = new File("build/classes/main")
                 }
             }
         }
-        BASE_DIR = System.getProperty(APP_BASE_DIR) ? new File(System.getProperty(APP_BASE_DIR)) :  ( IOUtils.findApplicationDirectoryFile() ?: new File("."))
+        BASE_DIR = System.getProperty(APP_BASE_DIR) ? new File(System.getProperty(APP_BASE_DIR)) : (IOUtils.findApplicationDirectoryFile() ?: new File("."))
         GRAILS_APP_DIR_PRESENT = new File(BASE_DIR, "grails-app").exists() || new File(BASE_DIR, "Application.groovy").exists()
         TARGET_DIR = new File(BASE_DIR, "build")
         RESOURCES_DIR = !GRAILS_APP_DIR_PRESENT ? null : (System.getProperty(PROJECT_RESOURCES_DIR) ? new File(System.getProperty(PROJECT_RESOURCES_DIR)) : new File(TARGET_DIR, "resources/main"))

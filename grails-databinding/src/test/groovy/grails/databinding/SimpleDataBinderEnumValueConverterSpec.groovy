@@ -14,10 +14,10 @@ class SimpleDataBinderEnumValueConverterSpec extends Specification {
         def binder = new SimpleDataBinder()
         binder.registerConverter(new ColorConverter())
         def hat = new Hat()
-        
+
         when:
         binder.bind hat, [hatColor: '2', hatSize: 'LARGE'] as SimpleMapDataBindingSource
-        
+
         then:
         hat.hatColor == Color.GREEN
         hat.hatSize == Size.LARGE
@@ -45,7 +45,7 @@ enum Color {
     }
 
     static getById(String id) {
-        Color.find{ it.id == id }
+        Color.find { it.id == id }
     }
 }
 

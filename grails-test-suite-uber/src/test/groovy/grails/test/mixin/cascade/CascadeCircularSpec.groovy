@@ -25,7 +25,7 @@ import spock.lang.Specification
  * @author Graeme Rocher
  * @since 1.0
  */
-class CascadeCircularSpec extends Specification implements DataTest{
+class CascadeCircularSpec extends Specification implements DataTest {
 
     @Issue('https://github.com/grails/grails-data-mapping/issues/967')
     void "test cascade circular"() {
@@ -59,6 +59,7 @@ class CascadeCircularSpec extends Specification implements DataTest{
         [Person]
     }
 }
+
 @Entity
 class Person {
     String name

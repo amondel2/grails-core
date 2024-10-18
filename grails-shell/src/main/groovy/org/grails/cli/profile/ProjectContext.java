@@ -33,7 +33,6 @@ public interface ProjectContext {
     GrailsConsole getConsole();
 
     /**
-     *
      * @return The base directory of the project
      */
     File getBaseDir();
@@ -55,7 +54,7 @@ public interface ProjectContext {
      * Obtains a value of the given type from the codegen configuration
      *
      * @param requiredType The required return type
-     * @param path The path to value
+     * @param path         The path to value
      * @return The value or null if not set
      */
     <T> T navigateConfigForType(Class<T> requiredType, String... path);

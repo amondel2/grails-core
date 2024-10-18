@@ -17,7 +17,7 @@ class HexCodecTests {
         String toStringResult = 'A B C D E'.encodeAsHex()
 
         assertEquals(expectedResult, primitiveResult)
-        assertEquals(expectedResult,toStringResult)
+        assertEquals(expectedResult, toStringResult)
 
         //make sure encoding null returns null
         assertEquals(null.encodeAsHex(), null)
@@ -27,7 +27,7 @@ class HexCodecTests {
     void testDecode() {
         String data = '412042204320442045'
         byte[] result = data.decodeHex()
-        assertIterableEquals(new Byte[] {65, 32, 66, 32, 67, 32, 68, 32, 69}.toList(), result.toList())
+        assertIterableEquals(new Byte[]{65, 32, 66, 32, 67, 32, 68, 32, 69}.toList(), result.toList())
         //make sure decoding null returns null
         assertEquals(null.decodeHex(), null)
     }

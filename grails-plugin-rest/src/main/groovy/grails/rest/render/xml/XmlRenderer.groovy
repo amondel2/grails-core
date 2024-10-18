@@ -83,7 +83,7 @@ class XmlRenderer<T> extends DefaultXmlRenderer<T> {
                     return excludes.contains(property)
                 }
             }
-        } else if(!Collection.isAssignableFrom(targetType) && !Map.isAssignableFrom(targetType)) {
+        } else if (!Collection.isAssignableFrom(targetType) && !Map.isAssignableFrom(targetType)) {
             marshaller = new GroovyBeanMarshaller() {
                 @Override
                 protected boolean includesProperty(Object o, String property) {
@@ -96,13 +96,13 @@ class XmlRenderer<T> extends DefaultXmlRenderer<T> {
                 }
             }
         }
-        if(marshaller) {
+        if (marshaller) {
             registerCustomMarshaller(marshaller)
         }
     }
 
     @CompileStatic(TypeCheckingMode.SKIP)
-    protected void registerCustomMarshaller( ObjectMarshaller marshaller) {
+    protected void registerCustomMarshaller(ObjectMarshaller marshaller) {
         XML.registerObjectMarshaller(targetType, { object, XML xml ->
             marshaller.marshalObject(object, xml)
         })

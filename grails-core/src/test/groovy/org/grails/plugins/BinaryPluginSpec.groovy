@@ -25,32 +25,32 @@ class BinaryPluginSpec extends Specification {
 
     def "Test creation of a binary plugin"() {
         when:
-            def descriptor = new BinaryGrailsPluginDescriptor(new ByteArrayResource(testBinary.getBytes('UTF-8')), ['org.grails.plugins.TestBinaryResource'])
-            def binaryPlugin = new BinaryGrailsPlugin(TestBinaryGrailsPlugin, descriptor, new DefaultGrailsApplication())
+        def descriptor = new BinaryGrailsPluginDescriptor(new ByteArrayResource(testBinary.getBytes('UTF-8')), ['org.grails.plugins.TestBinaryResource'])
+        def binaryPlugin = new BinaryGrailsPlugin(TestBinaryGrailsPlugin, descriptor, new DefaultGrailsApplication())
 
         then:
-            binaryPlugin.version == "1.0"
-            binaryPlugin.providedArtefacts.size() == 1
-            binaryPlugin.providedArtefacts[0] == TestBinaryResource
-            binaryPlugin.binaryDescriptor != null
+        binaryPlugin.version == "1.0"
+        binaryPlugin.providedArtefacts.size() == 1
+        binaryPlugin.providedArtefacts[0] == TestBinaryResource
+        binaryPlugin.binaryDescriptor != null
     }
 
 
     def "Test load static resource from binary plugin"() {
         when:
-            def resource = new MockBinaryPluginResource(testBinary.getBytes('UTF-8'))
-            def descriptor = new BinaryGrailsPluginDescriptor(resource, ['org.grails.plugins.TestBinaryResource'])
-            resource.relativesResources['static/css/main.css'] = new ByteArrayResource(''.bytes)
-            def binaryPlugin = new BinaryGrailsPlugin(TestBinaryGrailsPlugin, descriptor, new DefaultGrailsApplication())
-            def cssResource = binaryPlugin.getResource("/css/main.css")
+        def resource = new MockBinaryPluginResource(testBinary.getBytes('UTF-8'))
+        def descriptor = new BinaryGrailsPluginDescriptor(resource, ['org.grails.plugins.TestBinaryResource'])
+        resource.relativesResources['static/css/main.css'] = new ByteArrayResource(''.bytes)
+        def binaryPlugin = new BinaryGrailsPlugin(TestBinaryGrailsPlugin, descriptor, new DefaultGrailsApplication())
+        def cssResource = binaryPlugin.getResource("/css/main.css")
 
         then:
-            cssResource != null
+        cssResource != null
         when:
-            cssResource = binaryPlugin.resolveView("/css/foo.css")
+        cssResource = binaryPlugin.resolveView("/css/foo.css")
 
         then:
-            cssResource == null
+        cssResource == null
     }
 
     def "Test plugin with both plugin.yml and plugin.groovy throws exception"() {

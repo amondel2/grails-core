@@ -26,8 +26,7 @@ public interface Decoder extends CodecIdentifierProvider {
     /**
      * Decode given input object
      *
-     * @param o
-     *            the input object
+     * @param o the input object
      * @return the decoded object
      */
     Object decode(Object o);

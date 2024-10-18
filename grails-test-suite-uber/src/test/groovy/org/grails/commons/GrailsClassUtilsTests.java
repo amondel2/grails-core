@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import spock.lang.Issue;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -134,44 +135,44 @@ public class GrailsClassUtilsTests {
 
     @Test
     public void testIsGetterOrSetter() {
-        assertTrue(GrailsClassUtils.isSetter("setSomething", new Class[] { String.class }));
+        assertTrue(GrailsClassUtils.isSetter("setSomething", new Class[]{String.class}));
         assertTrue(GrailsNameUtils.isGetter("getSomething", new Class[0]));
         assertTrue(GrailsNameUtils.isGetter("isSomething", new Class[0]));
-        assertTrue(GrailsClassUtils.isSetter("setURL", new Class[] { String.class }));
+        assertTrue(GrailsClassUtils.isSetter("setURL", new Class[]{String.class}));
         assertTrue(GrailsNameUtils.isGetter("getURL", new Class[0]));
         assertTrue(GrailsNameUtils.isGetter("isURL", new Class[0]));
-        assertTrue(GrailsClassUtils.isSetter("setaProp", new Class[] { String.class }));
+        assertTrue(GrailsClassUtils.isSetter("setaProp", new Class[]{String.class}));
         assertTrue(GrailsNameUtils.isGetter("getaProp", new Class[0]));
         assertTrue(GrailsNameUtils.isGetter("isaProp", new Class[0]));
-        assertTrue(GrailsClassUtils.isSetter("setX", new Class[] { String.class }));
+        assertTrue(GrailsClassUtils.isSetter("setX", new Class[]{String.class}));
         assertTrue(GrailsNameUtils.isGetter("getX", new Class[0]));
         assertTrue(GrailsNameUtils.isGetter("isX", new Class[0]));
-        assertTrue(GrailsClassUtils.isSetter("setX2", new Class[] { String.class }));
+        assertTrue(GrailsClassUtils.isSetter("setX2", new Class[]{String.class}));
         assertTrue(GrailsNameUtils.isGetter("getX2", new Class[0]));
         assertTrue(GrailsNameUtils.isGetter("isX2", new Class[0]));
 
-        assertFalse(GrailsNameUtils.isGetter("something", new Class[] { String.class }));
+        assertFalse(GrailsNameUtils.isGetter("something", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("get", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("set", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("set", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("somethingElse", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("setSomething", new Class[] { String.class, Object.class }));
-        assertFalse(GrailsNameUtils.isGetter("getSomething", new Class[] { Object.class }));
+        assertFalse(GrailsClassUtils.isSetter("setSomething", new Class[]{String.class, Object.class}));
+        assertFalse(GrailsNameUtils.isGetter("getSomething", new Class[]{Object.class}));
 
         assertFalse(GrailsNameUtils.isGetter("getsomething", new Class[0]));
         assertFalse(GrailsNameUtils.isGetter("issomething", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("setsomething", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("setsomething", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("get0", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("set0", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("set0", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("get2other", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("set2other", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("set2other", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("getq3", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("setq3", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("setq3", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("get5A", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("set5A", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("set5A", new Class[]{String.class}));
         assertFalse(GrailsNameUtils.isGetter("", new Class[0]));
-        assertFalse(GrailsClassUtils.isSetter("", new Class[] { String.class }));
+        assertFalse(GrailsClassUtils.isSetter("", new Class[]{String.class}));
 
-        assertFalse(GrailsNameUtils.isGetter(null, new Class[] { Object.class }));
+        assertFalse(GrailsNameUtils.isGetter(null, new Class[]{Object.class}));
         assertFalse(GrailsNameUtils.isGetter("getSomething", null));
         assertFalse(GrailsNameUtils.isGetter(null, null));
     }
@@ -404,15 +405,26 @@ class ClassWithStaticFieldAndStaticPropertyWithSameName {
 }
 
 class ClassHavingPropertyGetters {
-    public String getName() { return ""; }
+    public String getName() {
+        return "";
+    }
 
-    public void setName() {  }
+    public void setName() {
+    }
 
-    protected String getSurname() { return ""; }
+    protected String getSurname() {
+        return "";
+    }
 
-    private Date getNewYear() { return null; }
+    private Date getNewYear() {
+        return null;
+    }
 
-    public String getFilename(String prefix) { return ""; }
+    public String getFilename(String prefix) {
+        return "";
+    }
 
-    public static String getTitle() { return ""; }
+    public static String getTitle() {
+        return "";
+    }
 }

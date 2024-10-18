@@ -22,8 +22,8 @@ import org.grails.web.servlet.mvc.GrailsWebRequest;
 /**
  * Defines that data that was produced when matching a URI with a UrlMapping instance.
  *
- * @see UrlMapping
  * @author Graeme Rocher
+ * @see UrlMapping
  * @since 0.5
  */
 public interface UrlMappingInfo {
@@ -100,7 +100,7 @@ public interface UrlMappingInfo {
     /**
      * Configure this UrlMappingInfo the for the given GrailsWebRequest
      *
-     * @param webRequest  The GrailsWebRequest instance
+     * @param webRequest The GrailsWebRequest instance
      */
     void configure(GrailsWebRequest webRequest);
 

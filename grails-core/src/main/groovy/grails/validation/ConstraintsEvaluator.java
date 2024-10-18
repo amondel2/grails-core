@@ -35,6 +35,7 @@ public interface ConstraintsEvaluator {
 
     /**
      * The default constraints to use
+     *
      * @return A map of default constraints
      */
     Map<String, Object> getDefaultConstraints();
@@ -50,7 +51,7 @@ public interface ConstraintsEvaluator {
     /**
      * Evaluate constraints for the given class
      *
-     * @param cls The class to evaluate constraints for
+     * @param cls             The class to evaluate constraints for
      * @param defaultNullable indicates if properties are nullable by default
      * @return A map of constrained properties
      */
@@ -59,9 +60,9 @@ public interface ConstraintsEvaluator {
     /**
      * Evaluate constraints for the given class
      *
-     * @param cls The class to evaluate constraints for
-     * @param defaultNullable indicates if properties are nullable by default
-     * @param useOnlyAdHocConstraints indicates if evaluating without pre-declared constraints
+     * @param cls                      The class to evaluate constraints for
+     * @param defaultNullable          indicates if properties are nullable by default
+     * @param useOnlyAdHocConstraints  indicates if evaluating without pre-declared constraints
      * @param adHocConstraintsClosures ad-hoc constraints to evaluate for
      * @return A map of constrained properties
      */

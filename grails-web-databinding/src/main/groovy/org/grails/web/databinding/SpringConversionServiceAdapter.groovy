@@ -23,8 +23,7 @@ import org.springframework.core.convert.ConversionService as SpringConversionSer
  * This class implements org.grails.databinding.converters.ConversionService
  * and delegates to a org.springfraemwork core.convert.support.DefaultConversionService.
  *
- * @see org.grails.databinding.converters.ConversionService
- * @see org.springframework.core.convert.support.DefaultConversionService
+ * @see org.grails.databinding.converters.ConversionService* @see org.springframework.core.convert.support.DefaultConversionService
  */
 class SpringConversionServiceAdapter implements ConversionService {
 

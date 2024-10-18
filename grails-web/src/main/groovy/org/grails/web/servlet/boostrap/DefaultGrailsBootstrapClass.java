@@ -33,7 +33,9 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
     @SuppressWarnings("rawtypes")
     private static final Closure BLANK_CLOSURE = new Closure(DefaultGrailsBootstrapClass.class) {
         @Override
-        public Object call(Object... args) { return null; }
+        public Object call(Object... args) {
+            return null;
+        }
     };
     private final Object instance;
 
@@ -51,7 +53,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
 
         Object obj = ClassPropertyFetcher.getInstancePropertyValue(instance, INIT_CLOSURE);
         if (obj instanceof Closure) {
-            return (Closure<?>)obj;
+            return (Closure<?>) obj;
         }
         return BLANK_CLOSURE;
     }
@@ -59,7 +61,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
     public Closure<?> getDestroyClosure() {
         Object obj = ClassPropertyFetcher.getInstancePropertyValue(instance, DESTROY_CLOSURE);
         if (obj instanceof Closure) {
-            return (Closure<?>)obj;
+            return (Closure<?>) obj;
         }
         return BLANK_CLOSURE;
     }
@@ -68,7 +70,7 @@ public class DefaultGrailsBootstrapClass extends AbstractGrailsClass implements 
         Closure<?> init = getInitClosure();
         if (init != null) {
             Class[] parameterTypes = init.getParameterTypes();
-            if(parameterTypes != null) {
+            if (parameterTypes != null) {
                 init = init.curry(new Object[]{servletContext});
             }
             Environment.executeForCurrentEnvironment(init);

@@ -16,7 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import spock.lang.Issue
 import spock.lang.Specification
 
- /**
+/**
  * Tests for the {@link org.grails.web.mapping.DefaultLinkGenerator} class
  */
 class LinkGeneratorSpec extends Specification {
@@ -29,7 +29,7 @@ class LinkGeneratorSpec extends Specification {
     def linkParams = [:]
     def pluginManager
 
-    def mainCssResource = [dir:'css', file:'main.css']
+    def mainCssResource = [dir: 'css', file: 'main.css']
 
     def setup() {
         WebUtils.clearGrailsWebRequest()
@@ -53,241 +53,241 @@ class LinkGeneratorSpec extends Specification {
 
     def "Test absolute link"() {
         when:
-            linkParams.uri = someAbsoluteUrl
-            linkParams.absolute = true
+        linkParams.uri = someAbsoluteUrl
+        linkParams.absolute = true
         then:
-            link == someAbsoluteUrl
+        link == someAbsoluteUrl
 
         when:
-            linkParams.uri = someAbsoluteUrl
+        linkParams.uri = someAbsoluteUrl
 
         then:
-            link == someAbsoluteUrl
+        link == someAbsoluteUrl
     }
 
     def "Test create link with root URI"() {
         when:
-            linkParams.uri = '/'
+        linkParams.uri = '/'
 
         then:
-            link == '/bar/'
+        link == '/bar/'
 
         when:
-            linkParams.uri = ''
+        linkParams.uri = ''
 
         then:
-            link == '/bar'
+        link == '/bar'
     }
 
     def "Test create relative link with custom context"() {
         when: "No custom context path specified"
-            linkParams.controller = 'one'
-            linkParams.action = 'two'
+        linkParams.controller = 'one'
+        linkParams.action = 'two'
 
         then: "The default is used"
-            link == '/bar/one/two'
+        link == '/bar/one/two'
 
         when: "A custom context path is specified"
-            linkParams.contextPath = '/different'
-            linkParams.controller = 'one'
-            linkParams.action = 'two'
+        linkParams.contextPath = '/different'
+        linkParams.controller = 'one'
+        linkParams.action = 'two'
 
         then: "The custom context path is used"
-            link == '/different/one/two'
+        link == '/different/one/two'
 
-       when: "A blank context path is specified"
-            linkParams.contextPath = ''
-            linkParams.controller = 'one'
-            linkParams.action = 'two'
+        when: "A blank context path is specified"
+        linkParams.contextPath = ''
+        linkParams.controller = 'one'
+        linkParams.action = 'two'
 
         then: "No context path is used"
-            link == '/one/two'
+        link == '/one/two'
     }
 
     def "absolute links contains the base url and context when cached"() {
         when:
-            resource = mainCssResource + [absolute:true]
+        resource = mainCssResource + [absolute: true]
 
         then:
-            cachedLink == "$baseUrl/$resource.dir/$resource.file"
-            cachedLink == "$baseUrl/$resource.dir/$resource.file"
+        cachedLink == "$baseUrl/$resource.dir/$resource.file"
+        cachedLink == "$baseUrl/$resource.dir/$resource.file"
     }
 
     def "absolute links contains the base url and context"() {
         when:
-            resource = mainCssResource + [absolute:true]
+        resource = mainCssResource + [absolute: true]
 
         then:
-            link == "$baseUrl/$resource.dir/$resource.file"
+        link == "$baseUrl/$resource.dir/$resource.file"
     }
 
     def "relative links contain the context"() {
         when:
-            resource = mainCssResource
+        resource = mainCssResource
 
         then:
-            link == "$context/$resource.dir/$resource.file"
+        link == "$context/$resource.dir/$resource.file"
     }
 
     def "default to absolute links when no context path is specified"() {
         given:
-            context = null
+        context = null
 
         when:
-            resource = mainCssResource
+        resource = mainCssResource
 
         then:
-            link == "$baseUrl/$resource.dir/$resource.file"
+        link == "$baseUrl/$resource.dir/$resource.file"
     }
 
     def "plugin paths are resolved with the plugin attribute"() {
         given:
-            plugins = [CoreGrailsPlugin]
+        plugins = [CoreGrailsPlugin]
 
         and:
-            def pluginName = "core"
-            def pluginVersion = pluginManager.getGrailsPlugin(pluginName).version
+        def pluginName = "core"
+        def pluginVersion = pluginManager.getGrailsPlugin(pluginName).version
 
         when:
-            resource = mainCssResource + [plugin: pluginName]
+        resource = mainCssResource + [plugin: pluginName]
 
         then:
-            link == "$context/plugins/$pluginName-$pluginVersion/$resource.dir/$resource.file"
+        link == "$context/plugins/$pluginName-$pluginVersion/$resource.dir/$resource.file"
     }
 
     def "link contains given explicit context path"() {
         given:
-            def customContextPath = "/test"
+        def customContextPath = "/test"
 
         when:
-            resource = mainCssResource + [contextPath: customContextPath]
+        resource = mainCssResource + [contextPath: customContextPath]
 
         then:
-            link == "$customContextPath/$resource.dir/$resource.file"
+        link == "$customContextPath/$resource.dir/$resource.file"
     }
 
     def "link has no context path if blank context supplied"() {
         given:
-            def customContextPath = ""
+        def customContextPath = ""
 
         when:
-            resource = mainCssResource + [contextPath: customContextPath]
+        resource = mainCssResource + [contextPath: customContextPath]
 
         then:
-            link == "/$resource.dir/$resource.file"
+        link == "/$resource.dir/$resource.file"
     }
 
     def "test absolute links created from request scheme"() {
 
         given:
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            MockHttpServletRequest request = webRequest.currentRequest
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        MockHttpServletRequest request = webRequest.currentRequest
 
         when:
-            baseUrl = null
-            resource = mainCssResource + [absolute:true]
-            webRequest.baseUrl = null
+        baseUrl = null
+        resource = mainCssResource + [absolute: true]
+        webRequest.baseUrl = null
         then:
-            link == "http://localhost/$resource.dir/$resource.file"
+        link == "http://localhost/$resource.dir/$resource.file"
 
         when:
-            request.serverPort = 8081
-            webRequest.baseUrl = null
+        request.serverPort = 8081
+        webRequest.baseUrl = null
         then:
-            link == "http://localhost:8081/$resource.dir/$resource.file"
+        link == "http://localhost:8081/$resource.dir/$resource.file"
 
         when:
-            request.contextPath = "/blah"
-            request.serverPort = 8081
-            webRequest.baseUrl = null
+        request.contextPath = "/blah"
+        request.serverPort = 8081
+        webRequest.baseUrl = null
         then:
-            link == "http://localhost:8081/blah/$resource.dir/$resource.file"
+        link == "http://localhost:8081/blah/$resource.dir/$resource.file"
     }
 
     def "caching should take request Host header, scheme and port in to account"() {
 
         given:
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            MockHttpServletRequest request = webRequest.currentRequest
-            baseUrl = null
-            def cachingGenerator = getGenerator(true)
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        MockHttpServletRequest request = webRequest.currentRequest
+        baseUrl = null
+        def cachingGenerator = getGenerator(true)
 
         when:
-            resource = mainCssResource + [absolute:true]
-            def cachedlink = cachingGenerator.resource(resource)
+        resource = mainCssResource + [absolute: true]
+        def cachedlink = cachingGenerator.resource(resource)
 
         then:
-            cachedlink == "http://localhost/$resource.dir/$resource.file"
-
-        when:
-            request.serverName = "some.other.host"
-            request.scheme = "https"
-            request.serverPort = 443
-            webRequest.baseUrl = null
-            cachedlink = cachingGenerator.resource(resource)
-        then:
-            cachedlink == "https://some.other.host/$resource.dir/$resource.file"
+        cachedlink == "http://localhost/$resource.dir/$resource.file"
 
         when:
-            request.serverName = "localhost"
-            request.scheme = "http"
-            request.serverPort = 8081
-            webRequest.baseUrl = null
-            cachedlink = cachingGenerator.resource(resource)
+        request.serverName = "some.other.host"
+        request.scheme = "https"
+        request.serverPort = 443
+        webRequest.baseUrl = null
+        cachedlink = cachingGenerator.resource(resource)
         then:
-            cachedlink == "http://localhost:8081/$resource.dir/$resource.file"
+        cachedlink == "https://some.other.host/$resource.dir/$resource.file"
 
         when:
-            request.contextPath = "/blah"
-            request.serverPort = 8081
-            webRequest.baseUrl = null
-            cachedlink = cachingGenerator.resource(resource)
+        request.serverName = "localhost"
+        request.scheme = "http"
+        request.serverPort = 8081
+        webRequest.baseUrl = null
+        cachedlink = cachingGenerator.resource(resource)
         then:
-            cachedlink == "http://localhost:8081/blah/$resource.dir/$resource.file"
+        cachedlink == "http://localhost:8081/$resource.dir/$resource.file"
+
+        when:
+        request.contextPath = "/blah"
+        request.serverPort = 8081
+        webRequest.baseUrl = null
+        cachedlink = cachingGenerator.resource(resource)
+        then:
+        cachedlink == "http://localhost:8081/blah/$resource.dir/$resource.file"
     }
-        
-    
+
+
     def "caching should ignore request.baseUrl when base is provided for absolute links"() {
 
         given:
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            MockHttpServletRequest request = webRequest.currentRequest
-            baseUrl = null
-            def cachingGenerator = getGenerator(true)
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        MockHttpServletRequest request = webRequest.currentRequest
+        baseUrl = null
+        def cachingGenerator = getGenerator(true)
 
         when:
-            def cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [:]);
+        def cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [:]);
         then:
-            cacheKey == "resource[:][]"
+        cacheKey == "resource[:][]"
 
         when:
-            cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [absolute:true]);
+        cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [absolute: true]);
         then:
-            cacheKey == "resourcehttp://localhost[absolute:true]"
+        cacheKey == "resourcehttp://localhost[absolute:true]"
         when:
-            cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [absolute:true, base: "http://some.other.host"]);
+        cacheKey = cachingGenerator.makeKey(CachingLinkGenerator.RESOURCE_PREFIX, [absolute: true, base: "http://some.other.host"]);
         then:
-            cacheKey == "resourcehttp://some.other.host[absolute:true, base:http://some.other.host]"
+        cacheKey == "resourcehttp://some.other.host[absolute:true, base:http://some.other.host]"
     }
-    
+
     @Issue('GRAILS-10883')
     def 'cache key should use identity of resource value'() {
         given:
-            final webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            MockHttpServletRequest request = webRequest.currentRequest
-            baseUrl = null
-            def cachingGenerator = getGenerator(true)
-            def w1 = new Widget(id: 1, name: 'Some Widget')
-            def w2 = new Widget(id: 2, name: 'Some Widget')
+        final webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        MockHttpServletRequest request = webRequest.currentRequest
+        baseUrl = null
+        def cachingGenerator = getGenerator(true)
+        def w1 = new Widget(id: 1, name: 'Some Widget')
+        def w2 = new Widget(id: 2, name: 'Some Widget')
 
         when:
-            def cacheKey = cachingGenerator.makeKey('somePrefix', [resource:w1]);
+        def cacheKey = cachingGenerator.makeKey('somePrefix', [resource: w1]);
         then:
-            cacheKey == "somePrefix[resource:org.grails.web.mapping.Widget->1]"
+        cacheKey == "somePrefix[resource:org.grails.web.mapping.Widget->1]"
         when:
-            cacheKey = cachingGenerator.makeKey('somePrefix', [resource:w2]);
+        cacheKey = cachingGenerator.makeKey('somePrefix', [resource: w2]);
         then:
-            cacheKey == "somePrefix[resource:org.grails.web.mapping.Widget->2]"
+        cacheKey == "somePrefix[resource:org.grails.web.mapping.Widget->2]"
     }
 
     @Issue('https://github.com/grails/grails-core/issues/13627')
@@ -356,23 +356,23 @@ class LinkGeneratorSpec extends Specification {
         link == '/fooBarParam/one/two'
     }
 
-    
+
     void cleanup() {
         RequestContextHolder.resetRequestAttributes()
     }
 
-    protected getGenerator(boolean cache=false) {
+    protected getGenerator(boolean cache = false) {
         def generator = cache ? new CachingLinkGenerator(baseUrl, context) : new DefaultLinkGenerator(baseUrl, context)
         final callable = { String controller, String action, String namespace, String pluginName, String httpMethod, Map params ->
             [createRelativeURL: { String c, String a, String n, String p, Map parameterValues, String encoding, String fragment ->
 
-                "${namespace ? '/' + namespace : ''}/$controller/$action${parameterValues.id? '/'+parameterValues.id:''}".toString()
+                "${namespace ? '/' + namespace : ''}/$controller/$action${parameterValues.id ? '/' + parameterValues.id : ''}".toString()
             }] as UrlCreator
         }
         generator.grailsUrlConverter = new CamelCaseUrlConverter()
-        def urlMappingsHolder = [getReverseMapping: callable,getReverseMappingNoDefault: callable] as UrlMappingsHolder
+        def urlMappingsHolder = [getReverseMapping: callable, getReverseMappingNoDefault: callable] as UrlMappingsHolder
 
-        if(resourcePath != null) {
+        if (resourcePath != null) {
             generator.resourcePath = resourcePath
         }
         generator.urlMappingsHolder = urlMappingsHolder
@@ -385,8 +385,7 @@ class LinkGeneratorSpec extends Specification {
     protected getLink() {
         if (resource != null) {
             getGenerator().resource(resource)
-        }
-        else {
+        } else {
             getGenerator().link(linkParams)
         }
     }
@@ -394,8 +393,7 @@ class LinkGeneratorSpec extends Specification {
     protected getCachedLink() {
         if (resource != null) {
             getGenerator(true).resource(resource)
-        }
-        else {
+        } else {
             getGenerator(true).link(linkParams)
         }
     }
@@ -411,12 +409,12 @@ class Widget {
     Long id
     String name
     boolean identCalled = false
-    
+
     Long ident() {
         identCalled = true
         id
     }
-    
+
     String toString() {
         name
     }

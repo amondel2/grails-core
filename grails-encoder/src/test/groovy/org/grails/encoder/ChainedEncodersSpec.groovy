@@ -28,57 +28,57 @@ import spock.lang.Specification
 class ChainedEncodersSpec extends Specification {
     def "should support encoding with one encoder"() {
         given:
-            def encoders = [new HTMLEncoder()]
-            def source = new StreamCharBuffer()
-            source.writer.write('<1> Hello World;')
+        def encoders = [new HTMLEncoder()]
+        def source = new StreamCharBuffer()
+        source.writer.write('<1> Hello World;')
         when:
-            def resultBuffer = new StreamCharBuffer()
-            resultBuffer.setAllowSubBuffers(false)
-            ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
+        def resultBuffer = new StreamCharBuffer()
+        resultBuffer.setAllowSubBuffers(false)
+        ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
         then:
-            def resultStr = resultBuffer.toString()
-            def unescapedStr = HtmlUtils.htmlUnescape(resultStr)
-            resultStr == '&lt;1&gt; Hello World;'
-            resultStr != unescapedStr
+        def resultStr = resultBuffer.toString()
+        def unescapedStr = HtmlUtils.htmlUnescape(resultStr)
+        resultStr == '&lt;1&gt; Hello World;'
+        resultStr != unescapedStr
     }
 
     def "chaining StreamingEncoders should be possible"() {
         given:
-            def encoders = [new HTMLEncoder(), new JavaScriptEncoder()]
-            def source = new StreamCharBuffer()
-            source.writer.write('<1> Hello World;')
+        def encoders = [new HTMLEncoder(), new JavaScriptEncoder()]
+        def source = new StreamCharBuffer()
+        source.writer.write('<1> Hello World;')
         when:
-            def resultBuffer = new StreamCharBuffer()
-            resultBuffer.setAllowSubBuffers(false)
-            ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
+        def resultBuffer = new StreamCharBuffer()
+        resultBuffer.setAllowSubBuffers(false)
+        ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
         then:
-            def resultStr = resultBuffer.toString()
-            def unescapedStr = StringEscapeUtils.unescapeJavaScript(resultStr) 
-            resultStr != unescapedStr
-            unescapedStr == '&lt;1&gt; Hello World;'
+        def resultStr = resultBuffer.toString()
+        def unescapedStr = StringEscapeUtils.unescapeJavaScript(resultStr)
+        resultStr != unescapedStr
+        unescapedStr == '&lt;1&gt; Hello World;'
     }
-    
+
     def "chaining Encoders (mixed) should be possible"() {
         given:
-            def encoders = [new HTMLEncoder(), new MyJavaScriptEncoder()]
-            def source = new StreamCharBuffer()
-            source.writer.write('<1> Hello World;')
+        def encoders = [new HTMLEncoder(), new MyJavaScriptEncoder()]
+        def source = new StreamCharBuffer()
+        source.writer.write('<1> Hello World;')
         when:
-            def resultBuffer = new StreamCharBuffer()
-            resultBuffer.setAllowSubBuffers(false)
-            ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
+        def resultBuffer = new StreamCharBuffer()
+        resultBuffer.setAllowSubBuffers(false)
+        ChainedEncoders.chainEncode(source, resultBuffer.writer.encodedAppender, encoders)
         then:
-            def resultStr = resultBuffer.toString()
-            def unescapedStr = StringEscapeUtils.unescapeJavaScript(resultStr)
-            resultStr != unescapedStr
-            unescapedStr == '&lt;1&gt; Hello World;'
+        def resultStr = resultBuffer.toString()
+        def unescapedStr = StringEscapeUtils.unescapeJavaScript(resultStr)
+        resultStr != unescapedStr
+        unescapedStr == '&lt;1&gt; Hello World;'
     }
-    
+
     class MyJavaScriptEncoder implements Encoder {
         JavaScriptEncoder jsEncoder = new JavaScriptEncoder()
-        boolean safe=true
-        boolean applyToSafelyEncoded=true
-        
+        boolean safe = true
+        boolean applyToSafelyEncoded = true
+
         @Override
         public CodecIdentifier getCodecIdentifier() {
             new DefaultCodecIdentifier("myJs")
@@ -88,10 +88,10 @@ class ChainedEncodersSpec extends Specification {
         public Object encode(Object o) {
             return jsEncoder.encode(o)
         }
-        
+
         @Override
         public void markEncoded(CharSequence string) {
-            
+
         }
     }
 }

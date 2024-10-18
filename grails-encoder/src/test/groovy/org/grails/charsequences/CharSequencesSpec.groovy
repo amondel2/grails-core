@@ -20,73 +20,73 @@ import spock.lang.Specification
 class CharSequencesSpec extends Specification {
     def "should support writing String instance to writer"() {
         given:
-            StringWriter writer=new StringWriter()
+        StringWriter writer = new StringWriter()
         when:
-            CharSequences.writeCharSequence(writer, input)
+        CharSequences.writeCharSequence(writer, input)
         then:
-            writer.toString()==input
+        writer.toString() == input
         where:
-            input << ['Hello world','','1','12','123']
+        input << ['Hello world', '', '1', '12', '123']
     }
 
     def "should support writing StringBuilder instance to writer"() {
         given:
-            StringWriter writer=new StringWriter()
+        StringWriter writer = new StringWriter()
         when:
-            StringBuilder sb=new StringBuilder()
-            sb.append(input)
-            CharSequences.writeCharSequence(writer, sb)
+        StringBuilder sb = new StringBuilder()
+        sb.append(input)
+        CharSequences.writeCharSequence(writer, sb)
         then:
-            writer.toString()==input
+        writer.toString() == input
         where:
-            input << ['Hello world','','1','12','123']
+        input << ['Hello world', '', '1', '12', '123']
     }
 
     def "should support writing StringBuffer instance to writer"() {
         given:
-            StringWriter writer=new StringWriter()
+        StringWriter writer = new StringWriter()
         when:
-            StringBuffer sb=new StringBuffer()
-            sb.append(input)
-            CharSequences.writeCharSequence(writer, sb)
+        StringBuffer sb = new StringBuffer()
+        sb.append(input)
+        CharSequences.writeCharSequence(writer, sb)
         then:
-            writer.toString()==input
+        writer.toString() == input
         where:
-            input << ['Hello world','','1','12','123']
+        input << ['Hello world', '', '1', '12', '123']
     }
-    
+
     def "should support writing CharArrayAccessible instance to writer"() {
         given:
-            StringWriter writer=new StringWriter()
+        StringWriter writer = new StringWriter()
         when:
-            CharArrayAccessible charArrayAccessible = new CharArrayCharSequence(input.toCharArray(), 0, input.length())
-            CharSequences.writeCharSequence(writer, charArrayAccessible)
+        CharArrayAccessible charArrayAccessible = new CharArrayCharSequence(input.toCharArray(), 0, input.length())
+        CharSequences.writeCharSequence(writer, charArrayAccessible)
         then:
-            writer.toString()==input
+        writer.toString() == input
         where:
-            input << ['Hello world','','1','12','123']
+        input << ['Hello world', '', '1', '12', '123']
     }
-    
+
     def "should support writing CharSequence instance to writer"() {
         given:
-            StringWriter writer=new StringWriter()
+        StringWriter writer = new StringWriter()
         when:
-            CharSequence charSequence = new CustomCharSequence(input)
-            CharSequences.writeCharSequence(writer, charSequence)
+        CharSequence charSequence = new CustomCharSequence(input)
+        CharSequences.writeCharSequence(writer, charSequence)
         then:
-            writer.toString()==input
+        writer.toString() == input
         where:
-            input << ['Hello world','','1','12','123']
+        input << ['Hello world', '', '1', '12', '123']
     }
-    
+
     class CustomCharSequence implements CharSequence {
         String source
-        
+
         CustomCharSequence(String source) {
             this.source = source
         }
-        
-        
+
+
         @Override
         public int length() {
             return source.length();

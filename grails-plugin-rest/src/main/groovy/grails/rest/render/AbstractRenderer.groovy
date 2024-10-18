@@ -26,7 +26,7 @@ import grails.web.mime.MimeType
  *
  */
 @CompileStatic
-abstract class AbstractRenderer<T> implements Renderer<T>{
+abstract class AbstractRenderer<T> implements Renderer<T> {
 
     Class<T> targetType
     MimeType[] mimeTypes

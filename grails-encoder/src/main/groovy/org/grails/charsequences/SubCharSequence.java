@@ -17,11 +17,9 @@ package org.grails.charsequences;
 
 /**
  * Wraps a part of a String and implements the CharSequence interface
- * 
- * 
+ *
  * @author Lari Hotari
  * @since 2.3.10
- *
  */
 class SubCharSequence implements CharSequence, CharArrayAccessible {
     private final CharSequence str;
@@ -67,7 +65,7 @@ class SubCharSequence implements CharSequence, CharArrayAccessible {
     public void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) {
         if (srcBegin < 0)
             throw new StringIndexOutOfBoundsException(srcBegin);
-        if ((srcEnd < 0) || (srcEnd > start+count))
+        if ((srcEnd < 0) || (srcEnd > start + count))
             throw new StringIndexOutOfBoundsException(srcEnd);
         if (srcBegin > srcEnd)
             throw new StringIndexOutOfBoundsException("srcBegin > srcEnd");

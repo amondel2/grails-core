@@ -94,22 +94,22 @@ class HalJsonRendererSpec extends Specification {
 
     @Issue('GRAILS-10372')
     void "Test that the HAL renderer renders JSON values correctly for domains"() {
-        given:"A HAL renderer"
-            HalJsonRenderer renderer = getRenderer()
-            renderer.prettyPrint = true
+        given: "A HAL renderer"
+        HalJsonRenderer renderer = getRenderer()
+        renderer.prettyPrint = true
 
-        when:"A domain object is rendered"
-            def webRequest = boundMimeTypeRequest()
-            (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
-            def response = webRequest.response as MockHttpServletResponse
-            def renderContext = new ServletRenderContext(webRequest)
-            def product = new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops'))
-            renderer.render(product, renderContext)
+        when: "A domain object is rendered"
+        def webRequest = boundMimeTypeRequest()
+        (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
+        def response = webRequest.response as MockHttpServletResponse
+        def renderContext = new ServletRenderContext(webRequest)
+        def product = new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops'))
+        renderer.render(product, renderContext)
 
-        then:"The resulting HAL is correct"
-            response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
-            jsonEquals(response.contentAsString, '''{
+        then: "The resulting HAL is correct"
+        response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        jsonEquals(response.contentAsString, '''{
             "_links": {
                 "self": {
                     "href": "http://localhost/products",
@@ -135,27 +135,27 @@ class HalJsonRendererSpec extends Specification {
     }
 
     @Issue('GRAILS-10499')
-    void "Test that the HAL rendered renders JSON values correctly for collection" () {
+    void "Test that the HAL rendered renders JSON values correctly for collection"() {
         given: "A HAL Collection renderer"
-            HalJsonCollectionRenderer renderer = getCollectionRenderer()
-            renderer.prettyPrint = true
+        HalJsonCollectionRenderer renderer = getCollectionRenderer()
+        renderer.prettyPrint = true
 
         when: "A collection of domian objects is rendered"
-            def webRequest = boundMimeTypeRequest()
-            (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
-            def response = webRequest.response as MockHttpServletResponse
-            def renderContext = new ServletRenderContext(webRequest)
-            def products = [
-                new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops')),
-                new Product(name: "iMac", numberInStock: 42, category:  new Category(name: 'Desktops'))
-            ]
-            renderer.render(products, renderContext)
+        def webRequest = boundMimeTypeRequest()
+        (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
+        def response = webRequest.response as MockHttpServletResponse
+        def renderContext = new ServletRenderContext(webRequest)
+        def products = [
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops')),
+                new Product(name: "iMac", numberInStock: 42, category: new Category(name: 'Desktops'))
+        ]
+        renderer.render(products, renderContext)
 
-        then:"The resulting HAL is correct"
-            response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name,
-                    GrailsWebUtil.DEFAULT_ENCODING)
-            jsonEquals(response.contentAsString, '''{
+        then: "The resulting HAL is correct"
+        response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name,
+                GrailsWebUtil.DEFAULT_ENCODING)
+        jsonEquals(response.contentAsString, '''{
             "_links": {
                 "self": {
                     "href": "http://localhost/product/Macbook",
@@ -214,30 +214,30 @@ class HalJsonRendererSpec extends Specification {
         }''')
 
     }
-    
+
     @Issue('GRAILS-10533')
-    void "Test customizing the embedded name for a rendered collection of domain objects" () {
+    void "Test customizing the embedded name for a rendered collection of domain objects"() {
         given: "A HAL Collection renderer with a custom embedded name"
-            HalJsonCollectionRenderer renderer = getCollectionRenderer()
-            renderer.prettyPrint = true
-            renderer.collectionName = 'schtuff'
+        HalJsonCollectionRenderer renderer = getCollectionRenderer()
+        renderer.prettyPrint = true
+        renderer.collectionName = 'schtuff'
 
         when: "A collection of domian objects is rendered"
-            def webRequest = boundMimeTypeRequest()
-            (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
-            def response = webRequest.response as MockHttpServletResponse
-            def renderContext = new ServletRenderContext(webRequest)
-            def products = [
-                new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops')),
-                new Product(name: "iMac", numberInStock: 42, category:  new Category(name: 'Desktops'))
-            ]
-            renderer.render(products, renderContext)
+        def webRequest = boundMimeTypeRequest()
+        (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
+        def response = webRequest.response as MockHttpServletResponse
+        def renderContext = new ServletRenderContext(webRequest)
+        def products = [
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops')),
+                new Product(name: "iMac", numberInStock: 42, category: new Category(name: 'Desktops'))
+        ]
+        renderer.render(products, renderContext)
 
-        then:"The resulting HAL is correct"
-            response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name,
-                    GrailsWebUtil.DEFAULT_ENCODING)
-            jsonEquals(response.contentAsString, '''{
+        then: "The resulting HAL is correct"
+        response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name,
+                GrailsWebUtil.DEFAULT_ENCODING)
+        jsonEquals(response.contentAsString, '''{
             "_links": {
                 "self": {
                     "href": "http://localhost/product/Macbook",
@@ -299,22 +299,22 @@ class HalJsonRendererSpec extends Specification {
 
     @Issue('GRAILS-10372')
     void "Test that the HAL renderer renders JSON values correctly for simple POGOs"() {
-        given:"A HAL renderer"
-            HalJsonRenderer renderer = getRenderer()
-            renderer.prettyPrint = true
+        given: "A HAL renderer"
+        HalJsonRenderer renderer = getRenderer()
+        renderer.prettyPrint = true
 
-            when:"A domain object is rendered"
-            def webRequest = boundMimeTypeRequest()
-            (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
-            def response = webRequest.response as MockHttpServletResponse
-            def renderContext = new ServletRenderContext(webRequest)
-            def product = new SimpleProduct(name: "MacBook", numberInStock: 10, category: new SimpleCategory(name: 'Laptops'))
-            renderer.render(product, renderContext)
+        when: "A domain object is rendered"
+        def webRequest = boundMimeTypeRequest()
+        (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
+        def response = webRequest.response as MockHttpServletResponse
+        def renderContext = new ServletRenderContext(webRequest)
+        def product = new SimpleProduct(name: "MacBook", numberInStock: 10, category: new SimpleCategory(name: 'Laptops'))
+        renderer.render(product, renderContext)
 
-        then:"The resulting HAL is correct"
-            response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
-            jsonEquals(response.contentAsString, '''{
+        then: "The resulting HAL is correct"
+        response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        jsonEquals(response.contentAsString, '''{
             "_links": {
                 "self": {
                     "href": "http://localhost/product/Macbook",
@@ -330,28 +330,28 @@ class HalJsonRendererSpec extends Specification {
         }''')
 
     }
-    
+
     @Issue('GRAILS-10512')
     void "Test that the HAL renderer renders JSON values correctly for a collection of simple POGOs"() {
-        given:"A HAL renderer"
-            HalJsonRenderer renderer = getRenderer()
-            renderer.prettyPrint = true
- 
-            when:"A collection of POGO is rendered"
-            def webRequest = boundMimeTypeRequest()
-            (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
-            webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
-            def response = webRequest.response as MockHttpServletResponse
-            def renderContext = new ServletRenderContext(webRequest)
-            def products = [
+        given: "A HAL renderer"
+        HalJsonRenderer renderer = getRenderer()
+        renderer.prettyPrint = true
+
+        when: "A collection of POGO is rendered"
+        def webRequest = boundMimeTypeRequest()
+        (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
+        webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
+        def response = webRequest.response as MockHttpServletResponse
+        def renderContext = new ServletRenderContext(webRequest)
+        def products = [
                 new SimpleProduct(name: "MacBook", numberInStock: 10, category: new SimpleCategory(name: 'Laptops')),
                 new SimpleProduct(name: "iMac", numberInStock: 8, category: new SimpleCategory(name: 'Desktops'))
-            ]
-            renderer.render(products, renderContext)
- 
-        then:"The resulting HAL is correct"
-            response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
-            jsonEquals(response.contentAsString, '''{
+        ]
+        renderer.render(products, renderContext)
+
+        then: "The resulting HAL is correct"
+        response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
+        jsonEquals(response.contentAsString, '''{
             "_links": {
                 "self": {
                     "href": "http://localhost/product/Macbook",
@@ -390,22 +390,22 @@ class HalJsonRendererSpec extends Specification {
                 }
             ]
         }''')
- 
+
     }
 
     @Issue('GRAILS-10520')
-    void "Test that HAL renders JSON correctly for eagerly loaded domain objects"(){
+    void "Test that HAL renders JSON correctly for eagerly loaded domain objects"() {
         given: "A HAL Renderer"
         def renderer = getEmployeeRenderer()
         and: "Eagerly loaded domain objects"
-        def employee = new Employee(name:'employee1', projects: [new Project(name: 'project1')])
+        def employee = new Employee(name: 'employee1', projects: [new Project(name: 'project1')])
 
         when: "I render eagerly loaded domain object"
         def webRequest = boundMimeTypeRequest()
         (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
         def renderContext = new ServletRenderContext(webRequest)
         webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/employees/employee1")
-        renderer.render(employee,renderContext)
+        renderer.render(employee, renderContext)
         def response = webRequest.response as MockHttpServletResponse
 
         then: "The resulting HAL is correct"
@@ -423,7 +423,7 @@ class HalJsonRendererSpec extends Specification {
 
     @Issue('GRAILS-10499')
     @NotYetImplemented
-    void "Test that the HAL rendered renders JSON values correctly for collections with repeated elements" () {
+    void "Test that the HAL rendered renders JSON values correctly for collections with repeated elements"() {
         given: "A HAL Collection renderer"
         HalJsonCollectionRenderer renderer = getCollectionRenderer()
         renderer.prettyPrint = true
@@ -435,13 +435,13 @@ class HalJsonRendererSpec extends Specification {
         def response = webRequest.response as MockHttpServletRequest
         def renderContext = new ServletRenderContext(webRequest)
         def products = [
-            new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops')),
-            new Product(name: "iMac", numberInStock: 42, category:  new Category(name: 'Desktops')),
-            new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops'))
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops')),
+                new Product(name: "iMac", numberInStock: 42, category: new Category(name: 'Desktops')),
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops'))
         ]
         renderer.render(products, renderContext)
 
-        then:"The resulting HAL is correct"
+        then: "The resulting HAL is correct"
         response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
         jsonEquals(response.contentAsString, '''{
           "_links": {
@@ -527,7 +527,7 @@ class HalJsonRendererSpec extends Specification {
 
     @Issue('GRAILS-10499')
     @NotYetImplemented
-    void "Test that the HAL rendered renders JSON values correctly for collections with elided elements" () {
+    void "Test that the HAL rendered renders JSON values correctly for collections with elided elements"() {
         given: "A HAL Collection renderer"
         HalJsonCollectionRenderer renderer = getCollectionRenderer()
         renderer.prettyPrint = true
@@ -539,15 +539,15 @@ class HalJsonRendererSpec extends Specification {
         def response = webRequest.response as MockHttpServletResponse
         def renderContext = new ServletRenderContext(webRequest)
         def products = [
-            new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops')),
-            new Product(name: "iMac", numberInStock: 42, category:  new Category(name: 'Desktops')),
-            new Product(name: "MacBook", numberInStock: 10, category:  new Category(name: 'Laptops'))
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops')),
+                new Product(name: "iMac", numberInStock: 42, category: new Category(name: 'Desktops')),
+                new Product(name: "MacBook", numberInStock: 10, category: new Category(name: 'Laptops'))
         ]
         renderer.render(products, renderContext)
 
-        then:"The resulting HAL is correct"
+        then: "The resulting HAL is correct"
         response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name,
-            GrailsWebUtil.DEFAULT_ENCODING)
+                GrailsWebUtil.DEFAULT_ENCODING)
         objectMapper.readTree(response.contentAsString) == objectMapper.readTree('''{
           "_links": {
             "self": {
@@ -640,11 +640,11 @@ class HalJsonRendererSpec extends Specification {
 
     @Issue('GRAILS-10372 GRAILS-10781')
     void "Test that the HAL renderer renders mixed fields (dates, enums) successfully for domains"() {
-        given:"A HAL renderer"
+        given: "A HAL renderer"
         HalJsonRenderer renderer = getEventRenderer()
         renderer.prettyPrint = true
 
-        when:"A domain object is rendered"
+        when: "A domain object is rendered"
         def webRequest = boundMimeTypeRequest()
         (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
         webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/event/Lollapalooza")
@@ -665,7 +665,7 @@ class HalJsonRendererSpec extends Specification {
 
         renderer.render(event, renderContext)
 
-        then:"The resulting HAL is correct"
+        then: "The resulting HAL is correct"
         response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
         jsonEquals(response.contentAsString, '''{
             "_links": {
@@ -684,7 +684,7 @@ class HalJsonRendererSpec extends Specification {
     @Issue('GRAILS-10372')
     @Ignore
     void "Test that the HAL renderer allows for different date converters"() {
-        given:"A HAL renderer"
+        given: "A HAL renderer"
         HalJsonRenderer renderer = getEventRenderer()
         renderer.prettyPrint = true
         renderer.dateToStringConverter = new Converter<Date, String>() {
@@ -697,7 +697,7 @@ class HalJsonRendererSpec extends Specification {
             }
         }
 
-        when:"A domain object is rendered"
+        when: "A domain object is rendered"
         def webRequest = boundMimeTypeRequest()
         webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/event/Lollapalooza")
         (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
@@ -709,7 +709,7 @@ class HalJsonRendererSpec extends Specification {
 
         renderer.render(event, renderContext)
 
-        then:"The resulting HAL is correct"
+        then: "The resulting HAL is correct"
         response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
         jsonEquals(response.contentAsString, '''{
           "_links": {
@@ -728,12 +728,12 @@ class HalJsonRendererSpec extends Specification {
 
 
     @Issue('GRAILS-11100')
-    void "Test that the HAL renderer ignores null values for embedded single ended domain objects" () {
-        given:"A HAL renderer"
+    void "Test that the HAL renderer ignores null values for embedded single ended domain objects"() {
+        given: "A HAL renderer"
         HalJsonRenderer renderer = getRenderer()
         renderer.prettyPrint = false
 
-        when:"A domain object is rendered"
+        when: "A domain object is rendered"
         def webRequest = boundMimeTypeRequest()
         webRequest.request.setAttribute(WebUtils.FORWARD_REQUEST_URI_ATTRIBUTE, "/product/Macbook")
         (webRequest.request as MockHttpServletRequest).addHeader("ACCEPT", "application/hal+json")
@@ -742,13 +742,13 @@ class HalJsonRendererSpec extends Specification {
         def product = new Product(name: "MacBook", numberInStock: 10, category: null)
         renderer.render(product, renderContext)
 
-        then:"The resulting HAL is correct"
+        then: "The resulting HAL is correct"
         response.contentType == GrailsWebUtil.getContentType(HalJsonRenderer.MIME_TYPE.name, GrailsWebUtil.DEFAULT_ENCODING)
         jsonEquals(response.contentAsString, '{"_links":{"self":{"href":"http://localhost/products","hreflang":"en","type":"application/hal+json"}},"numberInStock":10,"name":"MacBook","_embedded":{}}')
     }
 
     @Issue('https://github.com/grails/grails-core/issues/10293')
-    void "Test that the HAL renderer renders JSON values correctly for collections with a many-to-one association" () {
+    void "Test that the HAL renderer renders JSON values correctly for collections with a many-to-one association"() {
         given:
         HalJsonCollectionRenderer renderer = getMemberCollectionRenderer()
         renderer.proxyHandler = new MockHibernateProxyHandler()
@@ -756,8 +756,8 @@ class HalJsonRendererSpec extends Specification {
         and:
         def team = new Team(name: 'Test Team')
         def members = [
-            new Member(name: "One", team: team),
-            new Member(name: "Two", team: team)
+                new Member(name: "One", team: team),
+                new Member(name: "Two", team: team)
         ]
 
         and:
@@ -911,12 +911,14 @@ class HalJsonRendererSpec extends Specification {
         context.addPersistentEntities(Member)
         return context
     }
+
     LinkGenerator getLinkGenerator(Closure mappings) {
         def generator = new DefaultLinkGenerator("http://localhost", null)
         generator.grailsUrlConverter = new CamelCaseUrlConverter()
         generator.urlMappingsHolder = getUrlMappingsHolder mappings
         return generator;
     }
+
     UrlMappingsHolder getUrlMappingsHolder(Closure mappings) {
         def ctx = new MockApplicationContext()
         ctx.registerMockBean(GrailsApplication.APPLICATION_ID, new DefaultGrailsApplication())
@@ -1010,6 +1012,7 @@ class Category {
      * We need these defined for when we're checking if objects are actually written (since we're checking our
      * set 'writtenObjects' if something's there already)
      */
+
     @Override
     boolean equals(o) {
         if (this.is(o)) {
@@ -1041,7 +1044,9 @@ class Event {
     Date date
     State state
 
-    enum State { OPEN, CLOSED }
+    enum State {
+        OPEN, CLOSED
+    }
 }
 
 @Entity
@@ -1063,6 +1068,7 @@ class Project {
         employees lazy: false
     }
 }
+
 @Entity
 class Employee {
 
@@ -1100,7 +1106,9 @@ class Member {
 
 class Moment {
     Category type
-    enum Category { PAST, PRESENT, FUTURE }
+    enum Category {
+        PAST, PRESENT, FUTURE
+    }
 }
 
 class SimpleProduct {

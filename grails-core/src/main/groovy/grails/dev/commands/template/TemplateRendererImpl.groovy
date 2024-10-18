@@ -20,7 +20,8 @@ import org.grails.io.support.ResourceLoader
 @CompileStatic
 class TemplateRendererImpl implements TemplateRenderer {
 
-    @Delegate FileSystemInteraction fileSystemInteraction
+    @Delegate
+    FileSystemInteraction fileSystemInteraction
     protected Map<String, Template> templateCache = [:]
 
     TemplateRendererImpl(File baseDir, ResourceLoader resourceLoader = new DefaultResourceLoader()) {

@@ -10,7 +10,7 @@ dependencies {
 
     implementation "com.github.ben-manes.caffeine:caffeine:$caffeineVersion"
     testImplementation project(":grails-plugin-url-mappings"),
-                project(":grails-test-suite-base")
+            project(":grails-test-suite-base")
 
     testImplementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 }

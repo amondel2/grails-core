@@ -71,15 +71,15 @@ class PdfBuilder {
 
     static boolean cleanHtml = System.getProperty('grails.docs.clean.html') == null ? true : Boolean.getBoolean("grails.docs.clean.html")
     static boolean debugPdf = Boolean.getBoolean("grails.docs.debug.pdf")
-    
+
     private static String cleanupHtml(File htmlFile, String xml) {
         String result = cleanHtml ? Jsoup.parse(xml, "", Parser.xmlParser()).outerHtml() : xml
         result = removeCssLinks(result)
         result = result.replaceAll('</head>', pdfCss() + '</head>')
-        if(debugPdf) {
+        if (debugPdf) {
             File before = new File(htmlFile.absolutePath + '.before.xml')
             before.setText(xml, 'UTF-8')
-            if(result != xml) {
+            if (result != xml) {
                 File after = new File(htmlFile.absolutePath + '.after.xml')
                 after.setText(result, 'UTF-8')
             }
@@ -90,7 +90,7 @@ class PdfBuilder {
     private static String removeCssLink(String htmlString) {
         String output
         String str = htmlString
-        int index =  str.indexOf('<link rel="stylesheet"')
+        int index = str.indexOf('<link rel="stylesheet"')
         output = str.substring(0, index)
         String end = str.substring(index, str.size())
         output += end.substring(end.indexOf('/>') + '/>'.length(), end.size())
@@ -99,11 +99,11 @@ class PdfBuilder {
 
     static String removeCssLinks(String html) {
         String str = html
-        for (;;) {
+        for (; ;) {
 
-            int index =  str.indexOf('<link rel="stylesheet"')
+            int index = str.indexOf('<link rel="stylesheet"')
             println "index $index"
-            if ( index == -1 ) {
+            if (index == -1) {
                 break
             }
             str = removeCssLink(str)

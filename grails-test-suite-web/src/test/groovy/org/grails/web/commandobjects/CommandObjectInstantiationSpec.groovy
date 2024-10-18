@@ -18,11 +18,11 @@ class CommandObjectInstantiationSpec extends Specification implements Controller
         request.method = requestMethod
         params.name = "Name for ${requestMethod} request"
         controller.nonDomainCommandObject()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         model.commandObject.name == "Name for ${requestMethod} request"
-        
+
         where:
         requestMethod << ['POST', 'PUT', 'GET', 'DELETE']
     }
@@ -34,22 +34,22 @@ class CommandObjectInstantiationSpec extends Specification implements Controller
         request.method = requestMethod
         params.name = "Name for ${requestMethod} request with no id"
         controller.domainCommandObject()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         model.commandObject == null
-        
+
         where:
         requestMethod << ['PUT', 'GET', 'DELETE']
     }
-    
+
     @Issue('GRAILS-11247')
     void 'Test domain command object instantiation for POST request with no id'() {
         when:
         request.method = 'POST'
         params.name = "Name for POST request with no id"
         controller.domainCommandObject()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         model.commandObject.name == "Name for POST request with no id"
@@ -86,24 +86,24 @@ class CommandObjectInstantiationSpec extends Specification implements Controller
     void 'Test domain command object instantiation for #requestMethod request with id'() {
         given:
         def domainObject = new DomainClassCommandObject(name: 'My Domain Name')
-        
+
         when:
         domainObject.save()
         def id = domainObject.id
-        
+
         then:
         id != null
-        
+
         when:
         request.method = requestMethod
         params.id = id
         controller.domainCommandObject()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         model.commandObject.id == id
         model.commandObject.name == 'My Domain Name'
-        
+
         where:
         requestMethod << ['POST', 'PUT', 'GET', 'DELETE']
     }
@@ -115,10 +115,10 @@ class InstantiationController {
     def nonDomainCommandObject(CommandObject co) {
         render view: 'view', model: [commandObject: co]
     }
-    
+
     def domainCommandObject(DomainClassCommandObject co) {
         render view: 'view', model: [commandObject: co]
-    } 
+    }
 }
 
 @Entity

@@ -37,12 +37,14 @@ public interface ResourceLocator {
 
     /**
      * Multiple locations to search. See #setSearchLocation
+     *
      * @param searchLocations The locations to search
      */
     void setSearchLocations(Collection<String> searchLocations);
 
     /**
      * Finds a resource for the given URI
+     *
      * @param uri The URI
      * @return The resource or null if it doesn't exist
      */

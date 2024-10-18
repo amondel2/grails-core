@@ -14,53 +14,31 @@ class StackTracePrinterSpec extends Specification {
 
     void "Test pretty print simple stack trace"() {
         given: "a controller that throws an exception"
-            final gcl = new GroovyClassLoader()
-            gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
-            def controller = gcl.parseClass(getControllerResource().inputStream.text, controllerResource.filename).newInstance()
-        when:"An exception is pretty printed"
-            def printer = new DefaultErrorsPrinter()
-            def result = null
-            try {
-                controller.show()
-            } catch (e) {
-                filterer.filter(e)
-                result = printer.prettyPrint(e)
-            }
+        final gcl = new GroovyClassLoader()
+        gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
+        def controller = gcl.parseClass(getControllerResource().inputStream.text, controllerResource.filename).newInstance()
+        when: "An exception is pretty printed"
+        def printer = new DefaultErrorsPrinter()
+        def result = null
+        try {
+            controller.show()
+        } catch (e) {
+            filterer.filter(e)
+            result = printer.prettyPrint(e)
+        }
 
-        then:"The formatting is correctly applied"
-            result != null
-            result.contains '7 | callMe . . . . . . in test.FooController'
+        then: "The formatting is correctly applied"
+        result != null
+        result.contains '7 | callMe . . . . . . in test.FooController'
     }
 
-    @Requires({jvm.isJava8()})
+    @Requires({ jvm.isJava8() })
     void "Test pretty print nested stack trace"() {
-      given: "a controller that throws an exception"
-            final gcl = new GroovyClassLoader()
-            gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
-            def controller = gcl.parseClass(getControllerResource().inputStream.text, controllerResource.filename).newInstance()
-        when:"An exception is pretty printed"
-            def printer = new DefaultErrorsPrinter()
-            def result = null
-            try {
-                controller.nesting()
-            } catch (e) {
-                filterer.filter(e, true)
-                result = printer.prettyPrint(e)
-            }
-
-        then:"The formatting is correctly applied"
-            result != null
-            result.contains '->> 14 | nesting            in test.FooController'
-            result.contains '->>  3 | callMe             in test.FooService'
-    }
-
-    @Requires({jvm.isJava11()})
-    void "Test pretty print nested stack trace for JDK 11"() {
         given: "a controller that throws an exception"
         final gcl = new GroovyClassLoader()
         gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
         def controller = gcl.parseClass(getControllerResource().inputStream.text, controllerResource.filename).newInstance()
-        when:"An exception is pretty printed"
+        when: "An exception is pretty printed"
         def printer = new DefaultErrorsPrinter()
         def result = null
         try {
@@ -70,7 +48,29 @@ class StackTracePrinterSpec extends Specification {
             result = printer.prettyPrint(e)
         }
 
-        then:"The formatting is correctly applied"
+        then: "The formatting is correctly applied"
+        result != null
+        result.contains '->> 14 | nesting            in test.FooController'
+        result.contains '->>  3 | callMe             in test.FooService'
+    }
+
+    @Requires({ jvm.isJava11() })
+    void "Test pretty print nested stack trace for JDK 11"() {
+        given: "a controller that throws an exception"
+        final gcl = new GroovyClassLoader()
+        gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
+        def controller = gcl.parseClass(getControllerResource().inputStream.text, controllerResource.filename).newInstance()
+        when: "An exception is pretty printed"
+        def printer = new DefaultErrorsPrinter()
+        def result = null
+        try {
+            controller.nesting()
+        } catch (e) {
+            filterer.filter(e, true)
+            result = printer.prettyPrint(e)
+        }
+
+        then: "The formatting is correctly applied"
         result != null
         result.contains ' 14 | nesting . . . . .  in test.FooController'
         result.contains '->>  3 | callMe             in test.FooService'
@@ -78,25 +78,25 @@ class StackTracePrinterSpec extends Specification {
 
     void "Test pretty print code snippet"() {
         given: "a controller that throws an exception"
-            final gcl = new GroovyClassLoader()
-            gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
-            def controller = gcl.parseClass(getControllerResource().inputStream.text, getControllerResource().filename).newInstance()
+        final gcl = new GroovyClassLoader()
+        gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
+        def controller = gcl.parseClass(getControllerResource().inputStream.text, getControllerResource().filename).newInstance()
 
         when: "A code snippet is pretty printed"
-            final locator = new StaticResourceLocator()
-            locator.addClassResource("test.FooController", getControllerResource())
-            def printer = new DefaultErrorsPrinter(locator)
-            def result = null
-            try {
-                controller.show()
-            } catch (e) {
-                filterer.filter(e)
-                result = printer.prettyPrintCodeSnippet(e)
-            }
+        final locator = new StaticResourceLocator()
+        locator.addClassResource("test.FooController", getControllerResource())
+        def printer = new DefaultErrorsPrinter(locator)
+        def result = null
+        try {
+            controller.show()
+        } catch (e) {
+            filterer.filter(e)
+            result = printer.prettyPrintCodeSnippet(e)
+        }
 
         then:
-            result != null
-            result == '''Around line 7 of FooController.groovy
+        result != null
+        result == '''Around line 7 of FooController.groovy
 4:     def show() {
 5:         callMe()
 6:     }
@@ -116,27 +116,27 @@ Around line 5 of FooController.groovy
     }
 
     void "Test pretty print nested exception code snippet"() {
-        given:"a service that throws an exception that is caught and rethrown"
-            final gcl = new GroovyClassLoader()
-            gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
-            def controller = gcl.parseClass(controllerResource.inputStream.text, controllerResource.filename).newInstance()
-            final locator = new StaticResourceLocator()
-            locator.addClassResource("test.FooController", controllerResource)
-            locator.addClassResource("test.FooService", serviceResource)
+        given: "a service that throws an exception that is caught and rethrown"
+        final gcl = new GroovyClassLoader()
+        gcl.parseClass(getServiceResource().inputStream.text, serviceResource.filename)
+        def controller = gcl.parseClass(controllerResource.inputStream.text, controllerResource.filename).newInstance()
+        final locator = new StaticResourceLocator()
+        locator.addClassResource("test.FooController", controllerResource)
+        locator.addClassResource("test.FooService", serviceResource)
 
-        when:"The code snippet is printed"
-            def printer = new DefaultErrorsPrinter(locator)
-            def result = null
-            try {
-                controller.nesting()
-            } catch (e) {
-                filterer.filter(e, true)
-                result = printer.prettyPrintCodeSnippet(e)
-            }
+        when: "The code snippet is printed"
+        def printer = new DefaultErrorsPrinter(locator)
+        def result = null
+        try {
+            controller.nesting()
+        } catch (e) {
+            filterer.filter(e, true)
+            result = printer.prettyPrintCodeSnippet(e)
+        }
 
         then:
-            result != null
-            result == '''Around line 14 of FooController.groovy
+        result != null
+        result == '''Around line 14 of FooController.groovy
 11:             fooService.callMe()
 12:         }
 13:         catch(e) {

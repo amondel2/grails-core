@@ -24,15 +24,15 @@ class BasicCodecLookupSpec extends Specification {
 
     def "should support dynamic chained codecs"() {
         given:
-            StandaloneCodecLookup codecLookup=new StandaloneCodecLookup()
-            codecLookup.afterPropertiesSet()
-            Encoder encoder = codecLookup.lookupEncoder("html,js")
-            Decoder decoder = codecLookup.lookupDecoder("html,js")
+        StandaloneCodecLookup codecLookup = new StandaloneCodecLookup()
+        codecLookup.afterPropertiesSet()
+        Encoder encoder = codecLookup.lookupEncoder("html,js")
+        Decoder decoder = codecLookup.lookupDecoder("html,js")
         expect:
-            encoder != null
-            decoder != null
-            encoder.encode("<1>Hello;") == "\\u0026lt\\u003b1\\u0026gt\\u003bHello\\u003b"
-            decoder.decode("\\u0026lt\\u003b1\\u0026gt\\u003bHello\\u003b") == "<1>Hello;"
-    }    
+        encoder != null
+        decoder != null
+        encoder.encode("<1>Hello;") == "\\u0026lt\\u003b1\\u0026gt\\u003bHello\\u003b"
+        decoder.decode("\\u0026lt\\u003b1\\u0026gt\\u003bHello\\u003b") == "<1>Hello;"
+    }
 
 }

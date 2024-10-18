@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author Phil Zoio
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ExcludingPluginFilter extends BasePluginFilter {
 
     public ExcludingPluginFilter(Set excluded) {
@@ -46,7 +46,7 @@ public class ExcludingPluginFilter extends BasePluginFilter {
 
         // go through and remove ones that don't apply
         List<GrailsPlugin> newList = new ArrayList<GrailsPlugin>(original);
-        for (Iterator<GrailsPlugin> iter = newList.iterator(); iter.hasNext();) {
+        for (Iterator<GrailsPlugin> iter = newList.iterator(); iter.hasNext(); ) {
             GrailsPlugin element = iter.next();
             // remove the excluded dependencies
             if (pluginList.contains(element)) {

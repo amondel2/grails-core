@@ -88,7 +88,8 @@ class DefaultErrorsPrinter extends DefaultStackTracePrinter implements CodeSnipp
 
                 res = res ?: resourceLocator?.findResourceForClassName(className)
                 if (res != null) {
-                    if (lineNumbersShown[res.filename].contains(lineNumber)) continue // don't repeat the same lines twice
+                    if (lineNumbersShown[res.filename].contains(lineNumber)) continue
+                    // don't repeat the same lines twice
 
                     lineNumbersShown[res.filename] << lineNumber
                     pw.print formatCodeSnippetStart(res, lineNumber, attrs)
@@ -107,12 +108,10 @@ class DefaultErrorsPrinter extends DefaultStackTracePrinter implements CodeSnipp
                                     boolean isErrorLine = currentLineNumber == lineNumber
                                     if (isErrorLine) {
                                         pw.print formatCodeSnippetErrorLine(currentLineNumber, currentLine, attrs)
-                                    }
-                                    else {
+                                    } else {
                                         pw.print formatCodeSnippetLine(currentLineNumber, currentLine, attrs)
                                     }
-                                }
-                                else if (currentLineNumber > last) {
+                                } else if (currentLineNumber > last) {
                                     break
                                 }
 
@@ -131,8 +130,7 @@ class DefaultErrorsPrinter extends DefaultStackTracePrinter implements CodeSnipp
                         }
                         pw.print formatCodeSnippetEnd(res, lineNumber)
                     }
-                }
-                else {
+                } else {
                     if (!first) {
                         break
                     }
@@ -162,12 +160,11 @@ class DefaultErrorsPrinter extends DefaultStackTracePrinter implements CodeSnipp
                 } catch (e) {
                     // ignore
                 }
-            }
-            else if (start instanceof MultipleCompilationErrorsException) {
+            } else if (start instanceof MultipleCompilationErrorsException) {
                 MultipleCompilationErrorsException mcee = start
                 Object message = mcee.getErrorCollector().getErrors().iterator().next()
                 if (message instanceof SyntaxErrorMessage) {
-                    SyntaxErrorMessage sem = (SyntaxErrorMessage)message
+                    SyntaxErrorMessage sem = (SyntaxErrorMessage) message
                     final tmp = new FileSystemResource(sem.getCause().getSourceLocator())
                     if (tmp.exists()) {
                         res = tmp
@@ -187,12 +184,11 @@ class DefaultErrorsPrinter extends DefaultStackTracePrinter implements CodeSnipp
         if (cause instanceof SourceCodeAware) {
             SourceCodeAware sca = cause
             lineNumber = sca.lineNumber
-        }
-        else if (cause instanceof MultipleCompilationErrorsException) {
+        } else if (cause instanceof MultipleCompilationErrorsException) {
             MultipleCompilationErrorsException mcee = cause
             Object message = mcee.getErrorCollector().getErrors().iterator().next()
             if (message instanceof SyntaxErrorMessage) {
-                SyntaxErrorMessage sem = (SyntaxErrorMessage)message
+                SyntaxErrorMessage sem = (SyntaxErrorMessage) message
                 lineNumber = sem.getCause().getLine()
             }
         }

@@ -6,23 +6,25 @@ import spock.lang.Specification
 
 class DomainClassWithDefaultConstraintsUnitTestMixinTests extends Specification implements DomainUnitTest<DomainWithDefaultConstraints> {
 
-    Closure doWithConfig() {{ config ->
-        config['grails.gorm.default.constraints'] = {
-            '*'(nullable:true)
+    Closure doWithConfig() {
+        { config ->
+            config['grails.gorm.default.constraints'] = {
+                '*'(nullable: true)
+            }
         }
-    }}
+    }
 
     void testCreateDomainSingleLineWithConfigHavingNullableTrueForAllProperties() {
         expect:
-        new DomainWithDefaultConstraints(name:"My test").save(flush:true) != null
+        new DomainWithDefaultConstraints(name: "My test").save(flush: true) != null
     }
 
     void testCreateDomainAllPropertiesWithConfigHavingNullableTrueForAllProperties() {
         when:
-        def d = new DomainWithDefaultConstraints(name:"My test",value: "My test value")
+        def d = new DomainWithDefaultConstraints(name: "My test", value: "My test value")
 
         then:
-        new DomainWithDefaultConstraints(name:"My test",value: "My test value").save(flush:true) != null
+        new DomainWithDefaultConstraints(name: "My test", value: "My test value").save(flush: true) != null
     }
 }
 

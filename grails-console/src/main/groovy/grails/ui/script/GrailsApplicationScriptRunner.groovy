@@ -23,6 +23,7 @@ import groovy.transform.CompileStatic
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 import org.springframework.context.ConfigurableApplicationContext
+
 /**
  * Used to run Grails scripts within the context of a Grails application
  *
@@ -39,7 +40,7 @@ class GrailsApplicationScriptRunner extends DevelopmentGrailsApplication {
     }
 
     @Override
-    ConfigurableApplicationContext run(String...args) {
+    ConfigurableApplicationContext run(String... args) {
         ConfigurableApplicationContext ctx
         try {
             ctx = super.run(args)
@@ -67,11 +68,11 @@ class GrailsApplicationScriptRunner extends DevelopmentGrailsApplication {
         try {
             scripts.each {
                 try {
-                    for(i in interceptors) {
+                    for (i in interceptors) {
                         i.init()
                     }
                     sh.evaluate(it)
-                    for(i in interceptors) {
+                    for (i in interceptors) {
                         i.destroy()
                     }
                 } catch (Throwable e) {
@@ -81,7 +82,7 @@ class GrailsApplicationScriptRunner extends DevelopmentGrailsApplication {
             }
         } finally {
             try {
-                for(i in interceptors) {
+                for (i in interceptors) {
                     i.destroy()
                 }
                 ctx?.close()
@@ -99,7 +100,7 @@ class GrailsApplicationScriptRunner extends DevelopmentGrailsApplication {
      * @param args The last argument is the Application class name. All other args are script names
      */
     public static void main(String[] args) {
-        if(args.size() > 1) {
+        if (args.size() > 1) {
             Class applicationClass
             try {
                 applicationClass = Thread.currentThread().contextClassLoader.loadClass(args.last())

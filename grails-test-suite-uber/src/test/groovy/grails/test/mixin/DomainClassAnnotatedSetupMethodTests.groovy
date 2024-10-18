@@ -6,7 +6,7 @@ import spock.lang.Specification
 class DomainClassAnnotatedSetupMethodTests extends Specification implements DomainUnitTest<Book> {
 
     void setup() {
-        new Book(title:"The Stand", pages:100).save(flush:true)
+        new Book(title: "The Stand", pages: 100).save(flush: true)
     }
 
     void testSaveInSetup() {

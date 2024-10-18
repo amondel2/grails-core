@@ -34,12 +34,12 @@ trait ServerInteraction {
      * @param port The port
      */
     void waitForStartup(String host = "localhost", int port = 8080) {
-        while(!isServerAvailable(host, port)) {
+        while (!isServerAvailable(host, port)) {
             sleep 100
         }
         try {
             new URL("http://${host ?: 'localhost'}:${port ?: 8080}/is-tomcat-running").text
-        } catch(ignored) {
+        } catch (ignored) {
             // ignore
         }
     }

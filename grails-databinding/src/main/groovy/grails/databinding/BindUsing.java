@@ -33,32 +33,32 @@ import java.lang.annotation.RetentionPolicy;
  * following code demonstrates using this technique to bind an upper
  * case version of the value in the DataBindingSource to the field.
  *
-<pre>
-class SomeClass {
-    &#064;BindUsing({
-        obj, source -&gt; source['name']?.toUpperCase()
-    })
-    String name
-}
-</pre>
+ * <pre>
+ * class SomeClass {
+ * &#064;BindUsing({
+ * obj, source -&gt; source['name']?.toUpperCase()
+ * })
+ * String name
+ * }
+ * </pre>
  *
  * When the annotation is applied to a class, the value assigned to the
  * annotation should be a class which implements the {@link BindingHelper}
  * interface.  An instance of that class will be used any time a value
  * is bound to a property in the class that this annotation has been
  * applied to.
-<pre>
-&#064;BindUsing(SomeClassWhichImplementsBindingHelper)
-class SomeClass {
-    String someProperty
-    Integer someOtherProperty
-}
-</pre>
+ * <pre>
+ * &#064;BindUsing(SomeClassWhichImplementsBindingHelper)
+ * class SomeClass {
+ * String someProperty
+ * Integer someOtherProperty
+ * }
+ * </pre>
  *
  * @author Jeff Brown
- * @since 2.3
  * @see BindingHelper
  * @see DataBindingSource
+ * @since 2.3
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BindUsing {

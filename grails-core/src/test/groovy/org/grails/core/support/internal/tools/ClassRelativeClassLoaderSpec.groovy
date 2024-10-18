@@ -8,13 +8,13 @@ import spock.lang.Specification
 class ClassRelativeClassLoaderSpec extends Specification {
 
     void "test class relative classloader"() {
-        when:"A classloader is created for only resources relative to this class"
+        when: "A classloader is created for only resources relative to this class"
         def classLoader = new ClassRelativeClassLoader(ClassRelativeClassLoaderSpec)
 
-        then:"The resources are found"
+        then: "The resources are found"
         classLoader.getResource('org/grails/core/support/internal/tools/ClassRelativeClassLoaderSpec.class')
 
-        and:"other classpath resources are not found"
+        and: "other classpath resources are not found"
         !classLoader.getResource('springloaded.properties')
     }
 }

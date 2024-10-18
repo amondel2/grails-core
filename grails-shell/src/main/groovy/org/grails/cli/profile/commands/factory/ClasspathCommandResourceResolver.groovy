@@ -40,13 +40,13 @@ class ClasspathCommandResourceResolver implements CommandResourceResolver {
 
     @Override
     Collection<Resource> findCommandResources(Profile profile) {
-        if(resources != null) return resources
+        if (resources != null) return resources
         def classLoader = classLoader ?: Thread.currentThread().contextClassLoader
         PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver(classLoader)
 
         try {
-           resources = []
-            for(String ext in matchingFileExtensions) {
+            resources = []
+            for (String ext in matchingFileExtensions) {
                 resources.addAll resourcePatternResolver.getResources("classpath*:META-INF/commands/*.$ext").toList()
             }
             return resources

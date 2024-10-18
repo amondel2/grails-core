@@ -152,7 +152,7 @@ class ControllerExceptionHandlerSpec extends Specification implements Controller
         thrown UnsupportedOperationException
     }
 
-    @Issue('GRAILS-10866')    
+    @Issue('GRAILS-10866')
     void 'Test exception handler for an Exception class written in Groovy'() {
         when:
         params.exceptionToThrow = MyException.name
@@ -165,7 +165,7 @@ class ControllerExceptionHandlerSpec extends Specification implements Controller
 
 @Artefact('Controller')
 abstract class SomeAbstractController {
-    
+
     private somePrivateMethodWhichIsNotAnExceptionHandler(IOException e) {
     }
 }
@@ -203,7 +203,7 @@ class ErrorHandlersController extends SomeAbstractController implements Database
     def handleNumberFormatException(NumberFormatException nfe) {
         [problemDescription: 'A Number Was Invalid']
     }
-    
+
     def handleSomeGroovyException(MyException e) {
         render 'MyException was thrown'
     }
@@ -214,5 +214,5 @@ class MyCommand {
 }
 
 class MyException extends Exception {
-    
+
 }

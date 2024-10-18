@@ -45,14 +45,13 @@ class RequestForwarderSpec extends Specification {
             }
         }, new MockHttpServletResponse())
 
-        when:"A forward is issued that populates the model"
+        when: "A forward is issued that populates the model"
         TestForwarder forwarder = new TestForwarder()
 
         forwarder.doForward()
 
-        then:"The model and view attribute is cleared"
+        then: "The model and view attribute is cleared"
         webRequest.request.getAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW) == null
-
 
 
         cleanup:
@@ -62,6 +61,6 @@ class RequestForwarderSpec extends Specification {
 
 class TestForwarder implements RequestForwarder {
     void doForward() {
-        forward(controller:"blah")
+        forward(controller: "blah")
     }
 }

@@ -27,9 +27,9 @@ import grails.util.GrailsUtil
  */
 @Deprecated
 class MimeTypesGrailsPlugin extends AbstractMimeTypesGrailsPlugin {
-    
+
     def version = GrailsUtil.getGrailsVersion()
-    def dependsOn = [core:version, controllers:version]
+    def dependsOn = [core: version, controllers: version]
     def observe = ['controllers']
 
     @Override

@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Graeme Rocher
  */
-@SuppressWarnings({"unchecked","rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class GrailsFlashScopeTests {
 
     private static final String ERRORS_PROPERTY = "errors";
@@ -38,7 +38,7 @@ public class GrailsFlashScopeTests {
         GrailsWebMockUtil.bindMockWebRequest();
 
         FlashScope fs = new GrailsFlashScope();
-        fs.put("test",null);
+        fs.put("test", null);
     }
 
     @Test
@@ -47,13 +47,13 @@ public class GrailsFlashScopeTests {
         GrailsWebMockUtil.bindMockWebRequest();
 
         FlashScope fs = new GrailsFlashScope();
-        fs.put("test","value");
-        fs.put("fred","flintstone");
+        fs.put("test", "value");
+        fs.put("fred", "flintstone");
         fs.getNow().put("barney", "rubble");
 
         assertFalse(fs.isEmpty());
-        assertEquals("flintstone",fs.get("fred"));
-        assertEquals("rubble",fs.get("barney"));
+        assertEquals("flintstone", fs.get("fred"));
+        assertEquals("rubble", fs.get("barney"));
         assertEquals(3, fs.size());
         assertTrue(fs.containsKey("test"));
         assertTrue(fs.containsKey("barney"));
@@ -64,7 +64,7 @@ public class GrailsFlashScopeTests {
         fs.next();
 
         assertFalse(fs.isEmpty());
-        assertEquals("flintstone",fs.get("fred"));
+        assertEquals("flintstone", fs.get("fred"));
         assertEquals(2, fs.size());
         assertTrue(fs.containsKey("test"));
         assertTrue(fs.containsValue("value"));
@@ -74,7 +74,7 @@ public class GrailsFlashScopeTests {
         fs.next();
 
         assertTrue(fs.isEmpty());
-        assertEquals(0,fs.size());
+        assertEquals(0, fs.size());
     }
 
     /**
@@ -88,8 +88,8 @@ public class GrailsFlashScopeTests {
         //set up a map with ERRORS_PROPERTY
         Map map = new HashMap();
         StringWithError value = new StringWithError("flinstone");
-        map.put("fred",value);
-        map.put("barney","rabble");
+        map.put("fred", value);
+        map.put("barney", "rabble");
         MetaClass mc = GroovySystem.getMetaClassRegistry().getMetaClass(value.getClass());
         mc.setProperty(value, ERRORS_PROPERTY, new Object());
 
@@ -100,7 +100,7 @@ public class GrailsFlashScopeTests {
 
         assertFalse(fs.isEmpty());
         assertEquals(2, fs.size());
-        assertEquals(map,fs.get("flinstones"));
+        assertEquals(map, fs.get("flinstones"));
         assertEquals("value", fs.get("test"));
 
         // the state immediately following this one the map should still contain the previous entries
@@ -108,14 +108,14 @@ public class GrailsFlashScopeTests {
 
         assertFalse(fs.isEmpty());
         assertEquals(2, fs.size());
-        assertEquals(map,fs.get("flinstones"));
+        assertEquals(map, fs.get("flinstones"));
         assertEquals("value", fs.get("test"));
 
         // the next state it should be empty
         fs.next();
 
         assertTrue(fs.isEmpty());
-        assertEquals(0,fs.size());
+        assertEquals(0, fs.size());
     }
 
     private class StringWithError {

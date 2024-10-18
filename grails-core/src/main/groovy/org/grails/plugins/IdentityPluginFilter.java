@@ -29,7 +29,7 @@ public class IdentityPluginFilter implements PluginFilter {
     /**
      * Simply returns original list reference.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public List filterPluginList(List original) {
         return original;
     }

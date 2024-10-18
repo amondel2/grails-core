@@ -45,6 +45,7 @@ public class DefaultArtefactInfo implements ArtefactInfo {
     /**
      * <p>Call to add a new class to this info object.</p>
      * <p>You <b>must</b> call refresh() later to update the arrays</p>
+     *
      * @param artefactClass
      */
     public synchronized void addGrailsClass(GrailsClass artefactClass) {
@@ -58,7 +59,7 @@ public class DefaultArtefactInfo implements ArtefactInfo {
         Class<?> actualClass = artefactClass.getClazz();
         boolean addToGrailsClasses = true;
         if (artefactClass instanceof InjectableGrailsClass) {
-            addToGrailsClasses = ((InjectableGrailsClass)artefactClass).getAvailable();
+            addToGrailsClasses = ((InjectableGrailsClass) artefactClass).getAvailable();
         }
         if (addToGrailsClasses) {
             GrailsClass oldVersion = grailsClassesByName.put(actualClass.getName(), artefactClass);
@@ -70,8 +71,7 @@ public class DefaultArtefactInfo implements ArtefactInfo {
         if (!grailsClasses.contains(artefactClass)) {
             if (atStart) {
                 grailsClasses.addFirst(artefactClass);
-            }
-            else {
+            } else {
                 grailsClasses.addLast(artefactClass);
             }
         }

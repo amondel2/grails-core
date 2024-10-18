@@ -45,11 +45,12 @@ public class MockStringResourceLoader extends MockResourceLoader {
      * of the resource.
      *
      * @param location The location
-     * @param res The resource itself
+     * @param res      The resource itself
      */
     public void registerMockResource(String location, Resource res) {
         mockResources.put(location, res);
     }
+
     /**
      * Registers a mock resource with the first argument as the location and the second as the contents
      * of the resource.
@@ -60,8 +61,7 @@ public class MockStringResourceLoader extends MockResourceLoader {
     public void registerMockResource(String location, String contents) {
         try {
             mockResources.put(location, new GrailsByteArrayResource(contents.getBytes("UTF-8"), location));
-        }
-        catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }

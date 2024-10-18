@@ -29,35 +29,35 @@ import org.springframework.boot.cli.command.status.ExitStatus;
  *
  * @author Phillip Webb
  * @author Dave Syer
- * @since 1.0.0
  * @see OptionHandler
+ * @since 1.0.0
  */
 public abstract class OptionParsingCommand extends AbstractCommand {
 
-	private final OptionHandler handler;
+    private final OptionHandler handler;
 
-	protected OptionParsingCommand(String name, String description, OptionHandler handler) {
-		super(name, description);
-		this.handler = handler;
-	}
+    protected OptionParsingCommand(String name, String description, OptionHandler handler) {
+        super(name, description);
+        this.handler = handler;
+    }
 
-	@Override
-	public String getHelp() {
-		return this.handler.getHelp();
-	}
+    @Override
+    public String getHelp() {
+        return this.handler.getHelp();
+    }
 
-	@Override
-	public Collection<OptionHelp> getOptionsHelp() {
-		return this.handler.getOptionsHelp();
-	}
+    @Override
+    public Collection<OptionHelp> getOptionsHelp() {
+        return this.handler.getOptionsHelp();
+    }
 
-	@Override
-	public final ExitStatus run(String... args) throws Exception {
-		return this.handler.run(args);
-	}
+    @Override
+    public final ExitStatus run(String... args) throws Exception {
+        return this.handler.run(args);
+    }
 
-	protected OptionHandler getHandler() {
-		return this.handler;
-	}
+    protected OptionHandler getHandler() {
+        return this.handler;
+    }
 
 }

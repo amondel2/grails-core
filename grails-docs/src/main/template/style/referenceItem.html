@@ -1,9 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
+    <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -13,14 +14,16 @@
     </script>
     <title>${title.encodeAsHtml()} ${version}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="${resourcesPath}/css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
-    <link rel="stylesheet" href="${resourcesPath}/css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <link rel="stylesheet" href="${resourcesPath}/css/main.css" type="text/css" media="screen, print" title="Style"
+          charset="utf-8"/>
+    <link rel="stylesheet" href="${resourcesPath}/css/pdf.css" type="text/css" media="print" title="PDF"
+          charset="utf-8"/>
     <script type="text/javascript">
-function addJsClass(el) {
-    var classes = document.body.className.split(" ");
-    classes.push("js");
-    document.body.className = classes.join(" ");
-}
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
     </script>
     <style>
         .contribute-btn {
@@ -47,7 +50,9 @@ function addJsClass(el) {
 
                     <div id="nav-summary-childs">
                         <% toc.children.eachWithIndex { ch, i -> %>
-                        <div class="toc-item" style="margin-left:0"><a href="${path}/guide/${ch.name.encodeAsUrlPath().encodeAsHtml()}.html"><strong>${i + 1}</strong><span>${ch.title.encodeAsHtml()}</span></a>
+                        <div class="toc-item" style="margin-left:0"><a
+                                href="${path}/guide/${ch.name.encodeAsUrlPath().encodeAsHtml()}.html"><strong>${i +
+                            1}</strong><span>${ch.title.encodeAsHtml()}</span></a>
                         </div>
                         <% } %>
                     </div>
@@ -69,7 +74,8 @@ function addJsClass(el) {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
                 <% if(sourceRepo) { %>
                 <div class='contribute-btn'>
-                    <button type='button' class='btn btn-default' onclick='window.location.href="${sourceRepo}/${sourcePath}"'>
+                    <button type='button' class='btn btn-default'
+                            onclick='window.location.href="${sourceRepo}/${sourcePath}"'>
                         <i class='fa fa-pencil-square-o'></i> Improve this doc
                     </button>
                 </div>
@@ -90,10 +96,13 @@ function addJsClass(el) {
                         <h1 class="menu-title" onclick="toggleRef(nextElement(this))">${cat.name.encodeAsHtml()}</h1>
                         <div class="menu-sub${ cat.name == section ? ' selected' : ''}">
                             <% if (cat.usage.exists()) { %>
-                            <div class="menu-item"><a href="${path}/ref/${cat.name.encodeAsUrlPath().encodeAsHtml()}/Usage.html">Usage</a></div>
+                            <div class="menu-item"><a
+                                    href="${path}/ref/${cat.name.encodeAsUrlPath().encodeAsHtml()}/Usage.html">Usage</a>
+                            </div>
                             <% } %>
                             <% for (txt in cat.sections) { %>
-                            <div class="menu-item"><a href="${path}/ref/${cat.name.encodeAsUrlPath().encodeAsHtml()}/${txt.name[0..-6].encodeAsUrlPath().encodeAsHtml()}.html">${txt.name[0..-6].encodeAsHtml()}</a>
+                            <div class="menu-item"><a
+                                    href="${path}/ref/${cat.name.encodeAsUrlPath().encodeAsHtml()}/${txt.name[0..-6].encodeAsUrlPath().encodeAsHtml()}.html">${txt.name[0..-6].encodeAsHtml()}</a>
                             </div>
                             <% } %>
                         </div>

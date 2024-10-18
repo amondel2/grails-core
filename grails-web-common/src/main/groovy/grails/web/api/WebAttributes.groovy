@@ -39,14 +39,14 @@ import org.springframework.web.context.request.RequestContextHolder
  */
 @CompileStatic
 trait WebAttributes {
-    
+
     private GrailsApplication grailsApplication
 
     @Generated
     GrailsWebRequest currentRequestAttributes() {
-        (GrailsWebRequest)RequestContextHolder.currentRequestAttributes()
+        (GrailsWebRequest) RequestContextHolder.currentRequestAttributes()
     }
-    
+
     /**
      * Obtains the GrailsApplicationAttributes instance
      *
@@ -106,7 +106,7 @@ trait WebAttributes {
     String getActionName() {
         currentRequestAttributes().getActionName()
     }
-    
+
     /**
      * Obtains the Grails FlashScope instance
      *
@@ -135,7 +135,7 @@ trait WebAttributes {
     GrailsWebRequest getWebRequest() {
         currentRequestAttributes()
     }
-    
+
     /**
      * Obtains the GrailsApplication instance
      * @return The GrailsApplication instance

@@ -14,20 +14,22 @@ import spock.lang.Specification
  */
 class ContentFormatControllerTests extends Specification implements ControllerUnitTest<ContentController>, DomainUnitTest<Gizmo> {
 
-    Closure doWithConfig() {{ c ->
-        c['grails.mime.use.accept.header'] = true
-        c['grails.mime.types'] = [html: ['text/html', 'application/xhtml+xml'],
-                               xml : ['text/xml', 'application/xml'],
-                               text: 'text/plain',
-                               js  : 'text/javascript',
-                               rss : 'application/rss+xml',
-                               atom: 'application/atom+xml',
-                               css : 'text/css',
-                               cvs : 'text/csv',
-                               all : '*/*',
-                               json: 'application/json'
-        ]
-    }}
+    Closure doWithConfig() {
+        { c ->
+            c['grails.mime.use.accept.header'] = true
+            c['grails.mime.types'] = [html: ['text/html', 'application/xhtml+xml'],
+                                      xml : ['text/xml', 'application/xml'],
+                                      text: 'text/plain',
+                                      js  : 'text/javascript',
+                                      rss : 'application/rss+xml',
+                                      atom: 'application/atom+xml',
+                                      css : 'text/css',
+                                      cvs : 'text/csv',
+                                      all : '*/*',
+                                      json: 'application/json'
+            ]
+        }
+    }
 
     void testFormatWithRenderAsXML() {
         when:
@@ -229,14 +231,14 @@ class ContentController {
     def testWithFormatAndEqualQualityGrading() {
         withFormat {
             html { render "<html></html>" }
-            xml { render(contentType:"text/xml",text: "<xml></xml>") }
+            xml { render(contentType: "text/xml", text: "<xml></xml>") }
         }
     }
 
     def testWithFormatAndModel() {
         withFormat {
             js { render "alert('hello')" }
-            html hello:'world'
+            html hello: 'world'
         }
     }
 
@@ -270,6 +272,6 @@ class Gizmo {
     String name
 
     static get() {
-        new Gizmo(name:"iPod")
+        new Gizmo(name: "iPod")
     }
 }

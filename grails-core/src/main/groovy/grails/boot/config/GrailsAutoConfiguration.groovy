@@ -48,7 +48,7 @@ class GrailsAutoConfiguration implements GrailsApplicationClass, ApplicationCont
         try {
             // patch AopConfigUtils if possible
             Field field = AopConfigUtils.class.getDeclaredField(APC_PRIORITY_LIST_FIELD)
-            if(field != null) {
+            if (field != null) {
                 field.setAccessible(true)
                 Object obj = field.get(null)
                 List<Class<?>> list = (List<Class<?>>) obj
@@ -67,7 +67,7 @@ class GrailsAutoConfiguration implements GrailsApplicationClass, ApplicationCont
      */
     @Bean
     GrailsApplicationPostProcessor grailsApplicationPostProcessor() {
-        return new GrailsApplicationPostProcessor( this, applicationContext, classes() as Class[])
+        return new GrailsApplicationPostProcessor(this, applicationContext, classes() as Class[])
     }
 
     /**
@@ -77,15 +77,14 @@ class GrailsAutoConfiguration implements GrailsApplicationClass, ApplicationCont
         Collection<Class> classes = new HashSet()
 
         ClassPathScanner scanner = new ClassPathScanner()
-        if(limitScanningToApplication()) {
+        if (limitScanningToApplication()) {
             classes.addAll scanner.scan(getClass(), packageNames())
-        }
-        else {
+        } else {
             classes.addAll scanner.scan(new PathMatchingResourcePatternResolver(applicationContext), packageNames())
         }
 
         ClassLoader classLoader = getClass().getClassLoader()
-        for(cls in AbstractGrailsArtefactTransformer.transformedClassNames) {
+        for (cls in AbstractGrailsArtefactTransformer.transformedClassNames) {
             try {
                 classes << classLoader.loadClass(cls)
             } catch (ClassNotFoundException cnfe) {
@@ -112,7 +111,7 @@ class GrailsAutoConfiguration implements GrailsApplicationClass, ApplicationCont
      */
     Collection<Package> packages() {
         def thisPackage = getClass().package
-        thisPackage ? [ thisPackage ] : new ArrayList<Package>()
+        thisPackage ? [thisPackage] : new ArrayList<Package>()
     }
 
     /**

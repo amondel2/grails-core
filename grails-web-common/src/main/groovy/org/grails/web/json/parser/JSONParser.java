@@ -138,7 +138,7 @@ public final class JSONParser implements JsonParserConstants {
     }
 
     final private void Elements(JSONArray array) throws ParseException {
-        while(addElementAndGetNextToken(array) == 23) {
+        while (addElementAndGetNextToken(array) == 23) {
             jj_consume_token(23);
         }
         jj_la1[5] = jj_gen;

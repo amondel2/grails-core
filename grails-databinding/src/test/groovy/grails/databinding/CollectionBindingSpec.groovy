@@ -58,12 +58,12 @@ class CollectionBindingSpec extends Specification {
         company.departments[3] = new Department(name: 'Original Department Three')
 
         when:
-        binder.bind company, new SimpleMapDataBindingSource([name: 'Some Company',
-            'departments[0]': [name: 'Department Zero'],
-            'departments[1]': [name: 'Department One'],
-            'departments[2]': [numberOfEmployees: '99'],
-            'departments[3]': null,
-            'departments[9]': [name: 'Department Nine', numberOfEmployees: '42']])
+        binder.bind company, new SimpleMapDataBindingSource([name            : 'Some Company',
+                                                             'departments[0]': [name: 'Department Zero'],
+                                                             'departments[1]': [name: 'Department One'],
+                                                             'departments[2]': [numberOfEmployees: '99'],
+                                                             'departments[3]': null,
+                                                             'departments[9]': [name: 'Department Nine', numberOfEmployees: '42']])
 
         then:
         company.name == 'Some Company'
@@ -86,6 +86,7 @@ class CollectionBindingSpec extends Specification {
         company.departments[9].name == 'Department Nine'
         company.departments[9].numberOfEmployees == 42
     }
+
     void 'Test white space around index'() {
         given:
         def binder = new SimpleDataBinder()
@@ -93,8 +94,8 @@ class CollectionBindingSpec extends Specification {
         company.departments = []
 
         when:
-        binder.bind company, new SimpleMapDataBindingSource([name: 'Some Company',
-                              'departments[ 2  ]': [numberOfEmployees: '99', name: 'Department Two']])
+        binder.bind company, new SimpleMapDataBindingSource([name               : 'Some Company',
+                                                             'departments[ 2  ]': [numberOfEmployees: '99', name: 'Department Two']])
 
         then:
         company.name == 'Some Company'
@@ -114,9 +115,9 @@ class CollectionBindingSpec extends Specification {
 
         when:
         binder.bind dept, new SimpleMapDataBindingSource(['listOfCodes[1]': 'Herman',
-                           'listOfCodes[3]': 42,
-                           'setOfCodes[0]': 2112,
-                           'setOfCodes[1]': 'Rush'])
+                                                          'listOfCodes[3]': 42,
+                                                          'setOfCodes[0]' : 2112,
+                                                          'setOfCodes[1]' : 'Rush'])
 
         then:
         dept.listOfCodes.size() == 4

@@ -36,6 +36,7 @@ public interface GrailsRequestStateLookupStrategy {
      * @return The character encoding
      */
     public String getCharacterEncoding();
+
     /**
      * The controller name
      *
@@ -57,6 +58,7 @@ public interface GrailsRequestStateLookupStrategy {
      * @return The action name or null if not known
      */
     public String getActionName(String controllerName);
+
     /**
      * The action name
      *

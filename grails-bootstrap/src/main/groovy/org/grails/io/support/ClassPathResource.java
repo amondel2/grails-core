@@ -31,9 +31,9 @@ import java.util.Arrays;
  * Always supports resolution as URL.
  *
  * @author Juergen Hoeller
- * @since 28.12.2003
  * @see java.lang.ClassLoader#getResourceAsStream(String)
  * @see java.lang.Class#getResourceAsStream(String)
+ * @since 28.12.2003
  */
 public class ClassPathResource extends AbstractFileResolvingResource {
 
@@ -49,6 +49,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
      * resource access methods will not accept it.
      * <p>The thread context class loader will be used for
      * loading the resource.
+     *
      * @param path the absolute path within the class path
      * @see java.lang.ClassLoader#getResourceAsStream(String)
      */
@@ -60,9 +61,10 @@ public class ClassPathResource extends AbstractFileResolvingResource {
      * Create a new ClassPathResource for ClassLoader usage.
      * A leading slash will be removed, as the ClassLoader
      * resource access methods will not accept it.
-     * @param path the absolute path within the classpath
+     *
+     * @param path        the absolute path within the classpath
      * @param classLoader the class loader to load the resource with,
-     * or <code>null</code> for the thread context class loader
+     *                    or <code>null</code> for the thread context class loader
      * @see java.lang.ClassLoader#getResourceAsStream(String)
      */
     public ClassPathResource(String path, ClassLoader classLoader) {
@@ -78,7 +80,8 @@ public class ClassPathResource extends AbstractFileResolvingResource {
      * Create a new ClassPathResource for Class usage.
      * The path can be relative to the given class,
      * or absolute within the classpath via a leading slash.
-     * @param path relative or absolute path within the class path
+     *
+     * @param path  relative or absolute path within the class path
      * @param clazz the class to load resources with
      * @see java.lang.Class#getResourceAsStream
      */
@@ -90,9 +93,10 @@ public class ClassPathResource extends AbstractFileResolvingResource {
     /**
      * Create a new ClassPathResource with optional ClassLoader and Class.
      * Only for internal usage.
-     * @param path relative or absolute path within the classpath
+     *
+     * @param path        relative or absolute path within the classpath
      * @param classLoader the class loader to load the resource with, if any
-     * @param clazz the class to load resources with, if any
+     * @param clazz       the class to load resources with, if any
      */
     protected ClassPathResource(String path, ClassLoader classLoader, Class<?> clazz) {
         this.path = GrailsResourceUtils.cleanPath(path);
@@ -116,6 +120,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
     /**
      * This implementation checks for the resolution of a resource URL.
+     *
      * @see java.lang.ClassLoader#getResource(String)
      * @see java.lang.Class#getResource(String)
      */
@@ -124,8 +129,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
         URL url;
         if (clazz == null) {
             url = classLoader.getResource(path);
-        }
-        else {
+        } else {
             url = clazz.getResource(path);
         }
         return url != null;
@@ -133,6 +137,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
     /**
      * This implementation opens an InputStream for the given class path resource.
+     *
      * @see java.lang.ClassLoader#getResourceAsStream(String)
      * @see java.lang.Class#getResourceAsStream(String)
      */
@@ -140,8 +145,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
         InputStream is;
         if (clazz == null) {
             is = classLoader.getResourceAsStream(path);
-        }
-        else {
+        } else {
             is = clazz.getResourceAsStream(path);
         }
         if (is == null) {
@@ -153,6 +157,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
     /**
      * This implementation returns a URL for the underlying class path resource.
+     *
      * @see java.lang.ClassLoader#getResource(String)
      * @see java.lang.Class#getResource(String)
      */
@@ -160,8 +165,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
         URL url;
         if (clazz == null) {
             url = classLoader.getResource(path);
-        }
-        else {
+        } else {
             url = clazz.getResource(path);
         }
         if (url == null) {

@@ -46,8 +46,8 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
     /**
      * Escape the character, return null if no replacement has to be made
      *
-     * @param ch the character to escape
-     * @param previousChar  the previous char
+     * @param ch           the character to escape
+     * @param previousChar the previous char
      * @return the replacement string, null if no replacement has to be made
      */
     protected abstract String escapeCharacter(char ch, char previousChar);
@@ -66,18 +66,15 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
 
         CharSequence str = null;
         if (o instanceof CharSequence) {
-            str = (CharSequence)o;
-        }
-        else if (o instanceof Character) {
-            String escaped = escapeCharacter((Character)o, (char)0);
+            str = (CharSequence) o;
+        } else if (o instanceof Character) {
+            String escaped = escapeCharacter((Character) o, (char) 0);
             if (escaped != null) {
                 return escaped;
-            }
-            else {
+            } else {
                 return o;
             }
-        }
-        else {
+        } else {
             str = convertToString(o);
         }
 
@@ -96,7 +93,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
         StringBuilder sb = null;
         int n = str.length(), i;
         int startPos = -1;
-        char prevChar = (char)0;
+        char prevChar = (char) 0;
         for (i = 0; i < n; i++) {
             char ch = str.charAt(i);
             if (startPos == -1) {
@@ -122,12 +119,11 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
                 sb.append(str, startPos, i);
             }
             return sb.toString();
-        }
-        else {
+        } else {
             return str;
         }
     }
-    
+
     @Override
     public void encodeToWriter(CharSequence str, int off, int len, Writer writer, EncodingState encodingState) throws IOException {
         if (str == null || len <= 0) {
@@ -136,7 +132,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
         int n = Math.min(str.length(), off + len);
         int i;
         int startPos = -1;
-        char prevChar = (char)0;
+        char prevChar = (char) 0;
         for (i = off; i < n; i++) {
             char ch = str.charAt(i);
             if (startPos == -1) {
@@ -158,7 +154,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
             CharSequences.writeCharSequence(writer, str, startPos, i);
         }
     }
-    
+
     @Override
     public void encodeToWriter(char[] buf, int off, int len, Writer writer, EncodingState encodingState) throws IOException {
         if (buf == null || len <= 0) {
@@ -167,7 +163,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
         int n = Math.min(buf.length, off + len);
         int i;
         int startPos = -1;
-        char prevChar = (char)0;
+        char prevChar = (char) 0;
         for (i = off; i < n; i++) {
             char ch = buf[i];
             if (startPos == -1) {
@@ -189,7 +185,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
             writer.write(buf, startPos, i - startPos);
         }
     }
-    
+
     @Override
     public EncodesToWriter createChainingEncodesToWriter(List<StreamingEncoder> encoders, boolean applyAdditionalFirst) {
         return EncodesToWriterAdapter.createChainingEncodesToWriter(this, encoders, applyAdditionalFirst);
@@ -206,7 +202,7 @@ public abstract class AbstractCharReplacementEncoder implements Encoder, Streami
         int n = Math.min(str.length(), off + len);
         int i;
         int startPos = -1;
-        char prevChar = (char)0;
+        char prevChar = (char) 0;
         for (i = off; i < n; i++) {
             char ch = str.charAt(i);
             if (startPos == -1) {

@@ -32,15 +32,16 @@ public class BasicJSONEncoder extends AbstractCharReplacementEncoder {
             "JSON", "Json") {
         public boolean isEquivalent(CodecIdentifier other) {
             return super.isEquivalent(other) || JavaScriptEncoder.JAVASCRIPT_CODEC_IDENTIFIER.getCodecName().equals(other.getCodecName());
-        };
+        }
+
+        ;
     };
 
     public BasicJSONEncoder() {
         super(JSON_CODEC_IDENTIFIER);
     }
 
-    
-    
+
     /* (non-Javadoc)
      * @see AbstractCharReplacementEncoder#escapeCharacter(char, char)
      */
@@ -71,11 +72,11 @@ public class BasicJSONEncoder extends AbstractCharReplacementEncoder {
                 // preserve special handling that exists in JSONObject.quote to improve security if JSON is embedded in HTML document
                 // prevents outputting "</" gets outputted with unicode escaping for the slash
                 if (previousChar == '<') {
-                    return "\\u002f"; 
+                    return "\\u002f";
                 }
                 break;
         }
-        if(ch < ' ') {
+        if (ch < ' ') {
             // escape all other control characters
             return "\\u" + StringGroovyMethods.padLeft(Integer.toHexString(ch), 4, "0");
         }
@@ -93,13 +94,13 @@ public class BasicJSONEncoder extends AbstractCharReplacementEncoder {
     }
 
     protected Object doEncode(Object o) {
-        if(o == null) {
+        if (o == null) {
             return null;
-        }        
-        if(o instanceof CharSequence || ClassUtils.isPrimitiveOrWrapper(o.getClass()) ) {
+        }
+        if (o instanceof CharSequence || ClassUtils.isPrimitiveOrWrapper(o.getClass())) {
             return super.encode(o);
         } else {
-            return encodeAsJsonObject(o);            
+            return encodeAsJsonObject(o);
         }
     }
 

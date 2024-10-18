@@ -44,7 +44,7 @@ public interface PersistenceContextInterceptor {
     void reconnect();
 
     /**
-     *  Flushes any pending changes to the DB.
+     * Flushes any pending changes to the DB.
      */
     void flush();
 
@@ -65,6 +65,7 @@ public interface PersistenceContextInterceptor {
 
     /**
      * Checks whether the persistence context is open.
+     *
      * @return Returns whether the persistence context is open
      */
     boolean isOpen();

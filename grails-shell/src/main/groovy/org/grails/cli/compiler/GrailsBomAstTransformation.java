@@ -2,6 +2,7 @@ package org.grails.cli.compiler;
 
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
+
 @GroovyASTTransformation(phase = CompilePhase.CONVERSION)
 public class GrailsBomAstTransformation extends GenericBomAstTransformation {
 

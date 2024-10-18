@@ -4,10 +4,10 @@ import spock.lang.Specification
 
 class LegacyTocStrategySpec extends Specification {
     def "Test basic behaviour"() {
-      given: "A legacy strategy"
+        given: "A legacy strategy"
         def strategy = new LegacyTocStrategy()
 
-      when: "The TOC is generated for a list of filenames with section numbers"
+        when: "The TOC is generated for a list of filenames with section numbers"
         def toc = strategy.generateToc([
                 [name: "1. Introduction.gdoc"],
                 [name: "1.1.10 Web Features.gdoc"],
@@ -20,9 +20,9 @@ class LegacyTocStrategySpec extends Specification {
                 [name: "1.2.2. Part Two.gdoc"],
                 [name: "2 Getting Started.gdoc"],
                 [name: "2.1 Downloading and Installing.gdoc"],
-                [name: "2.3. Creating an Application.gdoc"] ])
+                [name: "2.3. Creating an Application.gdoc"]])
 
-      then: "The correct UserGuideNode tree is created"
+        then: "The correct UserGuideNode tree is created"
         toc.children?.size() == 2
         toc.children[0].name == "1. Introduction"
         toc.children[0].title == "Introduction"

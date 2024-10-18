@@ -77,6 +77,7 @@ public interface CommandLine {
 
     /**
      * The value of an option
+     *
      * @param name The option
      * @return The value
      */
@@ -111,6 +112,7 @@ public interface CommandLine {
 
     /**
      * Parses a new {@link CommandLine} instance that combines this instance with the given arguments
+     *
      * @param args The arguments
      * @return A new {@link CommandLine} instance
      */

@@ -16,20 +16,20 @@ foo {
 test.another = true
 ''')
 
-        when:"a config object is merged"
+        when: "a config object is merged"
         configMap.merge(config)
 
-        then:"The merge is correct"
+        then: "The merge is correct"
         configMap.size() == 4
         configMap['test'] instanceof NavigableMap
-        configMap['test.another']  == true
+        configMap['test.another'] == true
     }
 
     def "should support merge correctly"() {
         given:
         NavigableMap configMap = new NavigableMap()
         when:
-        configMap.merge(['foo.bar':'good1', bar:[foo:'good2']], true)
+        configMap.merge(['foo.bar': 'good1', bar: [foo: 'good2']], true)
         then:
         configMap.foo.bar == 'good1'
         configMap.getProperty('foo.bar') == 'good1'
@@ -37,10 +37,10 @@ test.another = true
         configMap.getProperty('bar.foo') == 'good2'
 
         when:
-        configMap.merge(['foo.two':'good3', bar:[two:'good4']], true)
-        configMap.merge(['grails.codegen.defaultPackage':"test"])
-        configMap.merge([grails:[codegen:[defaultPackage:"test"]]])
-        configMap.merge(['grails.codegen':[defaultPackage:"test"]], true)
+        configMap.merge(['foo.two': 'good3', bar: [two: 'good4']], true)
+        configMap.merge(['grails.codegen.defaultPackage': "test"])
+        configMap.merge([grails: [codegen: [defaultPackage: "test"]]])
+        configMap.merge(['grails.codegen': [defaultPackage: "test"]], true)
 
         then:
         configMap.size() == 9
@@ -58,6 +58,7 @@ test.another = true
         configMap.getProperty('bar.two') == 'good4'
 
     }
+
     def "should support flattening keys"() {
         given:
         NavigableMap configMap = new NavigableMap()
@@ -73,7 +74,7 @@ test.another = true
         NavigableMap configMap = new NavigableMap()
         when:
         configMap.a = [b: [c: 1, d: 2]]
-        then:"hasCode() doesn't cause a Stack Overflow error"
+        then: "hasCode() doesn't cause a Stack Overflow error"
         configMap.hashCode() == configMap.hashCode()
     }
 
@@ -84,13 +85,13 @@ test.another = true
         configMap.a = [b: [c: [1, 2, 3], d: 2]]
         then:
         configMap.toFlatConfig() ==
-                ['a.b.c': [1, 2, 3],
+                ['a.b.c'   : [1, 2, 3],
                  'a.b.c[0]': 1,
                  'a.b.c[1]': 2,
                  'a.b.c[2]': 3,
-                 'a.b.d': 2]
+                 'a.b.d'   : 2]
     }
-    
+
     def "should support flattening to properties"() {
         given:
         NavigableMap configMap = new NavigableMap()
@@ -98,26 +99,26 @@ test.another = true
         configMap.a = [b: [c: [1, 2, 3], d: 2]]
         then:
         configMap.toProperties() ==
-                ['a.b.c': '1,2,3',
+                ['a.b.c'   : '1,2,3',
                  'a.b.c[0]': '1',
                  'a.b.c[1]': '2',
                  'a.b.c[2]': '3',
-                 'a.b.d': '2']
+                 'a.b.d'   : '2']
     }
-    
+
     def "should support cloning"() {
         given:
         NavigableMap configMap = new NavigableMap()
         configMap.a = [b: [c: [1, 2, 3], d: 2]]
-        when: 
+        when:
         NavigableMap cloned = configMap.clone()
         then:
         cloned.toFlatConfig() ==
-                ['a.b.c': [1, 2, 3],
+                ['a.b.c'   : [1, 2, 3],
                  'a.b.c[0]': 1,
                  'a.b.c[1]': 2,
                  'a.b.c[2]': 3,
-                 'a.b.d': 2]
+                 'a.b.d'   : 2]
         !cloned.is(configMap)
         cloned == configMap
     }

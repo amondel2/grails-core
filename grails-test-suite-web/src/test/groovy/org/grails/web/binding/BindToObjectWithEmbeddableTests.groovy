@@ -14,7 +14,7 @@ class BindToObjectWithEmbeddableTests extends Specification implements Controlle
 
     void testBindToObjectWithEmbedded() {
         params.name = "Joe"
-        params.age= 45
+        params.age = 45
         params.address = [city: 'Brighton']
 
         when:
@@ -46,7 +46,7 @@ class EmbeddedAddress {
     String zip
 
     static constraints = {
-        street2(nullable:true)
+        street2(nullable: true)
     }
 }
 
@@ -55,6 +55,6 @@ class EmbeddedAddressController {
 
     def save = {
         def p = new EmbeddedAddressPerson(params)
-        [person:p]
+        [person: p]
     }
 }

@@ -20,9 +20,9 @@ class ConverterConfigurationTests extends Specification implements DomainUnitTes
     void testCustomClosureMarshallerRegistration() {
         given:
         JSON.registerObjectMarshaller(ConverterBook) {
-            [id: it.id,
+            [id   : it.id,
              title: it.title,
-             foo: 'bar'
+             foo  : 'bar'
             ]
         }
 
@@ -46,8 +46,8 @@ class ConverterConfigurationTests extends Specification implements DomainUnitTes
         def objB = new java.sql.Time(System.currentTimeMillis())
 
         then:
-        ([a:objA] as JSON).toString() == """{"a":"${objA}"}""".toString()
-        ([b:objB] as JSON).toString() == """{"b":"${objB}"}""".toString()
+        ([a: objA] as JSON).toString() == """{"a":"${objA}"}""".toString()
+        ([b: objB] as JSON).toString() == """{"b":"${objB}"}""".toString()
     }
 
     void testMarshallerRegistrationOrder() {
@@ -168,4 +168,4 @@ class ConverterBook {
     String author
 }
 
-class ConverterWidget{}
+class ConverterWidget {}

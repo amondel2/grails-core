@@ -28,9 +28,9 @@ class ControllerNameExtractorTests {
                 'com.foo.TheControllerIntegrationTests', testClassSuffixes)
 
         assertEquals 'the', ControllerNameExtractor.extractControllerNameFromTestClassName(
-            'com.foo.TheController', null)
+                'com.foo.TheController', null)
 
         assertEquals null, ControllerNameExtractor.extractControllerNameFromTestClassName(
-            'com.foo.TheTests', testClassSuffixes)
+                'com.foo.TheTests', testClassSuffixes)
     }
 }

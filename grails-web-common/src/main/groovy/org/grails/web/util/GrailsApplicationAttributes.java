@@ -26,6 +26,7 @@ import org.springframework.validation.Errors;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.Writer;
 
 /**
@@ -48,7 +49,7 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
     String PARAMS_OBJECT = "org.grails.PARAMS_OBJECT";
     String CONTROLLER = "org.grails.CONTROLLER";
     String PROPERTY_REGISTRY = "org.grails.PROPERTY_REGISTRY";
-    String ERRORS =  "org.grails.ERRORS";
+    String ERRORS = "org.grails.ERRORS";
     String MODEL_AND_VIEW = "org.grails.MODEL_AND_VIEW";
     String TEMPLATE_MODEL = "org.grails.TEMPLATE_MODEL";
     String OUT = "org.grails.RESPONSE_OUT";
@@ -94,9 +95,9 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
     String getControllerUri(ServletRequest request);
 
     /**
-     * @deprecated Use {@link org.grails.web.servlet.mvc.GrailsWebRequest#getContextPath() instead}
      * @param request
      * @return The uri of the application relative to the server root
+     * @deprecated Use {@link org.grails.web.servlet.mvc.GrailsWebRequest#getContextPath() instead}
      */
     @Deprecated
     String getApplicationUri(ServletRequest request);
@@ -104,7 +105,7 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
     /**
      * Resolve the URI for a template
      *
-     * @param controller The controller
+     * @param controller   The controller
      * @param templateName The name of the template
      * @return The template name
      */
@@ -113,8 +114,8 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
     /**
      * Resolve the URI for a template
      *
-     * @param controller The controller
-     * @param templateName The name of the template
+     * @param controller       The controller
+     * @param templateName     The name of the template
      * @param includeExtension Whether to include the GSP etension
      * @return The template name
      */
@@ -124,12 +125,14 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
 
     /**
      * Retrieves the servlet context instance
+     *
      * @return The servlet context instance
      */
     ServletContext getServletContext();
 
     /**
      * Retrieves the flash scope instance for the given requeste
+     *
      * @param request
      * @return The FlashScope instance
      */
@@ -146,7 +149,7 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
      * Retrieves the uri of a named view
      *
      * @param viewName The name of the view
-     * @param request The request instance
+     * @param request  The request instance
      * @return The name of the view
      */
     String getViewUri(String viewName, HttpServletRequest request);
@@ -171,14 +174,16 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
 
     /**
      * Holds the current response write for the request
+     *
      * @return The held response writer
      */
     Writer getOut(HttpServletRequest request);
 
     /**
      * Sets the current write for the request
+     *
      * @param currentRequest The request
-     * @param out2 The writer
+     * @param out2           The writer
      */
     void setOut(HttpServletRequest currentRequest, Writer out2);
 

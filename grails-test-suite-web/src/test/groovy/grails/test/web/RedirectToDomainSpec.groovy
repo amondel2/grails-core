@@ -12,14 +12,14 @@ import spock.lang.Specification
 class RedirectToDomainSpec extends Specification implements ControllerUnitTest<BookController>, DomainUnitTest<Book> {
 
     void "Test redirect to domain"() {
-        given:"A domain instance"
-            def b = new Book().save(flush:true)
+        given: "A domain instance"
+        def b = new Book().save(flush: true)
 
-        when:"A redirect is issued"
-            controller.index()
+        when: "A redirect is issued"
+        controller.index()
 
-        then:"The correct link is produced"
-            response.redirectUrl == '/book/show/1'
+        then: "The correct link is produced"
+        response.redirectUrl == '/book/show/1'
     }
 }
 
@@ -30,6 +30,7 @@ class BookController {
         redirect b
     }
 }
+
 @Entity
 class Book {
 

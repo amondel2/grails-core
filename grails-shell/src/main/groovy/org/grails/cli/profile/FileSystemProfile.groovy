@@ -21,7 +21,6 @@ import org.grails.io.support.FileSystemResource
 import org.grails.io.support.Resource
 
 
-
 /**
  * Simple disk based implementation of the {@link Profile} interface
  *

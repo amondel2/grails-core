@@ -25,22 +25,23 @@ class UrlMappingsHolderFactoryBeanSpec extends Specification {
         app.initialise()
         factoryBean.setApplicationContext(context)
 
-        when:"The URL mappings holder is created"
+        when: "The URL mappings holder is created"
         factoryBean.afterPropertiesSet()
         UrlMappingsHolder holder = factoryBean.getObject()
 
-        then:"The excludes are correct"
+        then: "The excludes are correct"
         holder.excludePatterns == ["/stomp/", "/stomp/*", "/topic/*"]
         holder.matchAll("/stomp/foo").size() == 0
     }
 }
+
 class ExcludeUrlMappings {
 
     static excludes = ["/stomp/", "/stomp/*", "/topic/*"]
 
     static mappings = {
-        '/**'(controller:"index")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+        '/**'(controller: "index")
+        "500"(view: '/error')
+        "404"(view: '/notFound')
     }
 }

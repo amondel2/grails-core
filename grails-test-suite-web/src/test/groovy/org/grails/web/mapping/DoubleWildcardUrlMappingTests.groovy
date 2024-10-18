@@ -11,7 +11,6 @@ import spock.lang.Specification
 class DoubleWildcardUrlMappingTests extends Specification implements UrlMappingsUnitTest<UrlMappings> {
 
 
-
     void testDoubleWildcardWithMatchingController() {
         given:
         def holder = urlMappingsHolder
@@ -66,7 +65,7 @@ class DoubleWildcardUrlMappingTests extends Specification implements UrlMappings
     void testDoubleWildCardMappingWithSuffix() {
 
         given:
-        def m = urlMappingsHolder.urlMappings.find { it.controllerName == 'userImage'}
+        def m = urlMappingsHolder.urlMappings.find { it.controllerName == 'userImage' }
         assert m
 
         when:
@@ -96,8 +95,8 @@ class DoubleWildcardUrlMappingTests extends Specification implements UrlMappings
     void testDoubleWildCardMatching() {
 
         given:
-        def m = urlMappingsHolder.urlMappings.find { it.toString().startsWith("/components")}
-        def m2 = urlMappingsHolder.urlMappings.find { it.toString().startsWith("/stuff")}
+        def m = urlMappingsHolder.urlMappings.find { it.toString().startsWith("/components") }
+        def m2 = urlMappingsHolder.urlMappings.find { it.toString().startsWith("/stuff") }
         assert m
 
         when:
@@ -166,15 +165,14 @@ class DoubleWildcardUrlMappingTests extends Specification implements UrlMappings
 
             "/$controller/$action?/$id?"()
 
-            "/images/$image**.jpg" (controller: 'userImage', action: 'download')
-            "/**"{
+            "/images/$image**.jpg"(controller: 'userImage', action: 'download')
+            "/**" {
                 controller = 'doubleWildcard'
                 action = 'otherAction'
             }
-            "500"(view:'/error')
+            "500"(view: '/error')
         }
     }
-
 
 
 }
@@ -185,6 +183,7 @@ class SomeOtherController {
 
 @grails.artefact.Artefact('Controller')
 class DoubleWildCardController {
-    def index(){ params.path }
+    def index() { params.path }
+
     def otherAction() {}
 }

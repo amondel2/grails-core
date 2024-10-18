@@ -132,11 +132,10 @@ public class StreamByteBuffer {
                 int len = charbuffer.remaining();
                 char[] ch = charbuffer.array();
                 if (len != ch.length) {
-                    ch = (char[])GrailsArrayUtils.subarray(ch, 0, len);
+                    ch = (char[]) GrailsArrayUtils.subarray(ch, 0, len);
                 }
                 str = StringCharArrayAccessor.createString(ch);
-            }
-            else {
+            } else {
                 str = charbuffer.toString();
             }
             return str;
@@ -148,8 +147,7 @@ public class StreamByteBuffer {
         int total = 0;
         if (readMode == ReadMode.REMOVE_AFTER_READING) {
             total = totalBytesUnreadInList;
-        }
-        else if (readMode == ReadMode.RETAIN_AFTER_READING) {
+        } else if (readMode == ReadMode.RETAIN_AFTER_READING) {
             prepareRetainAfterReading();
             total = totalBytesUnreadInIterator;
         }
@@ -159,8 +157,7 @@ public class StreamByteBuffer {
         if (currentWriteChunk != currentReadChunk && currentWriteChunk != null) {
             if (readMode == ReadMode.REMOVE_AFTER_READING) {
                 total += currentWriteChunk.bytesUnread();
-            }
-            else if (readMode == ReadMode.RETAIN_AFTER_READING) {
+            } else if (readMode == ReadMode.RETAIN_AFTER_READING) {
                 total += currentWriteChunk.bytesUsed();
             }
         }
@@ -186,18 +183,15 @@ public class StreamByteBuffer {
                 currentReadChunk = chunks.removeFirst();
                 bytesUnread = currentReadChunk.bytesUnread();
                 totalBytesUnreadInList -= bytesUnread;
-            }
-            else if (readMode == ReadMode.RETAIN_AFTER_READING && readIterator.hasNext()) {
+            } else if (readMode == ReadMode.RETAIN_AFTER_READING && readIterator.hasNext()) {
                 currentReadChunk = readIterator.next();
                 currentReadChunk.reset();
                 bytesUnread = currentReadChunk.bytesUnread();
                 totalBytesUnreadInIterator -= bytesUnread;
-            }
-            else if (currentReadChunk != currentWriteChunk) {
+            } else if (currentReadChunk != currentWriteChunk) {
                 currentReadChunk = currentWriteChunk;
                 bytesUnread = currentReadChunk.bytesUnread();
-            }
-            else {
+            } else {
                 bytesUnread = -1;
             }
         }
@@ -250,8 +244,7 @@ public class StreamByteBuffer {
                 ByteBuffer result;
                 if (pointer > 0 || used < size) {
                     result = ByteBuffer.wrap(buffer, pointer, used - pointer);
-                }
-                else {
+                } else {
                     result = ByteBuffer.wrap(buffer);
                 }
                 pointer = used;
@@ -408,10 +401,9 @@ public class StreamByteBuffer {
 
         @Override
         public synchronized void reset() throws IOException {
-            if (readMode==ReadMode.RETAIN_AFTER_READING) {
+            if (readMode == ReadMode.RETAIN_AFTER_READING) {
                 StreamByteBuffer.this.reset();
-            }
-            else {
+            } else {
                 // reset isn't supported in ReadMode.REMOVE_AFTER_READING
                 super.reset();
             }

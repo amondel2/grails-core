@@ -67,7 +67,7 @@ hibernate {
 //    }
 
     void testNoSelfObserving() {
-        def manager = new DefaultGrailsPluginManager([AnotherGrailsPlugin,ObservingAllGrailsPlugin] as Class[], ga)
+        def manager = new DefaultGrailsPluginManager([AnotherGrailsPlugin, ObservingAllGrailsPlugin] as Class[], ga)
 
         manager.loadPlugins()
 
@@ -90,7 +90,7 @@ hibernate {
     }
 
     void testDisabledPlugin() {
-        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin,AnotherGrailsPlugin,DisabledGrailsPlugin] as Class[], ga)
+        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin, AnotherGrailsPlugin, DisabledGrailsPlugin] as Class[], ga)
 
         manager.loadPlugins()
 
@@ -100,17 +100,17 @@ hibernate {
     }
 
     void testDefaultGrailsPluginManager() {
-        DefaultGrailsPluginManager manager = new DefaultGrailsPluginManager(RESOURCE_PATH,ga)
+        DefaultGrailsPluginManager manager = new DefaultGrailsPluginManager(RESOURCE_PATH, ga)
         assertEquals(1, manager.getPluginResources().length)
     }
 
     void testLoadPlugins() {
-        GrailsPluginManager manager = new DefaultGrailsPluginManager(RESOURCE_PATH,ga)
+        GrailsPluginManager manager = new DefaultGrailsPluginManager(RESOURCE_PATH, ga)
         manager.loadPlugins()
 
         GrailsPlugin plugin = manager.getGrailsPlugin("classEditor")
         assertNotNull(plugin)
-        assertEquals("classEditor",plugin.getName())
+        assertEquals("classEditor", plugin.getName())
         assertEquals("1.1", plugin.getVersion())
 
         plugin = manager.getGrailsPlugin("classEditor", "1.1")
@@ -121,7 +121,7 @@ hibernate {
     }
 
     void testWithLoadLastPlugin() {
-        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin,AnotherGrailsPlugin,ShouldLoadLastGrailsPlugin] as Class[], ga)
+        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin, AnotherGrailsPlugin, ShouldLoadLastGrailsPlugin] as Class[], ga)
         manager.loadPlugins()
     }
 
@@ -133,13 +133,13 @@ hibernate {
     }
 
     void testDependencyResolutionSucces() {
-        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin,AnotherGrailsPlugin, SomeOtherGrailsPlugin] as Class[], ga)
+        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin, AnotherGrailsPlugin, SomeOtherGrailsPlugin] as Class[], ga)
 
         manager.loadPlugins()
     }
 
     void testEviction() {
-        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin,AnotherGrailsPlugin,SomeOtherGrailsPlugin,ShouldEvictSomeOtherGrailsPlugin] as Class[], ga)
+        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin, AnotherGrailsPlugin, SomeOtherGrailsPlugin, ShouldEvictSomeOtherGrailsPlugin] as Class[], ga)
 
         manager.loadPlugins()
 
@@ -150,12 +150,13 @@ hibernate {
     }
 
     void testShutdownCalled() {
-        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin,AnotherGrailsPlugin] as Class[], ga)
-        manager.applicationContext = [getBeansOfType: { Class c -> [:] }, getEnvironment: {-> new StandardEnvironment() } ] as ApplicationContext
+        def manager = new DefaultGrailsPluginManager([MyGrailsPlugin, AnotherGrailsPlugin] as Class[], ga)
+        manager.applicationContext = [getBeansOfType: { Class c -> [:] }, getEnvironment: { ->
+            new StandardEnvironment() }] as ApplicationContext
 
         manager.loadPlugins()
 
-        assertEquals "nullme",MyGrailsPlugin.SHUTDOWN_FIELD
+        assertEquals "nullme", MyGrailsPlugin.SHUTDOWN_FIELD
         manager.shutdown()
         assertNull MyGrailsPlugin.SHUTDOWN_FIELD
     }
@@ -164,10 +165,10 @@ hibernate {
 class MyGrailsPlugin {
 
     static SHUTDOWN_FIELD = "nullme"
-    def dependsOn = [another:1.2]
+    def dependsOn = [another: 1.2]
     def version = 1.1
     def doWithSpring = {
-        classEditor(ClassEditor,application.classLoader)
+        classEditor(ClassEditor, application.classLoader)
     }
     def onShutdown = {
         SHUTDOWN_FIELD = null
@@ -185,7 +186,7 @@ class AnotherGrailsPlugin {
 
 class SomeOtherGrailsPlugin {
     def version = 1.4
-    def dependsOn = [my:1.1, another:1.2]
+    def dependsOn = [my: 1.1, another: 1.2]
 }
 
 class ShouldLoadLastGrailsPlugin {

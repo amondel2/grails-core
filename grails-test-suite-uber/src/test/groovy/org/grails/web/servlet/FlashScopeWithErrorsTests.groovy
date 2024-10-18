@@ -21,9 +21,9 @@ import grails.util.GrailsWebMockUtil
 import spock.lang.Specification
 
 /**
-*  @author Graeme Rocher
-*/
-class FlashScopeWithErrorsTests extends Specification implements DomainUnitTest<Book>  {
+ * @author Graeme Rocher
+ */
+class FlashScopeWithErrorsTests extends Specification implements DomainUnitTest<Book> {
 
     void testFlashScopeWithErrors() {
         GrailsWebMockUtil.bindMockWebRequest()

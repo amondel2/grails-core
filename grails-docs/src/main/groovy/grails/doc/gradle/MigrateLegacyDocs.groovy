@@ -23,14 +23,17 @@ import org.gradle.api.tasks.*
  * a YAML-based table of contents.
  */
 class MigrateLegacyDocs extends DefaultTask {
-    @InputDirectory File guideDir = new File(project.projectDir, "src/guide")
-    @InputDirectory File resourcesDir = new File(project.projectDir, "resources")
-    @OutputDirectory File outputDir = new File(project.projectDir, "src/guide.migrated")
+    @InputDirectory
+    File guideDir = new File(project.projectDir, "src/guide")
+    @InputDirectory
+    File resourcesDir = new File(project.projectDir, "resources")
+    @OutputDirectory
+    File outputDir = new File(project.projectDir, "src/guide.migrated")
 
     @TaskAction
     def migrate() {
         def props = new Properties()
-        new File("${resourcesDir}/doc.properties").withInputStream {input ->
+        new File("${resourcesDir}/doc.properties").withInputStream { input ->
             props.load(input)
         }
         props = props.findAll { it.key.startsWith("alias.") }.collectEntries { [it.key[6..-1], it.value] }

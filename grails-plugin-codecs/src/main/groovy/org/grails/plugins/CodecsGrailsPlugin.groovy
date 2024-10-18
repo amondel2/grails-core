@@ -23,7 +23,9 @@ import org.grails.plugins.codecs.DefaultCodecLookup
 @Deprecated
 class CodecsGrailsPlugin extends org.grails.plugins.codecs.CodecsGrailsPlugin {
 
-    Closure doWithSpring() {{->
-        codecLookup(DefaultCodecLookup)
-    }}
+    Closure doWithSpring() {
+        { ->
+            codecLookup(DefaultCodecLookup)
+        }
+    }
 }

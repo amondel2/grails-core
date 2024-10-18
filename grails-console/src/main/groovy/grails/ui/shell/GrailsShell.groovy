@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package grails.ui.shell
+
 import grails.boot.GrailsApp
 import grails.ui.shell.support.GroovyshApplicationContext
 import grails.ui.shell.support.GroovyshWebApplicationContext
@@ -23,6 +24,7 @@ import org.springframework.boot.ApplicationContextFactory
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.core.io.ResourceLoader
 import org.springframework.util.ClassUtils
+
 /**
  * A Shell
  *
@@ -60,7 +62,7 @@ class GrailsShell extends GrailsApp {
      * @return the running {@link org.springframework.context.ApplicationContext}
      */
     public static ConfigurableApplicationContext run(Class<?> source, String... args) {
-        return run([ source ] as Class[], args);
+        return run([source] as Class[], args);
     }
 
     /**
@@ -80,11 +82,10 @@ class GrailsShell extends GrailsApp {
      * @param args The first argument is the Application class name
      */
     public static void main(String[] args) {
-        if(args) {
+        if (args) {
             def applicationClass = Thread.currentThread().contextClassLoader.loadClass(args[0])
             new GrailsShell(applicationClass).run(args)
-        }
-        else {
+        } else {
             System.err.println("Missing application class name argument")
         }
     }

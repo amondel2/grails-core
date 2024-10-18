@@ -46,5 +46,6 @@ class CodecWithClosuresCodec {
 
 class CodecWithMethodsCodec {
     def encode(obj) { "encoded" }
+
     def decode(obj) { "decoded" }
 }

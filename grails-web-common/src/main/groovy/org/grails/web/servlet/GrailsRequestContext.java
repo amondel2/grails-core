@@ -35,30 +35,35 @@ public interface GrailsRequestContext {
 
     /**
      * The request object.
+     *
      * @return The request object
      */
     HttpServletRequest getRequest();
 
     /**
      * The response object.
+     *
      * @return The response object
      */
     HttpServletResponse getResponse();
 
     /**
      * The session object.
+     *
      * @return The session object
      */
     HttpSession getSession();
 
     /**
      * The servletContext object.
+     *
      * @return The servletContext Object
      */
     ServletContext getServletContext();
 
     /**
      * The params object.
+     *
      * @return The params object
      */
     @SuppressWarnings("rawtypes")
@@ -73,6 +78,7 @@ public interface GrailsRequestContext {
 
     /**
      * The response writer.
+     *
      * @return The response writer
      */
     Writer getOut();

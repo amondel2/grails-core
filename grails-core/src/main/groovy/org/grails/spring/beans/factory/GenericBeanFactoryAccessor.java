@@ -89,6 +89,7 @@ public class GenericBeanFactoryAccessor {
 
     /**
      * Find all beans whose <code>Class</code> has the supplied {@link Annotation} type.
+     *
      * @param annotationType the type of annotation to look for
      * @return a Map with the matching beans, containing the bean names as
      * keys and the corresponding bean instances as values
@@ -108,7 +109,8 @@ public class GenericBeanFactoryAccessor {
      * bean, traversing its interfaces and super classes if no annotation can be
      * found on the given class itself, as well as checking its raw bean class
      * if not found on the exposed bean reference (e.g. in case of a proxy).
-     * @param beanName the name of the bean to look for annotations on
+     *
+     * @param beanName       the name of the bean to look for annotations on
      * @param annotationType the annotation class to look for
      * @return the annotation of the given type found, or <code>null</code>
      * @see org.springframework.core.annotation.AnnotationUtils#findAnnotation(Class, Class)

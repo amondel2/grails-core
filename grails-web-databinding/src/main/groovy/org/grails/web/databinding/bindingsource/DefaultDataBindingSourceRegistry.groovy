@@ -32,7 +32,7 @@ class DefaultDataBindingSourceRegistry extends ClassAndMimeTypeRegistry<DataBind
 
     @Autowired(required = false)
     void setDataBindingSourceCreators(DataBindingSourceCreator[] dataBindingSourceCreators) {
-        for(dbsc in dataBindingSourceCreators) {
+        for (dbsc in dataBindingSourceCreators) {
             addToRegisteredObjects(dbsc.targetType, dbsc)
         }
     }
@@ -47,7 +47,7 @@ class DefaultDataBindingSourceRegistry extends ClassAndMimeTypeRegistry<DataBind
 
     protected DataBindingSourceCreator getDataBindingSourceCreator(MimeType mimeType, Class targetType, Object bindingSource) {
         def bindingSourceCreator = findMatchingObjectForMimeType(mimeType, targetType)
-        if(bindingSourceCreator == null) {
+        if (bindingSourceCreator == null) {
             bindingSourceCreator = new DefaultDataBindingSourceCreator()
         }
         return bindingSourceCreator
@@ -67,7 +67,7 @@ class DefaultDataBindingSourceRegistry extends ClassAndMimeTypeRegistry<DataBind
     @Override
     CollectionDataBindingSource createCollectionDataBindingSource(MimeType mimeType, Class bindingTargetType, bindingSource) {
         def helper = getDataBindingSourceCreator(mimeType, bindingTargetType, bindingSource)
-                helper.createCollectionDataBindingSource(mimeType, bindingTargetType, bindingSource)
+        helper.createCollectionDataBindingSource(mimeType, bindingTargetType, bindingSource)
     }
 
     @Override

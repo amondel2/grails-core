@@ -9,7 +9,7 @@ import spock.lang.Specification
 class DomainClassSetupMethodTests extends Specification implements DomainUnitTest<Book> {
 
     void setup() {
-        new Book(title:"The Stand", pages:100).save()
+        new Book(title: "The Stand", pages: 100).save()
     }
 
 

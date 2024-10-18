@@ -47,7 +47,7 @@ class GroovyScriptCommandFactory extends ResourceResolvingCommandFactory<GroovyS
     protected GroovyScriptCommand readCommandFile(Resource resource) {
         GroovyClassLoader classLoader = createGroovyScriptCommandClassLoader()
         try {
-            return (GroovyScriptCommand) classLoader.parseClass(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8 ), resource.filename).getDeclaredConstructor().newInstance()
+            return (GroovyScriptCommand) classLoader.parseClass(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8), resource.filename).getDeclaredConstructor().newInstance()
         } catch (Throwable e) {
             GrailsConsole.getInstance().error("Failed to compile ${resource.filename}: " + e.getMessage(), e)
         }
@@ -69,7 +69,7 @@ class GroovyScriptCommandFactory extends ResourceResolvingCommandFactory<GroovyS
         importCustomizer.addStarImports("org.grails.cli.interactive.completers")
         importCustomizer.addStarImports("grails.util")
         importCustomizer.addStarImports("grails.codegen.model")
-        configuration.addCompilationCustomizers(importCustomizer,new ASTTransformationCustomizer(new GroovyScriptCommandTransform()))
+        configuration.addCompilationCustomizers(importCustomizer, new ASTTransformationCustomizer(new GroovyScriptCommandTransform()))
         def classLoader = new GroovyClassLoader(Thread.currentThread().contextClassLoader, configuration)
         return classLoader
     }

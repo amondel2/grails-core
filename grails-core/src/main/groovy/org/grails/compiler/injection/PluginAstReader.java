@@ -49,7 +49,7 @@ class PluginAstReader {
     public GrailsPluginInfo readPluginInfo(ClassNode classNode) throws CompilationFailedException {
         String className = classNode.getNameWithoutPackage();
 
-        if(className.endsWith("GrailsPlugin")) {
+        if (className.endsWith("GrailsPlugin")) {
             visitContents(className, classNode);
         }
         return pluginInfo;
@@ -63,31 +63,28 @@ class PluginAstReader {
                 String name = node.getName();
 
 
-
                 final Expression expr = node.getField().getInitialExpression();
 
                 if (expr != null) {
                     Object value = null;
                     if (expr instanceof ListExpression) {
                         final List<String> list = new ArrayList<String>();
-                        for (Expression i : ((ListExpression)expr).getExpressions()) {
+                        for (Expression i : ((ListExpression) expr).getExpressions()) {
                             list.add(i.getText());
                         }
                         value = list;
-                    }
-                    else if (expr instanceof MapExpression) {
+                    } else if (expr instanceof MapExpression) {
                         final Map<String, String> map = new LinkedHashMap<String, String>();
                         value = map;
-                        for (MapEntryExpression mee : ((MapExpression)expr).getMapEntryExpressions()) {
+                        for (MapEntryExpression mee : ((MapExpression) expr).getMapEntryExpressions()) {
                             map.put(mee.getKeyExpression().getText(), mee.getValueExpression().getText());
                         }
-                    }
-                    else {
-                        if(expr instanceof ConstantExpression)  {
+                    } else {
+                        if (expr instanceof ConstantExpression) {
                             value = expr.getText();
                         }
                     }
-                    if(value != null) {
+                    if (value != null) {
                         pluginInfo.setProperty(name, value);
                         super.visitProperty(node);
                     }
@@ -117,7 +114,7 @@ class PluginAstReader {
 
         private String name;
         private String version;
-        private Map<String,Object> attributes = new ConcurrentHashMap<String,Object>();
+        private Map<String, Object> attributes = new ConcurrentHashMap<String, Object>();
 
         public BasicGrailsPluginInfo() {
         }
@@ -143,7 +140,7 @@ class PluginAstReader {
         }
 
         public Object getProperty(String property) {
-           return attributes.get(property);
+            return attributes.get(property);
         }
 
         public String getFullName() {
@@ -158,7 +155,7 @@ class PluginAstReader {
             return null;
         }
 
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         public Map getProperties() {
             Map props = new HashMap();
             props.putAll(attributes);

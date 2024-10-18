@@ -28,88 +28,88 @@ import spock.lang.Specification
 /**
  * @author graemerocher
  */
-class GrailsInterceptorHandlerInterceptorAdapterSpec extends Specification{
+class GrailsInterceptorHandlerInterceptorAdapterSpec extends Specification {
 
     void cleanup() {
         RequestContextHolder.setRequestAttributes(null)
     }
 
     void "Test that an interceptor can cancel request processing"() {
-        given:"An interceptor"
-            def i = new MyInterceptor()
-            def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
-            adapter.setInterceptors([i] as Interceptor[])
-
-
-        when:"The adapter prehandle is executed"
-            def webRequest = GrailsWebMockUtil.bindMockWebRequest()
-
-        then:"The prehandle is true"
-            adapter.preHandle(webRequest.request, webRequest.response, this)
-
-        when:"A condition is met for exclusion"
-            webRequest.request.setAttribute("something", "test")
-        then:"The prehandle is false"
-            !adapter.preHandle(webRequest.request, webRequest.response, this)
-
-    }
-
-    void "Test that an interceptor can cancel view rendering"() {
-        given:"An interceptor"
+        given: "An interceptor"
         def i = new MyInterceptor()
         def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
         adapter.setInterceptors([i] as Interceptor[])
 
 
-        when:"The adapter prehandle is executed"
+        when: "The adapter prehandle is executed"
+        def webRequest = GrailsWebMockUtil.bindMockWebRequest()
+
+        then: "The prehandle is true"
+        adapter.preHandle(webRequest.request, webRequest.response, this)
+
+        when: "A condition is met for exclusion"
+        webRequest.request.setAttribute("something", "test")
+        then: "The prehandle is false"
+        !adapter.preHandle(webRequest.request, webRequest.response, this)
+
+    }
+
+    void "Test that an interceptor can cancel view rendering"() {
+        given: "An interceptor"
+        def i = new MyInterceptor()
+        def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
+        adapter.setInterceptors([i] as Interceptor[])
+
+
+        when: "The adapter prehandle is executed"
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
         def modelAndView = new ModelAndView()
         adapter.preHandle(webRequest.request, webRequest.response, this)
         adapter.postHandle(webRequest.request, webRequest.response, this, modelAndView)
 
-        then:"The prehandle is true"
-            modelAndView.model.foo == 'bar'
-            modelAndView.viewName== 'foo'
+        then: "The prehandle is true"
+        modelAndView.model.foo == 'bar'
+        modelAndView.viewName == 'foo'
 
-        when:"A condition is met for exclusion"
+        when: "A condition is met for exclusion"
         webRequest.request.setAttribute("bar", "test")
         adapter.postHandle(webRequest.request, webRequest.response, this, modelAndView)
 
-        then:"The prehandle is false"
+        then: "The prehandle is false"
         modelAndView.viewName == null
     }
 
     void "Test an execution order of interceptors"() {
         given: "An interceptor"
-            def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
-            adapter.setInterceptors([new HighestInterceptor(), new LowestInterceptor()] as Interceptor[])
+        def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
+        adapter.setInterceptors([new HighestInterceptor(), new LowestInterceptor()] as Interceptor[])
 
         when: "The adapter preHandle is executed"
-            def webRequest = GrailsWebMockUtil.bindMockWebRequest()
-            def modelAndView = new ModelAndView()
-            adapter.preHandle(webRequest.request, webRequest.response, this)
+        def webRequest = GrailsWebMockUtil.bindMockWebRequest()
+        def modelAndView = new ModelAndView()
+        adapter.preHandle(webRequest.request, webRequest.response, this)
 
         then: "The interceptors are executed in the order of highest priority"
-            webRequest.request.getAttribute('executed') == ['highest before', 'lowest before']
+        webRequest.request.getAttribute('executed') == ['highest before', 'lowest before']
 
         when: "The adapter postHandle is executed"
-            webRequest.request.setAttribute('executed', null)
-            adapter.postHandle(webRequest.request, webRequest.response, this, modelAndView)
+        webRequest.request.setAttribute('executed', null)
+        adapter.postHandle(webRequest.request, webRequest.response, this, modelAndView)
 
         then: "The interceptors are executed in the order of lowest priority"
-            webRequest.request.getAttribute('executed') == ['lowest after', 'highest after']
+        webRequest.request.getAttribute('executed') == ['lowest after', 'highest after']
 
         when: "The adapter afterCompletion is executed"
-            webRequest.request.setAttribute('executed', null)
-            adapter.afterCompletion(webRequest.request, webRequest.response, this, null)
+        webRequest.request.setAttribute('executed', null)
+        adapter.afterCompletion(webRequest.request, webRequest.response, this, null)
 
         then: "The interceptors are executed in the order of lowest priority"
-            webRequest.request.getAttribute('executed') == ['lowest afterView', 'highest afterView']
+        webRequest.request.getAttribute('executed') == ['lowest afterView', 'highest afterView']
     }
 
     @Issue('https://github.com/grails/grails-core/issues/9548')
     void "Test the exception is set in the request if thrown"() {
-        given:"An interceptor"
+        given: "An interceptor"
         def adapter = new GrailsInterceptorHandlerInterceptorAdapter()
         adapter.setInterceptors([new MyInterceptor()] as Interceptor[])
         def webRequest = GrailsWebMockUtil.bindMockWebRequest()
@@ -124,6 +124,7 @@ class GrailsInterceptorHandlerInterceptorAdapterSpec extends Specification{
         webRequest.request.getAttribute(Matcher.THROWABLE) instanceof Exception
     }
 }
+
 class MyInterceptor implements Interceptor {
 
     MyInterceptor() {
@@ -132,7 +133,7 @@ class MyInterceptor implements Interceptor {
 
     @Override
     boolean before() {
-        if(request.getAttribute("something")) {
+        if (request.getAttribute("something")) {
             return false
         }
         return true
@@ -140,11 +141,10 @@ class MyInterceptor implements Interceptor {
 
     @Override
     boolean after() {
-        if(request.getAttribute("bar")) {
+        if (request.getAttribute("bar")) {
             return false
-        }
-        else {
-            model = [foo:"bar"]
+        } else {
+            model = [foo: "bar"]
             view = "foo"
             return true
         }
@@ -152,11 +152,12 @@ class MyInterceptor implements Interceptor {
 
     @Override
     void afterView() {
-       if(request.getAttribute("bar")) {
-           throw throwable
-       }
+        if (request.getAttribute("bar")) {
+            throw throwable
+        }
     }
 }
+
 class HighestInterceptor implements Interceptor {
 
     int order = HIGHEST_PRECEDENCE
@@ -191,6 +192,7 @@ class HighestInterceptor implements Interceptor {
         executed
     }
 }
+
 class LowestInterceptor implements Interceptor {
 
     int order = LOWEST_PRECEDENCE

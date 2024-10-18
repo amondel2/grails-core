@@ -28,14 +28,13 @@ import org.springframework.web.multipart.MultipartFile
  * @author graemerocher
  */
 @grails.web.Controller
-class AnotherController  {
+class AnotherController {
 
-    def handleCommand( TestCommand test ) {
+    def handleCommand(TestCommand test) {
 
         if (test.hasErrors()) {
             render "Bad"
-        }
-        else {
+        } else {
             render "Good"
         }
     }
@@ -47,11 +46,11 @@ class AnotherController  {
     }
 
     def renderTemplateContents = {
-        def contents = createLink(controller:"foo")
+        def contents = createLink(controller: "foo")
         render contents
     }
     def renderTemplateContentsViaNamespace = {
-        def contents = g.render(template:"bar")
+        def contents = g.render(template: "bar")
 
         render contents
     }
@@ -60,11 +59,11 @@ class AnotherController  {
     }
 
     def redirectToController = {
-        redirect(controller:"bar")
+        redirect(controller: "bar")
     }
 
     def renderView = {
-        render(view:"foo")
+        render(view: "foo")
     }
 
     def renderTemplate(String template) {
@@ -72,23 +71,23 @@ class AnotherController  {
     }
 
     def renderXml = {
-        render(contentType:"text/xml") {
-            book(title:"Great")
+        render(contentType: "text/xml") {
+            book(title: "Great")
         }
     }
 
     def renderJson = {
-        render(contentType:"text/json") {
+        render(contentType: "text/json") {
             book "Great"
         }
     }
 
     def renderAsJson = {
-        render([foo:"bar"] as JSON)
+        render([foo: "bar"] as JSON)
     }
 
     def renderWithFormat = {
-        def data = [foo:"bar"]
+        def data = [foo: "bar"]
         withFormat {
             xml { render data as XML }
             html data
@@ -96,15 +95,15 @@ class AnotherController  {
     }
 
     def renderState = {
-        render(contentType:"text/xml") {
+        render(contentType: "text/xml") {
             println params.foo
             println request.bar
             requestInfo {
                 for (p in params) {
-                    parameter(name:p.key, value:p.value)
+                    parameter(name: p.key, value: p.value)
                 }
                 request.each {
-                    attribute(name:it.key, value:it.value)
+                    attribute(name: it.key, value: it.value)
                 }
             }
         }
@@ -115,7 +114,7 @@ class AnotherController  {
     MimeUtility mimeUtility
 
     def renderMessage() {
-        assert mimeUtility !=null
+        assert mimeUtility != null
         assert grailsLinkGenerator != null
         render messageSource.getMessage("foo.bar", null, request.locale)
     }

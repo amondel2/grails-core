@@ -185,7 +185,7 @@ class CommandObjectConstraintGettersSpec extends Specification {
     }
 
     // BOOL METHODS COMMAND OBJECT
-    
+
     void 'ensure only public non-static bool properties with getter are constrained properties'() {
         BoolMethodPropertiesCommand command = new BoolMethodPropertiesCommand()
         when: 'empty command with method properties is validated'

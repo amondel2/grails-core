@@ -36,7 +36,7 @@ class ProfilingGrailsApplicationPostProcessor extends GrailsApplicationPostProce
 
     ProfilingGrailsApplicationPostProcessor(GrailsApplicationLifeCycle lifeCycle, ApplicationContext applicationContext, Class... classes) {
         super(lifeCycle, applicationContext, classes)
-        ((ConfigurableApplicationContext)applicationContext).beanFactory.addBeanPostProcessor(this)
+        ((ConfigurableApplicationContext) applicationContext).beanFactory.addBeanPostProcessor(this)
     }
 
     @Override
@@ -48,7 +48,7 @@ class ProfilingGrailsApplicationPostProcessor extends GrailsApplicationPostProce
     @Override
     Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         def totalTime = System.currentTimeMillis() - startTime
-        if(totalTime > 10) {
+        if (totalTime > 10) {
             println "Creating bean $beanName of type ${bean.getClass()} took ${totalTime}ms"
         }
         return bean

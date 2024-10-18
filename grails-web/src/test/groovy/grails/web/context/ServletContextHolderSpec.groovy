@@ -16,17 +16,17 @@ class ServletContextHolderSpec extends Specification {
     }
 
     def "Test get set servlet context"() {
-        when:"the ServletContext is set"
-            final context = new MockServletContext()
-            ServletContextHolder.servletContext = context
-        then:"It can be retrieved"
-            ServletContextHolder.servletContext == context
+        when: "the ServletContext is set"
+        final context = new MockServletContext()
+        ServletContextHolder.servletContext = context
+        then: "It can be retrieved"
+        ServletContextHolder.servletContext == context
     }
 
     def "Test fallback to mock web request"() {
-        when:"the ServletContext is set"
-            final request = GrailsWebMockUtil.bindMockWebRequest()
-        then:"It can be retrieved"
-            ServletContextHolder.servletContext == request.servletContext
+        when: "the ServletContext is set"
+        final request = GrailsWebMockUtil.bindMockWebRequest()
+        then: "It can be retrieved"
+        ServletContextHolder.servletContext == request.servletContext
     }
 }

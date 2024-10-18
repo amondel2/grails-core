@@ -76,12 +76,14 @@ class IdUrlMappingTests extends Specification implements UrlMappingsUnitTest<Url
         }
     }
 }
+
 @grails.artefact.Artefact('Controller')
 class EmailConfirmationController {
     def index() {
         [result: "ID = " + params.id]
     }
 }
+
 class ContentController {
     def index() {}
 }

@@ -23,13 +23,13 @@ class EmbeddedContainerWithGrailsSpec extends Specification {
     }
 
     void "Test that you can load Grails in an embedded server config"() {
-        when:"An embedded server config is created"
-            this.context = new AnnotationConfigServletWebServerApplicationContext(Application)
+        when: "An embedded server config is created"
+        this.context = new AnnotationConfigServletWebServerApplicationContext(Application)
 
-        then:"The context is valid"
-            context != null
-            new URL("http://localhost:${context.webServer.port}/foo/bar").text == 'hello world'
-            new URL("http://localhost:${context.webServer.port}/foos").text == 'all foos'
+        then: "The context is valid"
+        context != null
+        new URL("http://localhost:${context.webServer.port}/foo/bar").text == 'hello world'
+        new URL("http://localhost:${context.webServer.port}/foos").text == 'all foos'
     }
 
     @Configuration
@@ -48,6 +48,7 @@ class FooController {
     def bar() {
         render "hello world"
     }
+
     def list() {
         render "all foos"
     }
@@ -59,7 +60,7 @@ class FooController {
 class UrlMappings {
     static mappings = {
         "/$controller/$action?/$id?(.$format)?"()
-        "/foos"(controller:'foo', action:"list")
+        "/foos"(controller: 'foo', action: "list")
     }
 }
 

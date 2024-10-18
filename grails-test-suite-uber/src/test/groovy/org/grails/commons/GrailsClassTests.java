@@ -32,7 +32,8 @@ public class GrailsClassTests {
     public void testAbstractGrailsClassNoPackage() throws Exception {
         GroovyClassLoader cl = new GroovyClassLoader();
         Class<?> clazz = cl.parseClass("class TestService { }");
-        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "Service") {/*empty*/};
+        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "Service") {/*empty*/
+        };
         assertEquals("TestService", clazz.getName());
         assertEquals("Test", grailsClass.getName());
         assertEquals("TestService", grailsClass.getFullName());
@@ -43,7 +44,8 @@ public class GrailsClassTests {
     public void testAbstractGrailsClassPackage() throws Exception {
         GroovyClassLoader cl = new GroovyClassLoader();
         Class<?> clazz = cl.parseClass("package test.casey; class TestService { }");
-        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "Service") {/*empty*/};
+        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "Service") {/*empty*/
+        };
         assertEquals("test.casey.TestService", clazz.getName());
         assertEquals("Test", grailsClass.getName());
         assertEquals("test.casey.TestService", grailsClass.getFullName());
@@ -54,7 +56,8 @@ public class GrailsClassTests {
     public void testGrailsClassNonPublicConstructor() throws Exception {
         GroovyClassLoader cl = new GroovyClassLoader();
         Class<?> clazz = cl.parseClass("class ProtectedConstructor { protected ProtectedConstructor() {}}");
-        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "ProtectedConstructor") {/*empty*/};
+        GrailsClass grailsClass = new AbstractGrailsClass(clazz, "ProtectedConstructor") {/*empty*/
+        };
         assertNotNull(grailsClass.newInstance());
     }
 }

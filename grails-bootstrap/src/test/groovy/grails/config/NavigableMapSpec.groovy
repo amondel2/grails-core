@@ -22,16 +22,16 @@ class NavigableMapSpec extends Specification {
         where:
         input << [
                 [js: 'text/javascript', json: ['application/json', 'text/json'], xml: ['application/hal+xml', 'text/xml', 'application/xml'], 'grails.cors.mappings[/api/**]': 'default'],
-                [js: 'text/javascript', 'json[0]': 'application/json', 'json[1]': 'text/json', 'xml[0]': 'application/hal+xml', 'xml[1]':'text/xml', 'xml[2]':'application/xml', 'grails.cors.mappings[/api/**]': 'default'],
-                ]
+                [js: 'text/javascript', 'json[0]': 'application/json', 'json[1]': 'text/json', 'xml[0]': 'application/hal+xml', 'xml[1]': 'text/xml', 'xml[2]': 'application/xml', 'grails.cors.mappings[/api/**]': 'default'],
+        ]
     }
 
     def "multiple subscript entries are collapse to a list of maps"() {
         given:
         Map input = [
-                'rabbitmq.connections[0].name': 'main',
-                'rabbitmq.connections[0].host': '1109201498',
-                'rabbitmq.connections[0].host2': '635494740',
+                'rabbitmq.connections[0].name'    : 'main',
+                'rabbitmq.connections[0].host'    : '1109201498',
+                'rabbitmq.connections[0].host2'   : '635494740',
                 'rabbitmq.connections[0].username': 'guest',
                 'rabbitmq.connections[0].password': 'guest',
         ]
@@ -54,9 +54,9 @@ class NavigableMapSpec extends Specification {
     def "multiple subscript entries are collapse to a map of maps"() {
         given:
         Map input = [
-                'rabbitmq.connections[foo].name': 'main',
-                'rabbitmq.connections[foo].host': '1109201498',
-                'rabbitmq.connections[foo].host2': '635494740',
+                'rabbitmq.connections[foo].name'    : 'main',
+                'rabbitmq.connections[foo].host'    : '1109201498',
+                'rabbitmq.connections[foo].host2'   : '635494740',
                 'rabbitmq.connections[foo].username': 'guest',
                 'rabbitmq.connections[foo].password': 'guest',
         ]

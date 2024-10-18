@@ -8,7 +8,7 @@ import spock.lang.Specification
 class TestForControllerWithoutMockDomainTests extends Specification implements ControllerUnitTest<ImpedimentsController> {
 
     void testEditImpediment() {
-        def impedimentInstance = new Impediment(text:"blah")
+        def impedimentInstance = new Impediment(text: "blah")
 
         when:
         impedimentInstance.save()
@@ -19,7 +19,7 @@ class TestForControllerWithoutMockDomainTests extends Specification implements C
 }
 
 @Artefact("Controller")
-class ImpedimentsController{}
+class ImpedimentsController {}
 
 @Entity
 class Impediment {

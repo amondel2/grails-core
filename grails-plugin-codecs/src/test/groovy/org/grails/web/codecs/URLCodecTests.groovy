@@ -21,7 +21,7 @@ class URLCodecTests {
     @BeforeEach
     protected void setUp() {
         RequestContextHolder.setRequestAttributes new GrailsWebRequest(
-            new MockHttpServletRequest(), new MockHttpServletResponse(), new MockServletContext())
+                new MockHttpServletRequest(), new MockHttpServletResponse(), new MockServletContext())
     }
 
     @AfterEach

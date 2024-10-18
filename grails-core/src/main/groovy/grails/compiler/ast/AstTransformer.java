@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 /**
  * Marker annotation that for classes that transform Grails classes at the AST level.
  *
- * @since 2.0
  * @author Graeme Rocher
+ * @since 2.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

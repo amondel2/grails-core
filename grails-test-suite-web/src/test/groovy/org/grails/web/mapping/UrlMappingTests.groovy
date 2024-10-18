@@ -73,22 +73,22 @@ class UrlMappingTests extends Specification implements UrlMappingsUnitTest<UrlMa
 
     static class UrlMappings {
         static mappings = {
-            "/competition/$action?"{
+            "/competition/$action?" {
                 controller = "competition"
             }
 
-            "/survey/$action?"{
+            "/survey/$action?" {
                 controller = "survey"
             }
 
-            "/$id?"{
+            "/$id?" {
                 controller = "content"
                 action = "view"
             }
 
             group "/api", {
                 "/test"(resources: "test")
-                "/foobar/$id"(controller:"foobar")
+                "/foobar/$id"(controller: "foobar")
             }
         }
     }
