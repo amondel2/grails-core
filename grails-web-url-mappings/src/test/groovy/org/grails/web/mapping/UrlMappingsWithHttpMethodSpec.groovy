@@ -18,7 +18,7 @@ import spock.lang.Specification
 /**
  * @author Graeme Rocher
  */
-@IgnoreIf ({ env['CI'] })
+@IgnoreIf({ env['CI'] })
 class UrlMappingsWithHttpMethodSpec extends Specification {
 
     def setup() {
