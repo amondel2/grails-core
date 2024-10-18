@@ -30,10 +30,10 @@ import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
 /**
  * Implements caching layer for UrlCreator
- * <p>
+ *
  * The "weight" of the cache is the estimated number of characters all cache entries will consume in memory.
  * The estimate is not accurate. It's just used as a hard limit for limiting the cache size.
- * <p>
+ *
  * You can tune the maximum weight of the cache by setting "grails.urlcreator.cache.maxsize" in Config.groovy.
  * The default value is 160000 .
  *

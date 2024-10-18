@@ -24,7 +24,7 @@ package org.grails.io.support;
  * to the current VM working directory, even if they start with a slash.
  * (This is consistent with the semantics in a Servlet container.)
  * <b>Use an explicit "file:" prefix to enforce an absolute file path.</b>
- * <p>
+ *
  * is a full-fledged ApplicationContext implementation that provides
  * the same resource path resolution strategy.
  *

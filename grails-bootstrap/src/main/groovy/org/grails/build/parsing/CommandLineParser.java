@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  * Command line parser that parses arguments to the command line. Written as a
  * replacement for Commons CLI because it doesn't support unknown arguments and
  * requires all arguments to be declared up front.
- * <p>
+ *
  * It also doesn't support command options with hyphens. This class gets around those problems.
  *
  * @author Graeme Rocher

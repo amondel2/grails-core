@@ -27,17 +27,17 @@ package grails.databinding;
  * String city
  * }
  * class StructuredAddressBindingEditor implements StructuredBindingEditor {
- * <p>
+ *
  * public Object getPropertyValue(Object obj, String propertyName, Map&lt;String, Object&gt; source) {
  * def address = new Address()
- * <p>
+ *
  * address.state = source[propertyName + '_someState']
  * address.city = source[propertyName + '_someCity']
- * <p>
+ *
  * address
  * }
  * }
- * <p>
+ *
  * def binder = new SimpleDataBinder()
  * binder.registerStructuredEditor Address, new StructuredAddressBindingEditor()
  * def resident = new Resident()
@@ -48,9 +48,9 @@ package grails.databinding;
  * bindingSource.workAddress_someState = "Scott's Work State"
  * bindingSource.workAddress = 'struct'
  * bindingSource.homeAddress = 'struct'
- * <p>
+ *
  * binder.bind resident, bindingSource
- * <p>
+ *
  * resident.name == 'Scott'
  * resident.homeAddress
  * assert resident.homeAddress.city == "Scott's Home City"

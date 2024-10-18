@@ -29,7 +29,7 @@ import org.springframework.context.support.GenericApplicationContext;
 /**
  * A programmable runtime Spring configuration that allows a spring ApplicationContext
  * to be constructed at runtime.
- * <p>
+ *
  * Credit must go to Solomon Duskis and the
  * article: http://jroller.com/page/Solomon?entry=programmatic_configuration_in_spring
  *

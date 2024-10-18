@@ -1223,7 +1223,7 @@ public class GrailsASTUtils {
 
     /**
      * Set the method target of a MethodCallExpression to the first matching method with same number and type of arguments.
-     * <p>
+     *
      * A null parameter type will match any type
      *
      * @param methodCallExpression
@@ -1488,7 +1488,7 @@ public class GrailsASTUtils {
 
     /**
      * Find URL of SourceUnit
-     * <p>
+     *
      * source.getSource().getURI() fails in Groovy-Eclipse compiler
      *
      * @param source

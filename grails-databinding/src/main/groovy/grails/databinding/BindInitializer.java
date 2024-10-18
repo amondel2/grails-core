@@ -21,7 +21,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * This annotation may be applied to a a field to
  * customize initialization of object properties in the data binding process.
- * <p>
+ *
  * When the annotation is applied to a field, the value assigned to the
  * annotation should be a Closure which accepts 1 parameter.  The
  * parameter is the object that data binding is being applied to.

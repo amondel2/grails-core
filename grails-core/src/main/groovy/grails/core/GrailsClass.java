@@ -60,7 +60,7 @@ public interface GrailsClass extends GrailsApplicationAware {
 
     /**
      * Creates a new instance of this class.
-     * <p>
+     *
      * This method can be used as factory method in the Spring application context.
      *
      * @return A new instance of this class

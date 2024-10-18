@@ -4,7 +4,7 @@ import org.springframework.beans.factory.FactoryBean;
 
 /**
  * Simple singleton instance implementation of Spring's FactoryBean interface
- * <p>
+ *
  * mainly useful in unit tests
  */
 public class InstanceFactoryBean<T> implements FactoryBean<T> {

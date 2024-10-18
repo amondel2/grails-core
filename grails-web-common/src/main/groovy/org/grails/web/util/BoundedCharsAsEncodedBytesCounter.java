@@ -29,10 +29,10 @@ import java.nio.charset.CodingErrorAction;
 
 /**
  * Counts chars encoded as bytes up to a certain limit (capacity of byte buffer).
- * <p>
+ *
  * size() returns the number of bytes, it will return -1 if the capacity was
  * reached or an error occurred.
- * <p>
+ *
  * this class is useful for calculating the content length of a
  * HttpServletResponse before the response has been committed
  *

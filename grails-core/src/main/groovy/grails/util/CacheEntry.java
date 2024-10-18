@@ -28,9 +28,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * Wrapper for a value inside a cache that adds timestamp information
  * for expiration and prevents "cache storms" with a Lock.
- * <p>
+ *
  * JMM happens-before is ensured with AtomicReference.
- * <p>
+ *
  * Objects in cache are assumed to not change after publication.
  *
  * @author Lari Hotari
@@ -118,7 +118,7 @@ public class CacheEntry<V> {
 
     /**
      * gets the current value from the entry and updates it if it's older than timeout
-     * <p>
+     *
      * updater is a callback for creating an updated value.
      *
      * @param timeout

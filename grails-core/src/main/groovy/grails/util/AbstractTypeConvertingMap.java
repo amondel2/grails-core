@@ -25,7 +25,7 @@ import java.util.*;
 
 /**
  * AbstractTypeConvertingMap is a Map with type conversion capabilities.
- * <p>
+ *
  * Type converting maps have no inherent ordering. Two maps with identical entries
  * but arranged in a different order internally are considered equal.
  *

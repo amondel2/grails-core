@@ -260,7 +260,7 @@ public interface GrailsPluginManager extends ApplicationContextAware {
 
     /**
      * Returns the pluginContextPath for the given plugin and will force name to camel case instead of '-' lower case
-     * <p>
+     *
      * my-plug-web would resolve to myPlugWeb if forceCamelCase is true.
      *
      * @param name           The plugin name

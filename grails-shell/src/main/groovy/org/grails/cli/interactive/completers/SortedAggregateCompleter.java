@@ -23,7 +23,7 @@ import static jline.internal.Preconditions.checkNotNull;
 
 /**
  * Copied from jline AggregateCompleter
- * <p>
+ *
  * sorts aggregated completions
  */
 public class SortedAggregateCompleter

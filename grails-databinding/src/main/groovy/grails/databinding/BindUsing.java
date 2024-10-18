@@ -24,7 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * This annotation may be applied to a class or to a field to
  * customize the data binding process.
- * <p>
+ *
  * When the annotation is applied to a field, the value assigned to the
  * annotation should be a Closure which accepts 2 parameters.  The first
  * parameter is the object that data binding is being applied to.  The second
@@ -41,7 +41,7 @@ import java.lang.annotation.RetentionPolicy;
  * String name
  * }
  * </pre>
- * <p>
+ *
  * When the annotation is applied to a class, the value assigned to the
  * annotation should be a class which implements the {@link BindingHelper}
  * interface.  An instance of that class will be used any time a value

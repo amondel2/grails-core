@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
  * which means the {@link PlatformTransactionManager} most likely to break the transaction should be the <em>last</em>
  * in the list configured. A {@link PlatformTransactionManager} throwing an exception during commit will automatically
  * cause the remaining transaction managers to roll back instead of committing.
- * <p>
+ *
  * original source: https://github.com/spring-projects/spring-data-commons/blob/master/src/main/java/org/springframework/data/transaction/ChainedTransactionManager.java
  *
  * @author Michael Hunger

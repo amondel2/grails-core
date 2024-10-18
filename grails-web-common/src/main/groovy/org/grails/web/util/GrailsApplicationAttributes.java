@@ -75,7 +75,7 @@ public interface GrailsApplicationAttributes extends ApplicationAttributes {
     /**
      * Retrieves the plugin context path for the current request. The plugin context path is the path
      * used by plugins to reference resources such as javascript, CSS and so forth
-     * <p>
+     *
      * It is established by evaluating the current controller, if the current controller is plugin provided
      * then it will attempt to evaluate the path based on the plugin the controller came from
      *

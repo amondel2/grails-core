@@ -68,11 +68,11 @@ public class DefaultGrailsPluginManagerTests {
 
     /**
      * Test the known 1.0.2 failure where:
-     * <p>
+     *
      * mail 0.3 = has no deps
      * quartz 0.3-SNAPSHOT: loadAfter = ['core', 'hibernate']
      * emailconfirmation 0.4: dependsOn = [quartz:'0.3 > *', mail: '0.2 > *']
-     * <p>
+     *
      * ...and emailconfirmation is NOT loaded first.
      */
     @Test

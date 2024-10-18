@@ -854,10 +854,10 @@ public class GrailsResourceUtils {
 
     /**
      * Get the path relative to an artefact folder under grails-app i.e:
-     * <p>
+     *
      * Input: /usr/joe/project/grails-app/conf/BootStrap.groovy
      * Output: BootStrap.groovy
-     * <p>
+     *
      * Input: /usr/joe/project/grails-app/domain/com/mystartup/Book.groovy
      * Output: com/mystartup/Book.groovy
      *
@@ -876,7 +876,7 @@ public class GrailsResourceUtils {
 
     /**
      * Gets the path relative to the project base directory.
-     * <p>
+     *
      * Input: /usr/joe/project/grails-app/conf/BootStrap.groovy
      * Output: grails-app/conf/BootStrap.groovy
      *
@@ -904,7 +904,7 @@ public class GrailsResourceUtils {
 
     /**
      * Takes a file path and returns the name of the folder under grails-app i.e:
-     * <p>
+     *
      * Input: /usr/joe/project/grails-app/domain/com/mystartup/Book.groovy
      * Output: domain
      *

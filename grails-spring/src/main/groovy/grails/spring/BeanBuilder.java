@@ -427,7 +427,7 @@ public class BeanBuilder extends GroovyObjectSupport {
     /**
      * Takes a resource pattern as (@see org.springframework.core.io.support.PathMatchingResourcePatternResolver)
      * This allows you load multiple bean resources in this single builder
-     * <p>
+     *
      * eg loadBeans("classpath:*Beans.groovy")
      *
      * @param resourcePattern The resource pattern
@@ -895,7 +895,7 @@ public class BeanBuilder extends GroovyObjectSupport {
 
     /**
      * Overrides property retrieval in the scope of the BeanBuilder to either:
-     * <p>
+     *
      * a) Retrieve a variable from the bean builder's binding if it exists
      * b) Retrieve a RuntimeBeanReference for a specific bean if it exists
      * c) Otherwise just delegate to super.getProperty which will resolve properties from the BeanBuilder itself

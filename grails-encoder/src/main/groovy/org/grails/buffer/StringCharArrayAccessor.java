@@ -21,15 +21,15 @@ import java.lang.reflect.Field;
 
 /**
  * Provides optimized access to java.lang.String internals
- * <p>
+ *
  * - Optimized way of creating java.lang.String by reusing a char[] buffer
  * - Optimized way of writing String to java.io.Writer
- * <p>
+ *
  * java.lang.String creation reusing a char[] buffer requires Java 1.5+
- * <p>
+ *
  * System property "stringchararrayaccessor.disabled" disables this hack.
  * -Dstringchararrayaccessor.disabled=true
- * <p>
+ *
  * Read JSR-133, "9.1.1 Post-Construction Modification of Final Fields"
  * http://www.cs.umd.edu/~pugh/java/memoryModel/jsr133.pdf
  *

@@ -17,7 +17,7 @@ package org.grails.charsequences;
 
 /**
  * Marker interface for telling that the underlying char array is directly accessible
- * <p>
+ *
  * This interface is missing from the JVM although String, StringBuffer and StringBuilder all have this method.
  *
  * @author Lari Hotari

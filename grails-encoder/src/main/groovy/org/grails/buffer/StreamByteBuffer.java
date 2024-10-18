@@ -33,9 +33,9 @@ import java.util.LinkedList;
 
 /**
  * An in-memory buffer that provides OutputStream and InputStream interfaces.
- * <p>
+ *
  * This is more efficient than using ByteArrayOutputStream/ByteArrayInputStream
- * <p>
+ *
  * This is not thread-safe, it is intended to be used by a single Thread.
  *
  * @author Lari Hotari, Sagire Software Oy

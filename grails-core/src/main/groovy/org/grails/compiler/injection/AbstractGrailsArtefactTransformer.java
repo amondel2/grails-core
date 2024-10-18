@@ -101,7 +101,7 @@ public abstract class AbstractGrailsArtefactTransformer implements GrailsArtefac
 
     /**
      * Used for ordering not equality.
-     * <p>
+     *
      * Note: this class has a natural ordering that is inconsistent with equals.
      *
      * @see Comparable#compareTo(Object)

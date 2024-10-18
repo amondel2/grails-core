@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
 
 /**
  * Default implementation of the BeanConfiguration interface .
- * <p>
+ *
  * Credit must go to Solomon Duskis and the
  * article: http://jroller.com/page/Solomon?entry=programmatic_configuration_in_spring
  *

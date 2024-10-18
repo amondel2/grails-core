@@ -52,7 +52,7 @@ public interface ResourceLocator {
 
     /**
      * Finds the .groovy file or .java file for a given class from a Grails project.
-     * <p>
+     *
      * Note that this method will return null in production since sources are not packaged unless an
      * appropriate search location is specified to locate the resource
      *

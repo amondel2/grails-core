@@ -93,7 +93,7 @@ public interface LinkGenerator {
 
     /**
      * Generates a link to a static resource for the given named parameters.
-     * <p>
+     *
      * Possible named parameters include:
      *
      * <ul>
@@ -112,7 +112,7 @@ public interface LinkGenerator {
 
     /**
      * Generates a link to a controller, action or URI for the given named parameters.
-     * <p>
+     *
      * Possible named parameters include:
      *
      * <ul>
@@ -138,7 +138,7 @@ public interface LinkGenerator {
 
     /**
      * Generates a link to a controller, action or URI for the given named parameters.
-     * <p>
+     *
      * Possible named parameters include:
      *
      * <ul>

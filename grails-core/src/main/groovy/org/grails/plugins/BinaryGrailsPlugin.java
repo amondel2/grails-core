@@ -214,7 +214,7 @@ public class BinaryGrailsPlugin extends DefaultGrailsPlugin {
 
     /**
      * Obtains all properties for this binary plugin for the given locale.
-     * <p>
+     *
      * Note this method does not cache so clients should in general cache the results of this method.
      *
      * @param locale The locale

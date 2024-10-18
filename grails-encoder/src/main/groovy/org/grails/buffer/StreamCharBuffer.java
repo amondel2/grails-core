@@ -98,7 +98,7 @@ import org.grails.encoder.WriterEncodedAppender;
  * the taglib and return it to the caller. The buffer can be appended to it's
  * parent buffer directly without extra object generation (like converting to
  * java.lang.String in between).
- * <p>
+ *
  * for example this line of code in a taglib would just append the buffer
  * returned from the body closure evaluation to the buffer of the taglib:<br>
  * <code>out &lt;&lt; body()</code>
@@ -240,7 +240,7 @@ import org.grails.encoder.WriterEncodedAppender;
  * <td>256</td>
  * </tr>
  * </table>
- * <p>
+ *
  * Configuration values can also be changed for each instance of
  * StreamCharBuffer individually. Default values are defined with System
  * Properties.
@@ -385,7 +385,7 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * Connect this buffer to a target Writer.
-     * <p>
+     *
      * When the buffer (a chunk) get filled up, it will automaticly write it's content to the Writer
      *
      * @param w
@@ -669,7 +669,7 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * {@inheritDoc}
-     * <p>
+     *
      * Reads (and empties) the buffer to a String, but caches the return value for subsequent calls.
      * If more content has been added between 2 calls, the returned value will be joined from the previously cached value and the data read from the buffer.
      *
@@ -729,7 +729,7 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * {@inheritDoc}
-     * <p>
+     *
      * Uses String's hashCode to support compatibility with String instances in maps, sets, etc.
      *
      * @see java.lang.Object#hashCode()
@@ -765,7 +765,7 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * Reads the buffer to a char[].
-     * <p>
+     *
      * Caches the result if there aren't any readers.
      *
      * @return the chars
@@ -1687,10 +1687,10 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * The data in the buffer is stored in a linked list of StreamCharBufferChunks.
-     * <p>
+     *
      * This class contains data & read/write state for the "chunk level".
      * It contains methods for reading & writing to the chunk level.
-     * <p>
+     *
      * Underneath the chunk is one more level, the StringChunkGroup + StringChunk.
      * StringChunk makes it possible to directly store the java.lang.String objects.
      *
@@ -1918,9 +1918,9 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * StringChunk is a wrapper for java.lang.String.
-     * <p>
+     *
      * It also keeps state of the read offset and the number of unread characters.
-     * <p>
+     *
      * There's methods that StringChunkGroup uses for reading data.
      *
      * @author Lari Hotari
@@ -2856,7 +2856,7 @@ public class StreamCharBuffer extends GroovyObjectSupport implements Writable, C
 
     /**
      * By default the parent buffers (a buffer where this buffer has been appended to) get notified of changed to this buffer.
-     * <p>
+     *
      * You can control the notification behavior with this property.
      * Setting this property to false will also clear the references to parent buffers if there are any.
      *

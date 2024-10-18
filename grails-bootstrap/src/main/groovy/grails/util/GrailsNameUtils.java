@@ -676,7 +676,7 @@ public class GrailsNameUtils {
      *     <li>S</li>
      *     <li>X567</li>
      * </ul>
-     * <p>
+     *
      * Examples of suffixes that would not be considered property getters:
      * <ul>
      *     <li>someProperty</li>
@@ -686,7 +686,7 @@ public class GrailsNameUtils {
      *     <li>2other</li>
      *     <li>5</li>
      * </ul>
-     * <p>
+     *
      * A suffix like <code>prop</code> from a method <code>getprop()</code> is
      * not recognized as a valid suffix. However Groovy will recognize such a
      * method as a property getter but only if a method <code>getProp()</code> or
@@ -695,7 +695,7 @@ public class GrailsNameUtils {
      * that "by default" the suffix will start with a capital letter because of
      * the camel case style usually used. (See the JavaBeans API specification
      * sections 8.3 and 8.8.)
-     * <p>
+     *
      * This method assumes that all characters in the name are valid Java identifier
      * letters.
      *

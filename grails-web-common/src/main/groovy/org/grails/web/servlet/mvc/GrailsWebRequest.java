@@ -61,7 +61,7 @@ import org.springframework.web.util.UrlPathHelper;
 /**
  * Encapsulates a Grails request. An instance of this class is bound to the current thread using
  * Spring's RequestContextHolder which can later be retrieved using:
- * <p>
+ *
  * def webRequest = RequestContextHolder.currentRequestAttributes()
  *
  * @author Graeme Rocher

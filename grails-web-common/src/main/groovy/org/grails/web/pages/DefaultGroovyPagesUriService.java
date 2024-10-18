@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 
 /**
  * Provides services for resolving URIs.
- * <p>
+ *
  * Caches lookups in an internal ConcurrentMap cache.
  *
  * @author Lari Hotari , Sagire Software Oy
