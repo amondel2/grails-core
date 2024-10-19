@@ -34,7 +34,8 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
     private boolean blockFlush = true;
     private boolean blockClose = true;
     private boolean destinationActivated = false;
-    private static ObjectInstantiator instantiator=null;
+    private static ObjectInstantiator instantiator = null;
+
     static {
         try {
             instantiator = new ObjenesisStd(false).getInstantiatorOf(GrailsRoutablePrintWriter.class);
@@ -57,7 +58,7 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
 
     public static GrailsRoutablePrintWriter newInstance(DestinationFactory factory) {
         if (instantiator != null) {
-            GrailsRoutablePrintWriter instance = (GrailsRoutablePrintWriter)instantiator.newInstance();
+            GrailsRoutablePrintWriter instance = (GrailsRoutablePrintWriter) instantiator.newInstance();
             instance.out = new NullWriter();
             instance.factory = factory;
             instance.blockFlush = true;
@@ -72,8 +73,7 @@ public class GrailsRoutablePrintWriter extends GrailsPrintWriterAdapter {
         if (!destinationActivated && factory != null) {
             try {
                 super.setTarget(factory.activateDestination());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setError();
             }
             destinationActivated = true;

@@ -13,13 +13,13 @@ class GrailsMockHttpServletRequestSpec extends Specification {
     @Issue("GRAILS-11493")
     def "should allow setting request.xml with XML instance"() {
         given:
-            ConvertersConfigurationInitializer initializer=new ConvertersConfigurationInitializer(grailsApplication: new DefaultGrailsApplication())
-            initializer.initialize()
-            GrailsMockHttpServletRequest request=new GrailsMockHttpServletRequest()
+        ConvertersConfigurationInitializer initializer = new ConvertersConfigurationInitializer(grailsApplication: new DefaultGrailsApplication())
+        initializer.initialize()
+        GrailsMockHttpServletRequest request = new GrailsMockHttpServletRequest()
         when:
-            request.xml = new XML([a:1, b:2, c:3])
+        request.xml = new XML([a: 1, b: 2, c: 3])
         then:
-            request.inputStream.getText('UTF-8') == '<?xml version="1.0" encoding="UTF-8"?><map><entry key="a">1</entry><entry key="b">2</entry><entry key="c">3</entry></map>'
+        request.inputStream.getText('UTF-8') == '<?xml version="1.0" encoding="UTF-8"?><map><entry key="a">1</entry><entry key="b">2</entry><entry key="c">3</entry></map>'
     }
 
     @Issue('GRAILS-11483')

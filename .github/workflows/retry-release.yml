@@ -8,7 +8,7 @@ on:
       target_branch:
         description: The Target Branch (e.g. 5.0.x)
         required: true
-permissions: {}
+permissions: { }
 jobs:
   release:
     permissions:

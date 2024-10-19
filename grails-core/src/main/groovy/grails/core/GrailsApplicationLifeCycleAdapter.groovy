@@ -29,7 +29,7 @@ import groovy.transform.CompileStatic
 class GrailsApplicationLifeCycleAdapter implements GrailsApplicationLifeCycle {
     @Override
     Closure doWithSpring() {
-        return {->}
+        return { -> }
     }
 
     @Override

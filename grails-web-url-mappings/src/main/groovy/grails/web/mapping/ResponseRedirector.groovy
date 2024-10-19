@@ -27,6 +27,7 @@ import org.springframework.web.servlet.support.RequestDataValueProcessor
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+
 /**
  * Encapsulates the logic for issuing a redirect based on a Map of arguments
  *
@@ -73,7 +74,7 @@ class ResponseRedirector {
         boolean permanent
 
         def permanentArgument = arguments.get(ARGUMENT_PERMANENT)
-        if(permanentArgument instanceof String) {
+        if (permanentArgument instanceof String) {
             permanent = Boolean.valueOf(permanentArgument)
         } else {
             permanent = Boolean.TRUE == permanentArgument
@@ -110,8 +111,9 @@ class ResponseRedirector {
     /*
      * Redirects the response the the given URI
      */
+
     private void redirectResponse(String serverBaseURL, String actualUri, HttpServletRequest request, HttpServletResponse response, boolean permanent, boolean absolute) {
-        if(log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug "Method [redirect] forwarding request to [$actualUri]"
             log.debug "Executing redirect with response [$response]"
         }

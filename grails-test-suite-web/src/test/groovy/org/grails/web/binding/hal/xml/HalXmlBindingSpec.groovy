@@ -31,7 +31,7 @@ class HalXmlBindingSpec extends Specification implements ControllerUnitTest<Bind
 
         request.contentType = HAL_XML_CONTENT_TYPE
         def model = controller.createPerson()
-    then:
+        then:
         model.person instanceof Person
         model.person.name == 'Douglas'
         model.person.age == 42

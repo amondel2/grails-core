@@ -29,7 +29,7 @@ import java.lang.annotation.Target
  *
  * <pre>
  *     <code>
- *          @Linkable class Book {
+ * @Linkable class Book {
  *              String title
  *          }
  *

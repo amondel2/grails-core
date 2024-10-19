@@ -45,13 +45,13 @@ trait RequestForwarder implements WebAttributes {
     private LinkGenerator linkGenerator
 
     @Generated
-    @Autowired(required=false)
+    @Autowired(required = false)
     void setUrlConverter(UrlConverter urlConverter) {
         this.urlConverter = urlConverter
     }
 
     private LinkGenerator lookupLinkGenerator() {
-        if(this.linkGenerator == null) {
+        if (this.linkGenerator == null) {
             this.linkGenerator = webRequest.getApplicationContext().getBean(LinkGenerator)
         }
         return this.linkGenerator
@@ -70,39 +70,39 @@ trait RequestForwarder implements WebAttributes {
 
         if (webRequest) {
             def controllerName
-            if(params.controller) {
+            if (params.controller) {
                 controllerName = params.controller
             } else {
                 controllerName = webRequest.controllerName
             }
 
-            if(controllerName) {
+            if (controllerName) {
                 def convertedControllerName = convert(controllerName.toString())
                 webRequest.controllerName = convertedControllerName
             }
             params.controller = webRequest.controllerName
 
-            if(params.action) {
+            if (params.action) {
                 params.action = convert(params.action.toString())
             }
 
-            if(params.namespace) {
+            if (params.namespace) {
                 params.namespace = params.namespace
             }
 
-            if(params.plugin) {
+            if (params.plugin) {
                 params.plugin = params.plugin
             }
 
-            if ( !params.params ) {
-                params.params =  UrlMappingUtils.findAllParamsNotInKeys(
+            if (!params.params) {
+                params.params = UrlMappingUtils.findAllParamsNotInKeys(
                         UrlMappingUtils.findAllParamsNotInUrlMappingKeywords(webRequest.params),
                         webRequest.originalParams.keySet()
                 )
             }
         }
 
-        Map model = params.model instanceof Map ? (Map)params.model : Collections.EMPTY_MAP
+        Map model = params.model instanceof Map ? (Map) params.model : Collections.EMPTY_MAP
 
         HttpServletRequest request = webRequest.currentRequest
         HttpServletResponse response = webRequest.currentResponse

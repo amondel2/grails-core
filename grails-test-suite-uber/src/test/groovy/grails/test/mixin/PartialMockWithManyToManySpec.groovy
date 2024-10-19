@@ -17,18 +17,18 @@ class PartialMockWithManyToManySpec extends Specification implements DataTest {
     @Issue('GRAILS-10022')
     def "Test that a partially mocked domain containing a many-to-many doesn't produce an error"() {
         given: "A user with posts in the db"
-            BlogUser chuck = new BlogUser(loginId: "chuck_norris").save(failOnError: true, flush: true)
+        BlogUser chuck = new BlogUser(loginId: "chuck_norris").save(failOnError: true, flush: true)
 
         when: "An associated domain that has a many-to-many relationship to another entity is"
-            def p = new Post(content: "blah")
-            chuck.addToPosts(p)
-            chuck.save(flush: true)
-            chuck.discard()
-            chuck = BlogUser.findByLoginId("chuck_norris")
+        def p = new Post(content: "blah")
+        chuck.addToPosts(p)
+        chuck.save(flush: true)
+        chuck.discard()
+        chuck = BlogUser.findByLoginId("chuck_norris")
 
         then: "The domain model is persisted without issue"
-            chuck != null
-            chuck.posts.size() == 1
+        chuck != null
+        chuck.posts.size() == 1
 
     }
 }
@@ -38,7 +38,7 @@ class BlogUser {
 
     String loginId
 
-    static hasMany = [ posts : Post, tags : Tag, following : User ]
+    static hasMany = [posts: Post, tags: Tag, following: User]
 }
 
 @Entity
@@ -46,17 +46,18 @@ class Post {
 
     String content
 
-    static belongsTo = [ user : BlogUser ]
+    static belongsTo = [user: BlogUser]
 
-    static hasMany = [ tags : Tag ]
+    static hasMany = [tags: Tag]
 }
+
 @Entity
 class Tag {
 
     String name
     User user
 
-    static hasMany = [ posts : Post ]
-    static belongsTo = [ User, Post ]
+    static hasMany = [posts: Post]
+    static belongsTo = [User, Post]
 
 }

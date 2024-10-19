@@ -25,7 +25,6 @@ import org.springframework.validation.Validator;
  *
  * @author Graeme Rocher
  * @since Jul 5, 2005
- *
  * @deprecated Use {@link org.grails.datastore.mapping.model.PersistentEntity} instead
  */
 @Deprecated
@@ -42,6 +41,7 @@ public interface GrailsDomainClass extends GrailsClass {
      * @return Whether to autowire
      */
     boolean isAutowire();
+
     /**
      * @param domainClass
      * @return true if the specifying domain class is on the owning side of a relationship

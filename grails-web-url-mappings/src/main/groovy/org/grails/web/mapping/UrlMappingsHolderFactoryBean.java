@@ -47,7 +47,7 @@ import java.util.List;
  * @author Graeme Rocher
  * @since 0.5
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class UrlMappingsHolderFactoryBean implements FactoryBean<UrlMappings>, InitializingBean, ApplicationContextAware, GrailsApplicationAware {
     private static final String URL_MAPPING_CACHE_MAX_SIZE = "grails.urlmapping.cache.maxsize";
     private static final String URL_CREATOR_CACHE_MAX_SIZE = "grails.urlcreator.cache.maxsize";
@@ -76,16 +76,14 @@ public class UrlMappingsHolderFactoryBean implements FactoryBean<UrlMappings>, I
 
         if (mappings.length == 0) {
             urlMappings.addAll(mappingEvaluator.evaluateMappings(DefaultUrlMappings.getMappings()));
-        }
-        else {
+        } else {
             for (int i = 0; i < mappings.length; i++) {
                 GrailsClass mapping = mappings[i];
                 GrailsUrlMappingsClass mappingClass = (GrailsUrlMappingsClass) mapping;
                 List<UrlMapping> grailsClassMappings;
                 if (Script.class.isAssignableFrom(mappingClass.getClazz())) {
                     grailsClassMappings = mappingEvaluator.evaluateMappings(mappingClass.getClazz());
-                }
-                else {
+                } else {
                     grailsClassMappings = mappingEvaluator.evaluateMappings(mappingClass.getMappingsClosure());
                 }
 
@@ -140,10 +138,8 @@ public class UrlMappingsHolderFactoryBean implements FactoryBean<UrlMappings>, I
      * {@link org.springframework.context.MessageSourceAware}, if applicable.
      *
      * @param applicationContext the ApplicationContext object to be used by this object
-     * @throws org.springframework.context.ApplicationContextException
-     *          in case of context initialization errors
-     * @throws org.springframework.beans.BeansException
-     *          if thrown by application context methods
+     * @throws org.springframework.context.ApplicationContextException in case of context initialization errors
+     * @throws org.springframework.beans.BeansException                if thrown by application context methods
      * @see org.springframework.beans.factory.BeanInitializationException
      */
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

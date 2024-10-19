@@ -30,15 +30,16 @@ import java.net.URL;
  * certain resources. The actual behavior is implementation-specific.
  *
  * @author Juergen Hoeller
- * @since 28.12.2003
  * @see #getURL()
  * @see #getURI()
  * @see #getFile()
+ * @since 28.12.2003
  */
-public interface Resource  {
+public interface Resource {
 
     /**
      * An input stream
+     *
      * @return The input stream
      */
     InputStream getInputStream() throws IOException;
@@ -58,42 +59,48 @@ public interface Resource  {
      * note that actual content reading may still fail when attempted.
      * However, a value of <code>false</code> is a definitive indication
      * that the resource content cannot be read.
+     *
      * @see #getInputStream()
      */
     boolean isReadable();
 
     /**
      * Return a URL handle for this resource.
+     *
      * @throws java.io.IOException if the resource cannot be resolved as URL,
-     * i.e. if the resource is not available as descriptor
+     *                             i.e. if the resource is not available as descriptor
      */
     URL getURL() throws IOException;
 
     /**
      * Return a URI handle for this resource.
+     *
      * @throws IOException if the resource cannot be resolved as URI,
-     * i.e. if the resource is not available as descriptor
+     *                     i.e. if the resource is not available as descriptor
      */
     URI getURI() throws IOException;
 
     /**
      * Return a File handle for this resource.
+     *
      * @throws IOException if the resource cannot be resolved as absolute
-     * file path, i.e. if the resource is not available in a file system
+     *                     file path, i.e. if the resource is not available in a file system
      */
     File getFile() throws IOException;
 
     /**
      * Determine the content length for this resource.
+     *
      * @throws IOException if the resource cannot be resolved
-     * (in the file system or as some other known physical resource type)
+     *                     (in the file system or as some other known physical resource type)
      */
     long contentLength() throws IOException;
 
     /**
      * Determine the last-modified timestamp for this resource.
+     *
      * @throws IOException if the resource cannot be resolved
-     * (in the file system or as some other known physical resource type)
+     *                     (in the file system or as some other known physical resource type)
      */
     long lastModified() throws IOException;
 
@@ -110,6 +117,7 @@ public interface Resource  {
      * to be used for error output when working with the resource.
      * <p>Implementations are also encouraged to return this value
      * from their <code>toString</code> method.
+     *
      * @see java.lang.Object#toString()
      */
     String getDescription();

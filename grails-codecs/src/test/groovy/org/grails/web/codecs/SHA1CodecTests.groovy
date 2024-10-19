@@ -16,7 +16,7 @@ class SHA1CodecTests {
         def toStringResult = 'Hello World!'.encodeAsSHA1()
 
         assertEquals(expectedResult, primitiveResult)
-        assertEquals(expectedResult,toStringResult)
+        assertEquals(expectedResult, toStringResult)
 
         //make sure encoding null returns null
         assertNull null.encodeAsSHA1()
@@ -25,7 +25,7 @@ class SHA1CodecTests {
     @Test
     void testDecode() {
         assertThrows(UnsupportedOperationException, {
-            [1,2,3,4,5].decodeSHA1()
+            [1, 2, 3, 4, 5].decodeSHA1()
         })
     }
 }

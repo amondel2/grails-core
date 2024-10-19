@@ -5,22 +5,22 @@ import spock.lang.Specification
 /**
  * Tests for {@link grails.artefact.ApiDelegate}
  */
-class ApiDelegateSpec extends Specification{
+class ApiDelegateSpec extends Specification {
     void "Test that delegate methods are added"() {
         when:
-            def manager = getManager().newInstance(name:"Bob")
+        def manager = getManager().newInstance(name: "Bob")
 
         then:
-            manager.doWork("fix bug") == "done [fix bug] given by Bob"
+        manager.doWork("fix bug") == "done [fix bug] given by Bob"
     }
 
     void "Test that subclasses can have methods added for classes declared to use the parent class"() {
         when:
-            def manager = getSubclassManager().newInstance(name:"Bob")
+        def manager = getSubclassManager().newInstance(name: "Bob")
 
         then:
-            manager.class.simpleName == "GreatManager"
-            manager.doWork("fix bug") == "done [fix bug] given by Bob"
+        manager.class.simpleName == "GreatManager"
+        manager.doWork("fix bug") == "done [fix bug] given by Bob"
     }
 
     def getManager() {

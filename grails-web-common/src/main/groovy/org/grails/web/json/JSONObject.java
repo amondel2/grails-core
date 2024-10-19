@@ -88,18 +88,18 @@ import java.util.*;
  * @author JSON.org
  * @version 2
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class JSONObject implements JSONElement, Map {
     private static EncodesToWriter javascriptEncoderStateless;
     private static StreamingEncoder javascriptEncoder;
-    private static boolean useStreamingJavascriptEncoder=false;
+    private static boolean useStreamingJavascriptEncoder = false;
+
     static {
         try {
-            javascriptEncoder = (StreamingEncoder)ClassUtils.forName("grails.encoders.JSONEncoder", JSONObject.class.getClassLoader()).newInstance();
-            javascriptEncoderStateless = (EncodesToWriter)javascriptEncoder;
+            javascriptEncoder = (StreamingEncoder) ClassUtils.forName("grails.encoders.JSONEncoder", JSONObject.class.getClassLoader()).newInstance();
+            javascriptEncoderStateless = (EncodesToWriter) javascriptEncoder;
             useStreamingJavascriptEncoder = true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // ignore
         }
     }
@@ -148,7 +148,7 @@ public class JSONObject implements JSONElement, Map {
         if (x.nextClean() != '{') {
             throw x.syntaxError("A JSONObject text must begin with '{'");
         }
-        for (; ;) {
+        for (; ; ) {
             c = x.nextClean();
             switch (c) {
                 case 0:
@@ -256,7 +256,7 @@ public class JSONObject implements JSONElement, Map {
      * @throws JSONException if the key is not found.
      */
     public Object get(String key) throws JSONException {
-        if(!myHashMap.containsKey(key)) {
+        if (!myHashMap.containsKey(key)) {
             throw new JSONException("JSONObject[" + quote(key) +
                     "] not found.");
         }
@@ -404,7 +404,7 @@ public class JSONObject implements JSONElement, Map {
      *
      * @param key A key string.
      * @return true if there is no value associated with the key or if
-     *         the value is the JSONObject.NULL object.
+     * the value is the JSONObject.NULL object.
      */
     public boolean isNull(String key) {
         return opt(key) == null;
@@ -436,7 +436,7 @@ public class JSONObject implements JSONElement, Map {
      * JSONObject.
      *
      * @return A JSONArray containing the key strings, or null if the JSONObject
-     *         is empty.
+     * is empty.
      */
     public JSONArray names() {
         JSONArray ja = new JSONArray();
@@ -483,7 +483,7 @@ public class JSONObject implements JSONElement, Map {
         StringBuilder sb = new StringBuilder("[");
         boolean first = true;
         Iterator iterator = c.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             if (!first) {
                 sb.append(',');
             }
@@ -864,7 +864,7 @@ public class JSONObject implements JSONElement, Map {
      *
      * @param key The name to be removed.
      * @return The value that was associated with the name,
-     *         or null if there was no value.
+     * or null if there was no value.
      */
     public Object remove(String key) {
         return myHashMap.remove(key);
@@ -921,9 +921,9 @@ public class JSONObject implements JSONElement, Map {
      * Warning: This method assumes that the data structure is acyclical.
      *
      * @return a printable, displayable, portable, transmittable
-     *         representation of the object, beginning
-     *         with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *         with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * representation of the object, beginning
+     * with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     * with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
     @Override
     public String toString() {
@@ -956,9 +956,9 @@ public class JSONObject implements JSONElement, Map {
      * @param indentFactor The number of spaces to add to each level of
      *                     indentation.
      * @return a printable, displayable, portable, transmittable
-     *         representation of the object, beginning
-     *         with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *         with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * representation of the object, beginning
+     * with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     * with <code>}</code>&nbsp;<small>(right brace)</small>.
      * @throws JSONException If the object contains an invalid number.
      */
     public String toString(int indentFactor) throws JSONException {
@@ -975,9 +975,9 @@ public class JSONObject implements JSONElement, Map {
      *                     indentation.
      * @param indent       The indentation of the top level.
      * @return a printable, displayable, transmittable
-     *         representation of the object, beginning
-     *         with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *         with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * representation of the object, beginning
+     * with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     * with <code>}</code>&nbsp;<small>(right brace)</small>.
      * @throws JSONException If the object contains an invalid number.
      */
     String toString(int indentFactor, int indent) throws JSONException {
@@ -1031,9 +1031,9 @@ public class JSONObject implements JSONElement, Map {
      *
      * @param value The value to be serialized.
      * @return a printable, displayable, transmittable
-     *         representation of the object, beginning
-     *         with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *         with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * representation of the object, beginning
+     * with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     * with <code>}</code>&nbsp;<small>(right brace)</small>.
      * @throws JSONException If the value is or contains an invalid number.
      */
     static String valueToString(Object value) throws JSONException {
@@ -1065,7 +1065,7 @@ public class JSONObject implements JSONElement, Map {
         } else if (value instanceof Boolean) {
             writer.write(value.toString());
         } else if (value instanceof JSONElement) {
-            ((JSONElement)value).writeTo(writer);
+            ((JSONElement) value).writeTo(writer);
         } else {
             writeQuoted(writer, value);
         }
@@ -1075,18 +1075,16 @@ public class JSONObject implements JSONElement, Map {
         if (useStreamingJavascriptEncoder) {
             writer.write("\"");
             if (value.getClass() == String.class || value.getClass() == StringBuilder.class || value.getClass() == StringBuffer.class) {
-                encodeToWriter((CharSequence)value, writer);
-            } else if(value instanceof StreamingEncoderWritable) {
-                ((StreamingEncoderWritable)value).encodeTo(writer, javascriptEncoderStateless);
+                encodeToWriter((CharSequence) value, writer);
+            } else if (value instanceof StreamingEncoderWritable) {
+                ((StreamingEncoderWritable) value).encodeTo(writer, javascriptEncoderStateless);
             } else if (value instanceof Writable) {
-                ((Writable)value).writeTo(new StreamingEncoderWriter(writer, javascriptEncoder, null));
-            }
-            else{
+                ((Writable) value).writeTo(new StreamingEncoderWriter(writer, javascriptEncoder, null));
+            } else {
                 encodeToWriter(value.toString(), writer);
             }
             writer.write("\"");
-        }
-        else {
+        } else {
             writer.write(valueToString(value));
         }
     }
@@ -1116,9 +1114,9 @@ public class JSONObject implements JSONElement, Map {
      *                     indentation.
      * @param indent       The indentation of the top level.
      * @return a printable, displayable, transmittable
-     *         representation of the object, beginning
-     *         with <code>{</code>&nbsp;<small>(left brace)</small> and ending
-     *         with <code>}</code>&nbsp;<small>(right brace)</small>.
+     * representation of the object, beginning
+     * with <code>{</code>&nbsp;<small>(left brace)</small> and ending
+     * with <code>}</code>&nbsp;<small>(right brace)</small>.
      * @throws JSONException If the object contains an invalid number.
      */
     static String valueToString(Object value, int indentFactor, int indent)
@@ -1158,8 +1156,8 @@ public class JSONObject implements JSONElement, Map {
         try {
             boolean notFirst = false;
             writer.write('{');
-            for(Iterator it = myHashMap.entrySet().iterator(); it.hasNext();) {
-                Map.Entry entry = (Entry)it.next();
+            for (Iterator it = myHashMap.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry entry = (Entry) it.next();
                 if (notFirst) {
                     writer.write(',');
                 }

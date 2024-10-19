@@ -28,7 +28,7 @@ public class CollectionUtils {
         // static only
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static <K, V> Map newMap(Object... keysAndValues) {
         if (keysAndValues == null) {
             return Collections.emptyMap();
@@ -39,7 +39,7 @@ public class CollectionUtils {
 
         Map<K, V> map = new HashMap<K, V>();
         for (int i = 0; i < keysAndValues.length; i += 2) {
-            map.put((K)keysAndValues[i], (V)keysAndValues[i + 1]);
+            map.put((K) keysAndValues[i], (V) keysAndValues[i + 1]);
         }
         return map;
     }
@@ -64,13 +64,13 @@ public class CollectionUtils {
      * Gets a child map of the given parent map or returns an empty map if it doesn't exist
      *
      * @param parent The parent map
-     * @param key The key that holds the child map
+     * @param key    The key that holds the child map
      * @return The child map
      */
     public static Map getOrCreateChildMap(Map parent, String key) {
         Object o = parent.get(key);
-        if(o instanceof Map) {
-            return (Map)o;
+        if (o instanceof Map) {
+            return (Map) o;
         }
         return new LinkedHashMap();
     }

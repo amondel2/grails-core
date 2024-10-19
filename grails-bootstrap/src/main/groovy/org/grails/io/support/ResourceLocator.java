@@ -45,7 +45,7 @@ public class ResourceLocator {
     protected List<String> resourceSearchDirectories = new ArrayList<String>();
     protected Map<String, Resource> classNameToResourceCache = new ConcurrentHashMap<String, Resource>();
     protected Map<String, Resource> uriToResourceCache = new ConcurrentHashMap<String, Resource>();
-    protected ResourceLoader defaultResourceLoader =  new FileSystemResourceLoader();
+    protected ResourceLoader defaultResourceLoader = new FileSystemResourceLoader();
     protected boolean warDeployed = Environment.isWarDeployed();
 
     public void setSearchLocation(String searchLocation) {
@@ -97,16 +97,14 @@ public class ResourceLocator {
                 if (defaultResource != null && defaultResource.exists()) {
                     resource = defaultResource;
                 }
-            }
-            else {
+            } else {
                 String uriWebAppRelative = WEB_APP_DIR + uri;
 
                 for (String resourceSearchDirectory : resourceSearchDirectories) {
                     Resource res = resolveExceptionSafe(resourceSearchDirectory + uriWebAppRelative);
                     if (res.exists()) {
                         resource = res;
-                    }
-                    else if (!warDeployed) {
+                    } else if (!warDeployed) {
                         Resource dir = resolveExceptionSafe(resourceSearchDirectory);
                         if (dir.exists() && info != null) {
                             String filename = dir.getFilename();
@@ -131,8 +129,7 @@ public class ResourceLocator {
 
             if (resource != null) {
                 uriToResourceCache.put(uri, resource);
-            }
-            else if (warDeployed) {
+            } else if (warDeployed) {
                 uriToResourceCache.put(uri, NULL_RESOURCE);
             }
         }
@@ -170,7 +167,7 @@ public class ResourceLocator {
                 }
             }
             if (resource == null || !resource.exists()) {
-                for(String ext : new String[]{".groovy", ".java"}) {
+                for (String ext : new String[]{".groovy", ".java"}) {
                     resource = resolveExceptionSafe(GrailsResourceUtils.DOMAIN_DIR_PATH + "**/" + className + ext);
                     if (resource != null && resource.exists()) {
                         classNameToResourceCache.put(className, resource);

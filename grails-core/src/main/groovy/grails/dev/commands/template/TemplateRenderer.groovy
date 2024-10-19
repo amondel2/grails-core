@@ -50,7 +50,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(CharSequence template, File destination )
+    void render(CharSequence template, File destination)
 
     /**
      * Render the given template to the given destination
@@ -59,7 +59,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(CharSequence template, File destination, Map model )
+    void render(CharSequence template, File destination, Map model)
     /**
      * Render the given template to the given destination
      *
@@ -94,7 +94,7 @@ interface TemplateRenderer {
      * @param destination The destination
      * @param model The model
      */
-    void render(File template, File destination, Map model )
+    void render(File template, File destination, Map model)
 
     /**
      * Render the given template to the given destination

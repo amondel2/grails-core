@@ -56,7 +56,7 @@ public class GrailsAwareClassLoader extends GroovyClassLoader {
     public void setClassInjectors(ClassInjector[] classInjectors) {
         this.classInjectors = classInjectors;
     }
-    
+
     /**
      * @see groovy.lang.GroovyClassLoader#createCompilationUnit(org.codehaus.groovy.control.CompilerConfiguration, java.security.CodeSource)
      */
@@ -68,8 +68,7 @@ public class GrailsAwareClassLoader extends GroovyClassLoader {
 
         if (classInjectors == null) {
             operation = new GrailsAwareInjectionOperation();
-        }
-        else {
+        } else {
             operation = new GrailsAwareInjectionOperation(classInjectors);
         }
 

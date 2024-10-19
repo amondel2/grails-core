@@ -16,12 +16,12 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
 
     void testAssertOutputEquals() {
         expect:
-        'tag contents good' == applyTemplate('<foo:bar one="${one}"/>', [one:'good'])
+        'tag contents good' == applyTemplate('<foo:bar one="${one}"/>', [one: 'good'])
     }
 
     void testAssertOutputMatches() {
         expect:
-        applyTemplate('<foo:bar one="${one}"/>', [one:'good']) =~ /.*good.*/
+        applyTemplate('<foo:bar one="${one}"/>', [one: 'good']) =~ /.*good.*/
     }
 
     void testRenderTemplate() {
@@ -29,7 +29,7 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
         views['/bar/_foo.gsp'] = 'Hello <g:createLink controller="foo" />'
 
         when:
-        def result = render(template:"/bar/foo")
+        def result = render(template: "/bar/foo")
 
         then:
         result == 'Hello /foo'
@@ -40,19 +40,19 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
         views['/foo/bar.gsp'] = 'Hello <g:createLink controller="bar" />'
 
         when:
-        def result = render(view:"/foo/bar")
+        def result = render(view: "/foo/bar")
 
         then:
         result == 'Hello /bar'
     }
-    
+
     @Issue("GRAILS-10723")
     void testCreateLinkWithoutController() {
         given:
         views['/foo/bar.gsp'] = 'Hello <g:createLink action="bar" />'
 
         when:
-        def result = render(view:"/foo/bar")
+        def result = render(view: "/foo/bar")
 
         then:
         result == 'Hello /test/bar'
@@ -65,7 +65,7 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
         views['/foo/bar.gsp'] = 'Hello <g:createLink action="bar" />'
 
         when:
-        def result = render(view:"/foo/bar")
+        def result = render(view: "/foo/bar")
 
         then:
         result == 'Hello /foo/bar'
@@ -73,7 +73,7 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
 
     void testThatViewsAreClearedBetweenTests() {
         when:
-        def result = render(view:"/foo/bar")
+        def result = render(view: "/foo/bar")
 
         then:
         result == null
@@ -91,7 +91,7 @@ class GroovyPageUnitTestMixinTests extends Specification implements GrailsWebUni
 
     void testMockTagLibrary() {
         when:
-        def result = applyTemplate('<foo:bar one="${one}"/>', [one:'good'])
+        def result = applyTemplate('<foo:bar one="${one}"/>', [one: 'good'])
 
         then:
         result != null

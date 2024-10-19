@@ -18,7 +18,7 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
         given:
         def binder = new GrailsWebDataBinder(grailsApplication)
         def writer = new Writer(name: 'Writer One')
-        
+
         when:
         def xml = new XmlSlurper().parseText("""
   <writer>
@@ -29,43 +29,43 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
   </writer>
 """)
         binder.bind writer, xml
-        
+
         then:
         writer.name == 'Writer One'
         writer.books.size() == 1
         writer.books[0].title == 'Book One'
         writer.books[0].publisher == 'Publisher One'
     }
-    
+
     @Issue('GRAILS-11175')
     void 'Test binding a single XML child element to a Set of non domain objects'() {
         given:
         def binder = new GrailsWebDataBinder(grailsApplication)
         def book = new Book()
-        
+
         when:
         def xml = new XmlSlurper().parseText("""
 <stuff><reviewerNames><reviewer>Jeff</reviewer></reviewerNames></stuff>
 """)
         binder.bind book, xml
-        
+
         then:
         book.reviewerNames == ['Jeff'] as Set
     }
-    
+
     @Issue('GRAILS-10868')
     void 'Test adding an existing element to a List by id'() {
         given:
         def binder = new GrailsWebDataBinder(grailsApplication)
         def writer = new Writer(name: 'Writer One')
         def originalBook = new Book(title: 'Book One', publisher: 'Publisher One')
-        
+
         when:
         originalBook = originalBook.save()
-        
+
         then:
         originalBook
-        
+
         when:
         def xml = new XmlSlurper().parseText("""
   <writer>
@@ -77,7 +77,7 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
   </writer>
 """)
         binder.bind writer, xml
-        
+
         then:
         writer.name == 'Writer Two'
         writer.books.size() == 2
@@ -86,13 +86,13 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
         writer.books[1].publisher == 'Publisher Two'
         writer.books[1].title == 'Book Two'
     }
-    
+
     @Issue('GRAILS-11175')
     void 'Test binding a single XML child element to a List in a non domain class'() {
         given:
         def binder = new GrailsWebDataBinder(grailsApplication)
         def obj = new CommandObject()
-        
+
         when:
         def xml = new XmlSlurper().parseText("""
   <commandObject>
@@ -102,19 +102,19 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
   </commandObject>
 """)
         binder.bind obj, xml
-        
+
         then:
         !obj.hasErrors()
         obj.somethings?.size() == 1
         obj.somethings[0].name == 'One'
     }
-    
+
     @Issue('GRAILS-11175')
     void 'Test binding multiple XML child elements to a List in a non domain class'() {
         given:
         def binder = new GrailsWebDataBinder(grailsApplication)
         def obj = new CommandObject()
-        
+
         when:
         def xml = new XmlSlurper().parseText("""
   <commandObject>
@@ -125,7 +125,7 @@ class GrailsWebDataBinderBindingXmlSpec extends Specification implements DataTes
   </commandObject>
 """)
         binder.bind obj, xml
-        
+
         then:
         !obj.hasErrors()
         obj.somethings?.size() == 2

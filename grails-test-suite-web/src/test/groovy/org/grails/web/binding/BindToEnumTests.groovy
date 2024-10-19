@@ -39,7 +39,7 @@ class RoleHolder {
     EnumRole role
 
     static constraints = {
-        role nullable:true
+        role nullable: true
     }
 }
 
@@ -52,7 +52,7 @@ class EnumBindingController {
 
     def save = {
         def h = new RoleHolder(params)
-        [holder:h]
+        [holder: h]
     }
 }
 

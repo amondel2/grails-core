@@ -29,7 +29,7 @@ import spock.lang.Specification
 class ResourceProfileSpec extends Specification {
 
     void "Test resource version"() {
-        given:"A resource profile"
+        given: "A resource profile"
         def mockResource = Mock(Resource)
 
         def mockProfileYml = Mock(Resource)
@@ -53,11 +53,11 @@ class ResourceProfileSpec extends Specification {
 
         def profileRepository = Mock(ProfileRepository)
         def profile = new ResourceProfile(profileRepository, "web", mockResource)
-        profileRepository.getProfile("web" ) >> profile
+        profileRepository.getProfile("web") >> profile
 
         def baseProfile = Mock(Profile)
-        baseProfile.getDependencies() >> [ new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
-        baseProfile.getBuildPlugins() >> [ "foo-plug"]
+        baseProfile.getDependencies() >> [new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
+        baseProfile.getBuildPlugins() >> ["foo-plug"]
         baseProfile.features >> []
         profileRepository.getProfile("base") >> baseProfile
         profileRepository.getProfile("base", true) >> baseProfile
@@ -93,7 +93,7 @@ class ResourceProfileSpec extends Specification {
     }
 
     void "Test dependencies"() {
-        given:"A resource profile"
+        given: "A resource profile"
 
         def mockResource = Mock(Resource)
         def mockProfileYml = Mock(Resource)
@@ -106,16 +106,16 @@ class ResourceProfileSpec extends Specification {
         profileRepository.getProfile("web", true) >> profile
 
         def baseProfile = Mock(Profile)
-        baseProfile.getDependencies() >> [ new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
-        baseProfile.getBuildPlugins() >> [ "foo-plug"]
+        baseProfile.getDependencies() >> [new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
+        baseProfile.getBuildPlugins() >> ["foo-plug"]
         profileRepository.getProfile("base", true) >> baseProfile
 
 
-        when:"The dependencies are accessed"
+        when: "The dependencies are accessed"
         def deps = profile.dependencies
         def plugins = profile.buildPlugins
 
-        then:"They are correct"
+        then: "They are correct"
         plugins.size() == 2
         deps.size() == 2
         plugins == ['foo-plug', 'bar']
@@ -131,7 +131,7 @@ class ResourceProfileSpec extends Specification {
 
 
     void "Test dependency exclusions"() {
-        given:"A resource profile"
+        given: "A resource profile"
 
         def mockResource = Mock(Resource)
         def mockProfileYml = Mock(Resource)
@@ -144,16 +144,16 @@ class ResourceProfileSpec extends Specification {
         profileRepository.getProfile("web", true) >> profile
 
         def baseProfile = Mock(Profile)
-        baseProfile.getDependencies() >> [ new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
-        baseProfile.getBuildPlugins() >> [ "foo-plug"]
+        baseProfile.getDependencies() >> [new Dependency(new DefaultArtifact("foo:bar:2.0"), "test")]
+        baseProfile.getBuildPlugins() >> ["foo-plug"]
         profileRepository.getProfile("base", true) >> baseProfile
 
 
-        when:"The dependencies are accessed"
+        when: "The dependencies are accessed"
         def deps = profile.dependencies
         def plugins = profile.buildPlugins
 
-        then:"They are correct"
+        then: "They are correct"
         deps.size() == 1
         plugins == ['bar']
 

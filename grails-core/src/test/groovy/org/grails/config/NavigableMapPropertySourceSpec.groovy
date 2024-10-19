@@ -24,12 +24,12 @@ import spock.lang.Specification
 class NavigableMapPropertySourceSpec extends Specification {
 
     def "Ensure navigable maps are not returned from a NavigableMapPropertySource"() {
-        given:"A navigable map"
-            def map = new NavigableMap()
-            map.foo = [bar: "myval"]
-        when:"A NavigableMapPropertySource is created"
-            def ps = new NavigableMapPropertySource("test", map)
-        then:"Nulls are returned for submaps"
+        given: "A navigable map"
+        def map = new NavigableMap()
+        map.foo = [bar: "myval"]
+        when: "A NavigableMapPropertySource is created"
+        def ps = new NavigableMapPropertySource("test", map)
+        then: "Nulls are returned for submaps"
         map.keySet() == ['foo.bar', 'foo'] as Set
         ps.getPropertyNames() == ['foo.bar'] as String[]
         ps.getNavigablePropertyNames() == ['foo.bar', 'foo'] as String[]

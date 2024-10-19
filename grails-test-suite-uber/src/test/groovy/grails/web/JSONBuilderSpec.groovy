@@ -91,7 +91,7 @@ class JSONBuilderSpec extends Specification {
 
         when:
         def result = new JsonBuilder({
-            foo [ { bar "hello" } ]
+            foo[{ bar "hello" }]
         })
 
         then:

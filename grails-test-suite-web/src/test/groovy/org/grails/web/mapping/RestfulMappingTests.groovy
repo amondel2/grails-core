@@ -126,9 +126,9 @@ class RestfulMappingTests extends Specification implements UrlMappingsUnitTest<U
         static mappings = {
             "/books" {
                 controller = "book"
-                action = [GET:"list", DELETE:"delete", POST:"update", PUT:"save", PATCH:"patch"]
+                action = [GET: "list", DELETE: "delete", POST: "update", PUT: "save", PATCH: "patch"]
             }
-            "/"(view:"/index")
+            "/"(view: "/index")
 
             "/signin"(controller: "authentication") {
                 action = [GET: "loginForm", POST: "handleLogin"]

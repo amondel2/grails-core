@@ -22,13 +22,10 @@ import grails.web.mapping.UrlMappingParser;
  * A simple implementation of the UrlMappingParser interface. Most of the logical is encapsulated in the
  * DefaultUrlMappingData class.
  *
- * @see DefaultUrlMappingData
- *
  * @author Graeme Rocher
+ * @see DefaultUrlMappingData
  * @since 0.5
  *
- *
- * <p/>
  * Created: Mar 5, 2007
  * Time: 8:35:26 AM
  */

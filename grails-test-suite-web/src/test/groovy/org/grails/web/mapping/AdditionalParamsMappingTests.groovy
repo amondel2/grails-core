@@ -13,16 +13,16 @@ class AdditionalParamsMappingTests extends Specification implements UrlMappingsU
 
     void testMapping() {
         when:
-        UrlCreator creator = urlMappingsHolder.getReverseMapping("user", "profile",[id:"bob"])
+        UrlCreator creator = urlMappingsHolder.getReverseMapping("user", "profile", [id: "bob"])
 
         then:
-        "/users/bob/profile" == creator.createRelativeURL("user", "profile",[id:"bob"], "utf-8")
+        "/users/bob/profile" == creator.createRelativeURL("user", "profile", [id: "bob"], "utf-8")
 
         when:
-        creator = urlMappingsHolder.getReverseMapping("user", "profile",[id:"bob", q:"test"])
+        creator = urlMappingsHolder.getReverseMapping("user", "profile", [id: "bob", q: "test"])
 
         then:
-        "/users/bob/profile?q=test" == creator.createRelativeURL("user", "profile",[id:"bob",q:"test"], "utf-8")
+        "/users/bob/profile?q=test" == creator.createRelativeURL("user", "profile", [id: "bob", q: "test"], "utf-8")
     }
 
     @Issue('https://github.com/grails/grails-core/issues/11406')
@@ -44,7 +44,7 @@ class AdditionalParamsMappingTests extends Specification implements UrlMappingsU
 
     static class UrlMappings {
         static mappings = {
-            "/$controller/$action?/$id?"{
+            "/$controller/$action?/$id?" {
                 constraints {
                     // apply constraints here
                 }

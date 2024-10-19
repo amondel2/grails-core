@@ -8,7 +8,7 @@ import spock.lang.Specification
  * @author Graeme Rocher
  * @since 1.0
  */
-class ForwardMethodTests extends Specification implements GrailsWebUnitTest{
+class ForwardMethodTests extends Specification implements GrailsWebUnitTest {
 
     void testForwardMethod() {
         given:
@@ -27,7 +27,7 @@ class ForwardMethodTests extends Specification implements GrailsWebUnitTest{
 @Artefact('Controller')
 class ForwardingController {
     def one = {
-        forward(action:'two')
+        forward(action: 'two')
     }
 
     def two = {
@@ -35,10 +35,10 @@ class ForwardingController {
     }
 
     def three = {
-        forward(controller:'next', action:'go')
+        forward(controller: 'next', action: 'go')
     }
 
     def four = {
-       forward(controller:'next', action:'go',id:10, model:[foo:'bar'])
+        forward(controller: 'next', action: 'go', id: 10, model: [foo: 'bar'])
     }
 }

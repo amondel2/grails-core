@@ -21,7 +21,7 @@ class DataSourceGrailsPluginSpec extends Specification {
         DataSourceGrailsPlugin plugin = new DataSourceGrailsPlugin()
         plugin.setPluginManager(Mock(GrailsPluginManager))
         GrailsApplication application = Mock(GrailsApplication)
-        application.getConfig() >> new PropertySourcesConfig('dataSource.pooled':true,'dataSource.url':'jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE')
+        application.getConfig() >> new PropertySourcesConfig('dataSource.pooled': true, 'dataSource.url': 'jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE')
 
         plugin.setGrailsApplication(application)
 
@@ -35,7 +35,7 @@ class DataSourceGrailsPluginSpec extends Specification {
         ctx.getBean('dataSource', DataSource)
 
 
-        when:"A query is executed"
+        when: "A query is executed"
         DataSource ds = ctx.getBean('dataSource', DataSource)
         Sql sql = new Sql(ds)
         int result = sql.call('CREATE TABLE `user` (username VARCHAR(50), password VARCHAR(50)); select * from `user`')
@@ -45,4 +45,4 @@ class DataSourceGrailsPluginSpec extends Specification {
 
 
     }
- }
+}

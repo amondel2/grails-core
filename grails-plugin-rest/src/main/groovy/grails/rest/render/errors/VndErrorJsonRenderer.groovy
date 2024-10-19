@@ -73,7 +73,7 @@ class VndErrorJsonRenderer extends AbstractVndErrorRenderer {
             }
 
             targetWriter.flush()
-            if(prettyPrint) {
+            if (prettyPrint) {
                 responseWriter.write(JsonOutput.prettyPrint(targetWriter.toString()))
             }
         }

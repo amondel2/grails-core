@@ -22,14 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * A static resource locator that uses an internal map to locate resources. Used largely for testing.
  *
  * @author Graeme Rocher
  * @since 2.0
  */
-public class StaticResourceLocator implements ResourceLocator{
-    private Map<String,Resource> classToResourceMap = new HashMap<String,Resource>();
+public class StaticResourceLocator implements ResourceLocator {
+    private Map<String, Resource> classToResourceMap = new HashMap<String, Resource>();
 
     public void setSearchLocation(String searchLocation) {
         // do nothing

@@ -21,11 +21,11 @@ class ChainedTransactionManagerPostProcessorSpec extends Specification {
         def tmNames = transactionManager.transactionManagers.collect { it.name }
         then:
         transactionManager instanceof ChainedTransactionManager
-        transactionManager.transactionManagers.size()==3
+        transactionManager.transactionManagers.size() == 3
         applicationContext.getBean('$primaryTransactionManager').name == 'transactionManager'
         tmNames.containsAll(['transactionManager', 'transactionManager_ds1', 'transactionManager_ds2'])
     }
-    
+
     void "transactionManager bean should get replaced when are only 2 transaction manager beans"() {
         given:
         def bb = new BeanBuilder()
@@ -41,7 +41,7 @@ class ChainedTransactionManagerPostProcessorSpec extends Specification {
         def tmNames = transactionManager.transactionManagers.collect { it.name }
         then:
         transactionManager instanceof ChainedTransactionManager
-        transactionManager.transactionManagers.size()==2
+        transactionManager.transactionManagers.size() == 2
         applicationContext.getBean('$primaryTransactionManager').name == 'transactionManager'
         tmNames.containsAll(['transactionManager', 'transactionManager_ds1'])
     }
@@ -61,7 +61,7 @@ class ChainedTransactionManagerPostProcessorSpec extends Specification {
         then:
         !(transactionManager instanceof ChainedTransactionManager)
     }
-    
+
     void "transactionManager bean should not get replaced when additional datasources aren't transactional"() {
         given:
         def bb = new BeanBuilder()
@@ -81,7 +81,7 @@ class ChainedTransactionManagerPostProcessorSpec extends Specification {
         !(transactionManager instanceof ChainedTransactionManager)
     }
 
-    
+
     void "transactionManager bean should get replaced when one of the additional datasources is transactional"() {
         given:
         def bb = new BeanBuilder()
@@ -100,17 +100,17 @@ class ChainedTransactionManagerPostProcessorSpec extends Specification {
         def tmNames = transactionManager.transactionManagers.collect { it.name }
         then:
         transactionManager instanceof ChainedTransactionManager
-        transactionManager.transactionManagers.size()==2
+        transactionManager.transactionManagers.size() == 2
         applicationContext.getBean('$primaryTransactionManager').name == 'transactionManager'
         tmNames.containsAll(['transactionManager', 'transactionManager_ds2'])
     }
-    
+
     void "it should be possible to blacklist transaction manager beans that shouldn't be added to the chained transaction manager"() {
         given:
         def bb = new BeanBuilder()
         def config = new PropertySourcesConfig()
         bb.beans {
-            def blacklistPattern='customTransactionManager'
+            def blacklistPattern = 'customTransactionManager'
             chainedTransactionManagerPostProcessor(ChainedTransactionManagerPostProcessor, config, null, blacklistPattern)
             transactionManager(ChainedTransactionManagerTests.TestPlatformTransactionManager, "transactionManager")
             customTransactionManager(ChainedTransactionManagerTests.TestPlatformTransactionManager, "customTransactionManager")

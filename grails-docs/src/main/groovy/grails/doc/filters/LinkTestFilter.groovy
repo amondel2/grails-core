@@ -57,8 +57,8 @@ class LinkTestFilter extends RegexTokenFilter {
         String original = name
 
         if (name == null) {
-           buffer.append(Encoder.escape(result.group(0)))
-           return
+            buffer.append(Encoder.escape(result.group(0)))
+            return
         }
 
         // trim the name and unescape it
@@ -80,8 +80,8 @@ class LinkTestFilter extends RegexTokenFilter {
             name = name.substring(0, hashIndex)
         }
 
-        if (name.indexOf("http://")>-1 || name.indexOf("https://")>-1) {
-            buffer << "<a href=\"${name}${hash ? '#'+hash:''}\" target=\"blank\">${Encoder.escape(alias)}</a>"
+        if (name.indexOf("http://") > -1 || name.indexOf("https://") > -1) {
+            buffer << "<a href=\"${name}${hash ? '#' + hash : ''}\" target=\"blank\">${Encoder.escape(alias)}</a>"
             return
         }
 
@@ -94,18 +94,15 @@ class LinkTestFilter extends RegexTokenFilter {
             // Do not add hash if an alias was given
             if (-1 != hashIndex) {
                 engine.appendLink(buffer, name, view, hash)
-            }
-            else {
+            } else {
                 engine.appendLink(buffer, name, view)
             }
-        }
-        else if (engine.showCreate()) {
+        } else if (engine.showCreate()) {
             engine.appendCreateLink(buffer, name, getWikiView(name))
             // links with "create" are not cacheable because
             // a missing wiki could be created
             context.getRenderContext().setCacheable(false)
-        }
-        else {
+        } else {
             // cannot display/create wiki, so just display the text
             buffer.append(name)
         }

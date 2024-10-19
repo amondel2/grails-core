@@ -17,10 +17,8 @@
 package grails.compiler.traits;
 
 /**
- * 
  * @author Jeff Brown
  * @since 3.0
- *
  */
 public interface TraitInjector {
     Class getTrait();

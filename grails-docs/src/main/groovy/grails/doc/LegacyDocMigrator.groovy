@@ -93,8 +93,7 @@ class LegacyDocMigrator {
             for (s in section.children) {
                 writeSectionToToc s, writer, indent
             }
-        }
-        else {
+        } else {
             writer << section.title << EOL
         }
     }

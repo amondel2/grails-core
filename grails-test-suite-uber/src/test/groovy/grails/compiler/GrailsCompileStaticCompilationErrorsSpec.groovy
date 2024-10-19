@@ -171,7 +171,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         then: 'no errors are thrown'
         c
     }
-    
+
     @Issue('GRAILS-11242')
     void 'Test compiling Validateable'() {
         given:
@@ -256,7 +256,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         then: 'no errors are thrown'
         c
     }
-    
+
     @Issue('GRAILS-11242')
     void 'Test compiling Validateable which contains unrelated type checking error'() {
         given:
@@ -285,7 +285,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         e.message.contains 'Cannot find matching method grails.compiler.SomeClass#someDynamicMethod'
 
     }
-    
+
     @Issue('GRAILS-11242')
     void 'Test compiling Validateable which attempts to constrain a non existent property'() {
         given:
@@ -311,8 +311,8 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         e.message.contains 'Cannot find matching method grails.compiler.SomeClass#age'
 
     }
-    
-    
+
+
     @Issue('GRAILS-11242')
     void 'Test compiling Validateable which attempts to constrain an inherited property'() {
         given:
@@ -338,12 +338,12 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         then: 'no errors are thrown'
         c
     }
-    
+
     @Issue('GRAILS-11255')
     void 'Test compiling a class which invokes a criteria query on a domain class'() {
         given:
         def gcl = new GroovyClassLoader()
-        
+
         when:
         def c = gcl.parseClass('''
             package grails.compiler
@@ -390,7 +390,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         then: 'no errors are thrown'
         c
     }
-    
+
     void 'Test compiling a domain class with a mapping block'() {
         given:
         def gcl = new GroovyClassLoader()
@@ -454,7 +454,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
             class SomeController {
             
                 void someAction() {
-                    if(request.post || request.get || request.xhr) {
+                    if (request.post || request.get || request.xhr) {
                         render 'yep'
                     } else {
                         render 'nope'
@@ -467,7 +467,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         c
     }
 
-    
+
     void 'Test compiling a domain class with a mapping block and unrelated dynamic code'() {
         given:
         def gcl = new GroovyClassLoader()
@@ -495,7 +495,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         MultipleCompilationErrorsException e = thrown()
         e.message.contains 'Cannot find matching method grails.compiler.SomeClass#someDynamicMethodCall'
     }
-    
+
     @Issue('GRAILS-11571')
     void 'test calling relationship management methods'() {
         given:
@@ -518,7 +518,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
         then: 'no errors are thrown'
         c
     }
-    
+
     @Issue('GRAILS-11571')
     void 'test calling relationship management methods with invalid name'() {
         given:
@@ -536,7 +536,7 @@ class GrailsCompileStaticCompilationErrorsSpec extends Specification {
                 }
             }
         '''.stripIndent())
-        
+
         then: 'errors are thrown'
         MultipleCompilationErrorsException e = thrown()
         e.message.contains 'Cannot find matching method grails.compiler.Person#addToCodes'

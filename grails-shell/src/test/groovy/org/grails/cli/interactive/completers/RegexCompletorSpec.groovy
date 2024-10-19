@@ -18,7 +18,7 @@ class RegexCompletorSpec extends Specification {
         retval == 0
 
         where:
-        source << [ "!ls", "!test_stuff" ]
+        source << ["!ls", "!test_stuff"]
     }
 
     @Unroll("String '#source' is incorrectly matching")
@@ -35,6 +35,6 @@ class RegexCompletorSpec extends Specification {
         retval == -1
 
         where:
-        source << [ "!ls ls", "!", "test", "" ]
+        source << ["!ls ls", "!", "test", ""]
     }
 }

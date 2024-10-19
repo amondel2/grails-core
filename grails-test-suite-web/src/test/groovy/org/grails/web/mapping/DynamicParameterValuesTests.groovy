@@ -52,12 +52,16 @@ class DynamicParameterValuesTests extends Specification implements UrlMappingsUn
                 price = 10.5
             }
 
-            "/help" { controller = "page"
+            "/help" {
+                controller = "page"
                 action = "index"
-                id = "1" }
-            "/thing" { controller = "page"
+                id = "1"
+            }
+            "/thing" {
+                controller = "page"
                 action = "show"
-                id = "2" }
+                id = "2"
+            }
         }
     }
 }

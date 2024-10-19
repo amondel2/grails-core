@@ -52,30 +52,30 @@ public class DefaultASTDatabindingHelper implements ASTDatabindingHelper {
 
     @SuppressWarnings("serial")
     private static final List<ClassNode> SIMPLE_TYPES = new ArrayList<ClassNode>() {{
-       add(new ClassNode(Boolean.class));
-       add(new ClassNode(Boolean.TYPE));
-       add(new ClassNode(Byte.class));
-       add(new ClassNode(Byte.TYPE));
-       add(new ClassNode(Character.class));
-       add(new ClassNode(Character.TYPE));
-       add(new ClassNode(Short.class));
-       add(new ClassNode(Short.TYPE));
-       add(new ClassNode(Integer.class));
-       add(new ClassNode(Integer.TYPE));
-       add(new ClassNode(Long.class));
-       add(new ClassNode(Long.TYPE));
-       add(new ClassNode(Float.class));
-       add(new ClassNode(Float.TYPE));
-       add(new ClassNode(Double.class));
-       add(new ClassNode(Double.TYPE));
-       add(new ClassNode(BigInteger.class));
-       add(new ClassNode(BigDecimal.class));
-       add(new ClassNode(String.class));
-       add(new ClassNode(URL.class));
+        add(new ClassNode(Boolean.class));
+        add(new ClassNode(Boolean.TYPE));
+        add(new ClassNode(Byte.class));
+        add(new ClassNode(Byte.TYPE));
+        add(new ClassNode(Character.class));
+        add(new ClassNode(Character.TYPE));
+        add(new ClassNode(Short.class));
+        add(new ClassNode(Short.TYPE));
+        add(new ClassNode(Integer.class));
+        add(new ClassNode(Integer.TYPE));
+        add(new ClassNode(Long.class));
+        add(new ClassNode(Long.TYPE));
+        add(new ClassNode(Float.class));
+        add(new ClassNode(Float.TYPE));
+        add(new ClassNode(Double.class));
+        add(new ClassNode(Double.TYPE));
+        add(new ClassNode(BigInteger.class));
+        add(new ClassNode(BigDecimal.class));
+        add(new ClassNode(String.class));
+        add(new ClassNode(URL.class));
     }};
-    
+
     private static final Set<String> DOMAIN_CLASS_PROPERTIES_TO_EXCLUDE_BY_DEFAULT = CollectionUtils.newSet("id", "version", "dateCreated", "lastUpdated");
-    
+
     public void injectDatabindingCode(final SourceUnit source, final GeneratorContext context, final ClassNode classNode) {
         addDefaultDatabindingWhitelistField(source, classNode);
     }
@@ -149,7 +149,7 @@ public class DefaultASTDatabindingHelper implements ASTDatabindingHelper {
             final Expression constraintsInitialExpression = constraintsFieldNode.getInitialExpression();
             if (constraintsInitialExpression instanceof ClosureExpression) {
 
-                final Map<String, Map<String, Expression>> constraintsInfo = GrailsASTUtils.getConstraintMetadata((ClosureExpression)constraintsInitialExpression);
+                final Map<String, Map<String, Expression>> constraintsInfo = GrailsASTUtils.getConstraintMetadata((ClosureExpression) constraintsInitialExpression);
 
                 for (Entry<String, Map<String, Expression>> constraintConfig : constraintsInfo.entrySet()) {
                     final String propertyName = constraintConfig.getKey();
@@ -211,7 +211,7 @@ public class DefaultASTDatabindingHelper implements ASTDatabindingHelper {
                             final String restOfMethodName = methodName.substring(3);
                             final String propertyName = GrailsNameUtils.getPropertyName(restOfMethodName);
                             if (!unbindablePropertyNames.contains(propertyName) &&
-                                (!isDomainClass || !DOMAIN_CLASS_PROPERTIES_TO_EXCLUDE_BY_DEFAULT.contains(propertyName))) {
+                                    (!isDomainClass || !DOMAIN_CLASS_PROPERTIES_TO_EXCLUDE_BY_DEFAULT.contains(propertyName))) {
                                 propertyNamesToIncludeInWhiteList.add(propertyName);
                             }
                         }

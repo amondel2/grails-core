@@ -38,15 +38,15 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
     void setupSpec() {
         mockDomains(
-            AssociationBindingAuthor, AssociationBindingBook, AssociationBindingPage, Author, Child,
-            CollectionContainer, DataBindingBook, Fidget, Foo, Parent, Publication, Publisher, Team, Widget
+                AssociationBindingAuthor, AssociationBindingBook, AssociationBindingPage, Author, Child,
+                CollectionContainer, DataBindingBook, Fidget, Foo, Parent, Publication, Publisher, Team, Widget
         )
     }
 
     void setup() {
         binder = grailsApplication.mainContext.getBean(DataBindingUtils.DATA_BINDER_BEAN_NAME) as GrailsWebDataBinder
     }
-    
+
     void cleanup() {
         Locale.setDefault(defaultLocale)
     }
@@ -58,7 +58,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: '42'
+                author: '42'
         ]))
 
         then:
@@ -72,8 +72,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            name: '',
-            stringWithSpecialBinding:''
+                name                    : '',
+                stringWithSpecialBinding: ''
         ]))
 
         then:
@@ -82,8 +82,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            name: '  ',
-            stringWithSpecialBinding: '  '
+                name                    : '  ',
+                stringWithSpecialBinding: '  '
         ]))
 
         then:
@@ -93,8 +93,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         def emptyString = ''
         binder.bind(obj, new SimpleMapDataBindingSource([
-            name: "${emptyString}",
-            stringWithSpecialBinding: "${emptyString}"
+                name                    : "${emptyString}",
+                stringWithSpecialBinding: "${emptyString}"
         ]))
 
         then:
@@ -103,8 +103,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            name: "  ${emptyString}  ",
-            stringWithSpecialBinding: "  ${emptyString}  "
+                name                    : "  ${emptyString}  ",
+                stringWithSpecialBinding: "  ${emptyString}  "
         ]))
 
         then:
@@ -121,14 +121,14 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someBoolean: 'true',
-            someByte: '1',
-            someChar: 'a',
-            someShort: '2',
-            someInt: '3',
-            someLong: '4',
-            someFloat: '5.5'.replace('.', decimalSeparator),
-            someDouble: '6.6'.replace('.', decimalSeparator)
+                someBoolean: 'true',
+                someByte   : '1',
+                someChar   : 'a',
+                someShort  : '2',
+                someInt    : '3',
+                someLong   : '4',
+                someFloat  : '5.5'.replace('.', decimalSeparator),
+                someDouble : '6.6'.replace('.', decimalSeparator)
         ]))
 
         then:
@@ -144,7 +144,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         locale << [new Locale('fi', 'FI', ''), new Locale('en', 'US', '')]
         decimalSeparator << [',', '.']
     }
-    
+
     void 'Test binding to primitive numbers from malformed Strings when locale is #locale'() {
 
         given:
@@ -153,11 +153,11 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someShort: '2x',
-            someInt: '3x',
-            someLong: '4x',
-            someFloat: '5.5x'.replace('.', decimalSeparator),
-            someDouble: '6.6x'.replace('.', decimalSeparator)
+                someShort : '2x',
+                someInt   : '3x',
+                someLong  : '4x',
+                someFloat : '5.5x'.replace('.', decimalSeparator),
+                someDouble: '6.6x'.replace('.', decimalSeparator)
         ]))
 
         then:
@@ -187,9 +187,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         given:
         def obj = new CollectionContainer()
         def map = [
-            'listOfWidgets[0]': [isBindable: 'Is Uno (List)', isNotBindable: 'Is Not Uno (List)'],
-            'listOfWidgets[1]': [isBindable: 'Is Dos (List)', isNotBindable: 'Is Not Dos (List)'],
-            'listOfWidgets[2]': [isBindable: 'Is Tres (List)', isNotBindable: 'Is Not Tres (List)']
+                'listOfWidgets[0]': [isBindable: 'Is Uno (List)', isNotBindable: 'Is Not Uno (List)'],
+                'listOfWidgets[1]': [isBindable: 'Is Dos (List)', isNotBindable: 'Is Not Dos (List)'],
+                'listOfWidgets[2]': [isBindable: 'Is Tres (List)', isNotBindable: 'Is Not Tres (List)']
         ]
 
         when:
@@ -219,39 +219,39 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         listOfWidgets[1].isBindable == 'Is Tres (List)'
         listOfWidgets[1].isNotBindable == null
     }
-    
+
     void 'Test binding null id to a domain class reference in a non-domain class'() {
 
         given:
         def nonDomainClass = new SomeNonDomainClass()
-        
+
         when:
         binder.bind(nonDomainClass, new SimpleMapDataBindingSource([
-            publication: [
-                id: null
-            ]
+                publication: [
+                        id: null
+                ]
         ]))
-        
+
         then:
         nonDomainClass.publication == null
-        
+
         when:
         binder.bind(nonDomainClass, new SimpleMapDataBindingSource([
-            publication: [
-                id: 'null'
-            ]
+                publication: [
+                        id: 'null'
+                ]
         ]))
-        
+
         then:
         nonDomainClass.publication == null
-        
+
         when:
         binder.bind(nonDomainClass, new SimpleMapDataBindingSource([
-            publication: [
-                id: ''
-            ]
+                publication: [
+                        id: ''
+                ]
         ]))
-        
+
         then:
         nonDomainClass.publication == null
     }
@@ -264,10 +264,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publication, new SimpleMapDataBindingSource([
-            title: 'Infinite Jest',
-            author: [
-                id: author.id
-            ]
+                title : 'Infinite Jest',
+                author: [
+                        id: author.id
+                ]
         ]))
 
         then:
@@ -276,9 +276,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: 'null'
-            ]
+                author: [
+                        id: 'null'
+                ]
         ]))
 
         then:
@@ -289,10 +289,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def whiteList = []
         def blackList = ['author']
         binder.bind(publication, new SimpleMapDataBindingSource([
-            title: 'Infinite Jest',
-            author: [
-                id: author.id
-            ]
+                title : 'Infinite Jest',
+                author: [
+                        id: author.id
+                ]
         ]), whiteList, blackList)
 
         then:
@@ -302,10 +302,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = null
         binder.bind(publication, new SimpleMapDataBindingSource([
-            title: 'Infinite Jest 2',
-            author: [
-                id: author.id
-            ]
+                title : 'Infinite Jest 2',
+                author: [
+                        id: author.id
+                ]
         ]))
 
         then:
@@ -313,9 +313,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: ''
-            ]
+                author: [
+                        id: ''
+                ]
         ]))
 
         then:
@@ -323,20 +323,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: null
-            ]
-        ]))
-
-        then:
-        publication.author == null
-
-        when:
-        publication.author = new Author()
-        binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: null
-            ]
+                author: [
+                        id: null
+                ]
         ]))
 
         then:
@@ -345,9 +334,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = new Author()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: 'null'
-            ]
+                author: [
+                        id: null
+                ]
         ]))
 
         then:
@@ -356,9 +345,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = new Author()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: [
-                id: ''
-            ]
+                author: [
+                        id: 'null'
+                ]
         ]))
 
         then:
@@ -367,7 +356,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = new Author()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: 'null'
+                author: [
+                        id: ''
+                ]
         ]))
 
         then:
@@ -376,7 +367,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = new Author()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: ''
+                author: 'null'
         ]))
 
         then:
@@ -385,7 +376,16 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         publication.author = new Author()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            author: null
+                author: ''
+        ]))
+
+        then:
+        publication.author == null
+
+        when:
+        publication.author = new Author()
+        binder.bind(publication, new SimpleMapDataBindingSource([
+                author: null
         ]))
 
         then:
@@ -398,10 +398,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def author = new Author(name: 'David Foster Wallace').save(flush: true)
         def publication = new Publication()
         def bindingSource = new SimpleMapDataBindingSource([
-            title: 'Infinite Jest',
-            author: [
-                id: author.id
-            ]
+                title : 'Infinite Jest',
+                author: [
+                        id: author.id
+                ]
         ])
         bindingSource.dataSourceAware = false
 
@@ -429,9 +429,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(pub, new SimpleMapDataBindingSource([
-            publisher: [
-                name: 'Apress'
-            ]
+                publisher: [
+                        name: 'Apress'
+                ]
         ]))
 
         // pending investigation...
@@ -460,19 +460,19 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            name: 'Apress',
-            'publications[0]': [
-                title: 'DGG',
-                author: [
-                    name: 'Graeme'
+                name             : 'Apress',
+                'publications[0]': [
+                        title : 'DGG',
+                        author: [
+                                name: 'Graeme'
+                        ]
+                ],
+                'publications[1]': [
+                        title : 'DGG2',
+                        author: [
+                                name: 'Jeff'
+                        ]
                 ]
-            ],
-            'publications[1]': [
-                title: 'DGG2',
-                author: [
-                    name: 'Jeff'
-                ]
-            ]
         ]))
 
         then:
@@ -506,7 +506,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(book, new SimpleMapDataBindingSource([
-            pages: [p1.id, p2.id] as String[]
+                pages: [p1.id, p2.id] as String[]
         ]))
 
         then: 'the initial page should have been replaced by the 2 new pages'
@@ -522,8 +522,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(widget, new SimpleMapDataBindingSource([
-            isBindable: 'Should Be Bound',
-            isNotBindable: 'Should Not Be Bound'
+                isBindable   : 'Should Be Bound',
+                isNotBindable: 'Should Not Be Bound'
         ]))
 
         then:
@@ -538,13 +538,13 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(book, new SimpleMapDataBindingSource([
-            topics: [
-                'journalism', null,
-                'satire'
-            ]
+                topics: [
+                        'journalism', null,
+                        'satire'
+                ]
         ]))
         binder.bind(book, new SimpleMapDataBindingSource([
-            'topics[1]': 'counterculture'
+                'topics[1]': 'counterculture'
         ]))
 
         then:
@@ -558,10 +558,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(book, new SimpleMapDataBindingSource([
-            importantPageNumbers: ['5', null, '42']
+                importantPageNumbers: ['5', null, '42']
         ]))
         binder.bind(book, new SimpleMapDataBindingSource([
-            'importantPageNumbers[1]': '2112'
+                'importantPageNumbers[1]': '2112'
         ]))
 
         then:
@@ -575,9 +575,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(parent, new SimpleMapDataBindingSource([
-            child: [
-                someOtherIds: '4'
-            ]
+                child: [
+                        someOtherIds: '4'
+                ]
         ]))
 
         then:
@@ -587,9 +587,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         parent.child = null
         binder.bind(parent, new SimpleMapDataBindingSource([
-            child: [
-                someOtherIds: ['4', '5', '6']
-            ]
+                child: [
+                        someOtherIds: ['4', '5', '6']
+                ]
         ]))
 
         then:
@@ -601,9 +601,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         parent.child = null
         binder.bind(parent, new SimpleMapDataBindingSource([
-            child: [
-                someOtherIds: 4
-            ]
+                child: [
+                        someOtherIds: 4
+                ]
         ]))
 
         then:
@@ -618,8 +618,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         team.members = [
-            'jeff': new Author(name: 'Jeff Scott Brown'),
-            'betsy': new Author(name: 'Sarah Elizabeth Brown')
+                'jeff' : new Author(name: 'Jeff Scott Brown'),
+                'betsy': new Author(name: 'Sarah Elizabeth Brown')
         ]
 
         then:
@@ -631,9 +631,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(team, new SimpleMapDataBindingSource([
-            'members[jeff]': [
-                id: 'null'
-            ]
+                'members[jeff]': [
+                        id: 'null'
+                ]
         ]))
 
         then:
@@ -649,12 +649,12 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(team, new SimpleMapDataBindingSource([
-            "members['jeff']": [
-                name: 'Jeff Scott Brown'
-            ],
-            'members["betsy"]': [
-                name: 'Sarah Elizabeth Brown'
-            ]
+                "members['jeff']" : [
+                        name: 'Jeff Scott Brown'
+                ],
+                'members["betsy"]': [
+                        name: 'Sarah Elizabeth Brown'
+                ]
         ]))
 
         then:
@@ -672,12 +672,12 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(pub, new SimpleMapDataBindingSource([
-            'authors[0]': [
-                name: 'Author Uno'
-            ],
-            'authors[1]': [
-                name: 'Author Dos'
-            ]
+                'authors[0]': [
+                        name: 'Author Uno'
+                ],
+                'authors[1]': [
+                        name: 'Author Dos'
+                ]
         ]))
 
         then:
@@ -699,12 +699,12 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         def pub = new Publisher()
         binder.bind(pub, new SimpleMapDataBindingSource([
-            'authors[0]': [
-                id: a1.id
-            ],
-            'authors[1]': [
-                id: a2.id
-            ]
+                'authors[0]': [
+                        id: a1.id
+                ],
+                'authors[1]': [
+                        id: a2.id
+                ]
         ]))
 
         then:
@@ -727,7 +727,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def pub = new Publisher()
         String stringToBind = a2.id as String
         binder.bind(pub, new SimpleMapDataBindingSource([
-            'authors[0]': stringToBind
+                'authors[0]': stringToBind
         ]))
 
         then:
@@ -745,13 +745,13 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         author.save()
 
         then:
-        author.id !=  null
+        author.id != null
 
         when:
         def publication = new Publication()
         binder.bind(publication, new SimpleMapDataBindingSource([
-            title: 'Me Of Little Faith',
-            author: author.id.toString()
+                title : 'Me Of Little Faith',
+                author: author.id.toString()
         ]))
 
         then:
@@ -781,9 +781,9 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         when:
         // the subscript values are not important, the ids drive selection from the Set
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'authors[123]': [id: a3.id, name: 'Author Tres'],
-            'authors[456]': [id: a1.id, name: 'Author Uno'],
-            'authors[789]': [id: a2.id, name: 'Author Dos']
+                'authors[123]': [id: a3.id, name: 'Author Tres'],
+                'authors[456]': [id: a1.id, name: 'Author Uno'],
+                'authors[789]': [id: a2.id, name: 'Author Dos']
         ]))
         def updatedA1 = publisher.authors.find { it.id == a1.id }
         def updatedA2 = publisher.authors.find { it.id == a2.id }
@@ -815,11 +815,11 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'authors': [
-                [id: a3.id, name: 'Author Tres'],
-                [id: a1.id, name: 'Author Uno'],
-                [id: a2.id, name: 'Author Dos']
-            ]
+                'authors': [
+                        [id: a3.id, name: 'Author Tres'],
+                        [id: a1.id, name: 'Author Uno'],
+                        [id: a2.id, name: 'Author Dos']
+                ]
         ]))
         def updatedA1 = publisher.authors.find { it.id == a1.id }
         def updatedA2 = publisher.authors.find { it.id == a2.id }
@@ -852,11 +852,11 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'authors': [
-                [id: a3.id, name: 'Author Tres'],
-                [id: a1.id, name: 'Author Uno'],
-                [name: 'Author Uno Part Two'],
-                [id: a2.id, name: 'Author Dos']]
+                'authors': [
+                        [id: a3.id, name: 'Author Tres'],
+                        [id: a1.id, name: 'Author Uno'],
+                        [name: 'Author Uno Part Two'],
+                        [id: a2.id, name: 'Author Dos']]
         ]))
         def updatedA1 = publisher.authors.find { it.id == a1.id }
         def updatedA1Part2 = publisher.authors.find { it.name == 'Author Uno Part Two' }
@@ -878,16 +878,16 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'authors': [
-                [name: 'Author One'],
-                [name: 'Author Two'],
-                [name: 'Author Three']
-            ]
+                'authors': [
+                        [name: 'Author One'],
+                        [name: 'Author Two'],
+                        [name: 'Author Three']
+                ]
         ]))
         def a1 = publisher.authors.find { it.name == 'Author One' }
         def a2 = publisher.authors.find { it.name == 'Author Two' }
         def a3 = publisher.authors.find { it.name == 'Author Three' }
-        
+
         then:
         a1
         a2
@@ -900,7 +900,8 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         given:
         def bindingErrors = [] as List<BindingError>
         def listener = new DataBindingListenerAdapter() {
-            @Override void bindingError(BindingError error, Object errors) {
+            @Override
+            void bindingError(BindingError error, Object errors) {
                 bindingErrors << error
             }
         }
@@ -909,10 +910,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def publisher = new Publisher(name: 'Apress').save()
         publisher.save(flush: true)
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'authors[0]': [
-                id: 42,
-                name: 'Some Name'
-            ]
+                'authors[0]': [
+                        id  : 42,
+                        name: 'Some Name'
+                ]
         ]), listener)
 
         then:
@@ -935,17 +936,17 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def publisher = new Publisher(name: 'Apress').save()
         publisher.addToPublications(publication)
         publisher.save(flush: true)
-        
+
         then:
         publication.publisher != null
         publication.id != null
 
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            'publications[0]': [
-                id: publication.id,
-                title: 'Definitive Guide To Grails 2'
-            ]
+                'publications[0]': [
+                        id   : publication.id,
+                        title: 'Definitive Guide To Grails 2'
+                ]
         ]))
 
         then:
@@ -959,10 +960,10 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(author, new SimpleMapDataBindingSource([
-            widget: [
-                name: 'Some Name',
-                isBindable: 'Some Bindable String'
-            ]
+                widget: [
+                        name      : 'Some Name',
+                        isBindable: 'Some Bindable String'
+                ]
         ]))
 
         then:
@@ -970,7 +971,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         author.widget instanceof Fidget
 
         // property in Fidget
-        ((Fidget)author.widget).name == 'Some Name'
+        ((Fidget) author.widget).name == 'Some Name'
 
         // property in Widget
         author.widget.isBindable == 'Some Bindable String'
@@ -981,17 +982,17 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         given:
         def obj = new CollectionContainer()
         def map = [
-            'listOfWidgets[0]': [isBindable: 'Is Uno (List)', isNotBindable: 'Is Not Uno (List)'],
-            'listOfWidgets[1]': [isBindable: 'Is Dos (List)', isNotBindable: 'Is Not Dos (List)'],
-            'listOfWidgets[2]': [isBindable: 'Is Tres (List)', isNotBindable: 'Is Not Tres (List)'],
+                'listOfWidgets[0]'     : [isBindable: 'Is Uno (List)', isNotBindable: 'Is Not Uno (List)'],
+                'listOfWidgets[1]'     : [isBindable: 'Is Dos (List)', isNotBindable: 'Is Not Dos (List)'],
+                'listOfWidgets[2]'     : [isBindable: 'Is Tres (List)', isNotBindable: 'Is Not Tres (List)'],
 
-            'setOfWidgets[0]': [isBindable: 'Is Uno (Set)', isNotBindable: 'Is Not Uno (Set)'],
-            'setOfWidgets[1]': [isBindable: 'Is Dos (Set)', isNotBindable: 'Is Not Dos (Set)'],
-            'setOfWidgets[2]': [isBindable: 'Is Tres (Set)', isNotBindable: 'Is Not Tres (Set)'],
+                'setOfWidgets[0]'      : [isBindable: 'Is Uno (Set)', isNotBindable: 'Is Not Uno (Set)'],
+                'setOfWidgets[1]'      : [isBindable: 'Is Dos (Set)', isNotBindable: 'Is Not Dos (Set)'],
+                'setOfWidgets[2]'      : [isBindable: 'Is Tres (Set)', isNotBindable: 'Is Not Tres (Set)'],
 
-            'sortedSetOfWidgets[0]': [isBindable: 'Is Uno (SortedSet)', isNotBindable: 'Is Not Uno (SortedSet)'],
-            'sortedSetOfWidgets[1]': [isBindable: 'Is Dos (SortedSet)', isNotBindable: 'Is Not Dos (SortedSet)'],
-            'sortedSetOfWidgets[2]': [isBindable: 'Is Tres (SortedSet)', isNotBindable: 'Is Not Tres (SortedSet)']
+                'sortedSetOfWidgets[0]': [isBindable: 'Is Uno (SortedSet)', isNotBindable: 'Is Not Uno (SortedSet)'],
+                'sortedSetOfWidgets[1]': [isBindable: 'Is Dos (SortedSet)', isNotBindable: 'Is Not Dos (SortedSet)'],
+                'sortedSetOfWidgets[2]': [isBindable: 'Is Tres (SortedSet)', isNotBindable: 'Is Not Tres (SortedSet)']
         ]
 
         //map['collectionOfWidgets[0]'] = [isBindable: 'Is Uno (Collection)', isNotBindable: 'Is Not Uno (Collection)']
@@ -1038,7 +1039,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when: 'binding with just a binding source'
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someNumber: 'not a number'
+                someNumber: 'not a number'
         ]))
 
         then:
@@ -1054,7 +1055,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when: 'binding with a binding source and a white list'
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someNumber: 'not a number'
+                someNumber: 'not a number'
         ]), whiteList)
 
         then:
@@ -1070,7 +1071,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when: 'binding with a binding source, a white list and a black list'
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someNumber: 'not a number'
+                someNumber: 'not a number'
         ]), whiteList, blackList)
 
         then:
@@ -1089,22 +1090,25 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def bindingErrorArgs = []
         def afterBindingArgs = []
         def listener = new DataBindingListenerAdapter() {
-            @Override Boolean beforeBinding(Object object, String propertyName, Object value, Object errors) {
+            @Override
+            Boolean beforeBinding(Object object, String propertyName, Object value, Object errors) {
                 beforeBindingArgs << [object: object, propName: propertyName, value: value]
                 true
             }
 
-            @Override void afterBinding(Object object, String propertyName, Object errors) {
+            @Override
+            void afterBinding(Object object, String propertyName, Object errors) {
                 afterBindingArgs << [object: object, propertyName: propertyName]
             }
 
-            @Override void bindingError(BindingError error, Object errors) {
+            @Override
+            void bindingError(BindingError error, Object errors) {
                 bindingErrorArgs << error
             }
         }
 
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someNumber: 'not a number'
+                someNumber: 'not a number'
         ]), listener)
 
         then:
@@ -1123,21 +1127,21 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         afterBindingArgs[0]['object'].is(obj)
         afterBindingArgs[0]['propertyName'] == 'someNumber'
     }
-    
+
     void 'Test binding a List<String>'() {
 
         given:
         def obj = new CollectionContainer()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            listOfStrings: ['One', 'Two', 'Three']
+                listOfStrings: ['One', 'Two', 'Three']
         ]))
-        
+
         then:
         obj.listOfStrings == ['One', 'Two', 'Three']
     }
-    
+
     void 'Test one to many list binding with nested subscript operator can insert to empty index of List'() {
 
         given:
@@ -1148,17 +1152,17 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def page1 = new AssociationBindingPage(number: 1).save()
         def page2 = new AssociationBindingPage(number: 2).save()
         binder.bind(book, new SimpleMapDataBindingSource([
-            title: 'Pattern Recognition',
-            author: author,
-            pages: [null, page2]
+                title : 'Pattern Recognition',
+                author: author,
+                pages : [null, page2]
         ]))
         book.save()
         binder.bind(author, new SimpleMapDataBindingSource([
-            'books[0]': [
-                'pages[0]': [
-                    id: page1.id
+                'books[0]': [
+                        'pages[0]': [
+                                id: page1.id
+                        ]
                 ]
-            ]
         ]))
 
         then:
@@ -1176,50 +1180,50 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            someNumber: 'not a number'
+                someNumber: 'not a number'
         ]))
 
         then:
         obj.hasErrors()
         obj.errors.errorCount == 1
         obj.errors.getFieldError('someNumber').codes as List == [
-            'grails.web.databinding.SomeValidateableClass.someNumber.typeMismatch.error',
-            'grails.web.databinding.SomeValidateableClass.someNumber.typeMismatch',
-            'someValidateableClass.someNumber.typeMismatch.error',
-            'someValidateableClass.someNumber.typeMismatch',
-            'typeMismatch.grails.web.databinding.SomeValidateableClass.someNumber',
-            'typeMismatch.someNumber',
-            'typeMismatch.java.lang.Integer',
-            'typeMismatch'
+                'grails.web.databinding.SomeValidateableClass.someNumber.typeMismatch.error',
+                'grails.web.databinding.SomeValidateableClass.someNumber.typeMismatch',
+                'someValidateableClass.someNumber.typeMismatch.error',
+                'someValidateableClass.someNumber.typeMismatch',
+                'typeMismatch.grails.web.databinding.SomeValidateableClass.someNumber',
+                'typeMismatch.someNumber',
+                'typeMismatch.java.lang.Integer',
+                'typeMismatch'
         ]
     }
-    
+
     @Issue('GRAILS-10696')
     void 'Test binding a simple String to a List<Long> on a non domain class'() {
 
         given:
         def obj = new SomeNonDomainClass()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            listOfLong: '42'
+                listOfLong: '42'
         ]))
-        
+
         then:
         obj.listOfLong[0] == 42
     }
-    
+
     @Issue('GRAILS-10689')
     void 'Test binding a String[] to a List<Long> on a non domain class'() {
 
         given:
         def obj = new SomeNonDomainClass()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            listOfLong: ['42', '2112'] as String[]
+                listOfLong: ['42', '2112'] as String[]
         ]))
-        
+
         then:
         obj.listOfLong.size() == 2
         obj.listOfLong[0] == 42
@@ -1231,12 +1235,12 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         given:
         def obj = new CollectionContainer()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            listOfLong: '42'
+                listOfLong: '42'
         ]))
-        
+
         then:
         obj.listOfLong[0] == 42
     }
@@ -1246,28 +1250,28 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         given:
         def obj = new CollectionContainer()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            listOfLong: ['42', '2112'] as String[]
+                listOfLong: ['42', '2112'] as String[]
         ]))
-        
+
         then:
         obj.listOfLong.size() == 2
         obj.listOfLong[0] == 42
         obj.listOfLong[1] == 2112
     }
-    
+
     void 'Test @BindUsing on a List of domain objects'() {
 
         given:
         def pub = new Publisher()
-        
+
         when:
         binder.bind(pub, new SimpleMapDataBindingSource([
-            widgets: '4'
+                widgets: '4'
         ]))
-        
+
         then:
         pub.widgets.size() == 4
         pub.widgets[0] instanceof Widget
@@ -1280,53 +1284,53 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         given:
         def widget = new Widget()
-        
+
         when:
         binder.bind(widget, new SimpleMapDataBindingSource([
-            listOfIntegers: '4'
+                listOfIntegers: '4'
         ]))
-        
+
         then:
         widget.listOfIntegers == [0, 1, 2, 3]
     }
-    
+
     @Issue('GRAILS-10899')
     void 'Test binding to a property that has a getter and setter with declared type java.util.Collection'() {
 
         when:
         def f = new Foo(airports: ['STL', 'LHR', 'MIA'])
-        
+
         then:
         f.airports.size() == 3
         f.airports.containsAll('STL', 'LHR', 'MIA')
     }
-    
+
     @Issue('GRAILS-10899')
     void 'Test binding to a collection of values which need to be converted to a collection property that has a getter and setter with declared type java.util.Collection'() {
 
         when:
         def f = new Foo(numbers: ['2112', '42', '0'])
-        
+
         then:
         f.numbers == [0, 42, 2112] as Set
     }
-    
+
     @Issue('GRAILS-10728')
     void 'Test binding to a Set property that has a getter which returns an unmodifiable Set'() {
 
         given:
         def f = new Foo(names: ['Lemmy', 'Phil', 'Mikkey'] as Set)
-        
+
         expect:
         f.names == ['Lemmy', 'Phil', 'Mikkey'] as Set
     }
-    
+
     @Issue('GRAILS-10728')
     void 'Test binding to a collection property that has a setter and no getter'() {
 
         given:
         def f = new Foo(workdays: [Calendar.MONDAY, Calendar.TUESDAY])
-        
+
         expect:
         f.getTheValueOfWorkdays() == [Calendar.MONDAY, Calendar.TUESDAY] as Set
     }
@@ -1335,29 +1339,29 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
     void 'Test binding to a property that does not correspond to a field'() {
 
         given:
-        def f = new Foo(activeDays:['mon'])
-        
+        def f = new Foo(activeDays: ['mon'])
+
         expect:
         f.activeDays == ['mon']
     }
-    
+
     @Issue('GRAILS-10790')
     void 'Test binding to a Map on a non domain class'() {
 
         given:
         def obj = new NonDomainClassWithMapProperty()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            name: 'Alpha Omega',
-            'albums[uno]': [
-                title: 'Album Number One'
-            ],
-            'albums[dos]': [
-                title: 'Album Number Two'
-            ]
+                name         : 'Alpha Omega',
+                'albums[uno]': [
+                        title: 'Album Number One'
+                ],
+                'albums[dos]': [
+                        title: 'Album Number Two'
+                ]
         ]))
-                     
+
         then:
         obj.name == 'Alpha Omega'
         obj.albums.size() == 2
@@ -1366,95 +1370,95 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         obj.albums['dos'] instanceof Album
         obj.albums['dos'].title == 'Album Number Two'
     }
-    
-    @Issue(['GRAILS-10796','GRAILS-10829'])
+
+    @Issue(['GRAILS-10796', 'GRAILS-10829'])
     void 'Test replacing existing collection of persistent entities'() {
 
-        given: 
+        given:
         def container = new CollectionContainer().save()
-        
+
         when:
         ['one', 'two', 'three'].each { name ->
             def widget = new Widget(isBindable: name)
             widget.isNotBindable = ''
             container.addToSetOfWidgets(widget)
         }
-        
+
         then:
         container.save()
         container.setOfWidgets.size() == 3
         def originalSetOfWidgets = container.setOfWidgets
-        
+
         when: 'A List of ids is bound to the collection container'
         def newWidgets = ['four', 'five'].collect { name ->
             def widget = new Widget(isBindable: name)
             widget.isNotBindable = ''
             widget.save().id
-        } 
+        }
         binder.bind(container, new SimpleMapDataBindingSource([
-            setOfWidgets: newWidgets
+                setOfWidgets: newWidgets
         ]))
-        
+
         then: 'the set of widgets should have been replaced, not appended to'
         container.setOfWidgets.find { it.isBindable == 'four' }
         container.setOfWidgets.find { it.isBindable == 'five' }
         container.setOfWidgets.size() == 2
-        
+
         and: 'The containing Set is the same set that we started with'
         originalSetOfWidgets.is(container.setOfWidgets)
     }
-    
+
     @Issue('GRAILS-10910')
     void 'Test binding an empty List to a List property which has elements in it'() {
 
         given:
         def publisher = new Publisher()
-        
+
         when:
         publisher.addToPublications([title: 'Pub 1'])
         publisher.addToPublications([title: 'Pub 2'])
-        
+
         then:
         publisher.publications.size() == 2
-        
+
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            publications: []
+                publications: []
         ]))
-        
+
         then:
         publisher.publications.size() == 0
     }
-    
+
     @Issue('GRAILS-11018')
     void 'Test binding an invalid String to a List<Long>'() {
 
         given:
         def command = new ListCommand()
-        
+
         when:
         binder.bind(command, new SimpleMapDataBindingSource([
-            myLongList: 'a,b,c'
+                myLongList: 'a,b,c'
         ]))
-        
+
         then:
         command.hasErrors()
         command.errors.errorCount == 1
         command.errors['myLongList'].code == 'typeMismatch'
     }
-    
+
     void 'Test binding to indexes of a List of Long which leaves gaps in the List'() {
 
         given:
         def obj = new SomeNonDomainClass()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            'listOfLong[1]': 1,
-            'listOfLong[5]': 5,
-            'listOfLong[3]': 3
+                'listOfLong[1]': 1,
+                'listOfLong[5]': 5,
+                'listOfLong[3]': 3
         ]))
-        
+
         then:
         obj.listOfLong.size() == 6
         obj.listOfLong[0] == null
@@ -1464,26 +1468,26 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         obj.listOfLong[4] == null
         obj.listOfLong[5] == 5
     }
-    
-    
+
+
     void 'Test binding to indexes of a List of domain objects which leaves gaps in the List'() {
 
         given:
         def obj = new CollectionContainer()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            'listOfWidgets[1]': [
-                'isBindable': 'one'
-            ],
-            'listOfWidgets[5]': [
-                'isBindable': 'five'
-            ],
-            'listOfWidgets[3]': [
-                'isBindable': 'three'
-            ]
+                'listOfWidgets[1]': [
+                        'isBindable': 'one'
+                ],
+                'listOfWidgets[5]': [
+                        'isBindable': 'five'
+                ],
+                'listOfWidgets[3]': [
+                        'isBindable': 'three'
+                ]
         ]))
-        
+
         then:
         obj.listOfWidgets.size() == 6
         obj.listOfWidgets[0] == null
@@ -1493,31 +1497,31 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         obj.listOfWidgets[4] == null
         obj.listOfWidgets[5].isBindable == 'five'
     }
-    
+
     void 'Test binding to a TimeZone property'() {
 
         given:
         def obj = new Widget()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            timeZone: 'Europe/Berlin'
+                timeZone: 'Europe/Berlin'
         ]))
-        
+
         then:
         obj.timeZone == TimeZone.getTimeZone('Europe/Berlin')
     }
-    
+
     void 'Test binding to a typed List of non-domain objects'() {
 
         given:
         def obj = new DocumentHolder()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            objectIds: ['two', 'four', 'six', 'eight']
+                objectIds: ['two', 'four', 'six', 'eight']
         ]))
-        
+
         then:
         obj.objectIds.size() == 4
         obj.objectIds[0] instanceof ObjectId
@@ -1529,17 +1533,17 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         obj.objectIds[3] instanceof ObjectId
         obj.objectIds[3].value == 'eight'
     }
-    
+
     void 'Test binding to a typed array of non-domain objects'() {
 
         given:
         def obj = new DocumentHolder()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            objectIds: ['two', 'four', 'six', 'eight'] as String[]
+                objectIds: ['two', 'four', 'six', 'eight'] as String[]
         ]))
-        
+
         then:
         obj.objectIds.size() == 4
         obj.objectIds[0] instanceof ObjectId
@@ -1551,33 +1555,33 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         obj.objectIds[3] instanceof ObjectId
         obj.objectIds[3].value == 'eight'
     }
-    
+
     @Issue('GRAILS-11174')
     void 'Test binding null to a Date marked with @BindingFormat'() {
 
         given:
         def obj = new DataBindingBook()
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            datePublished: null
+                datePublished: null
         ]))
-        
+
         then:
         obj.datePublished == null
         !obj.hasErrors()
-        
+
         when:
         obj.datePublished = new Date()
         binder.bind(obj, new SimpleMapDataBindingSource([
-            datePublished: null
+                datePublished: null
         ]))
-        
+
         then:
         obj.datePublished == null
         !obj.hasErrors()
     }
-    
+
     @Issue('GRAILS-11238')
     void 'Test binding to a property that hides a field of a different type'() {
 
@@ -1587,30 +1591,30 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when:
         binder.bind(holder, new SimpleMapDataBindingSource([
-            album: album
+                album: album
         ]))
-        
+
         then:
         holder.album.title == 'Some Album'
     }
-    
+
     @Issue('GRAILS-11402')
     void 'Test binding when the binding source contains the key "_"'() {
 
         given:
         def publisher = new Publisher()
-        
+
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            _: '',
-            name: 'Some Publisher'
+                _   : '',
+                name: 'Some Publisher'
         ]))
-        
+
         then:
         !publisher.hasErrors()
         publisher.name == 'Some Publisher'
     }
-    
+
     @Issue('GRAILS-11472')
     void 'test binding an empty string to a Date marked with @BindingFormat'() {
 
@@ -1620,22 +1624,22 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when: 'a valid date string is bound'
         binder.bind(book, new SimpleMapDataBindingSource([
-            datePublished: '11151969'
+                datePublished: '11151969'
         ]))
         datePublished.setTime(book.datePublished)
-        
+
         then: 'the date is initialized'
         !book.hasErrors()
         book.datePublished
         Calendar.NOVEMBER == datePublished.get(Calendar.MONTH)
         15 == datePublished.get(Calendar.DAY_OF_MONTH)
         1969 == datePublished.get(Calendar.YEAR)
-        
+
         when: 'an empty string is bound'
         binder.bind(book, new SimpleMapDataBindingSource([
-            datePublished: ''
+                datePublished: ''
         ]))
-        
+
         then: 'the date is null'
         book.datePublished == null
         !book.hasErrors()
@@ -1650,7 +1654,7 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
 
         when: 'a valid date string is bound'
         binder.bind(child, new SimpleMapDataBindingSource([
-            birthDate: '11151969'
+                birthDate: '11151969'
         ]))
         birthDate.setTime(child.birthDate)
 
@@ -1661,21 +1665,21 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         15 == birthDate.get(Calendar.DAY_OF_MONTH)
         1969 == birthDate.get(Calendar.YEAR)
     }
-    
+
     void 'Test binding String to currency in a domain class'() {
         given:
         def publisher = new Publisher()
-        
+
         when:
         binder.bind(publisher, new SimpleMapDataBindingSource([
-            localCurrency: 'USD'
+                localCurrency: 'USD'
         ]))
 
         then:
         publisher.localCurrency instanceof Currency
         'USD' == publisher.localCurrency.currencyCode
     }
-    
+
     @Issue('GRAILS-11666')
     void 'test binding array of id to a collection of domain instances in a non domain classes'() {
         given:
@@ -1684,12 +1688,12 @@ class GrailsWebDataBinderSpec extends Specification implements DataTest {
         def pub3 = new Publisher(name: 'Pub Three').save()
         def obj = new NonDomainClassWithSetOfDomainInstances()
         String[] idArray = [pub1.id, pub3.id] as String[]
-        
+
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([
-            publishers: idArray
+                publishers: idArray
         ]))
-        
+
         then:
         obj.publishers?.size() == 2
         obj.publishers.find { it.name == 'Pub One' }
@@ -1705,8 +1709,8 @@ class Team {
 
     @SuppressWarnings('unused')
     static hasMany = [
-        members: Author,
-        states: String
+            members: Author,
+            states : String
     ]
 }
 
@@ -1716,7 +1720,7 @@ class Publisher {
 
     String name
     List<Publication> publications
-    
+
     @BindUsing({ Object obj, DataBindingSource source ->
         def cnt = source['widgets'] as int
         def result = []
@@ -1724,13 +1728,13 @@ class Publisher {
         result
     })
     List widgets = []
-    
+
     Currency localCurrency
 
     static hasMany = [
-        publications: Publication,
-        authors: Author,
-        widgets: Widget
+            publications: Publication,
+            authors     : Author,
+            widgets     : Widget
     ]
 
     static constraints = {
@@ -1760,7 +1764,7 @@ class Author {
     String name
 
     @BindUsing({ Object obj, DataBindingSource source ->
-        ((String)source.getPropertyValue('stringWithSpecialBinding'))?.trim()
+        ((String) source.getPropertyValue('stringWithSpecialBinding'))?.trim()
     })
     String stringWithSpecialBinding
 
@@ -1842,7 +1846,7 @@ class Parent {
 @SuppressWarnings('unused')
 class Child {
 
-    @BindingFormat(code='my.date.format')
+    @BindingFormat(code = 'my.date.format')
     Date birthDate
 
     static hasMany = [someOtherIds: Integer]
@@ -1860,8 +1864,8 @@ class DataBindingBook {
     Date datePublished
 
     static hasMany = [
-        topics: String,
-        importantPageNumbers: Integer
+            topics              : String,
+            importantPageNumbers: Integer
     ]
 }
 
@@ -1876,10 +1880,10 @@ class CollectionContainer {
     List<Long> listOfLong
 
     static hasMany = [
-        listOfWidgets: Widget,
-        setOfWidgets: Widget,
-        collectionOfWidgets: Widget,
-        sortedSetOfWidgets: Widget
+            listOfWidgets      : Widget,
+            setOfWidgets       : Widget,
+            collectionOfWidgets: Widget,
+            sortedSetOfWidgets : Widget
     ]
 }
 
@@ -1890,7 +1894,7 @@ class DocumentHolder {
 class ObjectId {
 
     String value
-    
+
     ObjectId(String str) {
         value = str
     }
@@ -1955,36 +1959,39 @@ class Foo {
     }
 
     static transients = ['activeDays']
-    
+
     List getActiveDays() {
         def activeDays = []
         if (activeMonday) activeDays << 'mon'
         activeDays
     }
+
     void setActiveDays(List activeDays) {
         if (activeDays.contains('mon')) {
             activeMonday = true
         }
     }
-    
+
     void setWorkdays(Collection<Integer> workdays) {
         _workdays = new HashSet<Integer>(workdays)
     }
-    
+
     def getTheValueOfWorkdays() {
         _workdays
     }
-    
+
     void setNames(Set<String> names) {
         _names = names
     }
+
     Set<String> getNames() {
         Collections.unmodifiableSet(_names ?: [] as Set<String>)
     }
-    
+
     void setAirports(Collection<String> airports) {
         _airports = airports
     }
+
     Collection<String> getAirports() {
         _airports
     }
@@ -2011,7 +2018,7 @@ class AlbumHolder {
     void setAlbum(Album a) {
         album = a.title
     }
-    
+
     Album getAlbum() {
         return new Album(title: album)
     }

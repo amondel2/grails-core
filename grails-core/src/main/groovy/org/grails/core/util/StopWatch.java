@@ -23,17 +23,23 @@ public class StopWatch {
     private final Deque<TaskInfo> runningTasks = new LinkedList<TaskInfo>();
     private final Deque<TaskInfo> taskList = new LinkedList<TaskInfo>();
 
-    /** Is the stop watch currently running? */
+    /**
+     * Is the stop watch currently running?
+     */
     private boolean running;
 
-    /** Name of the current task */
+    /**
+     * Name of the current task
+     */
     private String currentTaskName;
 
     private TaskInfo lastTaskInfo;
 
     private int taskCount;
 
-    /** Total running time */
+    /**
+     * Total running time
+     */
     private long totalTimeMillis;
 
 
@@ -47,19 +53,20 @@ public class StopWatch {
     /**
      * Construct a new stop watch with the given id.
      * Does not start any task.
+     *
      * @param id identifier for this stop watch.
-     * Handy when we have output from multiple stop watches
-     * and need to distinguish between them.
+     *           Handy when we have output from multiple stop watches
+     *           and need to distinguish between them.
      */
     public StopWatch(String id) {
         this.id = id;
     }
 
 
-
     /**
      * Start an unnamed task. The results are undefined if {@link #stop()}
      * or timing methods are called without invoking this method.
+     *
      * @see #stop()
      */
     public void start() throws IllegalStateException {
@@ -69,6 +76,7 @@ public class StopWatch {
     /**
      * Start a named task. The results are undefined if {@link #stop()}
      * or timing methods are called without invoking this method.
+     *
      * @param taskName the name of the task to start
      * @see #stop()
      */
@@ -84,6 +92,7 @@ public class StopWatch {
      * Stop the current task. The results are undefined if timing
      * methods are called without invoking at least one pair
      * {@link #start()} / {@link #stop()} methods.
+     *
      * @see #start()
      */
     public void stop() throws IllegalStateException {
@@ -91,7 +100,7 @@ public class StopWatch {
             throw new IllegalStateException("Can't stop StopWatch: it's not running");
         }
 
-        if(!runningTasks.isEmpty()) {
+        if (!runningTasks.isEmpty()) {
 
             TaskInfo lastTask = runningTasks.pop();
             lastTask.stop();

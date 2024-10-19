@@ -37,23 +37,23 @@ public interface CharArrayAccessible {
      * dstbegin + (srcEnd-srcBegin) - 1
      * </pre></blockquote>
      *
-     * @param      srcBegin   start copying at this offset.
-     * @param      srcEnd     stop copying at this offset.
-     * @param      dst        the array to copy the data into.
-     * @param      dstBegin   offset into <code>dst</code>.
-     * @throws     NullPointerException if <code>dst</code> is
-     *             <code>null</code>.
-     * @throws     IndexOutOfBoundsException  if any of the following is true:
-     *             <ul>
-     *             <li><code>srcBegin</code> is negative
-     *             <li><code>dstBegin</code> is negative
-     *             <li>the <code>srcBegin</code> argument is greater than
-     *             the <code>srcEnd</code> argument.
-     *             <li><code>srcEnd</code> is greater than
-     *             <code>this.length()</code>.
-     *             <li><code>dstBegin+srcEnd-srcBegin</code> is greater than
-     *             <code>dst.length</code>
-     *             </ul>
+     * @param srcBegin start copying at this offset.
+     * @param srcEnd   stop copying at this offset.
+     * @param dst      the array to copy the data into.
+     * @param dstBegin offset into <code>dst</code>.
+     * @throws NullPointerException      if <code>dst</code> is
+     *                                   <code>null</code>.
+     * @throws IndexOutOfBoundsException if any of the following is true:
+     *                                   <ul>
+     *                                   <li><code>srcBegin</code> is negative
+     *                                   <li><code>dstBegin</code> is negative
+     *                                   <li>the <code>srcBegin</code> argument is greater than
+     *                                   the <code>srcEnd</code> argument.
+     *                                   <li><code>srcEnd</code> is greater than
+     *                                   <code>this.length()</code>.
+     *                                   <li><code>dstBegin+srcEnd-srcBegin</code> is greater than
+     *                                   <code>dst.length</code>
+     *                                   </ul>
      */
     void getChars(int srcBegin, int srcEnd, char dst[], int dstBegin);
 }

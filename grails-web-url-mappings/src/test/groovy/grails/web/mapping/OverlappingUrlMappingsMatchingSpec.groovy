@@ -17,20 +17,20 @@
 package grails.web.mapping
 /**
  */
-class OverlappingUrlMappingsMatchingSpec extends AbstractUrlMappingsSpec{
+class OverlappingUrlMappingsMatchingSpec extends AbstractUrlMappingsSpec {
 
     void "Test that when there are 2 overlapping mappings the most specific is matched"() {
-        given:"A url mappings holder with overlapping mappings"
-            def urlMappingsHolder = getUrlMappingsHolder {
-                "/books/$bookId/authors/create"(controller:"author", action:"create")
-                "/books/$bookId/authors/$id(.$format)?"(controller: "author", action: 'show')
-            }
+        given: "A url mappings holder with overlapping mappings"
+        def urlMappingsHolder = getUrlMappingsHolder {
+            "/books/$bookId/authors/create"(controller: "author", action: "create")
+            "/books/$bookId/authors/$id(.$format)?"(controller: "author", action: 'show')
+        }
 
-        when:"A URL is matched that overlaps"
-            def mappings = urlMappingsHolder.matchAll("/books/1/authors/create")
+        when: "A URL is matched that overlaps"
+        def mappings = urlMappingsHolder.matchAll("/books/1/authors/create")
 
-        then:"The correct match is first"
-            mappings
-            mappings[0].actionName == "create"
+        then: "The correct match is first"
+        mappings
+        mappings[0].actionName == "create"
     }
 }

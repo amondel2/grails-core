@@ -24,7 +24,7 @@ mappings {
 }
 '''
 
-   def mappingScript2 = '''
+    def mappingScript2 = '''
 mappings {
     "/specific/$action?" {
         controller = "someController"
@@ -38,12 +38,12 @@ mappings {
 }
    '''
 
-   def mappingWithNamedArgs = '''
+    def mappingWithNamedArgs = '''
 mappings {
     "/author/$lastName/$firstName" (controller:'product', action:'show')
 }
 '''
-   def mappingWithNamedArgsAndClosure = '''
+    def mappingWithNamedArgsAndClosure = '''
 mappings {
     "/author/$lastName/$firstName" (controller:'product') {
          action = 'show'
@@ -82,7 +82,7 @@ mappings {
 
         def holder = new DefaultUrlMappingsHolder(mappings)
 
-        def params = [lastName:'Winter', firstName:'Johnny']
+        def params = [lastName: 'Winter', firstName: 'Johnny']
         def m = holder.getReverseMapping("product", "show", params)
 
         then:
@@ -99,7 +99,7 @@ mappings {
         def holder = new DefaultUrlMappingsHolder(mappings)
 
         when:
-        def params = [lastName:'Winter', firstName:'Johnny']
+        def params = [lastName: 'Winter', firstName: 'Johnny']
         def m = holder.getReverseMapping("product", "show", params)
 
         then:
@@ -134,22 +134,22 @@ mappings {
 
         when:
         // test with fewer arguments
-        def m = holder.getReverseMapping("test", "list",null)
+        def m = holder.getReverseMapping("test", "list", null)
 
         then:
-        "/admin/test/list/1" == m.createURL(controller:"test", action:"list",id:1, "utf-8")
+        "/admin/test/list/1" == m.createURL(controller: "test", action: "list", id: 1, "utf-8")
 
         // make sure caching works as expected
-        "/admin/test/list/1" == m.createURL("test", "list", [id:1], "utf-8")
-        "/admin/test/list/1" == m.createURL("test", "list", [id:1], "utf-8")
+        "/admin/test/list/1" == m.createURL("test", "list", [id: 1], "utf-8")
+        "/admin/test/list/1" == m.createURL("test", "list", [id: 1], "utf-8")
 
-        "/admin/test/list/1?foo=bar" == m.createURL(controller:"test", action:"list",id:1, foo:"bar", "utf-8")
+        "/admin/test/list/1?foo=bar" == m.createURL(controller: "test", action: "list", id: 1, foo: "bar", "utf-8")
 
         when:
         m = holder.getReverseMapping("someController", "test", null)
 
         then:
-        "/specific/test" == m.createURL(controller:"someController", action:"test", "utf-8")
+        "/specific/test" == m.createURL(controller: "someController", action: "test", "utf-8")
     }
 
     void testGetReverseMappingWithFewerArgs() {
@@ -160,13 +160,13 @@ mappings {
         def mappings = evaluator.evaluateMappings(res)
 
         // use un-cached holder for testing
-        def holder = new DefaultUrlMappingsHolder(mappings,null,true)
+        def holder = new DefaultUrlMappingsHolder(mappings, null, true)
         holder.setUrlCreatorMaxWeightedCacheCapacity(0)
         holder.initialize()
 
         when:
         // test with fewer arguments
-        def m = holder.getReverseMapping("blog", "show", [entry:"foo", year:2007])
+        def m = holder.getReverseMapping("blog", "show", [entry: "foo", year: 2007])
 
         then:
         "blog" == m.controllerName
@@ -181,29 +181,29 @@ mappings {
         def mappings = evaluator.evaluateMappings(res)
 
         // use un-cached holder for testing
-        def holder = new DefaultUrlMappingsHolder(mappings,null,true)
+        def holder = new DefaultUrlMappingsHolder(mappings, null, true)
         holder.setUrlCreatorMaxWeightedCacheCapacity(0)
         holder.initialize()
 
         when:
         // test with exact argument match
-        def m = holder.getReverseMapping("blog", "show", [entry:"foo", year:2007, month:3, day:17])
+        def m = holder.getReverseMapping("blog", "show", [entry: "foo", year: 2007, month: 3, day: 17])
 
         then:
         "blog" == m.controllerName
         "show" == m.actionName
-        "/blog/foo/2007/3/17?test=test" == m.createURL([controller:"blog",action:"show",entry:"foo",year:2007,month:3,day:17,test:'test'], "utf-8")
+        "/blog/foo/2007/3/17?test=test" == m.createURL([controller: "blog", action: "show", entry: "foo", year: 2007, month: 3, day: 17, test: 'test'], "utf-8")
 
         when:
         // test with fewer arguments
-        m = holder.getReverseMapping("blog", "show", [entry:"foo", year:2007])
+        m = holder.getReverseMapping("blog", "show", [entry: "foo", year: 2007])
 
         then:
         "blog" == m.controllerName
         "show" == m.actionName
 
         when:
-        m = holder.getReverseMapping("book", null, [author:"dierk", title:"GINA", test:3])
+        m = holder.getReverseMapping("book", null, [author: "dierk", title: "GINA", test: 3])
 
         then:
         "book" == m.controllerName

@@ -52,7 +52,7 @@ public class NoneEncoder implements StreamingEncoder {
     }
 
     public void encodeToStream(Encoder thisInstance, CharSequence source, int offset, int len, EncodedAppender appender,
-            EncodingState encodingState) throws IOException {
+                               EncodingState encodingState) throws IOException {
         appender.append(null, encodingState, source, offset, len);
     }
 }

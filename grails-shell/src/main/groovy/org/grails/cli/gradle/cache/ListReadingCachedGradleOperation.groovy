@@ -29,7 +29,7 @@ import org.grails.cli.profile.ProjectContext
  */
 @CompileStatic
 @InheritConstructors
-abstract class ListReadingCachedGradleOperation<T> extends CachedGradleOperation<List<T>>{
+abstract class ListReadingCachedGradleOperation<T> extends CachedGradleOperation<List<T>> {
 
     @Override
     List<T> readFromCached(File f) {

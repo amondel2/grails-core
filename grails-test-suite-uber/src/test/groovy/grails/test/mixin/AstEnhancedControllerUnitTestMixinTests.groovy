@@ -17,7 +17,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
     void testRenderText() {
         when:
         controller.renderText()
-        
+
         then:
         response.contentAsString == "good"
     }
@@ -30,7 +30,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
         response.redirectedUrl == '/bar'
     }
 
-    void testRenderView() {        
+    void testRenderView() {
         when:
         controller.renderView()
 
@@ -38,7 +38,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
         "/another/foo" == controller.modelAndView.viewName
     }
 
-    void testRenderXml() {        
+    void testRenderXml() {
         when:
         controller.renderXml()
 
@@ -48,7 +48,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
     }
 
     void testRenderJson() {
-        
+
         when:
         controller.renderJson()
 
@@ -58,7 +58,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
     }
 
     void testRenderAsJson() {
-        
+
         when:
         controller.renderAsJson()
 
@@ -98,7 +98,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
         'World' == controller.response.contentAsString
     }
 
-    void testRenderWithFormatXml() {        
+    void testRenderWithFormatXml() {
         when:
         response.format = 'xml'
         controller.renderWithFormat()
@@ -107,7 +107,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
         '<?xml version="1.0" encoding="UTF-8"?><map><entry key="foo">bar</entry></map>' == response.contentAsString
     }
 
-    void testRenderWithFormatHtml() {        
+    void testRenderWithFormatHtml() {
         when:
         response.format = 'html'
         def model = controller.renderWithFormat()
@@ -135,7 +135,7 @@ class AstEnhancedControllerUnitTestMixinTests extends Specification implements C
         "Good" == response.contentAsString
     }
 
-    void testFileUpload() {        
+    void testFileUpload() {
         when:
         final file = new GrailsMockMultipartFile("myFile", "foo".bytes)
         request.addFile(file)

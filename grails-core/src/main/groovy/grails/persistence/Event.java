@@ -28,6 +28,7 @@ public enum Event {
     onLoad, onSave, beforeLoad, beforeInsert, beforeUpdate, beforeDelete, afterLoad, afterInsert, afterUpdate, afterDelete;
 
     private static final String[] allEvents;
+
     static {
         List<String> events = new ArrayList<String>();
         for (Event e : values()) {
@@ -36,6 +37,7 @@ public enum Event {
         allEvents = events.toArray(new String[events.size()]);
 
     }
+
     /**
      * @return The names of all persistence events
      */

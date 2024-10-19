@@ -88,7 +88,7 @@ public interface ConsoleLogger {
     /**
      * Use to log an error
      *
-     * @param msg The message
+     * @param msg   The message
      * @param error The error
      */
     void error(String msg, Throwable error);
@@ -96,7 +96,7 @@ public interface ConsoleLogger {
     /**
      * Log an error with a specific error label
      *
-     * @param label The label
+     * @param label   The label
      * @param message The message
      */
     void error(String label, String message);
@@ -124,6 +124,7 @@ public interface ConsoleLogger {
 
     /**
      * Outputs a verbose message
+     *
      * @param msg The message
      */
     void verbose(String msg);

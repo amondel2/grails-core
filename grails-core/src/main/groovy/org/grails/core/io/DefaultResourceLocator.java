@@ -58,7 +58,7 @@ public class DefaultResourceLocator implements ResourceLocator, ResourceLoaderAw
     protected List<String> resourceSearchDirectories = new ArrayList<String>();
     protected Map<String, Resource> classNameToResourceCache = new ConcurrentHashMap<String, Resource>();
     protected Map<String, Resource> uriToResourceCache = new ConcurrentHashMap<String, Resource>();
-    protected ResourceLoader defaultResourceLoader =  new FileSystemResourceLoader();
+    protected ResourceLoader defaultResourceLoader = new FileSystemResourceLoader();
     protected GrailsPluginManager pluginManager;
     protected boolean warDeployed = Environment.isWarDeployed();
 
@@ -111,16 +111,14 @@ public class DefaultResourceLocator implements ResourceLocator, ResourceLoaderAw
                 if (defaultResource != null && defaultResource.exists()) {
                     resource = defaultResource;
                 }
-            }
-            else {
+            } else {
                 String uriWebAppRelative = WEB_APP_DIR + uri;
 
                 for (String resourceSearchDirectory : resourceSearchDirectories) {
                     Resource res = resolveExceptionSafe(resourceSearchDirectory + uriWebAppRelative);
                     if (res.exists()) {
                         resource = res;
-                    }
-                    else if (!warDeployed) {
+                    } else if (!warDeployed) {
                         Resource dir = resolveExceptionSafe(resourceSearchDirectory);
                         if (dir.exists() && info != null) {
                             try {
@@ -152,8 +150,7 @@ public class DefaultResourceLocator implements ResourceLocator, ResourceLoaderAw
 
             if (resource != null) {
                 uriToResourceCache.put(uri, resource);
-            }
-            else if (warDeployed) {
+            } else if (warDeployed) {
                 uriToResourceCache.put(uri, NULL_RESOURCE);
             }
         }
@@ -165,7 +162,7 @@ public class DefaultResourceLocator implements ResourceLocator, ResourceLoaderAw
             String fullPluginName = info.pluginName;
             for (GrailsPlugin plugin : pluginManager.getAllPlugins()) {
                 if (plugin.getFileSystemName().equals(fullPluginName) && (plugin instanceof BinaryGrailsPlugin)) {
-                    return ((BinaryGrailsPlugin)plugin).getResource(info.uri);
+                    return ((BinaryGrailsPlugin) plugin).getResource(info.uri);
                 }
             }
         }

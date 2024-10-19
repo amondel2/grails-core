@@ -24,7 +24,7 @@ class ResourceTransformSpec extends Specification {
     protected CompilerConfiguration createCompilerConfiguration() {
         CompilerConfiguration compilerConfig = new CompilerConfiguration()
         File targetDir = new File(System.getProperty("java.io.tmpdir"), "classes_" + this.getClass().getSimpleName())
-        if(targetDir.exists()) {
+        if (targetDir.exists()) {
             targetDir.deleteDir()
         }
         targetDir.mkdirs()
@@ -35,9 +35,9 @@ class ResourceTransformSpec extends Specification {
 
     @Unroll
     void "Test that the resource transform creates a controller class when super class is #superClass"() {
-         given:"A parsed class with a @Resource annotation"
-            def gcl = createGroovyClassLoader()
-            gcl.parseClass("""
+        given: "A parsed class with a @Resource annotation"
+        def gcl = createGroovyClassLoader()
+        gcl.parseClass("""
 import grails.rest.*
 import grails.persistence.*
 
@@ -46,60 +46,12 @@ import grails.persistence.*
 class Book {
 }
 """)
-            def superClazz = superClass ? gcl.loadClass(superClass) : RestfulController
-        when:"The controller class is loaded"
-            def domain = gcl.loadClass("Book")
-            def ctrl = gcl.loadClass('BookController')
-
-        then:"It exists"
-            ctrl != null
-            getMethod(ctrl, "index", Integer.class)
-            getMethod(ctrl, "index")
-            getMethod(ctrl, "index").getAnnotation(Action)
-            getMethod(ctrl, "show")
-            getMethod(ctrl, "edit")
-            getMethod(ctrl, "create")
-            getMethod(ctrl, "save")
-            getMethod(ctrl, "update")
-            getMethod(ctrl, "delete")
-
-            ctrl.scope == "singleton"
-       
-        then:"The superClass is correct"
-            ctrl.getSuperclass() == superClazz
-
-        when:"A link is added"
-            def book = domain.getDeclaredConstructor().newInstance()
-            book.link(rel:'foos', href:"/foo")
-            def links = book.links()
-
-        then:"The link is added to the available links"
-            links[0].href == '/foo'
-
-        where:
-            superClass << ['', RestfulController.name, SubclassRestfulController.name]
-    }
-
-
-    @Unroll
-    void "Test that the resource transform creates a controller class when namespace is #namespace"() {
-        given:"A parsed class with a @Resource annotation"
-        def gcl = createGroovyClassLoader()
-
-
-        gcl.parseClass("""
-import grails.rest.*
-import grails.persistence.*
-@Entity
-@Resource(formats=['html','xml'], namespace='${namespace}')
-class Book {
-}
-""")
-
-        when:"The controller class is loaded"
+        def superClazz = superClass ? gcl.loadClass(superClass) : RestfulController
+        when: "The controller class is loaded"
+        def domain = gcl.loadClass("Book")
         def ctrl = gcl.loadClass('BookController')
 
-        then:"It exists"
+        then: "It exists"
         ctrl != null
         getMethod(ctrl, "index", Integer.class)
         getMethod(ctrl, "index")
@@ -113,7 +65,55 @@ class Book {
 
         ctrl.scope == "singleton"
 
-        then:"The namespace is correct"
+        then: "The superClass is correct"
+        ctrl.getSuperclass() == superClazz
+
+        when: "A link is added"
+        def book = domain.getDeclaredConstructor().newInstance()
+        book.link(rel: 'foos', href: "/foo")
+        def links = book.links()
+
+        then: "The link is added to the available links"
+        links[0].href == '/foo'
+
+        where:
+        superClass << ['', RestfulController.name, SubclassRestfulController.name]
+    }
+
+
+    @Unroll
+    void "Test that the resource transform creates a controller class when namespace is #namespace"() {
+        given: "A parsed class with a @Resource annotation"
+        def gcl = createGroovyClassLoader()
+
+
+        gcl.parseClass("""
+import grails.rest.*
+import grails.persistence.*
+@Entity
+@Resource(formats=['html','xml'], namespace='${namespace}')
+class Book {
+}
+""")
+
+        when: "The controller class is loaded"
+        def ctrl = gcl.loadClass('BookController')
+
+        then: "It exists"
+        ctrl != null
+        getMethod(ctrl, "index", Integer.class)
+        getMethod(ctrl, "index")
+        getMethod(ctrl, "index").getAnnotation(Action)
+        getMethod(ctrl, "show")
+        getMethod(ctrl, "edit")
+        getMethod(ctrl, "create")
+        getMethod(ctrl, "save")
+        getMethod(ctrl, "update")
+        getMethod(ctrl, "delete")
+
+        ctrl.scope == "singleton"
+
+        then: "The namespace is correct"
         ctrl.namespace == namespace
 
 
@@ -124,7 +124,7 @@ class Book {
     @Issue("GRAILS-10741")
     @Unroll
     void "Test that the resource transform creates a read only controller class when super class is #superClass"() {
-        given:"A parsed class with a @Resource annotation"
+        given: "A parsed class with a @Resource annotation"
         def gcl = createGroovyClassLoader()
         gcl.parseClass("""
 import grails.rest.*
@@ -135,36 +135,36 @@ import grails.persistence.*
 class Book {
 }
 """)
-            def superClazz = superClass ? gcl.loadClass(superClass) : RestfulController
-        when:"The controller class is loaded"
-            def domain = gcl.loadClass("Book")
-            def ctrl = gcl.loadClass('BookController')
+        def superClazz = superClass ? gcl.loadClass(superClass) : RestfulController
+        when: "The controller class is loaded"
+        def domain = gcl.loadClass("Book")
+        def ctrl = gcl.loadClass('BookController')
 
-        then:"It exists"
-            ctrl != null
-            getMethod(ctrl, "index", Integer.class)
-            getMethod(ctrl, "index")
-            getMethod(ctrl, "index").getAnnotation(Action)
-            getMethod(ctrl, "show")
-            ctrl.scope == "singleton"
+        then: "It exists"
+        ctrl != null
+        getMethod(ctrl, "index", Integer.class)
+        getMethod(ctrl, "index")
+        getMethod(ctrl, "index").getAnnotation(Action)
+        getMethod(ctrl, "show")
+        ctrl.scope == "singleton"
 
-        then:"The superClass is correct"
-            ctrl.getSuperclass() == superClazz
+        then: "The superClass is correct"
+        ctrl.getSuperclass() == superClazz
 
-        when:"A link is added"
-            def book = domain.getDeclaredConstructor().newInstance()
-            book.link(rel:'foos', href:"/foo")
-            def links = book.links()
+        when: "A link is added"
+        def book = domain.getDeclaredConstructor().newInstance()
+        book.link(rel: 'foos', href: "/foo")
+        def links = book.links()
 
-        then:"The link is added to the available links"
-            links[0].href == '/foo'
-        
+        then: "The link is added to the available links"
+        links[0].href == '/foo'
+
         where:
-            superClass << ['', RestfulController.name, SubclassRestfulController.name]
+        superClass << ['', RestfulController.name, SubclassRestfulController.name]
     }
 
     void "Test that the resource transform creates a controller class with the correct default formats"() {
-        given:"A parsed class with a @Resource annotation"
+        given: "A parsed class with a @Resource annotation"
         def gcl = createGroovyClassLoader()
         gcl.parseClass("""
 import grails.rest.*
@@ -176,10 +176,10 @@ class Book {
 }
 """)
 
-        when:"The controller class is loaded"
+        when: "The controller class is loaded"
         def ctrl = gcl.loadClass('BookController')
 
-        then:"It exists"
+        then: "It exists"
         ctrl != null
         ctrl.responseFormats == ["json", "xml"] as String[]
     }

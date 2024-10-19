@@ -35,7 +35,7 @@ import org.springframework.validation.ObjectError
  * @since 2.3
  */
 @CompileStatic
-abstract class AbstractVndErrorRenderer  implements ContainerRenderer<Errors, Object> {
+abstract class AbstractVndErrorRenderer implements ContainerRenderer<Errors, Object> {
     public static final String LOGREF_ATTRIBUTE = 'logref'
     public static final String MESSAGE_ATTRIBUTE = "message"
     public static final String PATH_ATTRIBUTE = "path"
@@ -77,7 +77,7 @@ abstract class AbstractVndErrorRenderer  implements ContainerRenderer<Errors, Ob
         final objectId = getObjectId(target)
         final name = GrailsNameUtils.getPropertyName(target.class)
         final code = oe.code
-        def logref = "${name}.${code}${objectId ? '.' + objectId: ''}".toString()
+        def logref = "${name}.${code}${objectId ? '.' + objectId : ''}".toString()
         logref
     }
 

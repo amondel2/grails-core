@@ -113,7 +113,7 @@ class BeanBuilderTests {
     void testUseSpringNamespaceAsMethod() {
 
         bb.beans {
-            xmlns aop:"http://www.springframework.org/schema/aop"
+            xmlns aop: "http://www.springframework.org/schema/aop"
 
             fred(AdvisedPerson) {
                 name = "Fred"
@@ -122,9 +122,9 @@ class BeanBuilderTests {
             birthdayCardSenderAspect(BirthdayCardSender)
 
             aop {
-                config("proxy-target-class":true) {
-                    aspect(id:"sendBirthdayCard",ref:"birthdayCardSenderAspect") {
-                        after method:"onBirthday", pointcut: "execution(void grails.spring.AdvisedPerson.birthday()) and this(person)"
+                config("proxy-target-class": true) {
+                    aspect(id: "sendBirthdayCard", ref: "birthdayCardSenderAspect") {
+                        after method: "onBirthday", pointcut: "execution(void grails.spring.AdvisedPerson.birthday()) and this(person)"
                     }
                 }
             }
@@ -145,71 +145,71 @@ class BeanBuilderTests {
     @Test
     void testUseTwoSpringNamespaces() {
 
-            TestScope scope = new TestScope()
+        TestScope scope = new TestScope()
 
-            GenericApplicationContext appCtx = bb.getSpringConfig().getUnrefreshedApplicationContext()
-            appCtx.getBeanFactory().registerScope("test", scope)
-            bb.beans {
-                xmlns aop:"http://www.springframework.org/schema/aop"
-                xmlns util:"http://www.springframework.org/schema/util"
-                scopedList(ArrayList) { bean ->
-                    bean.scope = "test"
-                    aop.'scoped-proxy'()
-                }
-
-                util.list(id:"foo") {
-                    value "one"
-                    value "two"
-                }
-
+        GenericApplicationContext appCtx = bb.getSpringConfig().getUnrefreshedApplicationContext()
+        appCtx.getBeanFactory().registerScope("test", scope)
+        bb.beans {
+            xmlns aop: "http://www.springframework.org/schema/aop"
+            xmlns util: "http://www.springframework.org/schema/util"
+            scopedList(ArrayList) { bean ->
+                bean.scope = "test"
+                aop.'scoped-proxy'()
             }
 
-            appCtx = bb.createApplicationContext()
-
-            assert ['one', 'two'] == appCtx.getBean("foo")
-
-            assertNotNull appCtx.getBean("scopedList")
-            assertNotNull appCtx.getBean("scopedList").size()
-            assertNotNull appCtx.getBean("scopedList").size()
-
-            // should only be true because bean not initialized until proxy called
-            assertEquals 2, scope.instanceCount
-
-            bb = new BeanBuilder()
-
-            appCtx = bb.getSpringConfig().getUnrefreshedApplicationContext()
-            appCtx.getBeanFactory().registerScope("test", scope)
-            bb.beans {
-                xmlns aop:"http://www.springframework.org/schema/aop",
-                      util:"http://www.springframework.org/schema/util"
-                scopedList(ArrayList) { bean ->
-                    bean.scope = "test"
-                    aop.'scoped-proxy'()
-                }
-
-                util.list(id:"foo") {
-                    value "one"
-                    value "two"
-                }
-
+            util.list(id: "foo") {
+                value "one"
+                value "two"
             }
-            appCtx = bb.createApplicationContext()
 
-            assert ['one', 'two'] == appCtx.getBean("foo")
+        }
 
-            assertNotNull appCtx.getBean("scopedList")
-            assertNotNull appCtx.getBean("scopedList").size()
-            assertNotNull appCtx.getBean("scopedList").size()
+        appCtx = bb.createApplicationContext()
 
-            // should only be true because bean not initialized until proxy called
-            assertEquals 4, scope.instanceCount
+        assert ['one', 'two'] == appCtx.getBean("foo")
+
+        assertNotNull appCtx.getBean("scopedList")
+        assertNotNull appCtx.getBean("scopedList").size()
+        assertNotNull appCtx.getBean("scopedList").size()
+
+        // should only be true because bean not initialized until proxy called
+        assertEquals 2, scope.instanceCount
+
+        bb = new BeanBuilder()
+
+        appCtx = bb.getSpringConfig().getUnrefreshedApplicationContext()
+        appCtx.getBeanFactory().registerScope("test", scope)
+        bb.beans {
+            xmlns aop: "http://www.springframework.org/schema/aop",
+                    util: "http://www.springframework.org/schema/util"
+            scopedList(ArrayList) { bean ->
+                bean.scope = "test"
+                aop.'scoped-proxy'()
+            }
+
+            util.list(id: "foo") {
+                value "one"
+                value "two"
+            }
+
+        }
+        appCtx = bb.createApplicationContext()
+
+        assert ['one', 'two'] == appCtx.getBean("foo")
+
+        assertNotNull appCtx.getBean("scopedList")
+        assertNotNull appCtx.getBean("scopedList").size()
+        assertNotNull appCtx.getBean("scopedList").size()
+
+        // should only be true because bean not initialized until proxy called
+        assertEquals 4, scope.instanceCount
     }
 
     @Test
     void testSpringAOPSupport() {
 
         bb.beans {
-            xmlns aop:"http://www.springframework.org/schema/aop"
+            xmlns aop: "http://www.springframework.org/schema/aop"
 
             fred(AdvisedPerson) {
                 name = "Fred"
@@ -217,16 +217,16 @@ class BeanBuilderTests {
             }
             birthdayCardSenderAspect(BirthdayCardSender)
 
-            aop.config("proxy-target-class":true) {
-                aspect(id:"sendBirthdayCard",ref:"birthdayCardSenderAspect") {
-                    after method:"onBirthday", pointcut: "execution(void grails.spring.AdvisedPerson.birthday()) and this(person)"
+            aop.config("proxy-target-class": true) {
+                aspect(id: "sendBirthdayCard", ref: "birthdayCardSenderAspect") {
+                    after method: "onBirthday", pointcut: "execution(void grails.spring.AdvisedPerson.birthday()) and this(person)"
                 }
             }
         }
 
         def appCtx = bb.createApplicationContext()
         def fred = appCtx.getBean("fred")
-        assertTrue (fred instanceof SpringProxy)
+        assertTrue(fred instanceof SpringProxy)
 
         fred.birthday()
 
@@ -243,7 +243,7 @@ class BeanBuilderTests {
         TestScope scope = new TestScope()
         appCtx.getBeanFactory().registerScope("test", scope)
         bb.beans {
-            xmlns aop:"http://www.springframework.org/schema/aop"
+            xmlns aop: "http://www.springframework.org/schema/aop"
             scopedList(ArrayList) { bean ->
                 bean.scope = "test"
                 aop.'scoped-proxy'()
@@ -263,8 +263,8 @@ class BeanBuilderTests {
     @Test
     void testSpringNamespaceBean() {
         bb.beans {
-            xmlns util:"http://www.springframework.org/schema/util"
-            util.list(id:"foo") {
+            xmlns util: "http://www.springframework.org/schema/util"
+            util.list(id: "foo") {
                 value "one"
                 value "two"
             }
@@ -280,7 +280,7 @@ class BeanBuilderTests {
     void testNamedArgumentConstructor() {
         bb.beans {
             holyGrail(HolyGrailQuest)
-            knights(KnightOfTheRoundTable, "Camelot", leader:"lancelot", quest: holyGrail)
+            knights(KnightOfTheRoundTable, "Camelot", leader: "lancelot", quest: holyGrail)
         }
 
         def ctx = bb.createApplicationContext()
@@ -365,11 +365,11 @@ class BeanBuilderTests {
             bean1(Bean1) {
                 person = "homer"
                 age = 45
-                props = [overweight:true, height:"1.8m"]
+                props = [overweight: true, height: "1.8m"]
                 children = ["bart", "lisa"]
             }
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         assert ctx.containsBean("bean1")
         def bean1 = ctx.getBean("bean1")
@@ -387,7 +387,7 @@ class BeanBuilderTests {
             homer(Bean1) {
                 person = "homer"
                 age = 45
-                props = [overweight:true, height:"1.8m"]
+                props = [overweight: true, height: "1.8m"]
                 children = ["bart", "lisa"]
             }
         }
@@ -403,7 +403,7 @@ class BeanBuilderTests {
         assert ctx != null
         assert ctx.containsBean("bart")
         def bart = ctx.getBean("bart")
-        assertEquals "homer",bart.parent?.person
+        assertEquals "homer", bart.parent?.person
     }
 
     @Test
@@ -422,14 +422,14 @@ class BeanBuilderTests {
                 bean1 = { Bean1 b ->
                     person = "homer"
                     age = 45
-                    props = [overweight:true, height:"1.8m"]
+                    props = [overweight: true, height: "1.8m"]
                     children = ["bart", "lisa"]
                 }
                 children = [bart, lisa]
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -449,17 +449,17 @@ class BeanBuilderTests {
             }
             marge(Bean2) {
                 person = "marge"
-                bean1 =  bean(Bean1) {
+                bean1 = bean(Bean1) {
                     person = "homer"
                     age = 45
-                    props = [overweight:true, height:"1.8m"]
+                    props = [overweight: true, height: "1.8m"]
                     children = ["bart", "lisa"]
                 }
                 children = [bart, lisa]
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -479,7 +479,7 @@ class BeanBuilderTests {
             }
             marge(Bean2) {
                 person = "marge"
-                bean3 =  bean(Bean3, "homer", lisa) {
+                bean3 = bean(Bean3, "homer", lisa) {
                     person = "homer"
                     age = 45
                 }
@@ -487,7 +487,7 @@ class BeanBuilderTests {
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -518,7 +518,7 @@ class BeanBuilderTests {
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -531,7 +531,7 @@ class BeanBuilderTests {
             homer(Bean1) {
                 person = "homer"
                 age = 45
-                props = [overweight:true, height:"1.8m"]
+                props = [overweight: true, height: "1.8m"]
                 children = ["bart", "lisa"]
             }
             bart(Bean1) {
@@ -548,7 +548,7 @@ class BeanBuilderTests {
                 children = [bart, lisa]
             }
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def homer = ctx.getBean("homer")
         def marge = ctx.getBean("marge")
@@ -573,7 +573,7 @@ class BeanBuilderTests {
                 age = 40
             }
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -597,9 +597,9 @@ class BeanBuilderTests {
             beanWithList(Bean5, [bart, lisa])
 
             // test runtime references both as ref() and as plain name
-            beanWithMap(Bean6, [bart:bart, lisa:ref('lisa')])
+            beanWithMap(Bean6, [bart: bart, lisa: ref('lisa')])
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def beanWithList = ctx.getBean("beanWithList")
         assertEquals 2, (int) beanWithList.people.size()
@@ -622,7 +622,7 @@ class BeanBuilderTests {
             }
             marge.factoryMethod = "getInstance"
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -641,7 +641,7 @@ class BeanBuilderTests {
                 person = "marge"
             }
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def marge = ctx.getBean("marge")
 
@@ -653,21 +653,21 @@ class BeanBuilderTests {
         bb.beans {
             beanFactory(Bean1FactoryWithArgs) {}
 
-            homer(beanFactory:"newInstance", "homer") {
+            homer(beanFactory: "newInstance", "homer") {
                 age = 45
             }
             //Test with no closure body
-            marge(beanFactory:"newInstance", "marge")
+            marge(beanFactory: "newInstance", "marge")
 
             //Test more verbose method
             mcBain("mcBain") {
                 bean ->
-                bean.factoryBean="beanFactory"
-                bean.factoryMethod="newInstance"
+                    bean.factoryBean = "beanFactory"
+                    bean.factoryMethod = "newInstance"
 
             }
         }
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def homer = ctx.getBean("homer")
 
@@ -713,7 +713,7 @@ class BeanBuilderTests {
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def homer = ctx.getBean("homer")
 
@@ -725,13 +725,13 @@ class BeanBuilderTests {
         bb.beans {
             myFactory(Bean1Factory)
 
-            homer(myFactory:"newInstance") { bean ->
+            homer(myFactory: "newInstance") { bean ->
                 person = "homer"
                 age = 45
             }
         }
 
-        def ctx  = bb.createApplicationContext()
+        def ctx = bb.createApplicationContext()
 
         def homer = ctx.getBean("homer")
 
@@ -784,7 +784,7 @@ class BeanBuilderTests {
             }
 
             abstractPerson(Bean1) { bean ->
-                bean.'abstract'=true
+                bean.'abstract' = true
                 age = 45
             }
             homerBean { bean ->
@@ -828,9 +828,9 @@ bb.createApplicationContext()
     void testRegisterBeans() {
 
         bb.beans {
-           personA(AdvisedPerson) {
-               name = "Bob"
-           }
+            personA(AdvisedPerson) {
+                name = "Bob"
+            }
         }
 
         def appCtx = bb.createApplicationContext()
@@ -860,9 +860,9 @@ bb.createApplicationContext()
             }
             unSpecifiedScopeBean(Bean1)
         }
- 
+
         def ctx = bb.createApplicationContext()
- 
+
         assertTrue ctx.isSingleton('singletonBean'), 'singletonBean should have been a singleton'
         assertFalse ctx.isSingleton('nonSingletonBean'), 'nonSingletonBean should not have been a singleton'
         assertTrue ctx.isSingleton('unSpecifiedScopeBean'), 'unSpecifiedScopeBean should not have been a singleton'
@@ -876,6 +876,7 @@ class HolyGrailQuest {
 class KnightOfTheRoundTable {
     String name
     String leader
+
     KnightOfTheRoundTable(String n) {
         this.name = n
     }
@@ -919,6 +920,7 @@ class Bean3 {
 // bean with factory method
 class Bean4 {
     private Bean4() {}
+
     static Bean4 getInstance() { new Bean4() }
     String person
 }
@@ -951,7 +953,7 @@ class TestScope implements Scope {
     int instanceCount
 
     Object remove(String name) {
-         // do nothing
+        // do nothing
     }
 
     void registerDestructionCallback(String name, Runnable callback) {}
@@ -967,10 +969,11 @@ class TestScope implements Scope {
 }
 
 class BirthdayCardSender {
-   List peopleSentCards = []
-   void onBirthday(AdvisedPerson person) {
-      peopleSentCards << person
-   }
+    List peopleSentCards = []
+
+    void onBirthday(AdvisedPerson person) {
+        peopleSentCards << person
+    }
 }
 
 @Component(value = "person")
@@ -985,6 +988,6 @@ class AdvisedPerson {
 // a factory bean that takes arguments
 class Bean1FactoryWithArgs {
     Bean1 newInstance(String name) {
-        new Bean1(person:name)
+        new Bean1(person: name)
     }
 }

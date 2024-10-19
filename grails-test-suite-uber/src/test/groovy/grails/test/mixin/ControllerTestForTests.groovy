@@ -33,13 +33,14 @@ class ControllerTestForTests extends Specification implements ControllerUnitTest
         then:
         localeResolver.resolveLocale(request) == Locale.FRANCE
     }
-    
+
     void testLocaleResolverAttribute() {
         expect:
         RequestContextUtils.getLocaleResolver(request) == applicationContext.localeResolver
     }
 
 }
+
 @Artefact('Controller')
 class SimpleController {
     def index = {
@@ -50,6 +51,7 @@ class SimpleController {
         render "Total = ${Simple.count()}"
     }
 }
+
 @Entity
 class Simple {
     Long id

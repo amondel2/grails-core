@@ -26,7 +26,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
     void testRenderText() {
         when:
         controller.renderText()
-        
+
         then:
         response.text == "good"
     }
@@ -35,7 +35,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         when:
         def subController = mockController(SubController)
         subController.method1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'method 1'
@@ -44,7 +44,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
     void testSimpleControllerRedirect() {
         when:
         controller.redirectToController()
-        
+
         then:
         response.redirectedUrl == '/bar'
     }
@@ -88,7 +88,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         when:
         params.foo = "bar"
         request.bar = "foo"
-        
+
         controller.renderState()
 
         def xml = response.xml
@@ -112,7 +112,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
     void testControllerAutowiring() {
         messageSource.addMessage("foo.bar", request.locale, "Hello World")
 
-        
+
         when:
         controller.renderMessage()
 
@@ -259,7 +259,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
     void testAllowedMethods() {
         when:
         controller.action1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 1'
@@ -268,7 +268,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = "POST"
         controller.action1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 1'
@@ -277,7 +277,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = "PUT"
         controller.action1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 1'
@@ -286,7 +286,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = "PATCH"
         controller.action1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 1'
@@ -295,7 +295,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = "DELETE"
         controller.action1()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 1'
@@ -304,7 +304,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = 'POST'
         controller.action2()
-        
+
         then:
         response.status == HttpServletResponse.SC_OK
         response.contentAsString == 'action 2'
@@ -313,7 +313,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = 'GET'
         controller.action2()
-        
+
         then:
         response.status == HttpServletResponse.SC_METHOD_NOT_ALLOWED
 
@@ -321,7 +321,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         response.reset()
         request.method = 'PUT'
         controller.action2()
-        
+
         then:
         response.status == HttpServletResponse.SC_METHOD_NOT_ALLOWED
 
@@ -529,7 +529,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
         HAL_XML_CONTENT_TYPE == 'application/hal+xml'
         ATOM_XML_CONTENT_TYPE == 'application/atom+xml'
     }
-    
+
     void testDefaultRequestMethod() {
         expect:
         request.method == 'GET'
@@ -537,7 +537,7 @@ class ControllerUnitTestMixinTests extends Specification implements ControllerUn
 }
 
 @Controller
-class TestController  {
+class TestController {
 
     static allowedMethods = [action2: 'POST', action3: ['POST', 'PUT', 'PATCH'], method2: 'POST', method3: ['POST', 'PUT', 'PATCH']]
 
@@ -565,11 +565,10 @@ class TestController  {
         render 'method 3'
     }
 
-    def handleCommand( TestCommand test ) {
+    def handleCommand(TestCommand test) {
         if (test.hasErrors()) {
             render "Bad"
-        }
-        else {
+        } else {
             render "Good"
         }
     }
@@ -582,11 +581,11 @@ class TestController  {
     }
 
     def renderTemplateContents = {
-        def contents = createLink(controller:"foo")
+        def contents = createLink(controller: "foo")
         render contents
     }
     def renderTemplateContentsViaNamespace = {
-        def contents = g.render(template:"bar")
+        def contents = g.render(template: "bar")
 
         render contents
     }
@@ -595,11 +594,11 @@ class TestController  {
     }
 
     def redirectToController = {
-        redirect(controller:"bar")
+        redirect(controller: "bar")
     }
 
     def renderView = {
-        render(view:"foo")
+        render(view: "foo")
     }
 
     def renderTemplate(String template) {
@@ -607,23 +606,23 @@ class TestController  {
     }
 
     def renderXml = {
-        render(contentType:"text/xml") {
-            book(title:"Great")
+        render(contentType: "text/xml") {
+            book(title: "Great")
         }
     }
 
     def renderJson = {
-        render(contentType:"text/json") {
+        render(contentType: "text/json") {
             book "Great"
         }
     }
 
     def renderAsJson = {
-        render([foo:"bar"] as JSON)
+        render([foo: "bar"] as JSON)
     }
 
     def renderWithFormat = {
-        def data = [foo:"bar"]
+        def data = [foo: "bar"]
         withFormat {
             xml { render data as XML }
             html data
@@ -631,7 +630,7 @@ class TestController  {
     }
 
     def renderWithRequestFormat = {
-        def data = [foo:"bar"]
+        def data = [foo: "bar"]
         request.withFormat {
             xml { render data as XML }
             html data
@@ -639,15 +638,15 @@ class TestController  {
     }
 
     def renderState = {
-        render(contentType:"text/xml") {
+        render(contentType: "text/xml") {
             println params.foo
             println request.bar
             requestInfo {
                 for (p in params) {
-                    parameter(name:p.key, value:p.value)
+                    parameter(name: p.key, value: p.value)
                 }
                 request.each {
-                    attribute(name:it.key, value:it.value)
+                    attribute(name: it.key, value: it.value)
                 }
             }
         }
@@ -658,7 +657,7 @@ class TestController  {
     MimeUtility mimeUtility
 
     def renderMessage() {
-        assert mimeUtility !=null
+        assert mimeUtility != null
         assert grailsLinkGenerator != null
         render messageSource.getMessage("foo.bar", null, request.locale)
     }
@@ -676,7 +675,7 @@ class TestCommand {
     String name
 
     static constraints = {
-        name blank:false
+        name blank: false
     }
 }
 

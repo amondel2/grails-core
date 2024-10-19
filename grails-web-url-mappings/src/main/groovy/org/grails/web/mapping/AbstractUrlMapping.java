@@ -46,7 +46,7 @@ public abstract class AbstractUrlMapping implements UrlMapping {
     protected Object redirectInfo;
     protected ServletContext servletContext;
     protected GrailsApplication grailsApplication;
-    protected Map<String,Object> parameterValues = Collections.emptyMap();
+    protected Map<String, Object> parameterValues = Collections.emptyMap();
     protected boolean parseRequest;
     protected String mappingName;
     protected String httpMethod = ANY_HTTP_METHOD;
@@ -56,9 +56,9 @@ public abstract class AbstractUrlMapping implements UrlMapping {
     /**
      * Base constructor required to construct a UrlMapping instance
      *
-     * @param controllerName The name of the controller
-     * @param actionName The name of the action
-     * @param constraints Any constraints that apply to the mapping
+     * @param controllerName    The name of the controller
+     * @param actionName        The name of the action
+     * @param constraints       Any constraints that apply to the mapping
      * @param grailsApplication The GrailsApplication instance
      */
     public AbstractUrlMapping(Object redirectInfo, Object controllerName, Object actionName, Object namespace, Object pluginName, Object viewName, ConstrainedProperty[] constraints, GrailsApplication grailsApplication) {
@@ -74,11 +74,11 @@ public abstract class AbstractUrlMapping implements UrlMapping {
 
     private void setGrailsApplication(GrailsApplication grailsApplication) {
         this.grailsApplication = grailsApplication;
-        if(grailsApplication != null) {
+        if (grailsApplication != null) {
 
             final ApplicationContext applicationContext = grailsApplication.getMainContext();
-            if(applicationContext instanceof WebApplicationContext) {
-                this.servletContext = ((WebApplicationContext)applicationContext).getServletContext();
+            if (applicationContext instanceof WebApplicationContext) {
+                this.servletContext = ((WebApplicationContext) applicationContext).getServletContext();
             }
         }
     }
@@ -143,7 +143,7 @@ public abstract class AbstractUrlMapping implements UrlMapping {
         return viewName;
     }
 
-    public void setParameterValues(Map<String,Object> parameterValues) {
+    public void setParameterValues(Map<String, Object> parameterValues) {
         this.parameterValues = Collections.unmodifiableMap(parameterValues);
     }
 

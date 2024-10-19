@@ -43,7 +43,7 @@ class DateConversionHelper implements ValueConverter {
     Object convert(value) {
         Date dateValue
         if (value instanceof String) {
-            if(!value) {
+            if (!value) {
                 return null
             }
             Exception firstException
@@ -52,13 +52,13 @@ class DateConversionHelper implements ValueConverter {
                     DateFormat formatter = new SimpleDateFormat(format)
                     try {
                         formatter.lenient = dateParsingLenient
-                        dateValue = formatter.parse((String)value)
+                        dateValue = formatter.parse((String) value)
                     } catch (Exception e) {
                         firstException = firstException ?: e
                     }
                 }
             }
-            if(dateValue == null && firstException) {
+            if (dateValue == null && firstException) {
                 throw firstException
             }
         }

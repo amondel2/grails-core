@@ -6,6 +6,7 @@ import org.grails.cli.profile.Profile
 import org.spockframework.util.StringMessagePrintStream
 import spock.lang.Shared
 import spock.lang.Specification
+
 /**
  * Created by Jim on 7/18/2016.
  */
@@ -93,6 +94,7 @@ class CreateAppCommandSpec extends Specification {
 
     class StringPrintStream extends StringMessagePrintStream {
         StringBuilder stringBuilder = new StringBuilder()
+
         @Override
         protected void printed(String message) {
             stringBuilder.append(message)

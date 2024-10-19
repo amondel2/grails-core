@@ -27,8 +27,7 @@ import static jline.internal.Preconditions.checkNotNull;
  * @since 3.0
  */
 public class StringsCompleter
-    implements Completer
-{
+        implements Completer {
     private SortedSet<String> strings = new TreeSet<String>();
 
     public StringsCompleter() {
@@ -59,8 +58,7 @@ public class StringsCompleter
 
         if (buffer == null) {
             candidates.addAll(getStrings());
-        }
-        else {
+        } else {
             for (String match : getStrings().tailSet(buffer)) {
                 if (!match.startsWith(buffer)) {
                     break;

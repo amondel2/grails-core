@@ -10,11 +10,11 @@ class LazyMetaPropertyMapSpec extends Specification {
 
     void "test putAll adds all key and value pairs provided to this map"() {
         given:
-            def targetMap = new LazyMetaPropertyMap(new A())
+        def targetMap = new LazyMetaPropertyMap(new A())
         when:
-            targetMap.putAll([someProperty:"a value"])
+        targetMap.putAll([someProperty: "a value"])
         then:
-            targetMap == [someProperty:"a value"]
+        targetMap == [someProperty: "a value"]
     }
 }
 

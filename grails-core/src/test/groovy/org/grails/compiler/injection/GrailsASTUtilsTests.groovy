@@ -97,11 +97,11 @@ class GrailsASTUtilsTests {
         def result = new AstBuilder().buildFromString('''
             class SomeArtefact {}
         ''')
-        
+
         def classNode = result[1]
-        
+
         assert !GrailsASTUtils.hasAnnotation(classNode, Enhanced)
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'someFeature')
 
         def enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
@@ -114,11 +114,11 @@ class GrailsASTUtilsTests {
         def result = new AstBuilder().buildFromString('''
             class SomeOtherArtefact {}
         ''')
-        
+
         def classNode = result[1]
-        
+
         assert !GrailsASTUtils.hasAnnotation(classNode, Enhanced)
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'someFeature', 'someOtherFeature')
 
         def enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
@@ -133,11 +133,11 @@ class GrailsASTUtilsTests {
         def result = new AstBuilder().buildFromString('''
             class YetAnotherArtefact {}
         ''')
-        
+
         def classNode = result[1]
-        
+
         assert !GrailsASTUtils.hasAnnotation(classNode, Enhanced)
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'someFeature', 'someOtherFeature')
 
         def enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
@@ -145,7 +145,7 @@ class GrailsASTUtilsTests {
         assert featureNames.size() == 2
         assert 'someFeature' in featureNames
         assert 'someOtherFeature' in featureNames
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'aThirdFeature')
         enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
         featureNames = enhancedAnnotation.getMember('enhancedFor').expressions*.value
@@ -153,26 +153,26 @@ class GrailsASTUtilsTests {
         assert 'someFeature' in featureNames
         assert 'someOtherFeature' in featureNames
         assert 'aThirdFeature' in featureNames
-        
+
     }
-    
+
     @Test
     void testAddEnhancedWithFeatureThatIsAlreadyPresent() {
         def result = new AstBuilder().buildFromString('''
             class SomeOtherArtefact {}
         ''')
-        
+
         def classNode = result[1]
-        
+
         assert !GrailsASTUtils.hasAnnotation(classNode, Enhanced)
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'someFeature', 'someOtherFeature')
 
         def enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
         def featureNames = enhancedAnnotation.getMember('enhancedFor').expressions*.value
         assert 'someFeature' in featureNames
         assert 'someOtherFeature' in featureNames
-        
+
         GrailsASTUtils.addEnhancedAnnotation(classNode, 'someFeature', 'aThirdFeature')
 
         enhancedAnnotation = classNode.getAnnotations(new ClassNode(Enhanced))[0]
@@ -191,13 +191,16 @@ class Bar extends Foo {}
 class Baz extends Bar {}
 
 @Retention(RetentionPolicy.RUNTIME)
-@interface FirstAnnotation{}
+@interface FirstAnnotation {}
+
 @Retention(RetentionPolicy.RUNTIME)
-@interface SecondAnnotation{}
+@interface SecondAnnotation {}
+
 @Retention(RetentionPolicy.RUNTIME)
-@interface ThirdAnnotation{}
+@interface ThirdAnnotation {}
+
 @Retention(RetentionPolicy.RUNTIME)
-@interface FourthAnnotation{}
+@interface FourthAnnotation {}
 
 @FirstAnnotation
 @SecondAnnotation

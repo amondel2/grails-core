@@ -44,18 +44,18 @@ public class DefaultGrailsPluginTests extends AbstractGrailsMockTests {
     @Override
     protected void onSetUp() {
         versioned = gcl.parseClass("class MyGrailsPlugin {\n" +
-                        "def version = 1.1;" +
-                        "def watchedResources = [\"file:./grails-app/taglib/**/*TagLib.groovy\", \"./grails-app/controller/**/*.groovy\", \"file:/absolutePath/**/*.gsp\" ]\n" +
-                        "def doWithSpring = {" +
-                        "classEditor(org.springframework.beans.propertyeditors.ClassEditor,application.classLoader)" +
-                        "}\n" +
-                        "def doWithApplicationContext = { ctx ->" +
-                        "assert ctx != null" +
-                        "}\n" +
-                        "def onChange = { event ->" +
-                        "assert event != null" +
-                        "}" +
-                        "}");
+                "def version = 1.1;" +
+                "def watchedResources = [\"file:./grails-app/taglib/**/*TagLib.groovy\", \"./grails-app/controller/**/*.groovy\", \"file:/absolutePath/**/*.gsp\" ]\n" +
+                "def doWithSpring = {" +
+                "classEditor(org.springframework.beans.propertyeditors.ClassEditor,application.classLoader)" +
+                "}\n" +
+                "def doWithApplicationContext = { ctx ->" +
+                "assert ctx != null" +
+                "}\n" +
+                "def onChange = { event ->" +
+                "assert event != null" +
+                "}" +
+                "}");
         versioned2 = gcl.parseClass("class MyTwoGrailsPlugin extends grails.plugins.Plugin {\n" +
                 "def version = 1.1;" +
                 "Closure doWithSpring() { {->" +
@@ -72,23 +72,23 @@ public class DefaultGrailsPluginTests extends AbstractGrailsMockTests {
                 "}}\n" +
                 "}");
         notVersion = gcl.parseClass("class AnotherGrailsPlugin {\n" +
-                        "}");
+                "}");
         notPluginClass = gcl.parseClass("class SomeOtherPlugin {\n" +
-                                        "def version = 1.4;" +
-                                        "}");
+                "def version = 1.4;" +
+                "}");
 
         disabled = gcl.parseClass("class DisabledGrailsPlugin {" +
-                                  "def version = 1.1; " +
-                                  "def status = 'disabled'; }");
+                "def version = 1.1; " +
+                "def status = 'disabled'; }");
 
         observed = gcl.parseClass("class ObservingGrailsPlugin {" +
-                                  "def observe = ['another'];" +
-                                  "def version = 1.1; " +
-                                  "def status = 'disabled'; }");
+                "def observe = ['another'];" +
+                "def version = 1.1; " +
+                "def status = 'disabled'; }");
 
         camelCased = gcl.parseClass("class CamelCasedGrailsPlugin {" +
-                                    "def version = 2.1; " +
-                                    "def status = 'disabled'; }");
+                "def version = 2.1; " +
+                "def status = 'disabled'; }");
     }
 
     public void testDefaultGrailsPlugin() {
@@ -99,8 +99,7 @@ public class DefaultGrailsPluginTests extends AbstractGrailsMockTests {
             @SuppressWarnings("unused")
             GrailsPlugin notVersionPlugin = new DefaultGrailsPlugin(notVersion, ga);
             fail("Should have thrown IllegalArgumentException for unversioned plugin");
-        }
-        catch (PluginException e) {
+        } catch (PluginException e) {
             // expected
         }
 
@@ -108,8 +107,7 @@ public class DefaultGrailsPluginTests extends AbstractGrailsMockTests {
             @SuppressWarnings("unused")
             GrailsPlugin notPlugin = new DefaultGrailsPlugin(notPluginClass, ga);
             fail("Should have thrown an exception for invalid plugin");
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // expected
         }
     }

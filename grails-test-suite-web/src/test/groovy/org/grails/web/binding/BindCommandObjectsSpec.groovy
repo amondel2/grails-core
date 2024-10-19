@@ -9,7 +9,7 @@ import grails.validation.Validateable
 import spock.lang.Issue
 import spock.lang.Specification
 
-class BindCommandObjectsSpec extends Specification implements ControllerUnitTest<BindCommandController>, DomainUnitTest<MyAuthor>  {
+class BindCommandObjectsSpec extends Specification implements ControllerUnitTest<BindCommandController>, DomainUnitTest<MyAuthor> {
     static final String NAME = 'My name is...'
 
     @Issue('https://github.com/grails/grails-data-mapping/issues/1145')
@@ -40,26 +40,26 @@ class BindCommandObjectsSpec extends Specification implements ControllerUnitTest
 
 @Artefact('Controller')
 class BindCommandController {
-    def bindDomain(){
+    def bindDomain() {
         def domain = new MyAuthor(hairColour: "black")
         def command = new AuthorFieldCommand(name: "111")
         bindData(domain, command, [exclude: ['placeOfBirth']])
         domain.validate()
-        [domain:domain]
+        [domain: domain]
     }
 
     @Transactional
-    def createDomain(){
+    def createDomain() {
         def city = new MyCity(name: 'BIG').save()
-        def a = new MyAuthor(name: BindCommandObjectsSpec.NAME, placeOfBirth: city, hairColour: 'red' ).save(flush:true)
+        def a = new MyAuthor(name: BindCommandObjectsSpec.NAME, placeOfBirth: city, hairColour: 'red').save(flush: true)
 
     }
 
-    def bindDomainToCommand(){
+    def bindDomainToCommand() {
         def domain = MyAuthor.findByName(BindCommandObjectsSpec.NAME)
         def command = new AuthorFieldCommand()
         bindData(command, domain)
-        [command:command, domain:domain]
+        [command: command, domain: domain]
     }
 }
 
@@ -71,21 +71,22 @@ class MyAuthor {
     MyCity placeOfBirth
 
     static constraints = {
-        name nullable:true
-        placeOfBirth nullable:true
+        name nullable: true
+        placeOfBirth nullable: true
     }
 }
+
 @Entity
 class MyCity {
     String name
 }
 
 
-class AuthorFieldCommand implements Validateable{
+class AuthorFieldCommand implements Validateable {
     MyCity placeOfBirth
     String name
     static constraints = {
-        placeOfBirth nullable:true
+        placeOfBirth nullable: true
     }
 }
 

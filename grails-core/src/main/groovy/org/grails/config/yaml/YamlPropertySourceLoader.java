@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 public class YamlPropertySourceLoader extends YamlProcessor implements PropertySourceLoader {
     @Override
     public String[] getFileExtensions() {
-        return new String[] { "yml", "yaml" };
+        return new String[]{"yml", "yaml"};
     }
 
     @Override
@@ -83,7 +83,7 @@ public class YamlPropertySourceLoader extends YamlProcessor implements PropertyS
             propertySource.merge(map, true);
         });
         propertySources.add(
-                new NavigableMapPropertySource(name ,propertySource));
+                new NavigableMapPropertySource(name, propertySource));
 
         return propertySources;
     }

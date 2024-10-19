@@ -74,8 +74,7 @@ class HalXmlRenderer<T> extends AbstractLinkingRenderer<T> {
 
         if (isDomain) {
             writeDomainWithEmbeddedAndLinks(entity, object, renderContext, xml, writtenObjects)
-        }
-        else if (object instanceof Collection) {
+        } else if (object instanceof Collection) {
             def writer = xml.getWriter()
             startResourceTagForCurrentPath(renderContext, writer)
             for (o in (Collection) object) {
@@ -85,8 +84,7 @@ class HalXmlRenderer<T> extends AbstractLinkingRenderer<T> {
                 }
             }
             writer.end()
-        }
-        else {
+        } else {
             def writer = xml.getWriter()
             startResourceTagForCurrentPath(renderContext, writer)
             writeExtraLinks(object, renderContext.locale, xml)
@@ -156,8 +154,8 @@ class HalXmlRenderer<T> extends AbstractLinkingRenderer<T> {
 
     protected void startResourceTag(XMLStreamWriter writer, String resourceHref, Locale locale, String title) {
         writer.startNode(RESOURCE_TAG)
-            .attribute(HREF_ATTRIBUTE, resourceHref)
-            .attribute(HREFLANG_ATTRIBUTE, locale.language)
+                .attribute(HREF_ATTRIBUTE, resourceHref)
+                .attribute(HREFLANG_ATTRIBUTE, locale.language)
 
         if (title) {
             writer.attribute(TITLE_ATTRIBUTE, title)
@@ -167,9 +165,9 @@ class HalXmlRenderer<T> extends AbstractLinkingRenderer<T> {
     void writeLink(Link link, Locale locale, writerObject) {
         XMLStreamWriter writer = ((XML) writerObject).getWriter()
         writer.startNode(LINK_TAG)
-            .attribute(RELATIONSHIP_ATTRIBUTE, link.rel)
-            .attribute(HREF_ATTRIBUTE, link.href)
-            .attribute(HREFLANG_ATTRIBUTE, (link.hreflang ?: locale).language)
+                .attribute(RELATIONSHIP_ATTRIBUTE, link.rel)
+                .attribute(HREF_ATTRIBUTE, link.href)
+                .attribute(HREFLANG_ATTRIBUTE, (link.hreflang ?: locale).language)
 
         final title = link.title
         if (title) {
@@ -181,10 +179,10 @@ class HalXmlRenderer<T> extends AbstractLinkingRenderer<T> {
         }
 
         if (link.templated) {
-            writer.attribute(TEMPLATED_ATTRIBUTE,"true")
+            writer.attribute(TEMPLATED_ATTRIBUTE, "true")
         }
         if (link.deprecated) {
-            writer.attribute(DEPRECATED_ATTRIBUTE,"true")
+            writer.attribute(DEPRECATED_ATTRIBUTE, "true")
         }
         writer.end()
     }

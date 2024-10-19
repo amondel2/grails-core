@@ -25,7 +25,7 @@ import spock.lang.Specification
 class StepRegistrySpec extends Specification {
 
     void "Test the step registry finds registered steps"() {
-        expect:"The step registry to find steps"
-            StepRegistry.getStep("render", new ClosureExecutingCommand("test", {}), [foo:true]) instanceof RenderStep
+        expect: "The step registry to find steps"
+        StepRegistry.getStep("render", new ClosureExecutingCommand("test", {}), [foo: true]) instanceof RenderStep
     }
 }

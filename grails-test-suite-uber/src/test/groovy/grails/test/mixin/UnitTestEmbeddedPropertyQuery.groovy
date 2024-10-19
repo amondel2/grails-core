@@ -8,20 +8,20 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 class UnitTestEmbeddedPropertyQuery extends Specification implements DataTest {
-    
+
     void setupSpec() {
         mockDomains Author2, Book2
     }
-    
+
     void setup() {
         def author = new Author2(name: 'George')
 
         def book = new Book2(
-            name: 'Game of Thrones',
-            publishPeriod: new Period(
-                startDate: date(2012, 1, 1),
-                endDate: date(2013, 1, 1)
-            )
+                name: 'Game of Thrones',
+                publishPeriod: new Period(
+                        startDate: date(2012, 1, 1),
+                        endDate: date(2013, 1, 1)
+                )
         )
 
         author.addToBooks(book)

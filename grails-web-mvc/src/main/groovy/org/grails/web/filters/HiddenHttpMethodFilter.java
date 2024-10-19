@@ -30,14 +30,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Based off the Spring implementation, but also supports the X-HTTP-Method-Override HTTP header.
  *
- * @see org.springframework.web.filter.HiddenHttpMethodFilter
- *
  * @author Graeme Rocher
+ * @see org.springframework.web.filter.HiddenHttpMethodFilter
  * @since 1.2
  */
 public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
-    /** Default method parameter: <code>_method</code> */
+    /**
+     * Default method parameter: <code>_method</code>
+     */
     public static final String DEFAULT_METHOD_PARAM = "_method";
 
     private String methodParam = DEFAULT_METHOD_PARAM;
@@ -45,6 +46,7 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
     /**
      * Set the parameter name to look for HTTP methods.
+     *
      * @see #DEFAULT_METHOD_PARAM
      */
     public void setMethodParam(String methodParam) {
@@ -54,7 +56,7 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String httpMethod = getHttpMethodOverride(request);

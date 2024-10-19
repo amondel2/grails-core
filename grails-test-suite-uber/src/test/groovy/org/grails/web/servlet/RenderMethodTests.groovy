@@ -32,21 +32,21 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
 
     void testRenderFile() {
         when:
-        controller.render file:"hello".bytes, contentType:"text/plain"
+        controller.render file: "hello".bytes, contentType: "text/plain"
 
         then:
         "hello" == response.contentAsString
 
         when:
         response.reset()
-        controller.render file:"hello".bytes
-       
+        controller.render file: "hello".bytes
+
         then:
         thrown(ControllerExecutionException)
 
         when:
         response.reset()
-        controller.render file:new ByteArrayInputStream("hello".bytes), contentType:"text/plain"
+        controller.render file: new ByteArrayInputStream("hello".bytes), contentType: "text/plain"
 
         then:
         "hello" == response.contentAsString
@@ -54,8 +54,8 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
 
         when:
         response.reset()
-        controller.render file:new ByteArrayInputStream("hello".bytes), contentType:"text/plain", fileName:"hello.txt"
-        
+        controller.render file: new ByteArrayInputStream("hello".bytes), contentType: "text/plain", fileName: "hello.txt"
+
         then:
         "hello" == response.contentAsString
         "attachment;filename=\"hello.txt\"" == response.getHeader(HttpHeaders.CONTENT_DISPOSITION)
@@ -75,7 +75,7 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
     void testMissingNamedArgumentKey() {
         when:
         controller.renderBug()
-        
+
         then:
         thrown(MissingMethodException)
     }
@@ -88,7 +88,7 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
         then:
         "bar" == response.contentAsString
     }
-    
+
     void testRenderClosureWithStatus() {
         when:
         controller.renderClosureWithStatus()
@@ -97,7 +97,7 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
         then:
         500 == response.status
     }
-    
+
     void testRenderList() {
         when:
         controller.renderList()
@@ -111,11 +111,11 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
         when:
         controller.renderMap()
         GrailsMockHttpServletResponse response = controller.response
-        
+
         then:
         response.contentAsString == "['a':1, 'b':2]"
     }
-    
+
     void testRenderGString() {
         when:
         controller.renderGString()
@@ -221,56 +221,69 @@ class RenderMethodTests extends Specification implements ControllerUnitTest<Rend
 class RenderController {
 
     def renderBug() {
-        render(view:'login', [foo:"bar"])
+        render(view: 'login', [foo: "bar"])
     }
 
-    def renderView() { render(view:'testView') }
+    def renderView() { render(view: 'testView') }
+
     def renderXmlView() {
-        render(view:'xmlView', contentType:'text/xml')
+        render(view: 'xmlView', contentType: 'text/xml')
     }
+
     def renderObject() {
-        render new RenderTest(foo:"bar")
+        render new RenderTest(foo: "bar")
     }
+
     def renderClosureWithStatus() {
         render(status: 500) {
         }
     }
+
     def renderMessageWithStatus() {
-        render text:"test", status:500
+        render text: "test", status: 500
     }
+
     def renderList() {
         render([1, 2, 3])
     }
+
     def renderMap() {
-        render([a:1, b:2])
+        render([a: 1, b: 2])
     }
+
     def renderText() { render "test render" }
+
     def renderGString() {
         def foo = 'render'
         render "test $foo"
     }
+
     def renderXML() {
-        render(contentType:"text/xml") { hello("world") }
+        render(contentType: "text/xml") { hello("world") }
     }
+
     def renderTemplate() {
-        render(template:"testTemplate", model:[hello:"world"])
+        render(template: "testTemplate", model: [hello: "world"])
     }
+
     def renderTemplateWithCollection(String template) {
         def people = [
-            [firstName: 'Jacob', middleName: 'Ray'],
-            [firstName: 'Zachary', middleName: 'Scott']
+                [firstName: 'Jacob', middleName: 'Ray'],
+                [firstName: 'Zachary', middleName: 'Scott']
         ]
         render(template: template, collection: people)
     }
+
     def renderTemplateWithCollectionAndExplicitVarName(String template) {
         def people = [
-            [firstName: 'Jacob', middleName: 'Ray'],
-            [firstName: 'Zachary', middleName: 'Scott']
+                [firstName: 'Jacob', middleName: 'Ray'],
+                [firstName: 'Zachary', middleName: 'Scott']
         ]
         render(var: 'person', template: template, collection: people)
     }
+
     def renderXmlTemplate() {
-        render(template:"xmlTemplate",contentType:"text/xml")
+        render(template: "xmlTemplate", contentType: "text/xml")
     }
 }
 

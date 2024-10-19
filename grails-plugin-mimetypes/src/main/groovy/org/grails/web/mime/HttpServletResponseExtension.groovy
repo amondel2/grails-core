@@ -71,20 +71,19 @@ class HttpServletResponseExtension {
 
     @CompileStatic
     static MimeType[] getMimeTypes() {
-        if(mimeTypes == null) {
+        if (mimeTypes == null) {
 
             final webRequest = GrailsWebRequest.lookup()
 
             def context = webRequest.applicationContext
-            if(context ) {
+            if (context) {
                 try {
                     mimeTypes = context.getBean(MimeUtility).getKnownMimeTypes() as MimeType[]
                     loadMimeTypeConfig(context.getBean(GrailsApplication).config)
                 } catch (NoSuchBeanDefinitionException e) {
                     mimeTypes = MimeType.createDefaults()
                 }
-            }
-            else {
+            } else {
                 mimeTypes = MimeType.createDefaults()
             }
         }
@@ -188,7 +187,7 @@ class HttpServletResponseExtension {
             if (formatOverride) {
                 def allMimes = getMimeTypes()
                 MimeType mime = allMimes.find { MimeType it -> it.extension == formatOverride }
-                result = [ mime ? mime : getMimeTypes()[0] ] as MimeType[]
+                result = [mime ? mime : getMimeTypes()[0]] as MimeType[]
 
                 // Save the evaluated format as a request attribute.
                 // This is a blatant hack because we should to this
@@ -225,14 +224,14 @@ class HttpServletResponseExtension {
         useAcceptHeader = config.getProperty(Settings.MIME_USE_ACCEPT_HEADER, Boolean, true)
 
         if (config.containsKey(Settings.MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS_XHR)) {
-            final disableForUserAgentsXhrConfig = config.getProperty(Settings.MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS_XHR,  Boolean, false)
+            final disableForUserAgentsXhrConfig = config.getProperty(Settings.MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS_XHR, Boolean, false)
             // if MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS_XHR is set to true, we want xhr's to check the user agent list.
             useAcceptHeaderXhr = !disableForUserAgentsXhrConfig
         }
         if (config.containsKey(Settings.MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS)) {
             final disableForUserAgentsConfig = config.getProperty(Settings.MIME_DISABLE_ACCEPT_HEADER_FOR_USER_AGENTS, Object)
-            if(disableForUserAgentsConfig instanceof Pattern) {
-                this.disableForUserAgents = (Pattern)disableForUserAgentsConfig
+            if (disableForUserAgentsConfig instanceof Pattern) {
+                this.disableForUserAgents = (Pattern) disableForUserAgentsConfig
             } else if (disableForUserAgentsConfig instanceof Collection && disableForUserAgentsConfig) {
                 final userAgents = disableForUserAgentsConfig.join('(?i)|')
                 this.disableForUserAgents = Pattern.compile("(${userAgents})")
@@ -244,7 +243,7 @@ class HttpServletResponseExtension {
 
     @CompileDynamic
     private static MimeType[] getMimeTypesInternal(HttpServletRequest request) {
-        MimeType[] result = (MimeType[])request.getAttribute(GrailsApplicationAttributes.RESPONSE_FORMATS)
+        MimeType[] result = (MimeType[]) request.getAttribute(GrailsApplicationAttributes.RESPONSE_FORMATS)
         if (!result) {
 
             def userAgent = request.getHeader(HttpHeaders.USER_AGENT)

@@ -22,7 +22,7 @@ import groovy.lang.Closure;
  * you to intercept invocations of the closure. The wrapper can be used
  * anywhere that the target closure can be used.
  */
-@SuppressWarnings({ "serial", "rawtypes" })
+@SuppressWarnings({"serial", "rawtypes"})
 public abstract class AbstractClosureProxy extends Closure {
 
     private Closure<?> target;
@@ -30,6 +30,7 @@ public abstract class AbstractClosureProxy extends Closure {
     /**
      * Creates a new instance that wraps the target closure and sends
      * profiling events to the given profiler log.
+     *
      * @param closure The target closure to wrap.
      */
     public AbstractClosureProxy(Closure<?> closure) {
@@ -43,6 +44,7 @@ public abstract class AbstractClosureProxy extends Closure {
      * call to the target closure. You can modify the arguments,
      * though, but it's not recommended unless you really know
      * what you're doing.
+     *
      * @param args The arguments passed to the closure.
      */
     protected abstract void doBeforeCall(Object[] args);
@@ -51,6 +53,7 @@ public abstract class AbstractClosureProxy extends Closure {
      * This method is called after the target closure is invoked.
      * It will be triggered whether or not an exception is thrown
      * by the target closure.
+     *
      * @param args The arguments passed to the closure.
      */
     protected abstract void doAfterCall(Object[] args);
@@ -63,6 +66,7 @@ public abstract class AbstractClosureProxy extends Closure {
      * <pre>
      *    return new MyClosureProxy(c, this.field1, ...)
      * </pre>
+     *
      * @param c The closure to wrap/proxy.
      */
     protected abstract Closure<?> createWrapper(Closure<?> c);
@@ -76,8 +80,7 @@ public abstract class AbstractClosureProxy extends Closure {
 
         try {
             return target.call(objects);
-        }
-        finally {
+        } finally {
             doAfterCall(objects);
         }
     }

@@ -4,7 +4,7 @@ import grails.testing.web.UrlMappingsUnitTest
 import org.springframework.core.io.*
 import spock.lang.Specification
 
-class DynamicActionNameEvaluatingTests extends Specification implements UrlMappingsUnitTest<UrlMappings>{
+class DynamicActionNameEvaluatingTests extends Specification implements UrlMappingsUnitTest<UrlMappings> {
 
     void testImplicitNamedAction() {
 

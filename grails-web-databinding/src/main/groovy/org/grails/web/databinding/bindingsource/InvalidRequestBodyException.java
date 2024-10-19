@@ -17,10 +17,10 @@ package org.grails.web.databinding.bindingsource;
 
 import org.grails.databinding.bindingsource.DataBindingSourceCreationException;
 
-/** 
+/**
  * Represents an error creation a data binding source because the request
  * body is invalid.  Examples would be malformed JSON or XML.
- * 
+ *
  * @author Jeff Brown
  * @since 2.3
  */

@@ -39,8 +39,7 @@ public class GrailsLazyProxyPrintWriter extends GrailsPrintWriter {
         if (!destinationActivated) {
             try {
                 super.setOut(factory.activateDestination());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 setError();
             }
             destinationActivated = true;

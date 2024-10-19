@@ -29,8 +29,8 @@ package org.grails.io.support;
  * the same resource path resolution strategy.
  *
  * @author Juergen Hoeller
- * @since 1.1.3
  * @see DefaultResourceLoader
+ * @since 1.1.3
  */
 public class FileSystemResourceLoader extends DefaultResourceLoader {
 
@@ -38,6 +38,7 @@ public class FileSystemResourceLoader extends DefaultResourceLoader {
      * Resolve resource paths as file system paths.
      * <p>Note: Even if a given path starts with a slash, it will get
      * interpreted as relative to the current VM working directory.
+     *
      * @param path the path to the resource
      * @return the corresponding Resource handle
      * @see FileSystemResource

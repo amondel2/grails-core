@@ -24,10 +24,10 @@ public class GrailsApplicationAttributesTests {
      */
     @Test
     public void testGetTemplateUri() {
-         GrailsApplicationAttributes attrs = new DefaultGrailsApplicationAttributes(new MockServletContext());
+        GrailsApplicationAttributes attrs = new DefaultGrailsApplicationAttributes(new MockServletContext());
 
-         assertEquals("/_test.gsp",attrs.getTemplateUri("/test", new MockHttpServletRequest()));
-         assertEquals("/shared/_test.gsp",attrs.getTemplateUri("/shared/test", new MockHttpServletRequest()));
+        assertEquals("/_test.gsp", attrs.getTemplateUri("/test", new MockHttpServletRequest()));
+        assertEquals("/shared/_test.gsp", attrs.getTemplateUri("/shared/test", new MockHttpServletRequest()));
     }
 
     /*
@@ -45,18 +45,18 @@ public class GrailsApplicationAttributesTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setAttribute(GrailsApplicationAttributes.CONTROLLER, controllerClass.newInstance());
 
-        assertEquals("/WEB-INF/grails-app/views/test/aView.gsp",attrs.getViewUri("aView", request));
-        assertEquals("/WEB-INF/grails-app/views/shared.gsp",attrs.getViewUri("/shared", request));
+        assertEquals("/WEB-INF/grails-app/views/test/aView.gsp", attrs.getViewUri("aView", request));
+        assertEquals("/WEB-INF/grails-app/views/shared.gsp", attrs.getViewUri("/shared", request));
     }
 
     private GrailsApplicationAttributes getAttributesForClasses(Class<?>[] classes, GroovyClassLoader gcl) {
         MockApplicationContext context = new MockApplicationContext();
         MockServletContext servletContext = new MockServletContext();
-        servletContext.setAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT,context);
+        servletContext.setAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT, context);
 
-        GrailsApplication app = new DefaultGrailsApplication(classes,gcl);
+        GrailsApplication app = new DefaultGrailsApplication(classes, gcl);
         app.initialise();
-        context.registerMockBean(GrailsApplication.APPLICATION_ID,app);
+        context.registerMockBean(GrailsApplication.APPLICATION_ID, app);
 
         GrailsClass[] controllers = app.getArtefacts(ControllerArtefactHandler.TYPE);
         for (int i = 0; i < controllers.length; i++) {

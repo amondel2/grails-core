@@ -102,7 +102,8 @@ class SimpleDataBinderSpec extends Specification {
     }
 
     void 'Test binding Integer to Number'() {
-        given: def binder = new SimpleDataBinder()
+        given:
+        def binder = new SimpleDataBinder()
         def w = new Widget()
 
         when:
@@ -218,7 +219,7 @@ class SimpleDataBinderSpec extends Specification {
     void 'Test binding string to date'() {
         given:
         def binder = new SimpleDataBinder()
-        binder.registerConverter new DateConversionHelper(formatStrings: ['yyyy-MM-dd HH:mm:ss.S',"yyyy-MM-dd'T'HH:mm:ss'Z'","yyyy-MM-dd HH:mm:ss.S z","yyyy-MM-dd'T'HH:mm:ss.SSSX"])
+        binder.registerConverter new DateConversionHelper(formatStrings: ['yyyy-MM-dd HH:mm:ss.S', "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd HH:mm:ss.S z", "yyyy-MM-dd'T'HH:mm:ss.SSSX"])
 
         def obj = new DateContainer()
 
@@ -265,17 +266,17 @@ class SimpleDataBinderSpec extends Specification {
 
         when:
         binder.bind(obj, new SimpleMapDataBindingSource([utilDate_month: '11',
-                                                         utilDate_day: '15',
-                                                         utilDate_year: '1969',
+                                                         utilDate_day  : '15',
+                                                         utilDate_year : '1969',
                                                          calendar_month: '4',
-                                                         calendar_day: '21',
-                                                         calendar_year: '2049',
-                                                         sqlDate_month: '6',
-                                                         sqlDate_day: '14',
-                                                         sqlDate_year: '1937',
-                                                         sqlDate: 'struct',
-                                                         calendar: 'struct',
-                                                         utilDate: 'struct']))
+                                                         calendar_day  : '21',
+                                                         calendar_year : '2049',
+                                                         sqlDate_month : '6',
+                                                         sqlDate_day   : '14',
+                                                         sqlDate_year  : '1937',
+                                                         sqlDate       : 'struct',
+                                                         calendar      : 'struct',
+                                                         utilDate      : 'struct']))
         def utilDate = obj.utilDate
         calendar.setTime(utilDate)
 
@@ -303,17 +304,17 @@ class SimpleDataBinderSpec extends Specification {
         when:
         obj.utilDate = obj.calendar = obj.sqlDate = null
         binder.bind(obj, new SimpleMapDataBindingSource([utilDate_month: '11',
-                                                         utilDate_day: '15',
-                                                         utilDate_year: '1969',
+                                                         utilDate_day  : '15',
+                                                         utilDate_year : '1969',
                                                          calendar_month: '4',
-                                                         calendar_day: '21',
-                                                         calendar_year: '2049',
-                                                         sqlDate_month: '6',
-                                                         sqlDate_day: '14',
-                                                         sqlDate_year: '1937',
-                                                         sqlDate: 'date.struct',
-                                                         calendar: 'date.struct',
-                                                         utilDate: 'date.struct']))
+                                                         calendar_day  : '21',
+                                                         calendar_year : '2049',
+                                                         sqlDate_month : '6',
+                                                         sqlDate_day   : '14',
+                                                         sqlDate_year  : '1937',
+                                                         sqlDate       : 'date.struct',
+                                                         calendar      : 'date.struct',
+                                                         utilDate      : 'date.struct']))
         calendar.setTime(obj.utilDate)
 
         then:
@@ -340,17 +341,17 @@ class SimpleDataBinderSpec extends Specification {
         when:
         obj.utilDate = obj.calendar = obj.sqlDate = null
         binder.bind(obj, new SimpleMapDataBindingSource([utilDate_month: '11',
-                                                         utilDate_day: '15',
-                                                         utilDate_year: '1969',
+                                                         utilDate_day  : '15',
+                                                         utilDate_year : '1969',
                                                          calendar_month: '4',
-                                                         calendar_day: '21',
-                                                         calendar_year: '2049',
-                                                         sqlDate_month: '6',
-                                                         sqlDate_day: '14',
-                                                         sqlDate_year: '1937',
-                                                         sqlDate: 'struct',
-                                                         calendar: 'struct',
-                                                         utilDate: 'struct']), null, ['sqlDate', 'utilDate'])
+                                                         calendar_day  : '21',
+                                                         calendar_year : '2049',
+                                                         sqlDate_month : '6',
+                                                         sqlDate_day   : '14',
+                                                         sqlDate_year  : '1937',
+                                                         sqlDate       : 'struct',
+                                                         calendar      : 'struct',
+                                                         utilDate      : 'struct']), null, ['sqlDate', 'utilDate'])
         utilDate = obj.utilDate
         cal = obj.calendar
 
@@ -440,7 +441,7 @@ class SimpleDataBinderSpec extends Specification {
         bindingSource.name = 'My Factory'
 
         // this list contains Maps and a Widget instance.  The Maps should be transformed into Widget instances
-        bindingSource.widgets = [widget:[[alpha: 'alpha 1', beta: 'beta 1'], new Widget(alpha: 'alpha 2', beta: 'beta 2'), [alpha: 'alpha 3', beta: 'beta 3']]]
+        bindingSource.widgets = [widget: [[alpha: 'alpha 1', beta: 'beta 1'], new Widget(alpha: 'alpha 2', beta: 'beta 2'), [alpha: 'alpha 3', beta: 'beta 3']]]
         def factory = new Factory()
 
         when:
@@ -527,7 +528,7 @@ class SimpleDataBinderSpec extends Specification {
 
         then:
         widget.byteArray.length == 5
-        widget.byteArray == ([3,4,5,6,7] as byte[])
+        widget.byteArray == ([3, 4, 5, 6, 7] as byte[])
     }
 
     void 'Test auto grow collection limit'() {
@@ -590,7 +591,7 @@ class SimpleDataBinderSpec extends Specification {
         def obj = new ClassWithInheritedTypedCollection()
 
         when:
-        binder.bind obj, [list: ['1', '2', '3'], 'map[one]': '1', 'map[two]': '2' ] as SimpleMapDataBindingSource
+        binder.bind obj, [list: ['1', '2', '3'], 'map[one]': '1', 'map[two]': '2'] as SimpleMapDataBindingSource
 
         then:
         obj.list == [1, 2, 3]

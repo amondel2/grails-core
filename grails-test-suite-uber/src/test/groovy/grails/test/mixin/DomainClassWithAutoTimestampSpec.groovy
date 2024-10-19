@@ -11,33 +11,33 @@ class DomainClassWithAutoTimestampSpec extends Specification implements DomainUn
 
     void "test that auto timestamp properties are populated on insert"() {
         when: "we persist a new instance"
-            DomainWithAutoTimestamp d = new DomainWithAutoTimestamp(name: "foo")
-            d.save(flush: true)
+        DomainWithAutoTimestamp d = new DomainWithAutoTimestamp(name: "foo")
+        d.save(flush: true)
 
         then: "the auto timestamp properties are populated"
-            d.dateCreated != null
-            d.lastUpdated != null
-            d.dateCreated == d.lastUpdated
+        d.dateCreated != null
+        d.lastUpdated != null
+        d.dateCreated == d.lastUpdated
     }
 
     void "test that auto timestamp properties are populated on update"() {
         given: "an existing persisted instance"
-            DomainWithAutoTimestamp d = new DomainWithAutoTimestamp(name: "foo")
-            d.save(flush: true)
-            Date dateCreated = d.dateCreated
-            Date lastUpdated = d.lastUpdated
+        DomainWithAutoTimestamp d = new DomainWithAutoTimestamp(name: "foo")
+        d.save(flush: true)
+        Date dateCreated = d.dateCreated
+        Date lastUpdated = d.lastUpdated
 
         when: "we update the instance instance"
-            // Wait at least 10 ms to get a different lastUpdated timestamp
-            sleep(10)
-            d.name = "foobar"
-            d.save(flush: true)
+        // Wait at least 10 ms to get a different lastUpdated timestamp
+        sleep(10)
+        d.name = "foobar"
+        d.save(flush: true)
 
         then: "the auto timestamp properties are populated"
-            d.dateCreated != null
-            d.dateCreated == dateCreated
-            d.lastUpdated != null
-            d.lastUpdated != lastUpdated
+        d.dateCreated != null
+        d.dateCreated == dateCreated
+        d.lastUpdated != null
+        d.lastUpdated != lastUpdated
     }
 }
 

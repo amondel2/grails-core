@@ -86,12 +86,12 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
      * </pre>
      *
      * @param callable
-     * @return  The result of the closure execution selected
+     * @return The result of the closure execution selected
      */
     @Generated
     def withFormat(Closure callable) {
         HttpServletResponse response = GrailsWebRequest.lookup().currentResponse
-        mimeTypesSupport.withFormat((HttpServletResponse)response, callable)
+        mimeTypesSupport.withFormat((HttpServletResponse) response, callable)
     }
 
     /**
@@ -160,7 +160,7 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
      */
     @Generated
     ModelAndView getModelAndView() {
-        (ModelAndView)currentRequestAttributes().getAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, 0)
+        (ModelAndView) currentRequestAttributes().getAttribute(GrailsApplicationAttributes.MODEL_AND_VIEW, 0)
     }
 
     /**
@@ -227,18 +227,17 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
             throw new IllegalArgumentException("Invalid arguments to method 'redirect': $argMap")
         }
 
-        GrailsWebRequest webRequest = (GrailsWebRequest)RequestContextHolder.currentRequestAttributes()
+        GrailsWebRequest webRequest = (GrailsWebRequest) RequestContextHolder.currentRequestAttributes()
 
-        if(this instanceof GroovyObject) {
-            GroovyObject controller = (GroovyObject)this
+        if (this instanceof GroovyObject) {
+            GroovyObject controller = (GroovyObject) this
 
             // if there are errors add it to the list of errors
             Errors controllerErrors = getErrorsInternal(webRequest)
-            Errors errors = (Errors)argMap.get(GormProperties.ERRORS)
+            Errors errors = (Errors) argMap.get(GormProperties.ERRORS)
             if (controllerErrors != null && errors != null) {
                 controllerErrors.addAllErrors errors
-            }
-            else {
+            } else {
                 setErrorsInternal webRequest, errors
             }
             def action = argMap.get(GrailsControllerClass.ACTION)
@@ -286,8 +285,7 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
         if (isTokenValid(webRequest)) {
             resetToken(webRequest)
             handler = new ValidResponseHandler(callable?.call())
-        }
-        else {
+        } else {
             handler = new InvalidResponseHandler()
         }
 
@@ -302,7 +300,7 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
      */
     private synchronized boolean isTokenValid(GrailsWebRequest webRequest) {
         final request = webRequest.getCurrentRequest()
-        SynchronizerTokensHolder tokensHolderInSession = (SynchronizerTokensHolder)request.getSession(false)?.getAttribute(SynchronizerTokensHolder.HOLDER)
+        SynchronizerTokensHolder tokensHolderInSession = (SynchronizerTokensHolder) request.getSession(false)?.getAttribute(SynchronizerTokensHolder.HOLDER)
         if (!tokensHolderInSession) return false
 
         String tokenInRequest = webRequest.params[SynchronizerTokensHolder.TOKEN_KEY]
@@ -324,7 +322,7 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
      */
     private synchronized resetToken(GrailsWebRequest webRequest) {
         final request = webRequest.getCurrentRequest()
-        SynchronizerTokensHolder tokensHolderInSession = (SynchronizerTokensHolder)request.getSession(false)?.getAttribute(SynchronizerTokensHolder.HOLDER)
+        SynchronizerTokensHolder tokensHolderInSession = (SynchronizerTokensHolder) request.getSession(false)?.getAttribute(SynchronizerTokensHolder.HOLDER)
         String urlInRequest = webRequest.params[SynchronizerTokensHolder.TOKEN_URI]
         String tokenInRequest = webRequest.params[SynchronizerTokensHolder.TOKEN_KEY]
 
@@ -336,11 +334,11 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
 
     @Generated
     public static ApplicationContext getStaticApplicationContext() {
-         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes()
-         if (!(requestAttributes instanceof GrailsWebRequest)) {
-             return ContextLoader.getCurrentWebApplicationContext()
-         }
-         ((GrailsWebRequest)requestAttributes).getApplicationContext()
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes()
+        if (!(requestAttributes instanceof GrailsWebRequest)) {
+            return ContextLoader.getCurrentWebApplicationContext()
+        }
+        ((GrailsWebRequest) requestAttributes).getApplicationContext()
     }
 
 
@@ -366,13 +364,13 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
         try {
             final DataBindingSource dataBindingSource = DataBindingUtils
                     .createDataBindingSource(
-                    getGrailsApplication(), type,
-                    request)
+                            getGrailsApplication(), type,
+                            request)
             final DataBindingSource commandObjectBindingSource = getCommandObjectBindingSourceForPrefix(
                     commandObjectParameterName, dataBindingSource)
             def entityIdentifierValue = null
             final boolean isDomainClass
-            if(GroovyObject.isAssignableFrom(type)) {
+            if (GroovyObject.isAssignableFrom(type)) {
                 isDomainClass = DomainClass.isAssignableFrom(type)
             } else {
                 isDomainClass = DomainClassArtefactHandler
@@ -437,20 +435,20 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
             }
         } catch (Exception e) {
             final exceptionHandlerMethodFor = getExceptionHandlerMethodFor(e.getClass())
-            if(exceptionHandlerMethodFor != null) {
+            if (exceptionHandlerMethodFor != null) {
                 throw e
             }
             commandObjectInstance = type.getDeclaredConstructor().newInstance()
             final o = GrailsMetaClassUtils.invokeMethodIfExists(commandObjectInstance, "getErrors")
-            if(o instanceof BindingResult) {
-                final BindingResult errors = (BindingResult)o
+            if (o instanceof BindingResult) {
+                final BindingResult errors = (BindingResult) o
                 String msg = "Error occurred initializing command object [" + commandObjectParameterName + "]. " + e.getMessage()
                 ObjectError error = new ObjectError(commandObjectParameterName, msg)
                 errors.addError(error)
             }
         }
 
-        if(commandObjectInstance != null) {
+        if (commandObjectInstance != null) {
             final ApplicationContext applicationContext = getApplicationContext()
             final AutowireCapableBeanFactory autowireCapableBeanFactory = applicationContext.getAutowireCapableBeanFactory()
             autowireCapableBeanFactory.autowireBeanProperties(commandObjectInstance, AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, false)
@@ -472,9 +470,9 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
         DataBindingSource commandParams = params
         if (params != null && prefix != null) {
             def innerValue = params[prefix]
-            if(innerValue instanceof DataBindingSource) {
-                commandParams = (DataBindingSource)innerValue
-            } else if(innerValue instanceof Map) {
+            if (innerValue instanceof DataBindingSource) {
+                commandParams = (DataBindingSource) innerValue
+            } else if (innerValue instanceof Map) {
                 commandParams = new SimpleMapDataBindingSource(innerValue)
             }
         }
@@ -484,26 +482,26 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
     @Generated
     @SuppressWarnings("unchecked")
     Method getExceptionHandlerMethodFor(final Class<? extends Exception> exceptionType) throws Exception {
-        if(!Exception.class.isAssignableFrom(exceptionType)) {
+        if (!Exception.class.isAssignableFrom(exceptionType)) {
             throw new IllegalArgumentException("exceptionType [${exceptionType.getName()}] argument must be Exception or a subclass of Exception")
         }
 
         Method handlerMethod
-        final List<ControllerExceptionHandlerMetaData> exceptionHandlerMetaDataInstances = (List<ControllerExceptionHandlerMetaData>)GrailsClassUtils.getStaticFieldValue(this.getClass(), ControllerActionTransformer.EXCEPTION_HANDLER_META_DATA_FIELD_NAME)
-        if(exceptionHandlerMetaDataInstances) {
+        final List<ControllerExceptionHandlerMetaData> exceptionHandlerMetaDataInstances = (List<ControllerExceptionHandlerMetaData>) GrailsClassUtils.getStaticFieldValue(this.getClass(), ControllerActionTransformer.EXCEPTION_HANDLER_META_DATA_FIELD_NAME)
+        if (exceptionHandlerMetaDataInstances) {
 
             // find all of the handler methods which could accept this exception type
-            final List<ControllerExceptionHandlerMetaData> matches = (List<ControllerExceptionHandlerMetaData>)exceptionHandlerMetaDataInstances.findAll { ControllerExceptionHandlerMetaData cemd ->
+            final List<ControllerExceptionHandlerMetaData> matches = (List<ControllerExceptionHandlerMetaData>) exceptionHandlerMetaDataInstances.findAll { ControllerExceptionHandlerMetaData cemd ->
                 cemd.exceptionType.isAssignableFrom(exceptionType)
             }
 
-            if(matches.size() > 0) {
+            if (matches.size() > 0) {
                 ControllerExceptionHandlerMetaData theOne = matches.get(0)
 
                 // if there are more than 1, find the one that is farthest down the inheritance hierarchy
-                for(int i = 1; i < matches.size(); i++) {
+                for (int i = 1; i < matches.size(); i++) {
                     final ControllerExceptionHandlerMetaData nextMatch = matches.get(i)
-                    if(theOne.getExceptionType().isAssignableFrom(nextMatch.getExceptionType())) {
+                    if (theOne.getExceptionType().isAssignableFrom(nextMatch.getExceptionType())) {
                         theOne = nextMatch
                     }
                 }
@@ -513,7 +511,6 @@ trait Controller implements ResponseRenderer, ResponseRedirector, RequestForward
 
         handlerMethod
     }
-
 
 
     private Errors getErrorsInternal(GrailsWebRequest webRequest) {

@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent
  * An event triggered for the addition of a new artefact
  */
 @CompileStatic
-class ArtefactAdditionEvent extends ApplicationEvent{
+class ArtefactAdditionEvent extends ApplicationEvent {
     /**
      * Create a new ApplicationEvent.
      * @param source the component that published the event (never {@code null})
@@ -18,6 +18,6 @@ class ArtefactAdditionEvent extends ApplicationEvent{
     }
 
     GrailsClass getArtefact() {
-        (GrailsClass)source
+        (GrailsClass) source
     }
 }

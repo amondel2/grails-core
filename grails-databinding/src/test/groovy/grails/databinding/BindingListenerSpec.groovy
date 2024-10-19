@@ -50,16 +50,16 @@ class BindingListenerSpec extends Specification {
         then:
         listener.valuesAfterBinding.name == 'Phil'
     }
-    
+
     void 'Test listener for properties with a converter associated with them'() {
         given:
         def binder = new SimpleDataBinder()
         def p = new Person()
-        def listener = new  PersonBindingListener()
-        
+        def listener = new PersonBindingListener()
+
         when:
         binder.bind p, [birthDate: '11151969'] as SimpleMapDataBindingSource, listener
-        
+
         then:
         listener.valuesAfterBinding.birthDate instanceof Date
         listener.valuesAfterBinding.birthDate.month == Calendar.NOVEMBER
@@ -112,7 +112,7 @@ class PersonBindingListener2 extends DataBindingListenerAdapter {
         if (value == 'two') {
             return null
         }
-        if(value == 'three') {
+        if (value == 'three') {
             return false
         }
         false
@@ -127,7 +127,7 @@ class PersonBindingListener extends DataBindingListenerAdapter {
     void afterBinding(obj, String propertyName, errors) {
         valuesAfterBinding[propertyName] = obj[propertyName]
     }
-    
+
     public Boolean beforeBinding(Object obj, String propertyName, Object value, Object errors) {
         valuesBeforeBinding[propertyName] = value
         true
@@ -148,7 +148,7 @@ class EmployeeBindingListener extends DataBindingListenerAdapter {
 
 class Person {
     String name
-    
+
     @BindingFormat('MMddyyyy')
     Date birthDate
 }

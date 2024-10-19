@@ -8,16 +8,16 @@ import spock.lang.Specification
 class ControllerMetaProgrammingSpec extends Specification implements ControllerUnitTest<SubController> {
 
     def setupSpec() {
-        BaseController.metaClass.someHelperMethod = {->
+        BaseController.metaClass.someHelperMethod = { ->
             delegate.metaprogrammedMethodCalled = true
         }
     }
-    
+
     @Issue('GRAILS-11202')
     void 'Test runtime metaprogramming a controller helper method'() {
         when:
         controller.index()
-        
+
         then:
         !controller.realMethodCalled
         controller.metaprogrammedMethodCalled
@@ -28,10 +28,11 @@ class ControllerMetaProgrammingSpec extends Specification implements ControllerU
 class BaseController {
     boolean realMethodCalled = false
     boolean metaprogrammedMethodCalled = false
+
     def index() {
         someHelperMethod()
     }
-    
+
     protected someHelperMethod() {
         realMethodCalled = true
     }

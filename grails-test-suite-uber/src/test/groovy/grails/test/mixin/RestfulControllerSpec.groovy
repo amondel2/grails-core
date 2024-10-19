@@ -20,164 +20,164 @@ class RestfulControllerSpec extends Specification implements ControllerUnitTest<
 
     void "Test the index action returns the correct model"() {
 
-        when:"The index action is executed"
-            controller.index()
+        when: "The index action is executed"
+        controller.index()
 
-        then:"The model is correct"
-            assert !model.videoList
-            assert model.videoCount == 0
+        then: "The model is correct"
+        assert !model.videoList
+        assert model.videoCount == 0
     }
 
     void "Test the create action returns the correct model"() {
-        when:"The create action is executed"
-            controller.create()
+        when: "The create action is executed"
+        controller.create()
 
-        then:"The model is correctly created"
-            model.video != null
+        then: "The model is correctly created"
+        model.video != null
     }
 
     void "Test the save action correctly persists an instance"() {
 
-        when:"The save action is executed with an invalid instance"
-            request.method = 'POST'
-            controller.request.format = 'form'
-            def video = new Video(title: '')
-            video.validate()
-            controller.save(video)
+        when: "The save action is executed with an invalid instance"
+        request.method = 'POST'
+        controller.request.format = 'form'
+        def video = new Video(title: '')
+        video.validate()
+        controller.save(video)
 
-        then:"The create view is rendered again with the correct model"
-            model.video != null
-            view == 'create'
+        then: "The create view is rendered again with the correct model"
+        model.video != null
+        view == 'create'
 
-        when:"The save action is executed with a valid instance"
-            response.reset()
-            video = new Video(title: "Game of Thrones")
+        when: "The save action is executed with a valid instance"
+        response.reset()
+        video = new Video(title: "Game of Thrones")
 //            populateValidParams(params)
-            controller.save(video)
+        controller.save(video)
 
-        then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/video/show/1'
-            controller.flash.message != null
-            Video.count() == 1
+        then: "A redirect is issued to the show action"
+        response.redirectedUrl == '/video/show/1'
+        controller.flash.message != null
+        Video.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
-        when:"The show action is executed with a null domain"
-            controller.show(null)
+        when: "The show action is executed with a null domain"
+        controller.show(null)
 
-        then:"A 404 error is returned"
-            response.status == 404
+        then: "A 404 error is returned"
+        response.status == 404
 
-        when:"A domain instance is passed to the show action"
-    //        populateValidParams(params)
-            def video = new Video(title: "Game of Thrones")
-            controller.show(video)
+        when: "A domain instance is passed to the show action"
+        //        populateValidParams(params)
+        def video = new Video(title: "Game of Thrones")
+        controller.show(video)
 
 
-        then:"A model is populated containing the domain instance"
-            model.video == video
+        then: "A model is populated containing the domain instance"
+        model.video == video
     }
 
     void "Test that the edit action returns the correct model"() {
-        when:"The edit action is executed with a null domain"
-            controller.edit(null)
+        when: "The edit action is executed with a null domain"
+        controller.edit(null)
 
-        then:"A 404 error is returned"
-            response.status == 404
+        then: "A 404 error is returned"
+        response.status == 404
 
-        when:"A domain instance is passed to the edit action"
-            //        populateValidParams(params)
-            def video = new Video(title: "Game of Thrones")
-            controller.edit(video)
+        when: "A domain instance is passed to the edit action"
+        //        populateValidParams(params)
+        def video = new Video(title: "Game of Thrones")
+        controller.edit(video)
 
-        then:"A model is populated containing the domain instance"
-            model.video == video
+        then: "A model is populated containing the domain instance"
+        model.video == video
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
-        when:"Update is called for a domain instance that doesn't exist"
-            request.method = 'PUT'
-            controller.update(null)
+        when: "Update is called for a domain instance that doesn't exist"
+        request.method = 'PUT'
+        controller.update(null)
 
-        then:"A 404 error is returned"
-            status == 404
+        then: "A 404 error is returned"
+        status == 404
 
-        when:"An invalid domain instance is passed to the update action"
-            response.reset()
-            def video = new Video(title: '')
-            video.validate()
-            controller.update(video)
+        when: "An invalid domain instance is passed to the update action"
+        response.reset()
+        def video = new Video(title: '')
+        video.validate()
+        controller.update(video)
 
-        then:"The edit view is rendered again with the invalid instance"
-            view == 'edit'
-            model.video == video
+        then: "The edit view is rendered again with the invalid instance"
+        view == 'edit'
+        model.video == video
 
-        when:"A valid domain instance is passed to the update action"
-            response.reset()
-            //populateValidParams(params)
-            video = new Video(title: 'Game of Thrones').save(flush: true)
-            controller.request.format = 'form'
-            controller.update(video)
+        when: "A valid domain instance is passed to the update action"
+        response.reset()
+        //populateValidParams(params)
+        video = new Video(title: 'Game of Thrones').save(flush: true)
+        controller.request.format = 'form'
+        controller.update(video)
 
-        then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/video/show/$video.id"
-            flash.message != null
+        then: "A redirect is issues to the show action"
+        response.redirectedUrl == "/video/show/$video.id"
+        flash.message != null
     }
 
     void "Test the patch action performs an update on a valid domain instance"() {
-        when:"Patch is called for a domain instance that doesn't exist"
-            request.method = 'PATCH'
-            controller.patch(null)
+        when: "Patch is called for a domain instance that doesn't exist"
+        request.method = 'PATCH'
+        controller.patch(null)
 
-        then:"A 404 error is returned"
-            status == 404
+        then: "A 404 error is returned"
+        status == 404
 
-        when:"An invalid domain instance is passed to the patch action"
-            response.reset()
-            def video = new Video(title: '')
-            video.validate()
-            controller.patch(video)
+        when: "An invalid domain instance is passed to the patch action"
+        response.reset()
+        def video = new Video(title: '')
+        video.validate()
+        controller.patch(video)
 
-        then:"The edit view is rendered again with the invalid instance"
-            view == 'edit'
-            model.video == video
+        then: "The edit view is rendered again with the invalid instance"
+        view == 'edit'
+        model.video == video
 
-        when:"A valid domain instance is passed to the patch action"
-            response.reset()
-            //populateValidParams(params)
-            video = new Video(title: 'Game of Thrones').save(flush: true)
-            controller.request.format = 'form'
-            controller.patch(video)
+        when: "A valid domain instance is passed to the patch action"
+        response.reset()
+        //populateValidParams(params)
+        video = new Video(title: 'Game of Thrones').save(flush: true)
+        controller.request.format = 'form'
+        controller.patch(video)
 
-        then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/video/show/$video.id"
-            flash.message != null
+        then: "A redirect is issues to the show action"
+        response.redirectedUrl == "/video/show/$video.id"
+        flash.message != null
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
-        when:"The delete action is called for a null instance"
-            request.method = 'DELETE'
-            controller.delete(null)
+        when: "The delete action is called for a null instance"
+        request.method = 'DELETE'
+        controller.delete(null)
 
-        then:"A 404 is returned"
-            status == 404
+        then: "A 404 is returned"
+        status == 404
 
-        when:"A domain instance is created"
-            response.reset()
-            //populateValidParams(params)
-            def video = new Video(title: 'Game of Thrones').save(flush: true)
+        when: "A domain instance is created"
+        response.reset()
+        //populateValidParams(params)
+        def video = new Video(title: 'Game of Thrones').save(flush: true)
 
-        then:"It exists"
-            Video.count() == 1
+        then: "It exists"
+        Video.count() == 1
 
-        when:"The domain instance is passed to the delete action"
-            controller.request.format = 'form'
-            controller.delete(video)
+        when: "The domain instance is passed to the delete action"
+        controller.request.format = 'form'
+        controller.delete(video)
 
-        then:"The instance is deleted"
-            Video.count() == 0
-            response.redirectedUrl == '/video/index'
-            flash.message != null
+        then: "The instance is deleted"
+        Video.count() == 0
+        response.redirectedUrl == '/video/index'
+        flash.message != null
     }
 }
 
@@ -186,7 +186,7 @@ class Video {
     String title
     Integer numberOfMinutes
     static constraints = {
-        title blank:false
+        title blank: false
         numberOfMinutes nullable: true
     }
 }
@@ -199,7 +199,7 @@ class VideoController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Video.list(params), model:[videoCount: Video.count()]
+        respond Video.list(params), model: [videoCount: Video.count()]
     }
 
     def show(Video video) {
@@ -218,11 +218,11 @@ class VideoController {
         }
 
         if (video.hasErrors()) {
-            respond video.errors, view:'create'
+            respond video.errors, view: 'create'
             return
         }
 
-        video.save flush:true
+        video.save flush: true
 
         request.withFormat {
             form multipartForm {
@@ -245,18 +245,18 @@ class VideoController {
         }
 
         if (video.hasErrors()) {
-            respond video.errors, view:'edit'
+            respond video.errors, view: 'edit'
             return
         }
 
-        video.save flush:true
+        video.save flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Video.label', default: 'Video'), video.id])
                 redirect video
             }
-            '*'{ respond video, [status: OK] }
+            '*' { respond video, [status: OK] }
         }
     }
 
@@ -268,18 +268,18 @@ class VideoController {
         }
 
         if (video.hasErrors()) {
-            respond video.errors, view:'edit'
+            respond video.errors, view: 'edit'
             return
         }
 
-        video.save flush:true
+        video.save flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Video.label', default: 'Video'), video.id])
                 redirect video
             }
-            '*'{ respond video, [status: OK] }
+            '*' { respond video, [status: OK] }
         }
     }
 
@@ -290,14 +290,14 @@ class VideoController {
             return
         }
 
-        video.delete flush:true
+        video.delete flush: true
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Video.label', default: 'Video'), video.id])
-                redirect action:"index", method:"GET"
+                redirect action: "index", method: "GET"
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -307,7 +307,7 @@ class VideoController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'video.label', default: 'Video'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
 }

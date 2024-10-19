@@ -47,7 +47,7 @@ class DomainClassTraitSpec extends Specification {
     @Entity
     class Person {
         String name
-        
+
         static constraints = {
             name blank: false, inList: ['Joe']
         }

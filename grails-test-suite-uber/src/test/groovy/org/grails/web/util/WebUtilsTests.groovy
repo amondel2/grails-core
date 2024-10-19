@@ -55,7 +55,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 
     @Test
     void testAreFileExtensionsEnabled() {
-        def ga = new DefaultGrailsApplication(config:new PropertySourcesConfig().merge(config))
+        def ga = new DefaultGrailsApplication(config: new PropertySourcesConfig().merge(config))
         bindMockRequest(ga)
 
         assertFalse WebUtils.areFileExtensionsEnabled()
@@ -93,7 +93,7 @@ grails.mime.file.extensions=true
 
     @Test
     void testGetFormatFromURI() {
-        def ga = new DefaultGrailsApplication(config:new PropertySourcesConfig().merge(config))
+        def ga = new DefaultGrailsApplication(config: new PropertySourcesConfig().merge(config))
         bindMockRequest(ga)
 
         assertNull WebUtils.getFormatFromURI("/foo/bar/")
@@ -112,11 +112,11 @@ grails.mime.file.extensions=true
         request.contextPath = "/root"
         request.requestURI = "/root/example/index.dispatch"
 
-        assertEquals "/example/index",WebUtils.getRequestURIForGrailsDispatchURI(request)
+        assertEquals "/example/index", WebUtils.getRequestURIForGrailsDispatchURI(request)
 
         request.requestURI = "/root/example/index"
 
-        assertEquals "/example/index",WebUtils.getRequestURIForGrailsDispatchURI(request)
+        assertEquals "/example/index", WebUtils.getRequestURIForGrailsDispatchURI(request)
     }
 
     @Test

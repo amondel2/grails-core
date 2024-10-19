@@ -28,5 +28,5 @@ class HTMLCodecFactory implements CodecFactory {
         public CodecIdentifier getCodecIdentifier() {
             return HTMLEncoder.HTML_CODEC_IDENTIFIER;
         }
-    } 
+    }
 }

@@ -57,7 +57,7 @@ public class GrailsUtil {
     /**
      * Logs warning message about deprecation of specified property or method of some class.
      *
-     * @param clazz A class
+     * @param clazz            A class
      * @param methodOrPropName Name of deprecated property or method
      */
     public static void deprecated(Class<?> clazz, String methodOrPropName) {
@@ -67,9 +67,9 @@ public class GrailsUtil {
     /**
      * Logs warning message about deprecation of specified property or method of some class.
      *
-     * @param clazz A class
+     * @param clazz            A class
      * @param methodOrPropName Name of deprecated property or method
-     * @param version Version of Grails release in which property or method were deprecated
+     * @param version          Version of Grails release in which property or method were deprecated
      */
     public static void deprecated(Class<?> clazz, String methodOrPropName, String version) {
         if (LOG_DEPRECATED) {
@@ -111,8 +111,8 @@ public class GrailsUtil {
         StackTraceElement[] trace = t.getStackTrace();
         for (StackTraceElement stackTraceElement : trace) {
             p.println("at " + stackTraceElement.getClassName() +
-                      "(" + stackTraceElement.getMethodName() +
-                      ":" + stackTraceElement.getLineNumber() + ")");
+                    "(" + stackTraceElement.getMethodName() +
+                    ":" + stackTraceElement.getLineNumber() + ")");
         }
     }
 
@@ -122,6 +122,7 @@ public class GrailsUtil {
 
     /**
      * <p>Extracts the root cause of the exception, no matter how nested it is</p>
+     *
      * @param t
      * @return The deepest cause of the exception that can be found
      */
@@ -136,6 +137,7 @@ public class GrailsUtil {
     /**
      * <p>Get the root cause of an exception and sanitize it for display to the user</p>
      * <p>This will MODIFY the stacktrace of the root cause exception object and return it</p>
+     *
      * @param t
      * @return The root cause exception instance, with its stace trace modified to filter out grails runtime classes
      */
@@ -146,6 +148,7 @@ public class GrailsUtil {
     /**
      * <p>Sanitize the exception and ALL nested causes</p>
      * <p>This will MODIFY the stacktrace of the exception instance and all its causes irreversibly</p>
+     *
      * @param t
      * @return The root cause exception instances, with stack trace modified to filter out grails runtime classes
      */

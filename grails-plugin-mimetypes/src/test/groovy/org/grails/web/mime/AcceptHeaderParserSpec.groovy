@@ -80,7 +80,7 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
         final parser = new DefaultAcceptHeaderParser(mimeTypesConfiguration.mimeTypes())
         parser
     }
-    
+
     void testXmlContentTypeWithCharsetAndVersion() {
 
         when:
@@ -115,7 +115,7 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
         then:
         assertEquals 5, mimes.size()
 
-        ['application/xhtml+xml','application/xml', 'text/html', 'text/plain', '*/*'] == mimes.name
+        ['application/xhtml+xml', 'application/xml', 'text/html', 'text/plain', '*/*'] == mimes.name
         ['html', 'xml', 'html', 'text', 'all'] == mimes.extension
     }
 
@@ -126,7 +126,7 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
 
         then:
         4 == mimes.size()
-        ['html','html','xml', 'all'] == mimes.extension
+        ['html', 'html', 'xml', 'all'] == mimes.extension
     }
 
     void testParseAcceptHeaderWithNonNumericQualityValue() {
@@ -135,8 +135,8 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
         def mimes = getAcceptHeaderParser().parse("text/html,application/xhtml+xml,application/xml;q=blah,*/*;q=0.8")
 
         then:
-        4 ==  mimes.size()
-        ['html','html','xml', 'all'] == mimes.extension
+        4 == mimes.size()
+        ['html', 'html', 'xml', 'all'] == mimes.extension
     }
 
     void testAcceptHeaderWithQNumberOrdering() {
@@ -146,7 +146,7 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
 
         then:
         4 == mimes.size()
-        ['xml','html','html', 'all'] == mimes.extension
+        ['xml', 'html', 'html', 'all'] == mimes.extension
     }
 
     void testPrototypeHeaderOrdering() {
@@ -154,9 +154,9 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
         def mimes = getAcceptHeaderParser().parse("text/javascript, text/html, application/xml, text/xml, */*")
 
         then:
-        4 ==  mimes.size()
-        ["js",'html', 'xml', 'all'] == mimes.extension
-        ["text/javascript",'text/html', 'application/xml', '*/*'] == mimes.name
+        4 == mimes.size()
+        ["js", 'html', 'xml', 'all'] == mimes.extension
+        ["text/javascript", 'text/html', 'application/xml', '*/*'] == mimes.name
     }
 
     void testOldBrowserHeader() {
@@ -174,8 +174,8 @@ grails.mime.types = [ xml: ['text/xml', 'application/xml'],
         def mimes = getAcceptHeaderParser().parse("text/html,application/xhtml+xml,application/xml;token,*/*;q=0.8")
 
         then:
-        4 ==  mimes.size()
-        ['html','html', 'xml','all'] == mimes.extension
+        4 == mimes.size()
+        ['html', 'html', 'xml', 'all'] == mimes.extension
     }
 
     // test for GRAILS-3493

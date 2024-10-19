@@ -11,12 +11,12 @@ import java.text.SimpleDateFormat
 class GetHeadersFromResponseSpec extends Specification implements ControllerUnitTest<YourController> {
     def "Test inspection of response headers"() {
 
-        when:"An action that sets response headers is called"
-            controller.index()
+        when: "An action that sets response headers is called"
+        controller.index()
 
-        then:"It is possible to inspect the mock response"
-            response.header('Cache-Control') == 'no-cache' // that's fine
-            formatDate(0)  in  response.headers('Expires') // will throw the exception
+        then: "It is possible to inspect the mock response"
+        response.header('Cache-Control') == 'no-cache' // that's fine
+        formatDate(0) in response.headers('Expires') // will throw the exception
 
     }
 
@@ -32,7 +32,7 @@ class YourController {
 
     def index() {
         nocache(response)
-        render ("foo")
+        render("foo")
     }
 
     void nocache(response) {

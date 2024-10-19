@@ -45,29 +45,25 @@ public class PluginFilterRetriever {
         return getPluginFilter(includes, excludes);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     PluginFilter getPluginFilter(Object includes, Object excludes) {
         PluginFilter pluginFilter = null;
 
         if (includes != null) {
             if (includes instanceof Collection) {
-                pluginFilter = new IncludingPluginFilter(new HashSet((Collection)includes));
-            }
-            else {
+                pluginFilter = new IncludingPluginFilter(new HashSet((Collection) includes));
+            } else {
                 String[] includesArray = StringUtils.commaDelimitedListToStringArray(includes.toString());
                 pluginFilter = new IncludingPluginFilter(includesArray);
             }
-        }
-        else if (excludes != null) {
+        } else if (excludes != null) {
             if (excludes instanceof Collection) {
-                pluginFilter = new ExcludingPluginFilter(new HashSet((Collection)excludes));
-            }
-            else {
+                pluginFilter = new ExcludingPluginFilter(new HashSet((Collection) excludes));
+            } else {
                 String[] excludesArray = StringUtils.commaDelimitedListToStringArray(excludes.toString());
                 pluginFilter = new ExcludingPluginFilter(excludesArray);
             }
-        }
-        else {
+        } else {
             pluginFilter = new IdentityPluginFilter();
         }
         return pluginFilter;

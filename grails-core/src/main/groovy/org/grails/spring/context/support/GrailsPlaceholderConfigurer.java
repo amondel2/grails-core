@@ -57,8 +57,7 @@ public class GrailsPlaceholderConfigurer extends PropertySourcesPlaceholderConfi
     protected void loadProperties(Properties props) throws IOException {
         if (config != null) {
             props.putAll(config.toProperties());
-        }
-        else if(this.properties != null) {
+        } else if (this.properties != null) {
             props.putAll(properties);
         }
         this.properties = props;
@@ -85,7 +84,7 @@ public class GrailsPlaceholderConfigurer extends PropertySourcesPlaceholderConfi
         BeanDefinitionVisitor visitor = new BeanDefinitionVisitor(valueResolver) {
             @Override
             protected void visitMap(Map<?, ?> mapVal) {
-                if(mapVal instanceof Config) return;
+                if (mapVal instanceof Config) return;
                 super.visitMap(mapVal);
             }
         };
@@ -98,8 +97,7 @@ public class GrailsPlaceholderConfigurer extends PropertySourcesPlaceholderConfi
                 BeanDefinition bd = beanFactoryToProcess.getBeanDefinition(curName);
                 try {
                     visitor.visitBeanDefinition(bd);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new BeanDefinitionStoreException(bd.getResourceDescription(), curName, ex.getMessage(), ex);
                 }
             }

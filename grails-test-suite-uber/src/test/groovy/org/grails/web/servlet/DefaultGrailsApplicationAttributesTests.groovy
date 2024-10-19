@@ -94,7 +94,7 @@ class DefaultGrailsApplicationAttributesTests {
         // then
         assertNotNull(session)
         assertTrue(session.getAttribute(FLASH_SCOPE) instanceof GrailsFlashScope)
-        assertTrue(((GrailsFlashScope)session.getAttribute(FLASH_SCOPE)).isEmpty())
+        assertTrue(((GrailsFlashScope) session.getAttribute(FLASH_SCOPE)).isEmpty())
 
         // when
         flash.put('foo', 'bar')

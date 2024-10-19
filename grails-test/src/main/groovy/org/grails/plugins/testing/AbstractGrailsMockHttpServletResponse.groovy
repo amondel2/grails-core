@@ -87,7 +87,7 @@ abstract class AbstractGrailsMockHttpServletResponse extends MockHttpServletResp
     /**
      * Get the response JSON
      *
-     * @return  The JSON response
+     * @return The JSON response
      */
     JSONElement getJson() {
         JSON.parse(contentAsString)

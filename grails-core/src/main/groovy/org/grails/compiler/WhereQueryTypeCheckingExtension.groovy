@@ -35,23 +35,23 @@ class WhereQueryTypeCheckingExtension extends TypeCheckingDSL {
         setup { newScope() }
 
         finish { scopeExit() }
-        
+
         methodNotFound { ClassNode receiver, String name, ArgumentListExpression argList, ClassNode[] argTypes, MethodCall call ->
             def dynamicCall
-            if(currentScope.processingWhereQueryClosure) {
-                dynamicCall = makeDynamic (call)
+            if (currentScope.processingWhereQueryClosure) {
+                dynamicCall = makeDynamic(call)
             }
             dynamicCall
         }
-        
+
         afterMethodCall { MethodCall call ->
-            if(isWhereQueryCall(call)) {
+            if (isWhereQueryCall(call)) {
                 scopeExit()
             }
         }
-        
+
         beforeMethodCall { MethodCall call ->
-            if(isWhereQueryCall(call)) {
+            if (isWhereQueryCall(call)) {
                 newScope {
                     processingWhereQueryClosure = true
                 }
@@ -59,11 +59,11 @@ class WhereQueryTypeCheckingExtension extends TypeCheckingDSL {
         }
         null
     }
-    
+
     protected boolean isWhereQueryCall(MethodCall call) {
-        call instanceof MethodCallExpression && 
-            call.objectExpression instanceof ClassExpression && 
-            GrailsASTUtils.isDomainClass(call.objectExpression.type, null) && 
-            call.method.value == 'where'
+        call instanceof MethodCallExpression &&
+                call.objectExpression instanceof ClassExpression &&
+                GrailsASTUtils.isDomainClass(call.objectExpression.type, null) &&
+                call.method.value == 'where'
     }
 }

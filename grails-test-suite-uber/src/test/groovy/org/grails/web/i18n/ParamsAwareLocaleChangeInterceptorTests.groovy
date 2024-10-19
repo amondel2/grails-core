@@ -32,7 +32,7 @@ class ParamsAwareLocaleChangeInterceptorTests {
 
         SessionLocaleResolver localeResolver = new SessionLocaleResolver()
 
-        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,localeResolver)
+        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, localeResolver)
 
         def localeChangeInterceptor = new ParamsAwareLocaleChangeInterceptor()
         localeChangeInterceptor.paramName = "lang"
@@ -64,7 +64,7 @@ class ParamsAwareLocaleChangeInterceptorTests {
 
         SessionLocaleResolver localeResolver = new SessionLocaleResolver()
 
-        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,localeResolver)
+        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, localeResolver)
 
         def localeChangeInterceptor = new ParamsAwareLocaleChangeInterceptor()
         localeChangeInterceptor.paramName = "lang"
@@ -96,7 +96,7 @@ class ParamsAwareLocaleChangeInterceptorTests {
 
         SessionLocaleResolver localeResolver = new SessionLocaleResolver()
 
-        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,localeResolver)
+        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, localeResolver)
 
         def localeChangeInterceptor = new ParamsAwareLocaleChangeInterceptor()
         localeChangeInterceptor.paramName = "lang"

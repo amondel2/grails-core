@@ -27,6 +27,7 @@ class StatusTransition {
     String title
     Status status
 }
+
 enum Status {
     OPEN, IN_PROGRESS, ON_HOLD, DONE
 }
@@ -34,6 +35,6 @@ enum Status {
 @Artefact('Controller')
 class StatusController {
     def bindMe = {
-        [statusTransition:new StatusTransition(title:"blah", status:Status.OPEN)]
+        [statusTransition: new StatusTransition(title: "blah", status: Status.OPEN)]
     }
 }

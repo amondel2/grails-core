@@ -23,8 +23,8 @@ class ScopedProxyAndServiceClassTests extends AbstractGrailsMockTests {
 
             }
             testScopeProxy(ScopedProxyFactoryBean) {
-                targetBeanName="testService"
-                proxyTargetClass=true
+                targetBeanName = "testService"
+                proxyTargetClass = true
             }
         }
 

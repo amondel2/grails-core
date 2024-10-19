@@ -6,7 +6,7 @@ import spock.lang.Specification
 import grails.artefact.Artefact
 import org.grails.buffer.FastStringWriter
 
-class RenderDynamicMethodTests extends Specification implements ControllerUnitTest<RenderDynamicMethodTestController>  {
+class RenderDynamicMethodTests extends Specification implements ControllerUnitTest<RenderDynamicMethodTestController> {
 
     void testRenderTextWithLayout() {
         when:
@@ -139,7 +139,7 @@ class RenderDynamicMethodTestController {
     }
 
     def renderTextWithLayout = {
-        render text:"foo", layout:"bar"
+        render text: "foo", layout: "bar"
     }
 
     def renderGString = {
@@ -147,15 +147,15 @@ class RenderDynamicMethodTestController {
     }
 
     def renderTextWithContentType = {
-        render(text:"<foo>bar</foo>",contentType:"text/xml", encoding:"utf-16")
+        render(text: "<foo>bar</foo>", contentType: "text/xml", encoding: "utf-16")
     }
 
     def renderTextWithContentTypeAndCharset = {
-        render(text:"<foo>bar</foo>",contentType:"text/xml;charset=utf-16")
+        render(text: "<foo>bar</foo>", contentType: "text/xml;charset=utf-16")
     }
 
     def renderXml = {
-        render(contentType:"text/xml") {
+        render(contentType: "text/xml") {
             foo {
                 bar("hello")
             }
@@ -163,7 +163,7 @@ class RenderDynamicMethodTestController {
     }
 
     def renderNonAsciiXml = {
-        render(contentType:"text/xml;charset=utf-8") {
+        render(contentType: "text/xml;charset=utf-8") {
             foo {
                 bar("hello öäåÖÄÅ")
             }
@@ -171,20 +171,20 @@ class RenderDynamicMethodTestController {
     }
 
     def renderJSON = {
-        render(contentType:"application/json") {
-            foo( [ "hello" ] ) {
+        render(contentType: "application/json") {
+            foo(["hello"]) {
                 bar it
             }
         }
     }
-    def renderView ={
-        render(view:'foo')
+    def renderView = {
+        render(view: 'foo')
     }
     def renderXmlView = {
-        render(view:'foo', contentType:'text/xml')
+        render(view: 'foo', contentType: 'text/xml')
     }
     def renderXmlUtf16View = {
-        render(view:'foo', contentType:'text/xml', encoding:'utf-16')
+        render(view: 'foo', contentType: 'text/xml', encoding: 'utf-16')
     }
     def renderStatusAndText = {
         render(status: 503, text: 'five oh three')
@@ -193,6 +193,6 @@ class RenderDynamicMethodTestController {
         render(status: 404)
     }
     def renderFile = {
-        render file:'foo'.bytes, contentType: 'text/plain'
+        render file: 'foo'.bytes, contentType: 'text/plain'
     }
 }

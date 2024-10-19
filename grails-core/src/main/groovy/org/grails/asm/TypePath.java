@@ -76,11 +76,9 @@ class TypePath {
     /**
      * Creates a new type path.
      *
-     * @param b
-     *            the byte array containing the type path in Java class file
-     *            format.
-     * @param offset
-     *            the offset of the first byte of the type path in 'b'.
+     * @param b      the byte array containing the type path in Java class file
+     *               format.
+     * @param offset the offset of the first byte of the type path in 'b'.
      */
     TypePath(byte[] b, int offset) {
         this.b = b;
@@ -99,11 +97,10 @@ class TypePath {
     /**
      * Returns the value of the given step of this path.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
+     * @param index an index between 0 and {@link #getLength()}, exclusive.
      * @return {@link #ARRAY_ELEMENT ARRAY_ELEMENT}, {@link #INNER_TYPE
-     *         INNER_TYPE}, {@link #WILDCARD_BOUND WILDCARD_BOUND}, or
-     *         {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
+     * INNER_TYPE}, {@link #WILDCARD_BOUND WILDCARD_BOUND}, or
+     * {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
      */
     public int getStep(int index) {
         return b[offset + 2 * index + 1];
@@ -114,10 +111,9 @@ class TypePath {
      * into. This method should only be used for steps whose value is
      * {@link #TYPE_ARGUMENT TYPE_ARGUMENT}.
      *
-     * @param index
-     *            an index between 0 and {@link #getLength()}, exclusive.
+     * @param index an index between 0 and {@link #getLength()}, exclusive.
      * @return the index of the type argument that the given step is stepping
-     *         into.
+     * into.
      */
     public int getStepArgument(int index) {
         return b[offset + 2 * index + 2];
@@ -127,9 +123,8 @@ class TypePath {
      * Converts a type path in string form, in the format used by
      * {@link #toString()}, into a TypePath object.
      *
-     * @param typePath
-     *            a type path in string form, in the format used by
-     *            {@link #toString()}. May be null or empty.
+     * @param typePath a type path in string form, in the format used by
+     *                 {@link #toString()}. May be null or empty.
      * @return the corresponding TypePath object, or null if the path is empty.
      */
     public static TypePath fromString(final String typePath) {
@@ -139,7 +134,7 @@ class TypePath {
         int n = typePath.length();
         ByteVector out = new ByteVector(n);
         out.putByte(0);
-        for (int i = 0; i < n;) {
+        for (int i = 0; i < n; ) {
             char c = typePath.charAt(i++);
             if (c == '[') {
                 out.put11(ARRAY_ELEMENT, 0);

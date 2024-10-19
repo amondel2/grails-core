@@ -24,7 +24,7 @@ class JSONObjectTests {
 
     @Issue("GRAILS-10412")
     void testToStringWithArray() {
-        JSONObject j = new JSONObject([id:1, tags:['tag13333', 'tag2231']])
+        JSONObject j = new JSONObject([id: 1, tags: ['tag13333', 'tag2231']])
 
         JSONObject json = grails.converters.JSON.parse(j.toString())
         assertEquals(json.id, 1)

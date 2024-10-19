@@ -43,18 +43,20 @@ public class AnnotationMetadataReader implements MetadataReader {
 
     /**
      * Reads only the annotation names from a class resource
-     * @param resource The resource
+     *
+     * @param resource    The resource
      * @param classLoader The classloader
      * @throws IOException
      */
     public AnnotationMetadataReader(Resource resource, ClassLoader classLoader) throws IOException {
         this(resource, classLoader, false);
     }
+
     /**
      * Constructs a new annotation metadata reader
      *
-     * @param resource The resource
-     * @param classLoader The classloader
+     * @param resource            The resource
+     * @param classLoader         The classloader
      * @param readAttributeValues Whether to read the attributes in addition or just the annotation class names
      * @throws IOException
      */
@@ -63,22 +65,19 @@ public class AnnotationMetadataReader implements MetadataReader {
         ClassReader classReader;
         try {
             classReader = new ClassReader(is);
-        }
-        catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             throw new IOException("ASM ClassReader failed to parse class file - " +
                     "probably due to a new Java class file version that isn't supported yet: " + resource, ex);
-        }
-        finally {
+        } finally {
             is.close();
         }
 
 
         AnnotationMetadataReadingVisitor visitor;
 
-        if(readAttributeValues) {
+        if (readAttributeValues) {
             visitor = new AnnotationMetadataReadingVisitor(classLoader);
-        }
-        else {
+        } else {
             visitor = new AnnotationMetadataReadingVisitor(classLoader) {
                 @Override
                 public AnnotationVisitor visitAnnotation(final String desc, boolean visible) {

@@ -39,7 +39,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
  * @since 2.0
  */
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class ApiDelegateTransformation implements ASTTransformation{
+public class ApiDelegateTransformation implements ASTTransformation {
     public void visit(ASTNode[] nodes, SourceUnit source) {
         if (nodes.length != 2 || !(nodes[0] instanceof AnnotationNode) || !(nodes[1] instanceof AnnotatedNode)) {
             throw new GroovyBugError("Internal error: expecting [AnnotationNode, AnnotatedNode] but got: " + Arrays.asList(nodes));
@@ -61,11 +61,11 @@ public class ApiDelegateTransformation implements ASTTransformation{
             GrailsASTUtils.addDelegateInstanceMethods(supportedType, owner, type, new VariableExpression(fieldNode.getName()), resolveGenericsPlaceHolders(supportedType), isNoNullCheck(), isUseCompileStatic());
         }
     }
-    
+
     protected boolean isNoNullCheck() {
         return true;
     }
-    
+
     protected boolean isUseCompileStatic() {
         return true;
     }

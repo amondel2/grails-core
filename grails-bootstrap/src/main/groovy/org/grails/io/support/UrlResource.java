@@ -30,8 +30,8 @@ import java.net.URLConnection;
  * the "file:" protocol.
  *
  * @author Juergen Hoeller
- * @since 28.12.2003
  * @see java.net.URL
+ * @since 28.12.2003
  */
 public class UrlResource extends AbstractFileResolvingResource {
 
@@ -52,6 +52,7 @@ public class UrlResource extends AbstractFileResolvingResource {
 
     /**
      * Create a new UrlResource.
+     *
      * @param url a URL
      */
     public UrlResource(URL url) {
@@ -62,6 +63,7 @@ public class UrlResource extends AbstractFileResolvingResource {
 
     /**
      * Create a new UrlResource.
+     *
      * @param uri a URI
      * @throws java.net.MalformedURLException if the given URL path is not valid
      */
@@ -73,6 +75,7 @@ public class UrlResource extends AbstractFileResolvingResource {
 
     /**
      * Create a new UrlResource.
+     *
      * @param path a URL path
      * @throws MalformedURLException if the given URL path is not valid
      */
@@ -84,15 +87,15 @@ public class UrlResource extends AbstractFileResolvingResource {
 
     /**
      * Determine a cleaned URL for the given original URL.
-     * @param originalUrl the original URL
+     *
+     * @param originalUrl  the original URL
      * @param originalPath the original URL path
      * @return the cleaned URL
      */
     private URL getCleanedUrl(URL originalUrl, String originalPath) {
         try {
             return new URL(GrailsResourceUtils.cleanPath(originalPath));
-        }
-        catch (MalformedURLException ex) {
+        } catch (MalformedURLException ex) {
             // Cleaned URL path cannot be converted to URL
             // -> take original URL.
             return originalUrl;
@@ -103,6 +106,7 @@ public class UrlResource extends AbstractFileResolvingResource {
      * This implementation opens an InputStream for the given URL.
      * It sets the "UseCaches" flag to <code>false</code>,
      * mainly to avoid jar file locking on Windows.
+     *
      * @see java.net.URL#openConnection()
      * @see java.net.URLConnection#setUseCaches(boolean)
      * @see java.net.URLConnection#getInputStream()
@@ -112,8 +116,7 @@ public class UrlResource extends AbstractFileResolvingResource {
         useCachesIfNecessary(con);
         try {
             return con.getInputStream();
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             // Close the HTTP connection (if applicable).
             if (con instanceof HttpURLConnection) {
                 ((HttpURLConnection) con).disconnect();
@@ -156,9 +159,10 @@ public class UrlResource extends AbstractFileResolvingResource {
     /**
      * This implementation creates a UrlResource, applying the given path
      * relative to the path of the underlying URL of this resource descriptor.
+     *
      * @see java.net.URL#URL(java.net.URL, String)
      */
-    public Resource createRelative(String relativePath)  {
+    public Resource createRelative(String relativePath) {
         if (relativePath.startsWith("/")) {
             relativePath = relativePath.substring(1);
         }
@@ -171,6 +175,7 @@ public class UrlResource extends AbstractFileResolvingResource {
 
     /**
      * This implementation returns the name of the file that this URL refers to.
+     *
      * @see java.net.URL#getFile()
      * @see java.io.File#getName()
      */

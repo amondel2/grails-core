@@ -22,7 +22,6 @@ import java.util.Map;
  *
  * @author Marc Palmer (marc@anyware.co.uk)
  * @author Graeme Rocher
- *
  * @since 1.0
  */
 public interface ArtefactInfo {
@@ -30,6 +29,7 @@ public interface ArtefactInfo {
     /**
      * Gets you the array of all artefact Class(es), the original classes loaded
      * that represent the artefacts.
+     *
      * @return The array, which may be empty but never null.
      */
     @SuppressWarnings("rawtypes")
@@ -38,6 +38,7 @@ public interface ArtefactInfo {
     /**
      * Gets you the array of all artefact GrailsClass(es), the classes used to track
      * information about the artefact.
+     *
      * @return The array, which may be empty but never null.
      */
     GrailsClass[] getGrailsClasses();
@@ -45,6 +46,7 @@ public interface ArtefactInfo {
     /**
      * Gets you the unmodifiable Map of all artefact Class(es), the actual classes implementing the artefact.
      * <p>The Map is keyed by class name, i.e. "BookController"</p>
+     *
      * @return The Map, which may be empty but never null.
      */
     @SuppressWarnings("rawtypes")
@@ -54,6 +56,7 @@ public interface ArtefactInfo {
      * <p>Gets you the unmodifiable Map of all artefact GrailsClass(es), the classes that store extra
      * state relating to the artefact.</p>
      * <p>The Map is keyed by class name, i.e. "BookController"</p>
+     *
      * @return The Map, which may be empty but never null.
      */
     @SuppressWarnings("rawtypes")
@@ -62,6 +65,7 @@ public interface ArtefactInfo {
     /**
      * <p>Retrieves the GrailsClass representing a named artefact.</p>
      * <p>From the GrailsClass you can get to the original artefact Class using getClazz().</p>
+     *
      * @param name The name of the artefact, i.e. "BookController"
      * @return The Map, which may be empty but never null.
      */
@@ -69,6 +73,7 @@ public interface ArtefactInfo {
 
     /**
      * Retrieves a Grails class by its logical property name. For example "BookController" would be "book".
+     *
      * @param logicalName The logical name
      * @return A GrailsClass or null
      */

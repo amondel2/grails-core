@@ -41,7 +41,7 @@ import jakarta.annotation.PostConstruct
  * @since 2.3
  */
 @CompileStatic
-class JsonRenderer <T> extends DefaultJsonRenderer<T> {
+class JsonRenderer<T> extends DefaultJsonRenderer<T> {
 
     @Autowired
     GrailsApplication grailsApplication
@@ -71,7 +71,7 @@ class JsonRenderer <T> extends DefaultJsonRenderer<T> {
 
         def domain = grailsApplication != null ? grailsApplication.getArtefact(DomainClassArtefactHandler.TYPE, targetType.name) : null
 
-        ObjectMarshaller<JSON> marshaller  = null
+        ObjectMarshaller<JSON> marshaller = null
 
         if (domain) {
             DeepDomainClassMarshaller domainClassMarshaller = new DeepDomainClassMarshaller(false, proxyHandler, grailsApplication) {
@@ -85,16 +85,16 @@ class JsonRenderer <T> extends DefaultJsonRenderer<T> {
                     return excludes.contains(property)
                 }
             }
-            if(includes?.contains(GormProperties.VERSION)) {
+            if (includes?.contains(GormProperties.VERSION)) {
                 domainClassMarshaller.includeVersion = true
             }
-            if(includes?.contains('class')) {
+            if (includes?.contains('class')) {
                 domainClassMarshaller.includeClass = true
             }
 
             marshaller = domainClassMarshaller
-        } else if(!Collection.isAssignableFrom(targetType) && !Map.isAssignableFrom(targetType)) {
-            marshaller = (ObjectMarshaller<JSON>)new GroovyBeanMarshaller() {
+        } else if (!Collection.isAssignableFrom(targetType) && !Map.isAssignableFrom(targetType)) {
+            marshaller = (ObjectMarshaller<JSON>) new GroovyBeanMarshaller() {
                 @Override
                 protected boolean includesProperty(Object o, String property) {
                     return includes == null || includes.contains(property)
@@ -106,7 +106,7 @@ class JsonRenderer <T> extends DefaultJsonRenderer<T> {
                 }
             }
         }
-        if(marshaller) {
+        if (marshaller) {
 
             registerCustomMarshaller(marshaller)
         }
